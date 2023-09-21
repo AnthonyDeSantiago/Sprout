@@ -1,0 +1,182 @@
+/* full page */
+html{
+    height: 100%;
+}
+
+/* not working atm */
+.font{
+    font-family:Arial, Helvetica, sans-serif
+}
+
+/* controls the profile pic */
+.blank{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    box-shadow: 0px 0px 5px 1px black;
+}
+
+/* control the body */
+body{
+    background-color:rgb(250, 196, 27);
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    /* margin:0; */
+}
+
+/* controls the box in main  */
+#main_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: gainsboro;
+    width: 30%;
+    height: 70%;
+    margin-top: 300px;
+    border-radius: 7px;
+    box-shadow: 0px 0px 5px 2px black;
+    
+}
+
+/* control the loginbox position */
+#login_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+/* controls the textbox */
+.login_form_field{
+    background-color: gainsboro;
+    display: inline-block;
+    align-items: center;
+    font-size: 20px;
+    border-radius: 7px;
+    padding: 20px 50px 0px 10px;
+    margin-bottom: 5px;
+    outline: 0;
+    border-bottom: 1px solid color black;
+
+}
+/* color of the text box when not in use*/
+.login_form_field::placeholder{
+    background-color: gainsboro;
+}
+
+/* controls the looks of login submit button */
+.login_submit_form{
+    background-color: rgb(250, 196, 7);
+    width: 305px;
+    padding: 8px;
+    color: gainsboro;
+    font-size: 25px;
+    border-radius: 7px;
+    outline: none;
+    border: none;
+    margin-top: 5px;
+}
+
+/* controls the looks of the new user & forgot password */
+.nav_form_field{
+    margin-top: 20px;
+}
+
+
+/* --------------------NEW-USERS-STARTS-HERE---------------------- */
+
+/* control the page in new user */
+#user_page_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: gainsboro;
+    width: 30%;
+    height: 100%;
+    margin-top: 50px;
+    border-radius: 7px;
+    margin-bottom: 50px;
+    box-shadow: 0px 0px 5px 2px black;
+}
+
+/* control the form in new user */
+.new_user_form_field{
+    background-color: gainsboro;
+    display: inline-block;
+    align-items: center;
+    font-size: 20px;
+    border-radius: 7px;
+    padding: 20px 50px 0px 10px;
+    margin-bottom: 5px;
+    outline: 0;
+    border-bottom: 1px solid color black;
+}
+
+/* control the submit button in new user */
+.new_user_submit_form{
+    background-color: rgb(250, 196, 7);
+    width: 305px;
+    padding: 8px;
+    color: gainsboro;
+    font-size: 25px;
+    border-radius: 7px;
+    outline: none;
+    border: none;
+    margin-top: 5px;
+}
+
+
+/* --------------------FORGOT-PASSWORD-STARTS-HERE---------------------- */
+
+/* control the page of forgot password */
+#forgot_page_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: gainsboro;
+    width: 30%;
+    height: 70%;
+    margin: auto;
+    margin-top: 300px;
+    border-radius: 7px;
+    margin-bottom: 50px;
+    box-shadow: 0px 0px 5px 2px black;
+}
+
+/* control the form of forgot password */
+.forgot_password_form{
+    background-color: gainsboro;
+    display: inline-block;
+    align-items: center;
+    font-size: 20px;
+    border-radius: 7px;
+    padding: 20px 50px 0px 10px;
+    margin-bottom: 5px;
+    outline: 0;
+    border-bottom: 1px solid color black;
+}
+
+/* control the password page 1 submit button */
+.password_submit_form{
+    background-color: rgb(250, 196, 7);
+    width: 305px;
+    padding: 8px;
+    color: gainsboro;
+    font-size: 25px;
+    border-radius: 7px;
+    outline: none;
+    border: none;
+    margin-top: -30px;
+}
+
+/* control the form position */
+#password_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+/* color of the text box when not in use*/
+.recover_password_form::placeholder{
+    color: gainsboro;
+}
