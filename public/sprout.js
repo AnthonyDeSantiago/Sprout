@@ -4,9 +4,7 @@ console.log("Sprout.js has loaded!!");
 --> a minimum of 8 characters,
 --> must start with a letter,
 --> must have a letter,
---> a number and special character,
---> if this requirement is not satisfied,
---> display an appropriate error message
+--> a number and special character
 */
 
 function validatePassword(password) {
@@ -17,7 +15,10 @@ function validatePassword(password) {
     
 }
 
-
+/*Right now First Name must:
+--> contain a letter,
+--> contain only capital or lower case letters
+*/
 function validateFirstName(name) {
 
     var namePattern = /^[A-Za-z]+$/;
@@ -26,6 +27,10 @@ function validateFirstName(name) {
 
 }
 
+/*Right now Last Name must:
+--> contain a letter,
+--> contain only capital or lower case letters or spaces
+*/
 function validateLastName(name) {
 
     var namePattern = /^[A-Za-z ]+$/;
@@ -34,6 +39,10 @@ function validateLastName(name) {
 
 }
 
+/*Right now Dates must:
+--> be of this format MM/DD/YYYY
+*/
+
 function validateDate(date) {
 
     var datePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
@@ -41,6 +50,7 @@ function validateDate(date) {
     return datePattern.test(date);
 
 }
+
 
 function validateAddress(address) {
 
