@@ -270,3 +270,12 @@ input{
 .dropdown_list_FP{
     font-size: 200%;
 }
+/* --------------------Admin-STARTS-HERE---------------------- */
+.admin-welcome {
+    width: 1297px;
+    height: 98px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    line-height: 98px; /* Vertically centers the text */
+}
