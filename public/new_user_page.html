@@ -19,12 +19,12 @@
 
             <!-- Form page  -->
             <form id ="login_form">
-                <input type="email" name="user_email" class="new_user_form_field" placeholder="Email">
-                <input type="first" name="first_name" class="new_user_form_field" placeholder="First Name">
-                <input type="last" name="last_name" class="new_user_form_field" placeholder="Last Name">
-                <input type="address" name="address" class="new_user_form_field" placeholder="Address">
-                <input type="dob" name="dateofbirth" class="new_user_form_field" placeholder="MM/DD/YY">
-                <input type="password" name="password" class="new_user_form_field" placeholder="Password">
+                <input type="email" name="user_email" id="user_email" class="new_user_form_field" placeholder="Email">
+                <input type="first" name="first_name" id="first_name" class="new_user_form_field" placeholder="First Name">
+                <input type="last" name="last_name" id="last_name" class="new_user_form_field" placeholder="Last Name">
+                <input type="address" name="address" id="address" class="new_user_form_field" placeholder="Address">
+                <input type="dob" name="dateofbirth" id="dateofbirth" class="new_user_form_field" placeholder="MM/DD/YY">
+                <input type="password" name="password" id="password" class="new_user_form_field" placeholder="Password">
                 
                 <h2 id = "avatar_form">
                     <input type="radio" name="avatar" id="avatar_radio" value="av1">
@@ -71,10 +71,13 @@
 
             </form>
 
+            <!--Changing Button temporarily-->
             <!-- button -->
-            <a href="index.html">
+            <!--<a href="index.html">
                 <button class = "new_user_submit_form">Submit</button>
-            </a>
+            </a>-->
+            <button class = "new_user_submit_form" onclick="testValidationFunctions()">Submit</button>
+            <!--******************************************-->
         </main>
 </body>
 </html>

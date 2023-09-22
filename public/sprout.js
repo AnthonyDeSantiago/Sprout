@@ -5,7 +5,7 @@ inputFile.onchange = function(){
     profilePicture.src = URL.createObjectURL(inputFile.files[0]);
 }
 
-
+console.log("sprout.js loaded!!")
 /*Passwords must be:
 --> a minimum of 8 characters,
 --> must start with a letter,
@@ -81,8 +81,7 @@ function testValidationFunctions() {
     var address = document.getElementById("address").value;
     var dateOfBirth = document.getElementById("dateofbirth").value;
     var password = document.getElementById("password").value;
-    var question1 = document.getElementById("question1").value;
-    var question2 = document.getElementById("question2").value;
+    
 
     
     
@@ -91,6 +90,7 @@ function testValidationFunctions() {
         console.log("User Email: " + userEmail);
         console.log("email is Valid");
     } else {
+        console.log("User Email: " + userEmail);
         console.log("!!!!!email is NOT Valid!!!!");
     }
 
@@ -98,6 +98,7 @@ function testValidationFunctions() {
         console.log("First Name: " + firstName);
         console.log("First Name is Valid");
     } else {
+        console.log("First Name: " + firstName);
         console.log("!!!!!First Name NOT Valid!!!!");
     }
 
@@ -105,6 +106,7 @@ function testValidationFunctions() {
         console.log("Last Name: " + lastName);
         console.log("Last Name is Valid");
     } else {
+        console.log("Last Name: " + lastName);
         console.log("!!!!!Last Name NOT Valid!!!!");
     }
 
@@ -112,6 +114,7 @@ function testValidationFunctions() {
         console.log("Address: " + address);
         console.log("Address is Valid");
     } else {
+        console.log("Address: " + address);
         console.log("!!!!!Last Name NOT Valid!!!!");
     }
 
@@ -119,6 +122,7 @@ function testValidationFunctions() {
         console.log("Date of Birth: " + dateOfBirth);
         console.log("DOB is Valid");
     } else {
+        console.log("Date of Birth: " + dateOfBirth);
         console.log("!!!!!DOB NOT Valid!!!!");
     }
 
@@ -126,11 +130,9 @@ function testValidationFunctions() {
         console.log("Password: " + password);
         console.log("password is Valid");
     } else {
+        console.log("Password: " + password);
         console.log("!!!!!password NOT Valid!!!!");
     }
-
-    console.log("Question 1: " + question1);
-    console.log("Question 2: " + question2);
 
     
     return true;
