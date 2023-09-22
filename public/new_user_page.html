@@ -7,16 +7,15 @@
     <link rel="stylesheet" href="style.css" class="rel">
     <script defer src = "sprout.js"></script>
 </head>
+
+        <!-- Blank Logo -->
+        <img src="asset/blank.png" id = "blank">
 <body>
-    <!-- Blank Logo -->
-    <img src="asset/blank.png" class = "blank"
-        width="50" height= auto>
 
         <main id = "user_page_form">
 
             <!-- Logo in every page -->
-            <img src="asset/LOGO.png" alt="logo" 
-            width="100" height=auto>
+            <img src="asset/LOGO.png" class = "logo">
 
             <!-- Form page  -->
             <form id ="login_form">
@@ -26,13 +25,50 @@
                 <input type="address" name="address" class="new_user_form_field" placeholder="Address">
                 <input type="dob" name="dateofbirth" class="new_user_form_field" placeholder="MM/DD/YY">
                 <input type="password" name="password" class="new_user_form_field" placeholder="Password">
-                <span>Choose a Profile Picture</span>
-                <img src="asset/blank.png" width="75" height=auto>
-                Question 1: What's the name of your Best Friend?
-                <input type="question1" name="question1" id="" class="new_user_form_field" placeholder="First Name">
-                Question 2: Where were you born?
-                <input type="question2" name="question2" id="" class="new_user_form_field" placeholder="Country">
                 
+                <h2 id = "avatar_form">
+                    <input type="radio" name="avatar" id="avatar_radio" value="av1">
+                    <img src="asset/blank.png" id = "new_profile_pic">
+                    <input type="radio" name="avatar" id="avatar_radio" value="av2">
+                    <img src="asset/blank.png" id = "new_profile_pic">
+                    <input type="radio" name="avatar" id="avatar_radio" value="av3">
+                    <img src="asset/blank.png" id = "new_profile_pic">
+                </h2>
+                
+                <div class="self_profile_pic">
+                    <div class="card">
+                        <img src="asset/blank.png" id="blank_choose_ur_pic">
+                        <label for="input_file" class = "upload_box">Upload Image</label>
+                        <input type="file" accept="image/jpeg, image/png, image/jpg" id="input_file">
+                    </div>
+
+                </div>
+
+                <div class="drop_down_list">
+                    <div class="selector">
+                        <label for="security_question" class= "dropdown_list_SQ"> 
+                            Security Questions
+                        </label>
+                        <select name ="questions" class = "question_select"> 
+                            <option value="--Choose a question"></option>
+                            <option value="What's the name of your Best Friend?">What's the name of your Best Friend?</option>
+                            <option value="Where were you born?">Where were you born?</option>
+                            <option value="What is the name of your favorite pet?">What is the name of your favorite pet?</option>
+                            <option value="What high school did you attend?">What high school did you attend?</option>
+                            <option value="What is your favorite food?">What is your favorite food?</option>
+                        </select>
+
+                        <select name ="questions" class = "question_select"> 
+                            <option value="--Choose a question"></option>
+                            <option value="What's the name of your Best Friend?">What's the name of your Best Friend?</option>
+                            <option value="Where were you born?">Where were you born?</option>
+                            <option value="What is the name of your favorite pet?">What is the name of your favorite pet?</option>
+                            <option value="What high school did you attend?">What high school did you attend?</option>
+                            <option value="What is your favorite food?">What is your favorite food?</option>
+                        </select>
+                    </div>
+                </div>             
+
             </form>
 
             <!-- button -->
