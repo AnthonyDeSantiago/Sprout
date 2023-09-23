@@ -176,8 +176,8 @@ function generateUsername(userNameExists, firstName, lastName, month, day, year)
 
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
-    const query = await newUserRequest.where('UserEmail', '==', testEmail).get();
-    return query.exists;
+    const emailCheck = await query(newUserRequest, where('UserEmail', '==', testEmail));
+    return emailCheck.exists;
 }
 
 async function testUserName(testUsername){
