@@ -190,4 +190,83 @@ function testValidationFunctions() {
     
     return true;
 }
+//--------------------------------------------------admin
+document.addEventListener("DOMContentLoaded", function () {
+    const extendableTable = document.querySelector(".extendable-table");
+    const extendedTable = document.querySelector(".extended-table");
+
+    // Example: Firebase initialization code
+    // Initialize Firebase with your config
+    // const firebaseConfig = { ... };
+    // firebase.initializeApp(firebaseConfig);
+    // const db = firebase.firestore();
+
+    // Example: Function to populate the extendable table with user data
+    function loadUsers() {
+        // Replace this with your Firebase data retrieval logic
+        // Loop through your users and create rows for each in the table
+        const users = [{ username: "User1" }, { username: "User2" }, /* ... */];
+
+        const tbody = extendableTable.querySelector("tbody");
+        tbody.innerHTML = ""; // Clear existing rows
+
+        users.forEach((user) => {
+            const row = document.createElement("tr");
+            const usernameCell = document.createElement("td");
+
+            // Add a click event to the username cell
+            usernameCell.innerText = user.username;
+            usernameCell.addEventListener("click", () => {
+                showExtendedTable(user.username);
+            });
+
+            row.appendChild(usernameCell);
+            tbody.appendChild(row);
+        });
+    }
+
+    // Example: Function to populate the extended table when a username is clicked
+    function showExtendedTable(username) {
+        // Replace this with your Firebase data retrieval logic
+        // You may want to fetch data for the specific user by their username
+        // and populate the extended table with the unknown columns
+
+        // For demonstration purposes, let's assume the data is available in an array
+        const userData = [
+            { column1: "Value1", column2: "Value2", column3: "Value3", column4: "Value4" },
+        ];
+
+        const extendedTableHtml = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column 1</th>
+                        <th>Column 2</th>
+                        <th>Column 3</th>
+                        <th>Column 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${userData
+                        .map(
+                            (data) => `
+                        <tr>
+                            <td>${data.column1}</td>
+                            <td>${data.column2}</td>
+                            <td>${data.column3}</td>
+                            <td>${data.column4}</td>
+                        </tr>
+                    `
+                        )
+                        .join("")}
+                </tbody>
+            </table>
+        `;
+
+        extendedTable.innerHTML = extendedTableHtml;
+    }
+
+    // Load user data when the page loads
+    loadUsers();
+});
 
