@@ -176,14 +176,7 @@ async function testUserName(testUsername){
     testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDoc(docRef);
-    
-    if (query.exists) {
-        exists = true;
-    } else {
-        exists = false;
-    }
-
-    return exists;
+    return docCheck.exists;
 }
 
 function testValidationFunctions() {
