@@ -131,6 +131,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         let day = String(date.getDay()).padStart(2,"0");
         let year = String(date.getFullYear()).slice(2);
         let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
+        console.log(userNameExists);
         
         let username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
         
