@@ -156,7 +156,8 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             username: firstName.charAt[0] + lastName + createdAt
         }
 
-        const newUserRef = await addDoc(userProfiles, newUser);
+        addDoc(userProfiles, newUser);
+        console.log('Document added or updated successfully!');
     }
     
     return true;
