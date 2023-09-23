@@ -175,7 +175,7 @@ async function generateUsername(firstName, lastName, month, day, year){
     }
     while(userCheck){
         userCount++;
-        username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + count + month + year);
+        username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + userCount + month + year);
         userCheck = await testUserName(username);
     }
     return username;
