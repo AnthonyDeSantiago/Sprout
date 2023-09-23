@@ -167,7 +167,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
 
 function generateUsername(userNameExists, firstName, lastName, month, day, year){
     let username = "TBD";
-    let userCheck = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);;
+    let userCheck = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
     let userCount = 0;
     if(!userCheck){
         username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
