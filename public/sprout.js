@@ -194,7 +194,7 @@ async function testUserEmail(testEmail){
 }
 
 async function testUserName(testUsername){
-    testUsername = testUsername.toString();
+    /*testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDocs(docRef);
     let count = 0;
@@ -203,6 +203,14 @@ async function testUserName(testUsername){
     });
     console.log("docCheck =  "+ count);
     if (count > 0){
+        return true;
+    } else{
+        return false;
+    }*/
+    testUsername = testUsername.toString();
+    const docRef = doc(db, 'new_user_requests', testUsername);
+    const docCheck = await getDoc(docRef);
+    if (docCheck.exists()){
         return true;
     } else{
         return false;
