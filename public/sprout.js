@@ -132,7 +132,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         let year = String(date.getFullYear()).slice(2);
         let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
         
-        username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
+        let username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
         
         const newUser = {
             userEmail: userEmail,
