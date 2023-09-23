@@ -131,10 +131,10 @@ document.getElementById("login_form").addEventListener("submit", async function 
         let day = String(date.getDay()).padStart(2,"0");
         let year = String(date.getFullYear()).slice(2);
         let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
-        console.log("userNameExists" + userNameExists);
+        console.log("userNameExists = " + userNameExists);
         
         let username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
-        console.log("username" + username);
+        console.log("username = " + username);
         
         const newUser = {
             userEmail: userEmail,
@@ -148,7 +148,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         }
             
         let emailAlreadyInUse = await testUserEmail(userEmail);
-        console.log("emailAlreadyInUse"+ emailAlreadyInUse);
+        console.log("emailAlreadyInUse = "+ emailAlreadyInUse);
         
         if(!emailAlreadyInUse){
             await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
@@ -167,11 +167,11 @@ document.getElementById("login_form").addEventListener("submit", async function 
 
 function generateUsername(userNameExists, firstName, lastName, month, day, year){
     let username = "TBD";
-    if(!userNameExists){
-        username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
+    if(userNameExists > 0){
+        username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + userNameExists + month + year);
     }
     else{
-        username = firstName.toLowerCase() + lastName.toLowerCase() + month + year;
+        username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
     }
 
     return username;
@@ -179,8 +179,9 @@ function generateUsername(userNameExists, firstName, lastName, month, day, year)
 
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
-    const emailCheck = await query(newUserRequest, where('UserEmail', '==', testEmail));
-    if (emailCheck.exists){
+    const q = query(newUserRequest, where('UserEmail', '==', testEmail));
+    const checkEmail = (await getDocs(q)).docs.length;
+    if (checkEmail > 0){
         return true;
     } else{
         return false;
@@ -190,8 +191,9 @@ async function testUserEmail(testEmail){
 async function testUserName(testUsername){
     testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
-    const docCheck = await getDoc(docRef);
-    if (docCheck.exists){
+    const docCheck = (await getDoc(docRef)).docs.length;
+    console.log("docCheck = ");
+    if (docCheck > 0){
         return true;
     } else{
         return false;
