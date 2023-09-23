@@ -131,9 +131,10 @@ document.getElementById("login_form").addEventListener("submit", async function 
         let day = String(date.getDay()).padStart(2,"0");
         let year = String(date.getFullYear()).slice(2);
         let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
-        console.log(userNameExists);
+        console.log("userNameExists" + userNameExists);
         
         let username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
+        console.log("username" + username);
         
         const newUser = {
             userEmail: userEmail,
@@ -147,7 +148,8 @@ document.getElementById("login_form").addEventListener("submit", async function 
         }
             
         let emailAlreadyInUse = await testUserEmail(userEmail);
-            
+        console.log("emailAlreadyInUse"+ emailAlreadyInUse);
+        
         if(!emailAlreadyInUse){
             await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
             console.log('New user request added successfully!');
@@ -189,7 +191,6 @@ async function testUserName(testUsername){
     testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDoc(docRef);
-    console.log(docCheck);
     if (docCheck.exists){
         return true;
     } else{
