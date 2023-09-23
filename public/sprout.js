@@ -179,9 +179,14 @@ function generateUsername(userNameExists, firstName, lastName, month, day, year)
 
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
-    const q = query(newUserRequest, where('UserEmail', '==', testEmail));
-    const checkEmail = (await getDocs(q)).docs.length;
-    if (checkEmail > 0){
+    const q = query((db, 'new_user_requests'), where('UserEmail', '==', testEmail));
+    const checkEmail = await getDocs(q);
+    let count = 0;
+    checkEmail.forEach((doc) => {
+        count += 1;
+    });
+    console.log("checkEmail = " + count);
+    if (count > 0){
         return true;
     } else{
         return false;
@@ -191,9 +196,13 @@ async function testUserEmail(testEmail){
 async function testUserName(testUsername){
     testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
-    const docCheck = await getDoc(docRef);
-    console.log("docCheck =  "+ docCheck);
-    if (docCheck.exists){
+    const docCheck = await getDocs(docRef);
+    let count = 0;
+    docCheck.forEach((doc) => {
+        count += 1;
+    });
+    console.log("docCheck =  "+ count);
+    if (count > 0){
         return true;
     } else{
         return false;
