@@ -1,22 +1,38 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
+ <link rel="stylesheet" href="style.css" class="rel">
+    <script defer src = "sprout.js"></script></head>
 <body>
-    <!-- Admin Welcome Block -->
     <div class="admin-welcome">
         Welcome User
     </div>
-    
-    <!-- Your other admin dashboard content goes here -->
 
+    <!-- Extendable Table Container -->
+    <div class="extendable-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populate this section with user data from Firebase -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Extended Table Container -->
+    <div class="extended-table">
+        <!-- This section will be populated when a username is clicked -->
+    </div>
+
+    <!-- Include your Firebase initialization script -->
 </body>
 </html>
-
-
 
 
 
