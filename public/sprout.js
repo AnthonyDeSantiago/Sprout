@@ -129,14 +129,13 @@ document.getElementById("login_form").addEventListener("submit", async function 
         const date = new Date();
         let month = String(date.getMonth()+1).padStart(2,"0");
         let year = String(date.getFullYear()).slice(2);
-        
         let userNameCount = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
         
         if(userNameCount > 0){
-            username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year + userNameCount;
+            let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year + userNameCount;
         }
         else{
-            username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
+            let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
         }
             
         const newUser = {
@@ -180,7 +179,7 @@ async function testUserEmail(testEmail){
 }
 
 async function testUserName(testUsername){
-    const docCheck = await getDoc(doc(db, newUserRequest, username));
+    const docCheck = await getDoc(doc(db, newUserRequest, testUsername));
     
     if (!query.empty) {
         count = query.data().count;
