@@ -24,7 +24,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const userProfiles = collection(db, 'users')
+const newUserRequest = collection(db, 'new_user_requests')
 
 /* changes the placeholder picture to whatever you picked in the Sign up Function */
 let profilePicture = document.getElementById("blank_choose_ur_pic");
@@ -148,7 +148,9 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
         return false;
     }
     else{
-        //const { serverTimestamp } = firebase.firestore.FieldValue;
+        const serverTimestamp = serverTimestamp();
+        let month = String(serverTimestamp.getMonth()+1).padStart(2,"0");
+        let year = String(serverTimestamp.getFullYear().slice(0,2)
         
         const newUser = {
             userEmail: userEmail,
@@ -157,11 +159,11 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             address: address,
             DOB : dateOfBirth,
             password: password,
-            createdAt: serverTimestamp(),
-            username: firstName.charAt[0] + lastName
+            createdAt: serverTimestamp,
+            username: firstName.slice(0,1) + lastName + month + year
         }
 
-        addDoc(userProfiles, newUser);
+        addDoc(newUserRequest, newUser);
         console.log('Document added or updated successfully!');
     }
     
