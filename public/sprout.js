@@ -110,7 +110,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
     var address = document.getElementById("address").value;
     var dateOfBirth = document.getElementById("dateofbirth").value;
     var password = document.getElementById("password").value;
-    const serverTimestamp = serverTimestamp()
+    //const serverTimestamp = serverTimestamp()
     
     var isValid = true;
 
@@ -149,9 +149,9 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
         return false;
     }
     else{
-        var createDate = serverTimestamp.toDate()
-        let month = String(createDate.getMonth()+1).padStart(2,"0");
-        let year = String(createDate.getFullYear()).slice(0,2);
+        //var createDate = serverTimestamp.toDate()
+        //let month = String(createDate.getMonth()+1).padStart(2,"0");
+        //let year = String(createDate.getFullYear()).slice(0,2);
         
         const newUser = {
             userEmail: userEmail,
@@ -160,8 +160,8 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             address: address,
             DOB : dateOfBirth,
             password: password,
-            createdAt: createDate,
-            username: firstName.slice(0,1) + lastName + month + year
+            createdAt: serverTimestamp(),
+            username: firstName.slice(0,1) + lastName + String(serverTimestamp().toDate().getMonth()+1).padStart(2,"0") + String(serverTimestamp().toDate().getFullYear()).slice(0,2)
         }
 
         addDoc(newUserRequest, newUser);
