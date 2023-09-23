@@ -128,16 +128,12 @@ document.getElementById("login_form").addEventListener("submit", async function 
         //Ideally this date would be populating from the server timestamp, not the client-side date - TBD IN FUTURE UPDATE
         const date = new Date();
         let month = String(date.getMonth()+1).padStart(2,"0");
+        let day = String(date.getDay()).padStart(2,"0");
         let year = String(date.getFullYear()).slice(2);
-        let userNameCount = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
+        let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
         
-        if(userNameCount > 0){
-            let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year + userNameCount;
-        }
-        else{
-            let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
-        }
-            
+        username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
+        
         const newUser = {
             userEmail: userEmail,
             firstName: firstName,
@@ -165,6 +161,17 @@ document.getElementById("login_form").addEventListener("submit", async function 
     
     return true;
 });
+
+function generateUsername(userNameExists, firstName, lastName, month, day, year){
+    if(userNameExists){
+        let username = firstName.toLowerCase() + lastName.toLowerCase() + month + year;
+    }
+    else{
+        let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
+    }
+
+    return username;
+}
 
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
