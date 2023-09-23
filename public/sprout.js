@@ -180,7 +180,7 @@ async function testUserEmail(testEmail){
 }
 
 async function testUserName(testUsername){
-    const docCheck = await getDoc(doc(db, newUserRequest, username);
+    const docCheck = await getDoc(doc(db, newUserRequest, username));
     
     if (!query.empty) {
         count = query.data().count;
