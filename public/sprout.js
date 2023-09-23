@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, getDoc, getDocs, addDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, addDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 
 const firebaseConfig = {
@@ -77,7 +77,7 @@ function validateEmail(email) {
 
 
 
-document.getElementById("login_form").addEventListener("submit", function (e) {
+document.getElementById("login_form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     var userEmail = document.getElementById("user_email").value;
@@ -123,46 +123,46 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
     if (!isValid) {
         return false;
     }
-    else{
-        try{
-            //Ideally this date would be populating from the server timestamp, not the client-side date - TBD IN FUTURE UPDATE
-            const date = new Date();
-            let month = String(date.getMonth()+1).padStart(2,"0");
-            let year = String(date.getFullYear()).slice(2);
-            
-            let userNameCount = testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
-           
-            if(userNameCount > 0){
-                let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year + userNameCount;
-            }
-            else{
-                let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
-            }
-            
-            const newUser = {
-                userEmail: userEmail,
-                firstName: firstName,
-                lastName: lastName,
-                address: address,
-                DOB : dateOfBirth,
-                password: password,
-                createdAt: serverTimestamp(),
-                username: username
-            }
-            
-            emailAlreadyInUse = testUserEmail(userEmail);
-            
-            if(!emailAlreadyInUse){
-                addDoc(newUserRequest, newUser, username);
-                console.log('New user request added successfully!');
-            } else{ 
-                alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
-                console.log('User email already in use.');
-            }
-        } catch(error) {
-            console.log(error)
+    
+    try{
+        //Ideally this date would be populating from the server timestamp, not the client-side date - TBD IN FUTURE UPDATE
+        const date = new Date();
+        let month = String(date.getMonth()+1).padStart(2,"0");
+        let year = String(date.getFullYear()).slice(2);
+        
+        let userNameCount = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
+        
+        if(userNameCount > 0){
+            username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year + userNameCount;
         }
+        else{
+            username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
+        }
+            
+        const newUser = {
+            userEmail: userEmail,
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            DOB : dateOfBirth,
+            password: password,
+            createdAt: serverTimestamp(),
+            username: username
+        }
+            
+        emailAlreadyInUse = await testUserEmail(userEmail);
+            
+        if(!emailAlreadyInUse){
+            addDoc(newUserRequest, newUser, username);
+            console.log('New user request added successfully!');
+        } else{ 
+            alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
+            console.log('User email already in use.');
+        }
+    } catch(error) {
+        console.log(error)
     }
+
     
     return true;
 })
