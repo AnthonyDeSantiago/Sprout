@@ -152,7 +152,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             address: address,
             DOB : dateOfBirth,
             password: password,
-            createdAt: serverTimestamp()
+            createdAt: serverTimestamp(),
             username: firstName.charAt[0] + lastName + createdAt
         }
 
