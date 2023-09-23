@@ -158,7 +158,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             DOB : dateOfBirth,
             password: password,
             createdAt: serverTimestamp(),
-            username: firstName.charAt[0] + lastName + createdAt
+            username: firstName.charAt[0] + lastName
         }
 
         addDoc(userProfiles, newUser);
