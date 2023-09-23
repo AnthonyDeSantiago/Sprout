@@ -130,7 +130,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             let month = String(date.getMonth()+1).padStart(2,"0");
             let year = String(date.getFullYear()).slice(2);
             
-            let userNameCount = testUsername(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
+            let userNameCount = testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
            
             if(userNameCount > 0){
                 let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year + userNameCount;
