@@ -179,7 +179,8 @@ async function testUserEmail(testEmail){
 }
 
 async function testUserName(testUsername){
-    const docRef = doc(db, 'new_user_requests', testUsername.toString());
+    testUsername = testUsername.toString();
+    const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDoc(docRef);
     
     if (!query.empty) {
