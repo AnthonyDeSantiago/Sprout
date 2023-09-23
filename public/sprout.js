@@ -177,7 +177,7 @@ async function testUserName(testUsername){
     const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDoc(docRef);
     
-    if (!query.empty) {
+    if (query.exists) {
         exists = true;
     } else {
         exists = false;
