@@ -1,3 +1,26 @@
+const firebaseConfig = {
+
+    apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
+  
+    authDomain: "sprout-financials.firebaseapp.com",
+  
+    databaseURL: "https://sprout-financials-default-rtdb.firebaseio.com",
+  
+    projectId: "sprout-financials",
+  
+    storageBucket: "sprout-financials.appspot.com",
+  
+    messagingSenderId: "864423850272",
+  
+    appId: "1:864423850272:web:725227e1ed9a578ef36745",
+  
+    measurementId: "G-Z0E9H5Z16M"
+  
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const userProfiles = collection(db, 'users')
+
 /* changes the placeholder picture to whatever you picked in the Sign up Function */
 let profilePicture = document.getElementById("blank_choose_ur_pic");
 let inputFile = document.getElementById("input_file");
@@ -119,9 +142,23 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
     if (!isValid) {
         return false;
     }
+    else{
+        const { serverTimestamp } = firebase.firestore.FieldValue;
+        
+        const newUser = {
+            userEmail: userEmail,
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            DOB : dateOfBirth,
+            password: password,
+            createdAt: serverTimestamp()
+            username: firstName.charAt[0] + lastName + createdAt
+        }
 
-    // I think we can put the firestore data base stuff here
-
+        const newUserRef = await addDoc(userProfiles, newUser);
+    }
+    
     return true;
 })
 
@@ -134,9 +171,6 @@ function testValidationFunctions() {
     var address = document.getElementById("address").value;
     var dateOfBirth = document.getElementById("dateofbirth").value;
     var password = document.getElementById("password").value;
-    
-
-    
     
     // See if its working
     if (validateEmail(userEmail)) {
@@ -197,9 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Example: Firebase initialization code
     // Initialize Firebase with your config
-    // const firebaseConfig = { ... };
-    // firebase.initializeApp(firebaseConfig);
-    // const db = firebase.firestore();
+    
 
     // Example: Function to populate the extendable table with user data
     function loadUsers() {
@@ -269,4 +301,3 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load user data when the page loads
     loadUsers();
 });
-
