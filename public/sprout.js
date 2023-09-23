@@ -167,21 +167,23 @@ document.getElementById("login_form").addEventListener("submit", async function 
 });
 
 async function testUserEmail(testEmail){
-    const query = await getCountFromServer(newUserRequest.where('UserEmail', '==', testEmail));
+    testEmail = testEmail.toString();
+    const query = await newUserRequest.where('UserEmail', '==', testEmail).get();
+    return query.exists;
+}
+
+async function testUserName(testUsername){
+    testUsername = testUsername.toString();
+    const docRef = doc(db, 'new_user_requests', testUsername);
+    const docCheck = await getDoc(docRef);
     
-    if (query > 0) {
+    if (!query.empty) {
         exists = true;
     } else {
         exists = false;
     }
 
     return exists;
-}
-
-async function testUserName(testUsername){
-    testUsername = testUsername.toString();
-    const query = await getCountFromServer(newUserRequest.where(documentID(), '==', testUsername));
-    return count;
 }
 
 function testValidationFunctions() {
