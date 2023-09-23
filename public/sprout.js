@@ -147,7 +147,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
                 DOB : dateOfBirth,
                 password: password,
                 createdAt: serverTimestamp(),
-                username: username;
+                username: username
             }
             
             emailAlreadyInUse = testUserEmail(userEmail);
