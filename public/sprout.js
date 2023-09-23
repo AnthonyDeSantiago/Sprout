@@ -191,9 +191,9 @@ async function testUserEmail(testEmail){
 async function testUserName(testUsername){
     testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
-    const docCheck = (await getDoc(docRef)).docs.length;
-    console.log("docCheck = ");
-    if (docCheck > 0){
+    const docCheck = await getDoc(docRef);
+    console.log("docCheck =  "+ docCheck);
+    if (docCheck.exists){
         return true;
     } else{
         return false;
