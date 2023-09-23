@@ -110,7 +110,8 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
     var address = document.getElementById("address").value;
     var dateOfBirth = document.getElementById("dateofbirth").value;
     var password = document.getElementById("password").value;
-
+    const serverTimestamp = serverTimestamp()
+    
     var isValid = true;
 
     if (!validateEmail(userEmail)) {
@@ -148,9 +149,9 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
         return false;
     }
     else{
-        //NEED TO EDIT THIS SO THAT SERVERTIMESTAMP IS ONLY PULLED ONCE, BUT WILL NEED TO WRITE THIS AS A FUNCTION THAT WAITS ON THAT TO BE GRABBED
-        let month = String(serverTimestamp().getMonth()+1).padStart(2,"0");
-        let year = String(serverTimestamp().getFullYear()).slice(0,2);
+        var createDate = serverTimestamp.toDate()
+        let month = String(createDate.getMonth()+1).padStart(2,"0");
+        let year = String(createDate.getFullYear()).slice(0,2);
         
         const newUser = {
             userEmail: userEmail,
@@ -159,7 +160,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             address: address,
             DOB : dateOfBirth,
             password: password,
-            createdAt: serverTimestamp(),
+            createdAt: createDate,
             username: firstName.slice(0,1) + lastName + month + year
         }
 
