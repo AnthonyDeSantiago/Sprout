@@ -148,9 +148,9 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
         return false;
     }
     else{
-        let serverTimestamp = serverTimestamp();
-        let month = String(serverTimestamp.getMonth()+1).padStart(2,"0");
-        let year = String(serverTimestamp.getFullYear()).slice(0,2);
+        //NEED TO EDIT THIS SO THAT SERVERTIMESTAMP IS ONLY PULLED ONCE, BUT WILL NEED TO WRITE THIS AS A FUNCTION THAT WAITS ON THAT TO BE GRABBED
+        let month = String(serverTimestamp().getMonth()+1).padStart(2,"0");
+        let year = String(serverTimestamp().getFullYear()).slice(0,2);
         
         const newUser = {
             userEmail: userEmail,
@@ -159,7 +159,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             address: address,
             DOB : dateOfBirth,
             password: password,
-            createdAt: serverTimestamp,
+            createdAt: serverTimestamp(),
             username: firstName.slice(0,1) + lastName + month + year
         }
 
