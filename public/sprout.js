@@ -72,6 +72,59 @@ function validateEmail(email) {
 }
 
 
+
+document.getElementById("login_form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var userEmail = document.getElementById("user_email").value;
+    var firstName = document.getElementById("first_name").value;
+    var lastName = document.getElementById("last_name").value;
+    var address = document.getElementById("address").value;
+    var dateOfBirth = document.getElementById("dateofbirth").value;
+    var password = document.getElementById("password").value;
+
+    var isValid = true;
+
+    if (!validateEmail(userEmail)) {
+        alert("Invalid email address");
+        isValid = false;
+    }
+
+    if (!validateFirstName(firstName)) {
+        alert("Invalid first name");
+        isValid = false;
+    }
+
+    if (!validateLastName(lastName)) {
+        alert("Invalid last name");
+        isValid = false;
+    }
+
+    if (!validateAddress(address)) {
+        alert("Invalid address");
+        isValid = false;
+    }
+
+    if (!validateDate(dateOfBirth)) {
+        alert("Invalid date of birth");
+        isValid = false;
+    }
+
+    if (!validatePassword(password)) {
+        alert("Invalid password");
+        isValid = false;
+    }
+
+    
+    if (!isValid) {
+        return false;
+    }
+
+    // I think we can put the firestore data base stuff here
+
+    return true;
+})
+
 function testValidationFunctions() {
     console.log("code reached here!!");
     // Get the values 
