@@ -178,7 +178,11 @@ function generateUsername(userNameExists, firstName, lastName, month, day, year)
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
     const emailCheck = await query(newUserRequest, where('UserEmail', '==', testEmail));
-    return emailCheck.exists;
+    if (emailCheck.exists){
+        return true;
+    } else{
+        return false;
+    }
 }
 
 async function testUserName(testUsername){
@@ -186,7 +190,11 @@ async function testUserName(testUsername){
     const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDoc(docRef);
     console.log(docCheck);
-    return docCheck.exists;
+    if (docCheck.exists){
+        return true;
+    } else{
+        return false;
+    }
 }
 
 function testValidationFunctions() {
