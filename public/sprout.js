@@ -148,7 +148,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
         return false;
     }
     else{
-        const serverTimestamp = serverTimestamp();
+        let serverTimestamp = serverTimestamp();
         let month = String(serverTimestamp.getMonth()+1).padStart(2,"0");
         let year = String(serverTimestamp.getFullYear()).slice(0,2);
         
