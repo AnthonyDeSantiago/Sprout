@@ -164,7 +164,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
 
     
     return true;
-})
+});
 
 async function testUserEmail(testEmail){
     const query = await getCountFromServer(newUserRequest.where('UserEmail', '==', testEmail));
