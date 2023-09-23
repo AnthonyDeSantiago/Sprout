@@ -133,7 +133,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         //let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
         //console.log("userNameExists = " + userNameExists);
         
-        let username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
+        let username = await generateUsername(firstName, lastName, month, day, year);
         console.log("username = " + username);
         
         const newUser = {
@@ -165,7 +165,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
     return true;
 });
 
-async function generateUsername(userNameExists, firstName, lastName, month, day, year){
+async function generateUsername(firstName, lastName, month, day, year){
     let username = "TBD";
     let userCheck = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
     let userCount = 0;
