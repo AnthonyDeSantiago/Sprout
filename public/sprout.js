@@ -150,7 +150,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
     else{
         const date = new Date();
         let month = String(date.getMonth()+1).padStart(2,"0");
-        let year = String(date.getFullYear()).slice(0,2);
+        let year = String(date.getFullYear()).slice(-2);
 
         const newUser = {
             userEmail: userEmail,
