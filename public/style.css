@@ -295,3 +295,51 @@ input{
     text-align: center;
     line-height: 98px; /* Vertically centers the text */
 }
+
+/* Style for the extendable table */
+.extendable-table {
+    margin-top: 20px;
+}
+
+.extendable-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.extendable-table th,
+.extendable-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.extendable-table th {
+    background-color: #f2f2f2;
+}
+
+/* Style for the extended table */
+.extended-table {
+    display: none; /* Initially hide the extended table */
+    margin-top: 10px;
+}
+
+.extended-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.extended-table th,
+.extended-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.extended-table th {
+    background-color: #f2f2f2;
+}
+
