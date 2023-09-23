@@ -163,11 +163,12 @@ document.getElementById("login_form").addEventListener("submit", async function 
 });
 
 function generateUsername(userNameExists, firstName, lastName, month, day, year){
+    let username = "TBD";
     if(userNameExists){
-        let username = firstName.toLowerCase() + lastName.toLowerCase() + month + year;
+        username = firstName.toLowerCase() + lastName.toLowerCase() + month + year;
     }
     else{
-        let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
+        username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
     }
 
     return username;
