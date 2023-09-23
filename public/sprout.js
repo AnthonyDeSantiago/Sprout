@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, doc, getDoc, getDocs, addDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 
 const firebaseConfig = {
@@ -148,7 +148,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         let emailAlreadyInUse = await testUserEmail(userEmail);
             
         if(!emailAlreadyInUse){
-            addDoc(newUserRequest, newUser, username.toString());
+            setDoc(newUserRequest, newUser, username.toString());
             console.log('New user request added successfully!');
         } else{ 
             alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
@@ -164,11 +164,11 @@ document.getElementById("login_form").addEventListener("submit", async function 
 
 function generateUsername(userNameExists, firstName, lastName, month, day, year){
     let username = "TBD";
-    if(userNameExists){
-        username = firstName.toLowerCase() + lastName.toLowerCase() + month + year;
+    if(!userNameExists){
+        username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
     }
     else{
-        username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
+        username = firstName.toLowerCase() + lastName.toLowerCase() + month + year;
     }
 
     return username;
@@ -184,6 +184,7 @@ async function testUserName(testUsername){
     testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDoc(docRef);
+    console.log(docCheck);
     return docCheck.exists;
 }
 
