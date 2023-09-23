@@ -145,7 +145,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
             username: username
         }
             
-        emailAlreadyInUse = await testUserEmail(userEmail);
+        let emailAlreadyInUse = await testUserEmail(userEmail);
             
         if(!emailAlreadyInUse){
             addDoc(newUserRequest, newUser, username);
