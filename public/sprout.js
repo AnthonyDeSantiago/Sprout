@@ -169,7 +169,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
 async function testUserEmail(testEmail){
     const query = await getCountFromServer(newUserRequest.where('UserEmail', '==', testEmail));
     
-    if (!query.empty) {
+    if (query > 0) {
         exists = true;
     } else {
         exists = false;
@@ -180,15 +180,7 @@ async function testUserEmail(testEmail){
 
 async function testUserName(testUsername){
     testUsername = testUsername.toString();
-    const docRef = doc(db, 'new_user_requests', testUsername);
-    const docCheck = await getDoc(docRef);
-    
-    if (!query.empty) {
-        count = query.data().count;
-    } else {
-        count = 0;
-    }
-
+    const query = await getCountFromServer(newUserRequest.where(documentID(), '==', testUsername));
     return count;
 }
 
