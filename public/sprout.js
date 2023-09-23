@@ -130,7 +130,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         let month = String(date.getMonth()+1).padStart(2,"0");
         let day = String(date.getDay()).padStart(2,"0");
         let year = String(date.getFullYear()).slice(2);
-        let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
+        //let userNameExists = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
         console.log("userNameExists = " + userNameExists);
         
         let username = await generateUsername(userNameExists, firstName, lastName, month, day, year);
@@ -167,16 +167,21 @@ document.getElementById("login_form").addEventListener("submit", async function 
 
 function generateUsername(userNameExists, firstName, lastName, month, day, year){
     let username = "TBD";
-    if(userNameExists > 0){
-        username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + userNameExists + month + year);
-    }
-    else{
+    let userCheck = await testUserName(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);;
+    let userCount = 0;
+    if(!userCheck){
         username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
+        return username;
     }
-
+    while(userCheck){
+        userCount++;
+        username = String(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + count + month + year);
+        userCheck = await testUserName(username);
+    }
     return username;
 }
 
+//BULKY, CAN BE REDUCED IN THE FUTURE - TBD
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
     const q = query(newUserRequest, where('userEmail', '==', testEmail));
@@ -194,19 +199,6 @@ async function testUserEmail(testEmail){
 }
 
 async function testUserName(testUsername){
-    /*testUsername = testUsername.toString();
-    const docRef = doc(db, 'new_user_requests', testUsername);
-    const docCheck = await getDocs(docRef);
-    let count = 0;
-    docCheck.forEach((doc) => {
-        count += 1;
-    });
-    console.log("docCheck =  "+ count);
-    if (count > 0){
-        return true;
-    } else{
-        return false;
-    }*/
     testUsername = testUsername.toString();
     const docRef = doc(db, 'new_user_requests', testUsername);
     const docCheck = await getDoc(docRef);
