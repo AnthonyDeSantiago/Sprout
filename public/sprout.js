@@ -148,7 +148,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         let emailAlreadyInUse = await testUserEmail(userEmail);
             
         if(!emailAlreadyInUse){
-            setDoc(newUserRequest, newUser, username.toString());
+            await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
             console.log('New user request added successfully!');
         } else{ 
             alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
