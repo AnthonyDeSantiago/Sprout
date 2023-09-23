@@ -160,7 +160,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
             DOB : dateOfBirth,
             password: password,
             createdAt: serverTimestamp(),
-            username: firstName.slice(0,1) + lastName + month + year
+            username: firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year
         }
 
         addDoc(newUserRequest, newUser);
