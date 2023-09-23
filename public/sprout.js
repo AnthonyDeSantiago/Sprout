@@ -179,7 +179,7 @@ function generateUsername(userNameExists, firstName, lastName, month, day, year)
 
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
-    const q = query((db, 'new_user_requests'), where('UserEmail', '==', testEmail));
+    const q = query(newUserRequest, where('userEmail', '==', testEmail));
     const checkEmail = await getDocs(q);
     let count = 0;
     checkEmail.forEach((doc) => {
