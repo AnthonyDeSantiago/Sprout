@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, getDocs, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { collection, getDocs, addDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 //import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 
 const firebaseConfig = {
@@ -148,7 +148,7 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
         return false;
     }
     else{
-        const { serverTimestamp } = firebase.firestore.FieldValue;
+        //const { serverTimestamp } = firebase.firestore.FieldValue;
         
         const newUser = {
             userEmail: userEmail,
