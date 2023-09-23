@@ -1,26 +1,17 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, getDocs, addDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-//import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { collection, getDoc, getDocs, addDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 
 const firebaseConfig = {
-
     apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
-  
     authDomain: "sprout-financials.firebaseapp.com",
-  
     databaseURL: "https://sprout-financials-default-rtdb.firebaseio.com",
-  
     projectId: "sprout-financials",
-  
     storageBucket: "sprout-financials.appspot.com",
-  
     messagingSenderId: "864423850272",
-  
     appId: "1:864423850272:web:725227e1ed9a578ef36745",
-  
     measurementId: "G-Z0E9H5Z16M"
-  
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -42,11 +33,8 @@ console.log("sprout.js loaded!!")
 */
 
 function validatePassword(password) {
-
     var passwordPattern = /^(?=[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()-+=<>?]).{8,}$/;
-
     return passwordPattern.test(password);
-    
 }
 
 /*Right now First Name must:
@@ -54,11 +42,8 @@ function validatePassword(password) {
 --> contain only capital or lower case letters
 */
 function validateFirstName(name) {
-
     var namePattern = /^[A-Za-z]+$/;
-
     return namePattern.test(name);
-
 }
 
 /*Right now Last Name must:
@@ -66,11 +51,8 @@ function validateFirstName(name) {
 --> contain only capital or lower case letters or spaces
 */
 function validateLastName(name) {
-
     var namePattern = /^[A-Za-z ]+$/;
-
     return namePattern.test(name);
-
 }
 
 /*Right now Dates must:
@@ -78,24 +60,18 @@ function validateLastName(name) {
 */
 
 function validateDate(date) {
-
     var datePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-    
     return datePattern.test(date);
-
 }
 
 
 function validateAddress(address) {
-
     var addressPattern = /^[A-Za-z0-9\s.,'-]+$/;
-
     return addressPattern.test(address);
 }
 
 function validateEmail(email) {
     var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
     return emailPattern.test(email);
 }
 
@@ -148,27 +124,72 @@ document.getElementById("login_form").addEventListener("submit", function (e) {
         return false;
     }
     else{
-        const date = new Date();
-        let month = String(date.getMonth()+1).padStart(2,"0");
-        let year = String(date.getFullYear()).slice(2);
-
-        const newUser = {
-            userEmail: userEmail,
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
-            DOB : dateOfBirth,
-            password: password,
-            createdAt: serverTimestamp(),
-            username: firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year
+        try{
+            //Ideally this date would be populating from the server timestamp, not the client-side date - TBD IN FUTURE UPDATE
+            const date = new Date();
+            let month = String(date.getMonth()+1).padStart(2,"0");
+            let year = String(date.getFullYear()).slice(2);
+            
+            let userNameCount = testUsername(firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year);
+           
+            if(userNameCount > 0){
+                let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year + userNameCount;
+            }
+            else{
+                let username = firstName.slice(0,1).toLowerCase() + lastName.toLowerCase() + month + year;
+            }
+            
+            const newUser = {
+                userEmail: userEmail,
+                firstName: firstName,
+                lastName: lastName,
+                address: address,
+                DOB : dateOfBirth,
+                password: password,
+                createdAt: serverTimestamp(),
+                username: username;
+            }
+            
+            emailAlreadyInUse = testUserEmail(userEmail);
+            
+            if(!emailAlreadyInUse){
+                addDoc(newUserRequest, newUser, username);
+                console.log('New user request added successfully!');
+            } else{ 
+                alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
+                console.log('User email already in use.');
+            }
+        } catch(error) {
+            console.log(error)
         }
-
-        addDoc(newUserRequest, newUser);
-        console.log('Document added or updated successfully!');
     }
     
     return true;
 })
+
+async function testUserEmail(testEmail){
+    const query = await getCountFromServer(newUserRequest.where('UserEmail', '==', testEmail));
+    
+    if (!query.empty) {
+        exists = true;
+    } else {
+        exists = false;
+    }
+
+    return exists;
+}
+
+async function testUserName(testUsername){
+    const docCheck = await getDoc(doc(db, newUserRequest, username);
+    
+    if (!query.empty) {
+        count = query.data().count;
+    } else {
+        count = 0;
+    }
+
+    return count;
+}
 
 function testValidationFunctions() {
     console.log("code reached here!!");
@@ -183,10 +204,10 @@ function testValidationFunctions() {
     // See if its working
     if (validateEmail(userEmail)) {
         console.log("User Email: " + userEmail);
-        console.log("email is Valid");
+        console.log("Email is Valid");
     } else {
         console.log("User Email: " + userEmail);
-        console.log("!!!!!email is NOT Valid!!!!");
+        console.log("!!!!!Email is NOT Valid!!!!");
     }
 
     if (validateFirstName(firstName)) {
@@ -226,7 +247,7 @@ function testValidationFunctions() {
         console.log("password is Valid");
     } else {
         console.log("Password: " + password);
-        console.log("!!!!!password NOT Valid!!!!");
+        console.log("!!!!!Password NOT Valid!!!!");
     }
 
     
