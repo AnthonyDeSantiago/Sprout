@@ -155,11 +155,11 @@ document.getElementById("login_form").addEventListener("submit", async function 
                     // ..
                 });
 
-            const user = auth.currentUser;
+            /*const user = auth.currentUser;
             const uid = user.uid;
             console.log("UID = " + uid);
             
-            /*updateProfile(auth.currentUser, {
+            updateProfile(auth.currentUser, {
               displayName: String(firstName + " " + lastName), photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
               console.log("Profile updated");
@@ -168,7 +168,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
             }).catch((error) => {
               // An error occurred
               // ...
-            });*/
+            });
             
             const newUser = {
                 userEmail: userEmail,
@@ -187,7 +187,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         } else{ 
             alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
             console.log('User email already in use.');
-        }
+        }*/ 
     } catch(error) {
         console.log(error)
     }
