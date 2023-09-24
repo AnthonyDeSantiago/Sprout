@@ -155,12 +155,12 @@ document.getElementById("login_form").addEventListener("submit", async function 
                     // ..
                 });
 
-            //const user = auth.currentUser;
+            const user = auth.currentUser;
             const uid = user.uid;
             console.log("UID = " + uid);
             
-            updateProfile(auth.currentUser, {
-              displayName: String(firstName + " " + lastName), /*photoURL: "https://example.com/jane-q-user/profile.jpg"*/
+            /*updateProfile(auth.currentUser, {
+              displayName: String(firstName + " " + lastName), photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
               console.log("Profile updated");
                 // Profile updated!
@@ -168,7 +168,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
             }).catch((error) => {
               // An error occurred
               // ...
-            });
+            });*/
             
             const newUser = {
                 userEmail: userEmail,
