@@ -22,7 +22,7 @@ const auth = getAuth();
 
 console.log("signin.js loaded")
 
-document.getElementById("login_form").addEventListener("submit", async function (e) {
+document.getElementById("main_form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     //var username = document.getElementById("username").value;
