@@ -52,7 +52,7 @@
 
                 <div class="form-control">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="new_user_form_field" placeholder="Enter Password">
+                    <input type="text" name="password" id="password" class="new_user_form_field" placeholder="Enter Password">
                     <small>Error Message</small>
                 </div>
                 
@@ -74,30 +74,42 @@
 
                 </div>
 
-                <div class="drop_down_list">
-                    <div class="selector">
-                        <label for="security_question" class= "dropdown_list_SQ"> 
-                            Security Questions
-                        </label>
-                        <select name ="questions" class = "question_select"> 
-                            <option value="--Choose a question"></option>
-                            <option value="What's the name of your Best Friend?">What's the name of your Best Friend?</option>
-                            <option value="Where were you born?">Where were you born?</option>
-                            <option value="What is the name of your favorite pet?">What is the name of your favorite pet?</option>
-                            <option value="What high school did you attend?">What high school did you attend?</option>
-                            <option value="What is your favorite food?">What is your favorite food?</option>
-                        </select>
+                
+                <label for="security_question" class= "dropdown_list_SQ"> 
+                    Security Questions
+                </label>
+                <select name ="questions" class = "question_select"> 
+                    <option value="--Choose a question"></option>
+                    <option value="What's the name of your Best Friend?">What's the name of your Best Friend?</option>
+                    <option value="Where were you born?">Where were you born?</option>
+                    <option value="What is the name of your favorite pet?">What is the name of your favorite pet?</option>
+                    <option value="What high school did you attend?">What high school did you attend?</option>
+                    <option value="What is your favorite food?">What is your favorite food?</option>
+                </select>
 
-                        <select name ="questions" class = "question_select"> 
-                            <option value="--Choose a question"></option>
-                            <option value="What's the name of your Best Friend?">What's the name of your Best Friend?</option>
-                            <option value="Where were you born?">Where were you born?</option>
-                            <option value="What is the name of your favorite pet?">What is the name of your favorite pet?</option>
-                            <option value="What high school did you attend?">What high school did you attend?</option>
-                            <option value="What is your favorite food?">What is your favorite food?</option>
-                        </select>
-                    </div>
+                <div class="form-control">
+                    <label for="question1">Enter Answer</label>
+                    <input type="text" name="question1" id="question1" class="new_user_form_field" placeholder="Enter Answer">
+                    <small>Error Message</small>
                 </div>
+
+                <select name ="questions" class = "question_select"> 
+                    <option value="--Choose a question"></option>
+                    <option value="What's the name of your Best Friend?">What's the name of your Best Friend?</option>
+                    <option value="Where were you born?">Where were you born?</option>
+                    <option value="What is the name of your favorite pet?">What is the name of your favorite pet?</option>
+                    <option value="What high school did you attend?">What high school did you attend?</option>
+                    <option value="What is your favorite food?">What is your favorite food?</option>
+                </select>
+
+                <div class="form-control">
+                    <label for="question2">Enter Answer</label>
+                    <input type="text" name="question2" id="question2" class="new_user_form_field" placeholder="Enter Answer">
+                    <small>Error Message</small>
+                </div>
+
+                    
+                
                 <!--I put the button in the form hope thats ok-->   
                 <button class="new_user_submit_form" type="submit">Submit</button>
             </form>
