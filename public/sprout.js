@@ -143,6 +143,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
         console.log("emailAlreadyInUse = "+ emailAlreadyInUse);
         
         if(!emailAlreadyInUse){
+            /*
             await createUserWithEmailAndPassword(auth, userEmail, password)
                 .then((userCredential) => {
                     // Signed in 
@@ -154,8 +155,8 @@ document.getElementById("login_form").addEventListener("submit", async function 
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     // ..
-                });
-        }
+                });*/
+    
             /*const user = auth.currentUser;
             const uid = user.uid;
             console.log("UID = " + uid);
@@ -169,7 +170,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
             }).catch((error) => {
               // An error occurred
               // ...
-            });
+            });*/
             
             const newUser = {
                 userEmail: userEmail,
@@ -182,7 +183,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
                 username: username
             }
             
-            await setDoc(doc(db, 'new_user_requests', uid.toString()),  newUser);
+            await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
             console.log('New user request for added successfully!');
 
         } else{ 
