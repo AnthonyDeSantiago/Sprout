@@ -78,47 +78,84 @@ function validateEmail(email) {
     return emailPattern.test(email);
 }
 
-
+function showError(input, message) {
+    const formControl = input.parentElement;
+    formControl.className = "form-control error";
+    const small = formControl.querySelector('small');
+    small.innerText = message
+}
 
 document.getElementById("new_user_form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    var userEmail = document.getElementById("user_email").value;
-    var firstName = document.getElementById("first_name").value;
-    var lastName = document.getElementById("last_name").value;
-    var address = document.getElementById("address").value;
-    var dateOfBirth = document.getElementById("dateofbirth").value;
-    var password = document.getElementById("password").value;
+    const userEmailElement = document.getElementById("user_email");
+    const firstNameElement = document.getElementById("first_name");
+    const lastNameElement = document.getElementById("last_name");
+    const dateOfBirthElement = document.getElementById("dateofbirth");
+    const addressElement = document.getElementById("address");
+    const passwordElement = document.getElementById("password");
+
+    var userEmail = userEmailElement.value;
+    var firstName = firstNameElement.value;
+    var lastName = lastNameElement.value;
+    var address = addressElement.value;
+    var dateOfBirth = dateOfBirthElement.value;
+    var password = passwordElement.value;
     
     var isValid = true;
 
     if (!validateEmail(userEmail)) {
-        alert("Invalid email address");
+        var errorMessage = 'Please enter a valid email address'
+        if (userEmail == '') {
+            errorMessage = "Please enter an email address."
+        }
+        showError(userEmailElement, errorMessage)
         isValid = false;
     }
 
     if (!validateFirstName(firstName)) {
-        alert("Invalid first name");
+        var errorMessage = 'First name must be only letters and contain no spaces'
+        if (firstName == '') {
+            errorMessage = "Please enter a first name."
+        }
+        showError(firstNameElement, errorMessage);
         isValid = false;
     }
 
     if (!validateLastName(lastName)) {
-        alert("Invalid last name");
+        var errorMessage = 'Last name must be only letters'
+        if (lastName == '') {
+            errorMessage = "Please enter a last name."
+        }
+        showError(lastNameElement, errorMessage);
         isValid = false;
     }
 
     if (!validateAddress(address)) {
-        alert("Invalid address");
+        var errorMessage = 'Please enter a valid address'
+        if (address == '') {
+            errorMessage = 'Please enter an address'
+        }
+        showError(addressElement, errorMessage)
         isValid = false;
     }
 
     if (!validateDate(dateOfBirth)) {
-        alert("Invalid date of birth");
+        var errorMessage = 'Date of birth must be in MM/DD/YYYY format'
+        if (dateOfBirth == '') {
+            errorMessage = "Please enter a date of birth."
+        }
+        showError(dateOfBirthElement, errorMessage);
         isValid = false;
     }
 
     if (!validatePassword(password)) {
-        alert("Invalid password");
+        var errorMessage = 'Passwords must be at least 8 characters, start with a letter, and contain a number and a special character'
+        if (password == '') {
+            errorMessage = "Please enter a password."
+        }
+        
+        showError(passwordElement, errorMessage);
         isValid = false;
     }
 
