@@ -52,7 +52,7 @@ body{
     padding-right: -10%;
     
 }
-
+/*New User Form starts here*/
 #new_user_form {
     display: grid;
     justify-items: center;
@@ -96,6 +96,8 @@ body{
     
     visibility: hidden;
 }
+/*End of New user Form*/
+
 
 .form-control.error small {
     color: var(--error-color);
