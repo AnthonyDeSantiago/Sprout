@@ -147,6 +147,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
+                    console.log("user = " + user);
                     // ...
                 })
                 .catch((error) => {
@@ -154,7 +155,7 @@ document.getElementById("login_form").addEventListener("submit", async function 
                     const errorMessage = error.message;
                     // ..
                 });
-
+        }
             /*const user = auth.currentUser;
             const uid = user.uid;
             console.log("UID = " + uid);
