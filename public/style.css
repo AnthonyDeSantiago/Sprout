@@ -49,6 +49,54 @@ body{
     
 }
 
+#new_user_form {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width:100%;    
+    margin-top: 10%;
+}
+
+.form-control {
+    margin-bottom: 1%;
+    padding-bottom: 1%;
+    position: relative;
+}
+
+.form-control label {
+    color: #444444;
+    display: block;
+    margin-bottom: 1%;
+    font-size: x-large;
+}
+
+.form-control input {
+    border: 2px solid #6d6d6d;
+    border-radius: 4px;
+    display: block;
+    margin-bottom: 1%;
+    width: 100%;
+    padding: 2%
+}
+
+.form-control input:focus {
+    outline: 0;
+    border-color: #161616;
+}
+
+.form-control.error input {
+    border-color: var(--error-color);
+}
+
+.form-control small {
+    color: var(--error-color);
+    visibility: hidden;
+}
+
+.form-control.error small {
+    visibility: visible;
+}
+
 /* control the loginbox position */
 #login_form{
     display: grid;
