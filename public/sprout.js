@@ -96,6 +96,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
     const passwordElement = document.getElementById("password");
     const answer1Element = document.getElementById("answer1");
     const answer2Element = document.getElementById("answer2");
+    const question1Element = document.getElementById('question1_selected');
+    const question2Element = document.getElementById("question2_selected");
 
     var userEmail = userEmailElement.value;
     var firstName = firstNameElement.value;
@@ -105,6 +107,11 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
     var password = passwordElement.value;
     var answer1 = answer1Element.value;
     var answer2 = answer2Element.value;
+    var question1 = question1Element.value;
+    var question2 = question2Element.value;
+
+    console.log("Question 1: " + question1);
+    console.log("Question 2: " + question2);
     
     var isValid = true;
 
