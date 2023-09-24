@@ -94,8 +94,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
     const dateOfBirthElement = document.getElementById("dateofbirth");
     const addressElement = document.getElementById("address");
     const passwordElement = document.getElementById("password");
-    const question1Element = document.getElementById("question1");
-    const question2Element = document.getElementById("question2");
+    const answer1Element = document.getElementById("answer1");
+    const answer2Element = document.getElementById("answer2");
 
     var userEmail = userEmailElement.value;
     var firstName = firstNameElement.value;
@@ -103,8 +103,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
     var address = addressElement.value;
     var dateOfBirth = dateOfBirthElement.value;
     var password = passwordElement.value;
-    var question1 = question1Element.value;
-    var question2 = question2Element.value;
+    var answer1 = answer1Element.value;
+    var answer2 = answer2Element.value;
     
     var isValid = true;
 
@@ -163,14 +163,16 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         isValid = false;
     }
 
-    if (question1 == '') {
+    if (answer1 == '') {
         var errorMessage = 'Please enter an answer.';
-        showError(question1Element, errorMessage);
+        showError(answer1Element, errorMessage);
+        isValid = false;
     }
 
-    if (question2 == '') {
+    if (answer2 == '') {
         var errorMessage = 'Please enter an answer';
-        showError(question2Element, errorMessage);
+        showError(answer2Element, errorMessage);
+        isValid = false;
     }
 
     
