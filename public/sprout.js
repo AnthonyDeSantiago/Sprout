@@ -240,11 +240,16 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 userEmail: userEmail,
                 firstName: firstName,
                 lastName: lastName,
-                address: address,
-                DOB : dateOfBirth,
+                username: username,
                 password: password,
-                createdAt: serverTimestamp(),
-                username: username
+                passwordCreatedAt: serverTimestamp(),
+                question1: question1,
+                answer1: answer1,
+                question2: question2,
+                answer2: answer2,
+                address: address,
+                DOB: dateOfBirth,
+                userCreatedAt: serverTimestamp()
             }
             
             await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
