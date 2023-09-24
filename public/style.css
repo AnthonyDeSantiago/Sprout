@@ -1,3 +1,7 @@
+:root {
+    --error-color: #e74c3c;
+
+}
 /* full page */
 html{
     height: 100%;
@@ -89,11 +93,12 @@ body{
 }
 
 .form-control small {
-    color: var(--error-color);
+    
     visibility: hidden;
 }
 
 .form-control.error small {
+    color: var(--error-color);
     visibility: visible;
 }
 
