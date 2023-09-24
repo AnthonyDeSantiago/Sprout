@@ -80,7 +80,7 @@ function validateEmail(email) {
 
 
 
-document.getElementById("login_form").addEventListener("submit", async function (e) {
+document.getElementById("new_user_form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     var userEmail = document.getElementById("user_email").value;
