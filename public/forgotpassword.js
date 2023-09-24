@@ -24,9 +24,14 @@ document.getElementById("password_form").addEventListener("submit", async functi
 
     const userEmailElement = document.getElementById("user_email");
     const userNameElement = document.getElementById("username");
+    const answer1Element = document.getElementById("answer1");
+    const answer2Element = document.getElementById("answer2");
+
 
     var userEmail = userEmailElement.value;
     var username = userNameElement.value;
+    var answer1 = answer1Element.value;
+    var answer2 = answer2Element.value;
 
     var isValid = true;
 
@@ -39,6 +44,18 @@ document.getElementById("password_form").addEventListener("submit", async functi
     if (username == '') {
         var errorMessage = "Please enter a username.";
         showError(userNameElement, errorMessage);
+        isValid = false;
+    }
+
+    if (answer1 == '') {
+        var errorMessage = "Please enter an answer.";
+        showError(answer1Element, errorMessage);
+        isValid = false;
+    }
+
+    if (answer2 == '') {
+        var errorMessage = "Please enter an answer.";
+        showError(answer2Element, errorMessage);
         isValid = false;
     }
 
