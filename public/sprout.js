@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
@@ -15,7 +16,9 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const newUserRequest = collection(db, 'new_user_requests')
+const newUserRequest = collection(db, 'new_user_requests');
+const users = collection(db, 'users');
+const auth = getAuth();
 
 /* changes the placeholder picture to whatever you picked in the Sign up Function */
 let profilePicture = document.getElementById("blank_choose_ur_pic");
@@ -135,24 +138,52 @@ document.getElementById("login_form").addEventListener("submit", async function 
         
         let username = await generateUsername(firstName, lastName, month, day, year);
         console.log("username = " + username);
-        
-        const newUser = {
-            userEmail: userEmail,
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
-            DOB : dateOfBirth,
-            password: password,
-            createdAt: serverTimestamp(),
-            username: username
-        }
             
         let emailAlreadyInUse = await testUserEmail(userEmail);
         console.log("emailAlreadyInUse = "+ emailAlreadyInUse);
         
         if(!emailAlreadyInUse){
-            await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
-            console.log('New user request added successfully!');
+            await createUserWithEmailAndPassword(auth, userEmail, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                });
+
+            //const user = auth.currentUser;
+            const uid = user.uid;
+            console.log("UID = " + uid);
+            
+            updateProfile(auth.currentUser, {
+              displayName: String(firstName + " " + lastName), /*photoURL: "https://example.com/jane-q-user/profile.jpg"*/
+            }).then(() => {
+              console.log("Profile updated");
+                // Profile updated!
+              // ...
+            }).catch((error) => {
+              // An error occurred
+              // ...
+            });
+            
+            const newUser = {
+                userEmail: userEmail,
+                firstName: firstName,
+                lastName: lastName,
+                address: address,
+                DOB : dateOfBirth,
+                password: password,
+                createdAt: serverTimestamp(),
+                username: username
+            }
+            
+            await setDoc(doc(db, 'new_user_requests', uid.toString()),  newUser);
+            console.log('New user request for added successfully!');
+
         } else{ 
             alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
             console.log('User email already in use.');
@@ -184,7 +215,7 @@ async function generateUsername(firstName, lastName, month, day, year){
 //BULKY, CAN BE REDUCED IN THE FUTURE - TBD
 async function testUserEmail(testEmail){
     testEmail = testEmail.toString();
-    const q = query(newUserRequest, where('userEmail', '==', testEmail));
+    const q = query(users, where('userEmail', '==', testEmail));
     const checkEmail = await getDocs(q);
     let count = 0;
     checkEmail.forEach((doc) => {
@@ -198,15 +229,29 @@ async function testUserEmail(testEmail){
     }
 }
 
+//BULKY, CAN BE REDUCED IN THE FUTURE - TBD
 async function testUserName(testUsername){
     testUsername = testUsername.toString();
-    const docRef = doc(db, 'new_user_requests', testUsername);
+    const docRef = query(users, where('username', '==', testUsername));
+    const docCheck = await getDocs(docRef);
+    let count = 0;
+    checkEmail.forEach((doc) => {
+        count += 1;
+    });
+    console.log("checkUsername = " + count);
+    if (count > 0){
+        return true;
+    } else{
+        return false;
+    }
+    /*testUsername = testUsername.toString();
+    const docRef = doc(db, 'usre', testUsername);
     const docCheck = await getDoc(docRef);
     if (docCheck.exists()){
         return true;
     } else{
         return false;
-    }
+    }*/
 }
 
 function testValidationFunctions() {
