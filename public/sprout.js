@@ -189,7 +189,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         } else{ 
             alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
             console.log('User email already in use.');
-        }*/ 
+        }
     } catch(error) {
         console.log(error)
     }
