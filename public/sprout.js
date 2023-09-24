@@ -85,6 +85,10 @@ function showError(input, message) {
     small.innerText = message
 }
 
+document.getElementById("password_form").addEventListener("submit", async function (e) {
+    console.log("button was pressed")
+});
+
 document.getElementById("new_user_form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
