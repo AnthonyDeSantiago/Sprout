@@ -331,12 +331,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadUsers() {
         // Replace this with your Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
-        const usersArray = []
+        const usersArray = [];
         const userDocs = await users.get().then((querySnapshot) => {
-            const tempDoc = []
+            const tempDoc = [];
             querySnapshot.forEach((doc) => {
                 tempDoc.push({ id: doc.id, username: doc.username })
-            })
+            });
+            console.log(tempDoc);
             usersArray = tempDoc;
         })
         //const users = [{ username: "User1" }, { username: "User2" }, /* ... */];
@@ -364,14 +365,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // Replace this with your Firebase data retrieval logic
         // You may want to fetch data for the specific user by their username
         // and populate the extended table with the unknown columns
-        const userData = []
+        const userData = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
-            const tempDoc = []
-            tempDoc.push({ id: doc.id, ...doc.data() })
+            const tempDoc = [];
+            tempDoc.push({ id: doc.id, ...doc.data() });
             userData = tempDoc;
         })
+        console.log(userData);
         // For demonstration purposes, let's assume the data is available in an array
         /*const userData = [
             { column1: "Value1", column2: "Value2", column3: "Value3", column4: "Value4" },
