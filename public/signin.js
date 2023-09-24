@@ -22,6 +22,21 @@ const auth = getAuth();
 
 console.log("signin.js loaded")
 
+setPersistence(auth, browserSessionPersistence)
+  .then(() => {
+    // Existing and future Auth states are now persisted in the current
+    // session only. Closing the window would clear any existing state even
+    // if a user forgets to sign out.
+    // ...
+    // New sign-in will be persisted with session persistence.
+    return signInWithEmailAndPassword(auth, email, password);
+  })
+  .catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+
 document.getElementById("main_form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -44,7 +59,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
           const errorMessage = error.message;
         });
 });
-
+/*
 onAuthStateChanged(auth, (user) => {
     if (user) {
         // User is signed in, see docs for a list of available properties
@@ -58,7 +73,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-/*
+
 const user = auth.currentUser;
 
 if (user) {
