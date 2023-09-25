@@ -76,7 +76,8 @@ async function fetchUser(username/*, userEmail*/){
             });
             userData = tempDoc;
         })
-        console.log("User data = " + userData);
+        userStr = JSON.stringify(userData, null, 4);
+        console.log("User data = " + userStr);
         //if(userData.userEmail == userEmail){
         return userData;
         //} else {
