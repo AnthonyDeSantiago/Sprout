@@ -99,6 +99,8 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
     var userEmail = userEmailElement.value;
     var username = userNameElement.value;
     const user = await fetchUser(username);
+    var userStr = JSON.stringify(user, null, 4);
+    console.log("User data = " + userStr);
     console.log(user.question1);
     console.log(user.question2);
     
@@ -117,6 +119,8 @@ document.getElementById("password_form").addEventListener("submit", async functi
     e.preventDefault();
     console.log("button is pressed");
     const user = await fetchUser(username);
+    var userStr = JSON.stringify(user, null, 4);
+    console.log("User data = " + userStr);
 
     const userEmailElement = document.getElementById("user_email");
     const userNameElement = document.getElementById("username");
