@@ -82,9 +82,13 @@ async function fetchUser(username){
         
 }
 
-document.getElementById("password_form").addEventListener("user_id", async function (e) {
+document.getElementById("question1").addEventListener("click", async function (e) {
     e.preventDefault();
     console.log("username is entered");
+    const userEmailElement = document.getElementById("user_email");
+    const userNameElement = document.getElementById("username");
+    var userEmail = userEmailElement.value;
+    var username = userNameElement.value;
     user = await fetchUser(username);
     
     const question1 = user.question1;
