@@ -80,17 +80,24 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         //REMOVE CREATED AT VARIABLES IN FUTURE, WILL NEED THEM TO BE IN USERDATA ARRAY
         //Remove password information from user info before writing to the table
-        const userData = readUser.map(({ password, passwordCreatedAt, userCreatedAt, question1, question2, answer1, answer2, ...rest }) => rest);
+        const userData = readUser.map(({ password, question1, question2, answer1, answer2, ...rest }) => rest);
         console.log(userData);
 
         const extendedTableHtml = `
             <table>
                 <thead>
                     <tr>
-                        <th>Column 1</th>
-                        <th>Column 2</th>
-                        <th>Column 3</th>
-                        <th>Column 4</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Approved</th>
+                        <th>Role</th>
+                        <th>E-mail</th>
+                        <th>Address</th>
+                        <th>DOB</th>
+                        <th>Password Last Created</th>
+                        <th>User Created</th>
+                        <th>User ID</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,10 +105,17 @@ document.addEventListener("DOMContentLoaded", async function () {
                         .map(
                             (data) => `
                         <tr>
-                            <td>${data.column1}</td>
-                            <td>${data.column2}</td>
-                            <td>${data.column3}</td>
-                            <td>${data.column4}</td>
+                            <td>${data.firstName}</td>
+                            <td>${data.lastName}</td>
+                            <td>${data.username}</td>
+                            <td>${data.approved}</td>
+                            <td>${data.role}</td>
+                            <td>${data.userEmail}</td>
+                            <td>${data.address}</td>
+                            <td>${data.DOB}</td>
+                            <td>${data.passwordCreatedAt}</td>
+                            <td>${data.userCreatedAt}</td>
+                            <td>${data.id}</td>
                         </tr>
                     `
                         )
