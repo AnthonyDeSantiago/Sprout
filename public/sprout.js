@@ -26,6 +26,3 @@ let inputFile = document.getElementById("input_file");
 inputFile.onchange = function(){
     profilePicture.src = URL.createObjectURL(inputFile.files[0]);
 }
-    
-    return true;
-}
