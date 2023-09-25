@@ -81,7 +81,7 @@ async function fetchUser(username){
         
 }
 
-document.getElementById("question1").addEventListener("click", async function (e) {
+document.getElementById("answer1").addEventListener("click", async function (e) {
     e.preventDefault();
     console.log("username is entered");
     const userEmailElement = document.getElementById("user_email");
