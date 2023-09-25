@@ -388,3 +388,10 @@ function testValidationFunctions() {
     
     return true;
 }
+
+//shows the picked image in the "Upload Image"
+let profilePicture = document.getElementById("blank_choose_ur_pic");
+let inputFile = document.getElementById("input_file");
+inputFile.onchange = function(){
+    profilePicture.src = URL.createObjectURL(inputFile.files[0]);
+}

@@ -7,6 +7,14 @@ html{
     height: 100%;
 }
 
+.login_bg{
+    background-image: url("asset/bg.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 1950px;
+    background-position: center;
+}
+
 /* controls the top left profile pic */
 #blank{
     width: 3%;
@@ -32,9 +40,11 @@ html{
 body{
     margin: 0;
     font-family: system-ui;
-    background-image: url("asset/bg.jpg");
-    background-size: cover;
     background-color:rgb(19, 117, 71);
+}
+
+div{
+    padding: 1%;
 }
 
 /* controls the box in main  */
@@ -42,29 +52,27 @@ body{
     display: grid;
     justify-items: center;
     align-items: center;
-    background-color: gainsboro;
+    background-color: white;
     width: 35%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 9%;
+    margin-bottom: 21.5%;
     border-radius: 1%;
-    padding-left: -10%;
-    padding-right: -10%;
-    
+
 }
 /*New User Form starts here*/
 #new_user_form {
     display: grid;
     justify-items: center;
     align-items: center;
-    width:100%;    
-    margin-top: 10%;
+    margin-top: 10%; 
 }
 
 .form-control {
     margin-bottom: 1%;
     padding-bottom: 1%;
     position: relative;
+
 }
 
 .form-control label {
@@ -109,6 +117,7 @@ body{
     align-items: center;
     width:100%;    
     margin-top: 10%;
+    
 }
 
 .form-control {
@@ -164,7 +173,7 @@ body{
 
 /* controls the textbox */
 .login_form_field{
-    background-color: gainsboro;
+    background-color: white;
     display: inline-block;
     align-items: center;
     font-size: 150%;
@@ -178,7 +187,7 @@ body{
 
 /* color of the text box when not in use*/
 .login_form_field::placeholder{
-    background-color: gainsboro;
+    background-color: white;
 }
 
 
@@ -186,7 +195,7 @@ body{
 .login_submit_form{
     background-color: rgb(19, 117, 71);
     display: inline-block;
-    color: gainsboro;
+    color: white;
     font-size: 200%;
     border-radius: 5%;
     outline: none;
@@ -210,7 +219,7 @@ body{
     display: grid;
     justify-items: center;
     align-items: center;
-    background-color: gainsboro;
+    background-color: white;
     width: 23%;
     margin-left: auto;
     margin-right: auto;
@@ -220,7 +229,7 @@ body{
 
 /* control the form in new user */
 .new_user_form_field{
-    background-color: gainsboro;
+    background-color: white;
     display: inline-block;
     align-items: center;
     font-size: 150%;
@@ -284,7 +293,7 @@ body{
     display: block;
     width: 40%;
     background: red;
-    color: gainsboro;
+    color: white;
     padding: 2%;
     margin: 5% auto;
     border-radius: 5%;
@@ -300,7 +309,7 @@ input{
 .new_user_submit_form{
     background-color: rgb(19, 117, 71);
     display: inline-block;
-    color: gainsboro;
+    color: white;
     font-size: 200%;
     border-radius: 5%;
     outline: none;
@@ -337,7 +346,7 @@ input{
     display: grid;
     justify-items: center;
     align-items: center;
-    background-color: gainsboro;
+    background-color: white;
     width: 25%;
     margin-left: auto;
     margin-right: auto;
@@ -348,14 +357,13 @@ input{
 
 /* control the form of forgot password */
 .forgot_password_form{
-    background-color: gainsboro;
+    background-color: white;
     display: inline-block;
     align-items: center;
     font-size: 200%;
     height: 10%;
     width: 50%;
     border-radius: 1%; 
-    padding: 3% 5% 3% 5%;
     margin-bottom: -4%;
     outline: 0;
 }
@@ -364,14 +372,13 @@ input{
 .password_submit_form{
     background-color: rgb(19, 117, 71);
     display: inline-block;
-    color: gainsboro;
+    color: white;
     font-size: 200%;
     border-radius: 5%;
     outline: none;
     border: none;
-    width: 100%;
-    margin-top: 40%;
-    margin-bottom: 40%;
+    margin-top: 0%;
+    margin-bottom: 10%;
 }
 
 /* control the form position */
@@ -383,7 +390,7 @@ input{
 
 /* color of the text box when not in use*/
 .recover_password_form::placeholder{
-    color: gainsboro;
+    color: white;
 }
 
 .dropdown_list_FP{
