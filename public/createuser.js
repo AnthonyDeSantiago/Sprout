@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
-const auth = getAuth();
+const auth = getAuth(app);
 
 console.log("createuser.js loaded!!")
 /*Passwords must be:
