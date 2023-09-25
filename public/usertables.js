@@ -80,7 +80,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         //REMOVE CREATED AT VARIABLES IN FUTURE, WILL NEED THEM TO BE IN USERDATA ARRAY
         //Remove password information from user info before writing to the table
-        const userData = readUser.map(({ password, question1, question2, answer1, answer2, ...rest }) => rest);
+        const tempUser = readUser.map(({ password, question1, question2, answer1, answer2, ...rest }) => rest);
+        const userData = tempUser[0];
         console.log(userData);
 
         const extendedTableHtml = `
