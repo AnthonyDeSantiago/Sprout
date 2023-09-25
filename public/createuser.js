@@ -247,15 +247,15 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 answer2: answer2,
                 address: address,
                 DOB: dateOfBirth,
-                role: blank,
-                approved: blank,
+                role: "blank",
+                approved: "blank",
                 userCreatedAt: serverTimestamp()
             }
 
             //temp to fill user database
             await setDoc(doc(db, 'users', username.toString()),  newUser);
             //await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
-            console.log('New user request for added successfully!');
+            console.log('New user request added successfully!');
 
         } else{ 
             alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
