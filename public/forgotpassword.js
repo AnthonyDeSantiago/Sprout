@@ -69,15 +69,10 @@ async function fetchUser(username/*, userEmail*/){
         username = username.toString();
         //userEmail = userEmail.toString();
         const q = query(users, where('username', '==', username));
-        const getUsers = await getDocs(q).then((querySnapshot) => {
-            const tempDoc = [];
-            querySnapshot.forEach((doc) => {
-                tempDoc.push({ id: doc.id, ...doc.data() });
-            });
-            userData = tempDoc;
-        })
+        const getUser = await getDoc(q);
+        console.log("User data = " + getUser.data());
         //if(userData.userEmail == userEmail){
-        return userData;
+        return getUser;
         //} else {
         //    console.log("userData error, userData = " + userData);
         //    return false;
