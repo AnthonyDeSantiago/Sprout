@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const userDocs = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
+                console.log(JSON.stringify(doc, null, 4));
                 tempDoc.push({ id: doc.id, username: doc.username })
             });
             console.log(tempDoc);
