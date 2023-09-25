@@ -20,26 +20,50 @@ const users = collection(db, 'users')
 
 const auth = getAuth();
 
-console.log("signin.js loaded")
+console.log("signin.js has loaded!!!");
 
-setPersistence(auth, browserSessionPersistence)
-  .then(() => {
-    // Existing and future Auth states are now persisted in the current
-    // session only. Closing the window would clear any existing state even
-    // if a user forgets to sign out.
-    // ...
-    // New sign-in will be persisted with session persistence.
-    return signInWithEmailAndPassword(auth, email, password);
-  })
-  .catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
+
+// setPersistence(auth, browserSessionPersistence)
+//   .then(() => {
+//     // Existing and future Auth states are now persisted in the current
+//     // session only. Closing the window would clear any existing state even
+//     // if a user forgets to sign out.
+//     // ...
+//     // New sign-in will be persisted with session persistence.
+//     return signInWithEmailAndPassword(auth, email, password);
+//   })
+//   .catch((error) => {
+//     // Handle Errors here.
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//   });
+
+/*
+  Testing if the user exists first
+*/
+function checkIfUserExists(username) {
+  const docRef = doc(users, username);
+  getDoc(docRef)
+    .then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        console.log('Document exists:', docSnapshot.data());
+        return true;
+      } else {
+        console.log('Document does not exist.');
+        return false;
+      }
+    })
+    .catch((error) => {
+      console.error('Error checking document existence: ', error);
+      return false;
+    });
+}
+
+
 
 document.getElementById("main_form").addEventListener("submit", async function (e) {
     e.preventDefault();
-
+    
     //var username = document.getElementById("username").value;
     var email = document.getElementById("username").value;
     var password = document.getElementById("password").value;
