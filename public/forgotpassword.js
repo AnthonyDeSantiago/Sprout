@@ -64,6 +64,7 @@ async function validateNewPassword(password, user){
 }
 
 async function fetchUser(username){
+    try{
         const userData = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));
@@ -78,7 +79,10 @@ async function fetchUser(username){
             console.log("userData error, userData = " + userData);
             return false;
         }
-        
+    } catch(error) {
+        console.log(error)
+    }
+    return false;
 }
 
 document.getElementById("answer1").addEventListener("click", async function (e) {
