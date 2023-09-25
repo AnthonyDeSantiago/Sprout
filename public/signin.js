@@ -40,12 +40,19 @@ console.log("signin.js has loaded!!!");
 
 
 
-
+function showError(input, message) {
+  const formControl = input.parentElement;
+  formControl.className = "form-control error";
+  const small = formControl.querySelector('small');
+  small.innerText = message
+}
 
 
 document.getElementById("main_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     
+    const passwordElement = document.getElementById("password");
+
     var username = document.getElementById("username").value;
     var email = document.getElementById("username").value;
     var password = document.getElementById("password").value;
@@ -62,12 +69,17 @@ document.getElementById("main_form").addEventListener("submit", async function (
       console.log("Passwords did not match!!");
       console.log("password on db: " + userPage.data().password + " typed pswd: " + password);
       
+      var errorMessage = "Password is incorrect!";
+      showError(passwordElement, errorMessage);
+
       var updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
 
       if (updateData.failedPasswordAttempts >= 3) {
         //Suspend the user aka turn db.suspended = true
         updateDoc(docRef, {suspended: true})
           .then(() => {
+            errorMessage = "3 Failed Attempts: Account Suspended";
+            showError(passwordElement, errorMessage);
             console.log('User is now suspended!');
           })
       } else {
