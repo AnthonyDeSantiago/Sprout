@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Replace this with your Firebase data retrieval logic
         // You may want to fetch data for the specific user by their username
         // and populate the extended table with the unknown columns
-        const userData = [];
+        var userData = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
