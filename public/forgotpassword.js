@@ -14,12 +14,15 @@ const firebaseConfig = {
     appId: "1:864423850272:web:725227e1ed9a578ef36745",
     measurementId: "G-Z0E9H5Z16M"
 };
+
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const users = collection(db, 'users');
-const user = await fetchUser(username, userEmail);
 
 console.log("forgotpassword.js has loaded!!!");
+
+const users = collection(db, 'users');
+const user = fetchUser(username, userEmail);
 
 function showError(input, message) {
     const formControl = input.parentElement;
