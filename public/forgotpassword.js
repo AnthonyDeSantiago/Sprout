@@ -70,7 +70,9 @@ async function fetchUser(username){
         const q = query(users, where('username', '==', username));
         const getUsers = (await getDocs(q)).then((querySnapshot) => {
             const tempDoc = [];
-            tempDoc.push({ id: doc.id, ...doc.data() });
+            querySnapshot.forEach((doc) => {
+                tempDoc.push({ id: doc.id, ...doc.data() });
+            });
             userData = tempDoc;
         })
         if(userData.userEmail == userEmail){
