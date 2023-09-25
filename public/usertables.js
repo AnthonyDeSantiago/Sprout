@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         `;
     
         extendedTable.innerHTML = extendedTableHtml;
-        var table = getElementByClass(.extended-table);
+        var table = document.getElementByClass(.extended-table);
         table.style.display = "contents";
     }
     
