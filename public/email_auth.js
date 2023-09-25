@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendSignInLinkToEmail, signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 
 /* const firebaseConfig = initializeApp({
     apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
@@ -21,6 +21,13 @@ const createAccount = async () =>{
     try{
         const userCred = await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
         console.log(userCred.user);
+
+        //email verification
+        await sendEmailVerification(auth.currentUser)
+        .then(()=>{
+        console.log('Email Verfication sent');
+}
+)
     }
     catch(error){
         console.log('there was an error')
@@ -33,11 +40,11 @@ sign_up.addEventListener("click", createAccount);
 
 
 //logging in & prob. switch some value with the user create value
-/* const emailAndPassword = async () =>{
-    const loginEmail = user_email.value;
+const emailAndPassword = async () =>{
+    const username = username.value;
     const loginPassword = password.value;
     try{
-        const logCred = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+        const logCred = await signInWithEmailAndPassword(auth, username, loginPassword);
         console.log(logCred.user);
     }
     catch(error){
@@ -45,7 +52,7 @@ sign_up.addEventListener("click", createAccount);
     }
 }
 
-sign_in.addEventListener("click", emailAndPassword); */
+sign_in.addEventListener("click", emailAndPassword);
 
 
 
@@ -53,32 +60,8 @@ sign_in.addEventListener("click", emailAndPassword); */
 
 
 
-//auth email link NOT WORKING STUFF
-/* const actionCodeSettings ={
-    url: 'https://sprout-financials.firebaseapp.com/__/auth/action?mode=action&oobCode=code',
 
-    handleCodeInApp: true,
-}; */
 
-/* firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
-.then(function(){
-
-})
-.catch(function(error){
-    const errorCode = error.code;
-    const errorMessage = error.message;
-});  */
-
-/* await sendSignInLinkToEmail(auth, loginEmail, actionCodeSettings)
-.then(()=>{
-    console.log('email has been sent');
-    window.localStorage.setItem('emailForSignIn', loginEmail);
-})
-.catch((error)=>{
-    const errorCode = error.code;
-    const errorMessage = error.message;
-});
- */
 
 
 
