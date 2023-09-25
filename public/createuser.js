@@ -252,9 +252,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 userCreatedAt: serverTimestamp()
             }
 
-            //temp to fill user database
-            await setDoc(doc(db, 'users', username.toString()),  newUser);
-            //await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
+
+            await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
             console.log('New user request added successfully!');
 
         } else{ 
