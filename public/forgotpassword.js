@@ -54,7 +54,7 @@ async function validateNewPassword(password, user){
         console.log("has old passwords");
         let oldPasswords = user.oldPasswords;
         oldPasswords.forEach((pass) => {
-            if(String(pass) = String(password)){
+            if(String(pass) == String(password)){
                 console.log("old password used");
                 return false;
             }
