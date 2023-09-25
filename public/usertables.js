@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             // Add a click event to the username cell
             usernameCell.innerText = user.username;
+            console.log(user.username);
             usernameCell.addEventListener("click", () => {
                 showExtendedTable(user.username);
             });
