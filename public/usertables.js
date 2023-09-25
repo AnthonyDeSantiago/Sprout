@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function loadUsers() {
         // Replace this with your Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
-        const usersArray = [];
+        var usersArray = [];
         const q = query(users); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
         const userDocs = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
