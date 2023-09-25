@@ -117,9 +117,6 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
 document.getElementById("password_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     console.log("button is pressed");
-    const user = await fetchUser(username);
-    var userStr = JSON.stringify(user, null, 4);
-    console.log("User data = " + userStr);
 
     const userEmailElement = document.getElementById("user_email");
     const userNameElement = document.getElementById("username");
@@ -132,7 +129,11 @@ document.getElementById("password_form").addEventListener("submit", async functi
     var answer1 = answer1Element.value;
     var answer2 = answer2Element.value;
     var password = passwordElement.value;
-
+    
+    const user = await fetchUser(username);
+    var userStr = JSON.stringify(user, null, 4);
+    console.log("User data password_form listener = " + userStr);
+    
     var isValid = true;
 
     if (userEmail == '') {
@@ -167,7 +168,7 @@ document.getElementById("password_form").addEventListener("submit", async functi
         showError(passwordElement, errorMessage);
         isValid = false;
     }
-    if (!validateNewPassword(password)) {
+    if (!validateNewPassword(password, user)) {
         var errorMessage = 'Passwords used in the past cannot be re-used.'
         if (password == '') {
             errorMessage = "Please enter a password."
