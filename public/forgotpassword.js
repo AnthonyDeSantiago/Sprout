@@ -1,3 +1,5 @@
+console.log("forgotpassword.js has loaded!!!");
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
@@ -18,8 +20,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-console.log("forgotpassword.js has loaded!!!");
 
 const users = collection(db, 'users');
 const user = fetchUser(username, userEmail);
