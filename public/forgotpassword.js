@@ -106,13 +106,13 @@ document.getElementById("password_form").addEventListener("submit", async functi
     const userNameElement = document.getElementById("username");
     const answer1Element = document.getElementById("answer1");
     const answer2Element = document.getElementById("answer2");
-    const answer2Element = document.getElementById("password");
+    const passwordElement = document.getElementById("password");
 
     var userEmail = userEmailElement.value;
     var username = userNameElement.value;
     var answer1 = answer1Element.value;
     var answer2 = answer2Element.value;
-
+    var password = passwordElement.value;
 
     var isValid = true;
 
