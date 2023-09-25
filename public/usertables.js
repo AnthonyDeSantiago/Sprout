@@ -76,14 +76,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 tempDoc.push({ id: doc.id, ...doc.data() });
             });
             readUser = tempDoc;
-        })
-
-        //REMOVE CREATED AT VARIABLES IN FUTURE, WILL NEED THEM TO BE IN USERDATA ARRAY
-        //Remove password information from user info before writing to the table
-        const tempUser = readUser.map(({ password, question1, question2, answer1, answer2, ...rest }) => rest);
-        const userData = tempUser[0];
+        });
+    
+        // Get the user data object
+        const userData = readUser[0];
         console.log(userData);
-
+    
         const extendedTableHtml = `
             <table>
                 <thead>
@@ -103,33 +101,28 @@ document.addEventListener("DOMContentLoaded", async function () {
                     </tr>
                 </thead>
                 <tbody>
-                    ${userData
-                        .map(
-                            (data) => `
-                        <tr>
-                            <td>${data.firstName}</td>
-                            <td>${data.lastName}</td>
-                            <td>${data.username}</td>
-                            <td>${data.approved}</td>
-                            <td>${data.role}</td>
-                            <td>${data.suspended}</td>
-                            <td>${data.userEmail}</td>
-                            <td>${data.address}</td>
-                            <td>${data.DOB}</td>
-                            <td>${data.passwordCreatedAt}</td>
-                            <td>${data.userCreatedAt}</td>
-                            <td>${data.id}</td>
-                        </tr>
-                    `
-                        )
-                        .join("")}
+                    <tr>
+                        <td>${userData.firstName}</td>
+                        <td>${userData.lastName}</td>
+                        <td>${userData.username}</td>
+                        <td>${userData.approved}</td>
+                        <td>${userData.role}</td>
+                        <td>${userData.suspended}</td>
+                        <td>${userData.userEmail}</td>
+                        <td>${userData.address}</td>
+                        <td>${userData.DOB}</td>
+                        <td>${userData.passwordCreatedAt}</td>
+                        <td>${userData.userCreatedAt}</td>
+                        <td>${userData.id}</td>
+                    </tr>
                 </tbody>
             </table>
         `;
-
+    
         extendedTable.innerHTML = extendedTableHtml;
     }
-
+    
     // Load user data when the page loads
     loadUsers();
 });
+
