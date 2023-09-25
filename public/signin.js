@@ -54,7 +54,6 @@ document.getElementById("main_form").addEventListener("submit", async function (
     const docRef = doc(db, 'users', username.toString());
     const userPage = await(getDoc(docRef));
 
-    console.log("answer1: " + userPage.data().answer1);
 
     var isValid = true;
 
@@ -65,35 +64,34 @@ document.getElementById("main_form").addEventListener("submit", async function (
       
       var updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
 
-      // Update the number of incorrect attempts on the db
-      updateDoc(docRef, updateData)
-        .then(() => {
-          console.log('Updated the attemps successfully.');
-        })
-        .catch((error) => {
-          console.error('There was an error updating the attemps: ', error);
-        });
+      if (updateData.failedPasswordAttempts >= 3) {
+        updateDoc(docRef, {suspended: true})
+          .then(() => {
+            console.log('User is now suspended!');
+          })
+      } else {
+        // Update the number of incorrect attempts on the db
+        updateDoc(docRef, updateData)
+          .then(() => {
+            console.log('Updated the attemps successfully.');
+          })
+          .catch((error) => {
+            console.error('There was an error updating the attemps: ', error);
+          });
+      }
+      
       isValid = false;
       
-      
-      // getDoc(docRef)
-      //   .then((docSnapshot) => {
-      //     if (docSnapshot.exists()) {
-
-      //     }
-      //   })
     } else {
       console.log("The passwords matched");
     }
 
+
+
     //Check if user is suspended
     if (userPage.data().suspended) {
-      console.log("The user is suspended");
       isValid = false;
-    } else {
-      console.log("The user is not suspended");
-    }
-
+    } 
 
     
     //var username = document.getElementById("username").value;
