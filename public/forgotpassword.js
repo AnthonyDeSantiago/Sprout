@@ -65,14 +65,15 @@ async function validateNewPassword(password, user){
 
 async function fetchUser(username/*, userEmail*/){
     try{
-        var userData = [];
+        //var userData = [];
         username = username.toString();
         //userEmail = userEmail.toString();
         const q = query(users, where('username', '==', username));
         const getUser = await getDoc(q);
-        console.log("User data = " + getUser.data());
+        const userData = getUser.data();
+        console.log("User data = " + userData);
         //if(userData.userEmail == userEmail){
-        return getUser;
+        return userData;
         //} else {
         //    console.log("userData error, userData = " + userData);
         //    return false;
