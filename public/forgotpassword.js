@@ -22,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const users = collection(db, 'users');
-let user = [];
+//let user = [];
 
 function showError(input, message) {
     const formControl = input.parentElement;
@@ -98,7 +98,9 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
     const userNameElement = document.getElementById("username");
     var userEmail = userEmailElement.value;
     var username = userNameElement.value;
-    user = await fetchUser(username);
+    const user = await fetchUser(username);
+    console.log(user.question1);
+    console.log(user.question2);
     
     const question1 = user.question1;
     const question2 = user.question2;
@@ -114,7 +116,7 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
 document.getElementById("password_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     console.log("button is pressed");
-    user = await fetchUser(username);
+    const user = await fetchUser(username);
 
     const userEmailElement = document.getElementById("user_email");
     const userNameElement = document.getElementById("username");
