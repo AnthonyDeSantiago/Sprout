@@ -201,7 +201,7 @@ document.getElementById("password_form").addEventListener("submit", async functi
     });
             
     console.log('User updated successfully!');
-
+    //TBD
     window.location.href = 'index.html';
     return true;
 });
