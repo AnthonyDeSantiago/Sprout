@@ -66,7 +66,6 @@ async function validateNewPassword(password, user){
 async function fetchUser(username){
         const userData = [];
         username = username.toString();
-        userEmail = userEmail.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
             const tempDoc = [];
