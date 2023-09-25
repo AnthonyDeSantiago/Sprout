@@ -22,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const users = collection(db, 'users');
-const user = fetchUser(username, userEmail);
+let user = [];
 
 function showError(input, message) {
     const formControl = input.parentElement;
@@ -54,7 +54,7 @@ async function validateNewPassword(password, user){
         console.log("has old passwords");
         let oldPasswords = user.oldPasswords;
         oldPasswords.forEach((pass) => {
-            if String(pass) = String(password){
+            if(String(pass) = String(password)){
                 console.log("old password used");
                 return false;
             }
@@ -63,7 +63,7 @@ async function validateNewPassword(password, user){
     return true;
 }
 
-async function fetchUser(username, userEmail){
+async function fetchUser(username){
         const userData = [];
         username = username.toString();
         userEmail = userEmail.toString();
@@ -82,14 +82,18 @@ async function fetchUser(username, userEmail){
         
 }
 
-document.addEventListener("DOMContentLoaded", async function () {
-    console.log("questions are loaded");
+document.getElementById("password_form").addEventListener("user_id", async function (e) {
+    e.preventDefault();
+    console.log("username is entered");
+    user = await fetchUser(username);
+    
     const question1 = user.question1;
     const question2 = user.question2;
     document.getElementById("question1").textcontent=String(question1);
     console.log(question1);
     document.getElementById("question2").textcontent=String(question2);
     console.log(question2);
+    console.log("questions are loaded");
 
     return true;
 });
