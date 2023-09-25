@@ -120,7 +120,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(userEmailElement, errorMessage)
         isValid = false;
     }
-
+    console.log("hit email");
     if (!validateFirstName(firstName)) {
         var errorMessage = 'First name must be only letters and contain no spaces'
         if (firstName == '') {
@@ -129,7 +129,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(firstNameElement, errorMessage);
         isValid = false;
     }
-
+    console.log("hit f name");
     if (!validateLastName(lastName)) {
         var errorMessage = 'Last name must be only letters'
         if (lastName == '') {
@@ -138,7 +138,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(lastNameElement, errorMessage);
         isValid = false;
     }
-
+    console.log("hit l name");
     if (!validateAddress(address)) {
         var errorMessage = 'Please enter a valid address'
         if (address == '') {
@@ -147,6 +147,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(addressElement, errorMessage)
         isValid = false;
     }
+    console.log("hit add");
 
     if (!validateDate(dateOfBirth)) {
         var errorMessage = 'Date of birth must be in MM/DD/YYYY format'
@@ -156,6 +157,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(dateOfBirthElement, errorMessage);
         isValid = false;
     }
+    console.log("hit dob");
 
     if (!validatePassword(password)) {
         var errorMessage = 'Passwords must be at least 8 characters, start with a letter, and contain a number and a special character'
@@ -166,25 +168,28 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(passwordElement, errorMessage);
         isValid = false;
     }
+    console.log("hit pass");
 
     if (answer1 == '') {
         var errorMessage = 'Please enter an answer.';
         showError(answer1Element, errorMessage);
         isValid = false;
     }
+    console.log("hit ans1");
 
     if (answer2 == '') {
         var errorMessage = 'Please enter an answer';
         showError(answer2Element, errorMessage);
         isValid = false;
     }
-
+    console.log("hit ans2");
     
     if (!isValid) {
         return false;
     }
     
     try{
+        console.log("hit try create");
         //Ideally this date would be populating from the server timestamp, not the client-side date - TBD IN FUTURE UPDATE
         const date = new Date();
         let month = String(date.getMonth()+1).padStart(2,"0");
