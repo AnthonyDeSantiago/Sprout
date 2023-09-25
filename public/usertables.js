@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const extendedTable = document.querySelector(".extended-table");
 
     // Example: Function to populate the extendable table with user data
-    function loadUsers() {
+    async function loadUsers() {
         // Replace this with your Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
         const usersArray = [];
