@@ -65,6 +65,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
       var updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
 
       if (updateData.failedPasswordAttempts >= 3) {
+        //Suspend the user aka turn db.suspended = true
         updateDoc(docRef, {suspended: true})
           .then(() => {
             console.log('User is now suspended!');
@@ -94,7 +95,13 @@ document.getElementById("main_form").addEventListener("submit", async function (
     } 
 
     
-    //var username = document.getElementById("username").value;
+    //If after a bunch of checks the user sign on is valid, update attempts value
+    if (isValid) {
+      updateDoc(docRef, {failedPasswordAttempts: 0})
+        .then(() => {
+          console.log('failedPasswordAttemps has been reset');
+        })
+    }
 
     
     
