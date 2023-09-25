@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             // Add a click event to the username cell
             usernameCell.innerText = user.username;
-            console.log(user.username);
             usernameCell.addEventListener("click", () => {
                 showExtendedTable(user.username);
             });
@@ -79,8 +78,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             readUser = tempDoc;
         })
 
-        const userData = readUser;
-        console.log(JSON.stringify(userData, null, 4));
+        const userData = readUser.map(({ password, quesiton1, quesiton2, answer1, answer2 }) => rest);
+        console.log(userData);
 
         const extendedTableHtml = `
             <table>
