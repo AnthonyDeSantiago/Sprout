@@ -299,7 +299,7 @@ async function testUserName(testUsername){
     const docRef = query(users, where('username', '==', testUsername));
     const docCheck = await getDocs(docRef);
     let count = 0;
-    checkEmail.forEach((doc) => {
+    docCheck.forEach((doc) => {
         count += 1;
     });
     console.log("checkUsername = " + count);
