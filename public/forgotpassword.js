@@ -48,7 +48,7 @@ async function validateNewPassword(password, user){
     let currentPassword = user.password;
     if(String(password) == String(currentPassword)){
         console.log("current password used");
-        return false;
+        passwordUnusued = false;
     }
     if(user.hasOwnProperty('oldPasswords')){
         console.log("has old passwords");
@@ -56,11 +56,11 @@ async function validateNewPassword(password, user){
         oldPasswords.forEach((pass) => {
             if(String(pass) == String(password)){
                 console.log("old password used");
-                return false;
+                passwordUnusued = false;
             }
         });
     }
-    return true;
+    return passwordUnusued;
 }
 
 async function fetchUser(username/*, userEmail*/){
