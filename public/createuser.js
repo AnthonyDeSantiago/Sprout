@@ -309,7 +309,7 @@ async function testUserName(testUsername){
         return false;
     }
     /*testUsername = testUsername.toString();
-    const docRef = doc(db, 'user', testUsername);
+    const docRef = doc(db, 'users', testUsername);
     const docCheck = await getDoc(docRef);
     if (docCheck.exists()){
         return true;
