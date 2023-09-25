@@ -193,8 +193,7 @@ document.getElementById("password_form").addEventListener("submit", async functi
 
     //const q = query(users, where('username', '==', username), limit(1));
     //const userRef = await getDocs(q);
-    const docRef = doc(db, 'users', String(user.id));
-    const userRef = await getDoc(docRef);
+    const userRef = doc(db, 'users', String(user.id));
     
     await updateDoc(userRef, {
         password: password,
