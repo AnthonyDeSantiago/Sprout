@@ -32,7 +32,7 @@ console.log("usertables.js loaded")
 
 
 //--------------------------------------------------admin
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const extendableTable = document.querySelector(".extendable-table");
     const extendedTable = document.querySelector(".extended-table");
 
