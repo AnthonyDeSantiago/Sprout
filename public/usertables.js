@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         <th>Username</th>
                         <th>Approved</th>
                         <th>Role</th>
+                        <th>Suspended</th>
                         <th>E-mail</th>
                         <th>Address</th>
                         <th>DOB</th>
@@ -110,6 +111,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <td>${data.username}</td>
                             <td>${data.approved}</td>
                             <td>${data.role}</td>
+                            <td>${data.suspended}</td>
                             <td>${data.userEmail}</td>
                             <td>${data.address}</td>
                             <td>${data.DOB}</td>
