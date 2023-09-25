@@ -65,15 +65,17 @@ async function validateNewPassword(password, user){
 
 async function fetchUser(username/*, userEmail*/){
     try{
-        //var userData = [];
+        var userData = [];
         username = username.toString();
         //userEmail = userEmail.toString();
-        const q = query(users, where('username', '==', username));
-        const getUser = await getDoc(q);
-        const userData = {
-            ...getUser.data(),
-            id: getUser.id
-        }
+        const q = query(users, where('username', '==', username), limit(1));
+        const getUser = await getDocs(q).then((querySnapshot) => {
+            const tempDoc = [];
+            querySnapshot.forEach((doc) => {
+                tempDoc.push({ id: doc.id, ...doc.data() });
+            });
+            userData = tempDoc;
+        })
         console.log("User data = " + userData);
         //if(userData.userEmail == userEmail){
         return userData;
@@ -111,6 +113,7 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
 document.getElementById("password_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     console.log("button is pressed");
+    user = await fetchUser(username);
 
     const userEmailElement = document.getElementById("user_email");
     const userNameElement = document.getElementById("username");
@@ -181,9 +184,11 @@ document.getElementById("password_form").addEventListener("submit", async functi
         oldPasswords.push(user.password);
     }
 
-    const q = query(users, where('username', '==', username));
-    const userRef = await getDoc(q);
-
+    //const q = query(users, where('username', '==', username), limit(1));
+    //const userRef = await getDocs(q);
+    const docRef = doc(db, 'users', String(user.id));
+    const userRef = await getDoc(docRef);
+    
     await updateDoc(userRef, {
         password: password,
         passwordCreatedAt: serverTimestamp(),
