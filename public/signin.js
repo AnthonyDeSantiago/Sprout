@@ -52,15 +52,35 @@ document.getElementById("main_form").addEventListener("submit", async function (
     e.preventDefault();
     
     const passwordElement = document.getElementById("password");
+    const userNameElement = document.getElementById("username");
+
 
     var username = document.getElementById("username").value;
     var email = document.getElementById("username").value;
     var password = document.getElementById("password").value;
 
     console.log("username: " + username);
+
+    /**Duct Tape for error handling: Do it better later */
+    if (username == '') {
+      var errorMessage = "Please enter a username.";
+      showError(userNameElement, errorMessage);
+      if (password == '') {
+        errorMessage = "Please enter a password.";
+        showError(passwordElement, errorMessage);
+      }
+      return false;
+    }
+
+    if (password == '') {
+      var errorMessage = "Please enter a password.";
+      showError(passwordElement, errorMessage);
+    }
+
     const docRef = doc(db, 'users', username.toString());
     const userPage = await(getDoc(docRef));
 
+    
 
     var isValid = true;
 
