@@ -174,7 +174,8 @@ document.getElementById("password_form").addEventListener("submit", async functi
         oldPasswords.push(user.password);
     }
 
-    const userRef = doc(db, 'users', username.toString());
+    const q = query(users, where('username', '==', username));
+    const userRef = await getDoc(q);
 
     await updateDoc(userRef, {
         password: password,
