@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, updateDoc, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js"
 
@@ -38,38 +38,84 @@ console.log("signin.js has loaded!!!");
 //     const errorMessage = error.message;
 //   });
 
-/*
-  Testing if the user exists first
-*/
-function checkIfUserExists(username) {
-  const docRef = doc(users, username);
-  getDoc(docRef)
-    .then((docSnapshot) => {
-      if (docSnapshot.exists()) {
-        console.log('Document exists:', docSnapshot.data());
-        return true;
-      } else {
-        console.log('Document does not exist.');
-        return false;
-      }
-    })
-    .catch((error) => {
-      console.error('Error checking document existence: ', error);
-      return false;
-    });
-}
 
+
+function showError(input, message) {
+  const formControl = input.parentElement;
+  formControl.className = "form-control error";
+  const small = formControl.querySelector('small');
+  small.innerText = message
+}
 
 
 document.getElementById("main_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     
-    //var username = document.getElementById("username").value;
+    const passwordElement = document.getElementById("password");
+
+    var username = document.getElementById("username").value;
     var email = document.getElementById("username").value;
     var password = document.getElementById("password").value;
 
-    //const docRef = doc(db, 'users', username.toString());
-    //const userPage = await(getDoc(docRef));
+    console.log("username: " + username);
+    const docRef = doc(db, 'users', username.toString());
+    const userPage = await(getDoc(docRef));
+
+
+    var isValid = true;
+
+    //Validate if password is correct
+    if (password != userPage.data().password) {
+      console.log("Passwords did not match!!");
+      console.log("password on db: " + userPage.data().password + " typed pswd: " + password);
+      
+      var errorMessage = "Password is incorrect!";
+      showError(passwordElement, errorMessage);
+
+      var updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
+
+      if (updateData.failedPasswordAttempts >= 3) {
+        //Suspend the user aka turn db.suspended = true
+        updateDoc(docRef, {suspended: true})
+          .then(() => {
+            errorMessage = "3 Failed Attempts: Account Suspended";
+            showError(passwordElement, errorMessage);
+            console.log('User is now suspended!');
+          })
+      } else {
+        // Update the number of incorrect attempts on the db
+        updateDoc(docRef, updateData)
+          .then(() => {
+            console.log('Updated the attemps successfully.');
+          })
+          .catch((error) => {
+            console.error('There was an error updating the attemps: ', error);
+          });
+      }
+      
+      isValid = false;
+      
+    } else {
+      console.log("The passwords matched");
+    }
+
+
+
+    //Check if user is suspended
+    if (userPage.data().suspended) {
+      isValid = false;
+    } 
+
+    
+    //If after a bunch of checks the user sign on is valid, update attempts value
+    if (isValid) {
+      updateDoc(docRef, {failedPasswordAttempts: 0})
+        .then(() => {
+          console.log('failedPasswordAttemps has been reset');
+        })
+    }
+
+    
     
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {

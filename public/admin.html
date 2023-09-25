@@ -5,36 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css" class="rel">
+    <style>
+        /* Apply CSS to limit table width and match website style */
+        table {
+            max-width: 100%;
+            margin: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #000;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        /* Change background color and add background image */
+        body {
+            background-color: white;
+            background-image: url('your-background-image.jpg');
+            background-size: cover;
+        }
+
+        /* Style for search bar */
+        .search-bar {
+            margin: 20px;
+        }
+
+        .search-input {
+            border: 1px solid #000;
+            padding: 5px;
+            outline: none;
+            width: 300px;
+        }
+
+        /* Style for buttons and popup forms */
+        .btn {
+            background-color: #137547;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Add more CSS styling as needed for your buttons and forms */
+
+    </style>
     <script defer src="sprout.js" type="module"></script>
     <script defer src="usertables.js" type="module"></script>
     <script type="module">
-        /*
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-        
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-            apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
-            authDomain: "sprout-financials.firebaseapp.com",
-            projectId: "sprout-financials",
-            storageBucket: "sprout-financials.appspot.com",
-            messagingSenderId: "864423850272",
-            appId: "1:864423850272:web:725227e1ed9a578ef36745",
-            measurementId: "G-Z0E9H5Z16M"
-        };
-        
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);*/
+        // Your Firebase initialization script here
     </script>
 </head>
 <body>
     <div class="admin-welcome">
         Welcome User
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+        <h2>Type in username or account number to search</h2>
+        <input type="text" class="search-input" placeholder="Search...">
     </div>
 
     <!-- Extendable Table Container -->
@@ -43,6 +75,10 @@
             <thead>
                 <tr>
                     <th>Username</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Email</th>
+                    <th>Suspend</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,9 +95,3 @@
     <!-- Include your Firebase initialization script -->
 </body>
 </html>
-
-
-
-
-
-
