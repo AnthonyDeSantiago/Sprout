@@ -100,16 +100,12 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
     var userEmail = userEmailElement.value;
     var username = userNameElement.value;
     const user = await fetchUser(username);
-    var userStr = JSON.stringify(user, null, 4);
-    console.log("User data = " + userStr);
-    console.log(user.question1);
-    console.log(user["question1"]);
-    console.log(Object.getOwnPropertyNames(user));
-    console.log(user);
-    
-    const question1 = user['question1'];
-    const question2 = user['question2'];
-    document.getElementById("question1").textcontent=String(question1);
+    //var userStr = JSON.stringify(user, null, 4);
+    //console.log("User data = " + userStr);
+
+    const question1 = user.question1;
+    const question2 = user.question2;
+    document.getElementById("question1").textcontent=question1;
     console.log(question1);
     document.getElementById("question2").textcontent=String(question2);
     console.log(question2);
