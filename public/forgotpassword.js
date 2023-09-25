@@ -105,9 +105,9 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
 
     const question1 = user.question1;
     const question2 = user.question2;
-    document.getElementById("question1").textcontent=question1;
+    document.getElementById("question1").textContent = question1;
     console.log(question1);
-    document.getElementById("question2").textcontent=String(question2);
+    document.getElementById("question2").textContent = String(question2);
     console.log(question2);
     console.log("questions are loaded");
 
