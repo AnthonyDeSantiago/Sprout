@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const usersArray = [];
         const q = query(users); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
         const userDocs = await getDocs(q).then((querySnapshot) => {
-            const tempDoc = [];
+            var tempDoc = [];
             querySnapshot.forEach((doc) => {
                 tempDoc.push({ id: doc.id, username: doc.username })
             });
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         username = username.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
-            const tempDoc = [];
+            var tempDoc = [];
             querySnapshot.forEach((doc) => {
                 tempDoc.push({ id: doc.id, ...doc.data() });
             });
