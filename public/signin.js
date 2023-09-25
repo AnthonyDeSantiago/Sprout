@@ -90,10 +90,22 @@ document.getElementById("main_form").addEventListener("submit", async function (
 
     const docRef = doc(db, 'users', username.toString());
     const userPage = await(getDoc(docRef));
-
-    
+    const userQuery = query(users, where('username', '==', username));
 
     var isValid = true;
+
+    //Check if user exists - I don't know how to make it break out of event listener
+    getDoc(docRef)
+      .then((docSnapshot) => {
+        if (!docSnapshot.exists()) {
+          var errorMessage = "Username does not exist.";
+          showError(userNameElement, errorMessage);
+          isValid = false;
+          return false;
+        }
+      })
+
+    
 
     //Validate if password is correct
     if (password != userPage.data().password) {
