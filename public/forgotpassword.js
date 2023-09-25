@@ -101,11 +101,10 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
     const user = await fetchUser(username);
     var userStr = JSON.stringify(user, null, 4);
     console.log("User data = " + userStr);
-    console.log(user.question1);
-    console.log(user['question1']);
-    console.log(user["question1"]);
-    console.log(Object.getOwnPropertyNames(user));
-    
+    console.log(user);
+    console.log(user["\"question1\""]);
+    console.log(Object.getOwnPropertyNames(user.data()));
+    console.log(user.data("question1"));
     
     const question1 = user['question1'];
     const question2 = user['question2'];
