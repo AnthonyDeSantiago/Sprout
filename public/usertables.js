@@ -38,10 +38,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         const userDocs = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
-                console.log(JSON.stringify(doc, null, 4));
                 tempDoc.push({ id: doc.id, username: doc.get("username") })
             });
-            console.log(tempDoc);
             usersArray = tempDoc;
         });
         //const users = [{ username: "User1" }, { username: "User2" }, /* ... */];
@@ -69,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Replace this with your Firebase data retrieval logic
         // You may want to fetch data for the specific user by their username
         // and populate the extended table with the unknown columns
-        var userData = [];
+        var readUser = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
@@ -77,13 +75,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             querySnapshot.forEach((doc) => {
                 tempDoc.push({ id: doc.id, ...doc.data() });
             });
-            userData = tempDoc;
+            readUser = tempDoc;
         })
-        console.log(userData);
-        // For demonstration purposes, let's assume the data is available in an array
-        /*const userData = [
-            { column1: "Value1", column2: "Value2", column3: "Value3", column4: "Value4" },
-        ];*/
+
+       const userData = readUser;
 
         const extendedTableHtml = `
             <table>
