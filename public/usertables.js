@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
                 console.log(JSON.stringify(doc, null, 4));
-                tempDoc.push({ id: doc.id, username: doc.username })
+                tempDoc.push({ id: doc.id, username: doc.get("username") })
             });
             console.log(tempDoc);
             usersArray = tempDoc;
