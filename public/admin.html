@@ -6,67 +6,43 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css" class="rel">
     <style>
-        /* Apply CSS to limit table width and match website style */
-        table {
-            max-width: 100%;
-            margin: 20px;
-            border-collapse: collapse;
-        }
-
-        table, th, td {
-            border: 1px solid #000;
-        }
-
-        th, td {
-            padding: 10px;
-        }
-
-        /* Change background color and add background image */
+        /* Add your custom CSS styles here */
         body {
             background-color: white;
-            background-image: url('your-background-image.jpg');
+            background-image: url('your-image-url.jpg');
             background-size: cover;
         }
-
-        /* Style for search bar */
-        .search-bar {
-            margin: 20px;
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
         }
-
         .search-input {
-            border: 1px solid #000;
-            padding: 5px;
-            outline: none;
-            width: 300px;
-        }
-
-        /* Style for buttons and popup forms */
-        .btn {
-            background-color: #137547;
+            background-color: #828282;
+            border: 1px solid black;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
+            border-radius: 5px;
+            padding: 5px;
+            width: 80%;
+            max-width: 300px;
         }
-
-        /* Add more CSS styling as needed for your buttons and forms */
-
+        .extendable-table table {
+            width: 100%;
+            max-width: 100%;
+        }
     </style>
+    <!-- Include your JavaScript files -->
     <script defer src="sprout.js" type="module"></script>
     <script defer src="usertables.js" type="module"></script>
-    <script type="module">
-        // Your Firebase initialization script here
-    </script>
 </head>
 <body>
     <div class="admin-welcome">
         Welcome User
     </div>
 
-    <!-- Search bar -->
-    <div class="search-bar">
-        <h2>Type in username or account number to search</h2>
-        <input type="text" class="search-input" placeholder="Search...">
+    <!-- Search Bar -->
+    <div class="search-container">
+        <p>Type in username or account number to search</p>
+        <input class="search-input" type="text" id="search" placeholder="Search...">
     </div>
 
     <!-- Extendable Table Container -->
@@ -75,10 +51,6 @@
             <thead>
                 <tr>
                     <th>Username</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                    <th>Email</th>
-                    <th>Suspend</th>
                 </tr>
             </thead>
             <tbody>
@@ -92,6 +64,5 @@
         <!-- This section will be populated when a username is clicked -->
     </div>
 
-    <!-- Include your Firebase initialization script -->
 </body>
 </html>

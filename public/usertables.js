@@ -68,59 +68,67 @@ document.addEventListener("DOMContentLoaded", async function () {
         // You may want to fetch data for the specific user by their username
         // and populate the extended table with the unknown columns
         var readUser = [];
-        username = username.toString();
-        const q = query(users, where('username', '==', username));
-        const getUsers = await getDocs(q).then((querySnapshot) => {
-            var tempDoc = [];
-            querySnapshot.forEach((doc) => {
-                tempDoc.push({ id: doc.id, ...doc.data() });
-            });
-            readUser = tempDoc;
+    username = username.toString();
+    const q = query(users, where('username', '==', username));
+    const getUsers = await getDocs(q).then((querySnapshot) => {
+        var tempDoc = [];
+        querySnapshot.forEach((doc) => {
+            tempDoc.push({ id: doc.id, ...doc.data() });
         });
-    
-        // Get the user data object
-        const userData = readUser[0];
-        console.log(userData);
-    
-        const extendedTableHtml = `
-            <table>
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                        <th>Approved</th>
-                        <th>Role</th>
-                        <th>Suspended</th>
-                        <th>E-mail</th>
-                        <th>Address</th>
-                        <th>DOB</th>
-                        <th>Password Last Created</th>
-                        <th>User Created</th>
-                        <th>User ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>${userData.firstName}</td>
-                        <td>${userData.lastName}</td>
-                        <td>${userData.username}</td>
-                        <td>${userData.approved}</td>
-                        <td>${userData.role}</td>
-                        <td>${userData.suspended}</td>
-                        <td>${userData.userEmail}</td>
-                        <td>${userData.address}</td>
-                        <td>${userData.DOB}</td>
-                        <td>${userData.passwordCreatedAt}</td>
-                        <td>${userData.userCreatedAt}</td>
-                        <td>${userData.id}</td>
-                    </tr>
-                </tbody>
-            </table>
-        `;
-    
-        extendedTable.innerHTML = extendedTableHtml;
-    }
+        readUser = tempDoc;
+    });
+
+    // Get the user data object
+    const userData = readUser[0];
+    console.log(userData);
+
+    const extendedTableHtml = `
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Approved</th>
+                    <th>Role</th>
+                    <th>Suspended</th>
+                    <th>E-mail</th>
+                    <th>Address</th>
+                    <th>DOB</th>
+                    <th>Password Last Created</th>
+                    <th>User Created</th>
+                    <th>User ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${userData.firstName}</td>
+                    <td>${userData.lastName}</td>
+                    <td>${userData.username}</td>
+                    <td>${userData.approved}</td>
+                    <td>${userData.role}</td>
+                    <td>${userData.suspended}</td>
+                    <td>${userData.userEmail}</td>
+                    <td>${userData.address}</td>
+                    <td>${userData.DOB}</td>
+                    <td>${userData.passwordCreatedAt}</td>
+                    <td>${userData.userCreatedAt}</td>
+                    <td>${userData.id}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Buttons for Edit, Delete, Email, and Suspend -->
+        <div class="button-container">
+            <button class="edit-button" onclick="editUser('${userData.id}')">Edit User</button>
+            <button class="delete-button" onclick="confirmDelete('${userData.id}')">Delete</button>
+            <button class="email-button" onclick="emailUser('${userData.userEmail}')">Email User</button>
+            <button class="suspend-button" onclick="suspendUser('${userData.id}')">Suspend</button>
+        </div>
+    `;
+
+    extendedTable.innerHTML = extendedTableHtml;
+}
     
     // Load user data when the page loads
     loadUsers();
