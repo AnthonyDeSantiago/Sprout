@@ -47,6 +47,17 @@ function showError(input, message) {
   small.innerText = message
 }
 
+function hideError(input) {
+  const formControl = input.parentElement;
+  formControl.className = "form-control";
+}
+
+document.addEventListener('keydown', function(event) {
+  const passwordElement = document.getElementById("password");
+  const userNameElement = document.getElementById("username");
+  hideError(passwordElement);
+  hideError(userNameElement);
+});
 
 document.getElementById("main_form").addEventListener("submit", async function (e) {
     e.preventDefault();
