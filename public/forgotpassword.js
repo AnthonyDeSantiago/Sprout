@@ -103,7 +103,7 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
     console.log("User data = " + userStr);
     console.log(user.question1);
     console.log(user['question1']);
-    console.log(user[question1]);
+    console.log(user["question1"]);
     console.log(Object.getOwnPropertyNames(user));
     
     
