@@ -63,24 +63,28 @@ async function validateNewPassword(password, user){
     return true;
 }
 
-async function fetchUser(username){
+async function fetchUser(username/*, userEmail*/){
     try{
-        const userData = [];
+        var userData = [];
         username = username.toString();
+        //userEmail = userEmail.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
             const tempDoc = [];
-            tempDoc.push({ id: doc.id, ...doc.data() });
+            querySnapshot.forEach((doc) => {
+                tempDoc.push({ id: doc.id, ...doc.data() });
+            });
             userData = tempDoc;
         })
-        if(userData.userEmail == userEmail){
-            return userData;
-        } else {
-            console.log("userData error, userData = " + userData);
-            return false;
-        }
+        //if(userData.userEmail == userEmail){
+        return userData;
+        //} else {
+        //    console.log("userData error, userData = " + userData);
+        //    return false;
+        //}
     } catch(error) {
-        console.log(error)
+        console.log(error);
+        alert("Please enter the correct username and e-mail associated with the account before proceeding.");
     }
     return false;
 }
