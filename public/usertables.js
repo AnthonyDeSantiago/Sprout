@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // Example: Function to populate the extended table when a username is clicked
-    function showExtendedTable(username) {
+    async function showExtendedTable(username) {
         // Replace this with your Firebase data retrieval logic
         // You may want to fetch data for the specific user by their username
         // and populate the extended table with the unknown columns
