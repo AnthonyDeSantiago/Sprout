@@ -70,7 +70,10 @@ async function fetchUser(username/*, userEmail*/){
         //userEmail = userEmail.toString();
         const q = query(users, where('username', '==', username));
         const getUser = await getDoc(q);
-        const userData = getUser.data();
+        const userData = {
+            ...getUser.data(),
+            id: getUser.id
+        }
         console.log("User data = " + userData);
         //if(userData.userEmail == userEmail){
         return userData;
