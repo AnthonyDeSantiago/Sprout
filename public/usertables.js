@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             readUser = tempDoc;
         })
 
-       const userData = readUser;
+        const userData = readUser;
+        console.log(JSON.stringify(userData, null, 4));
 
         const extendedTableHtml = `
             <table>
