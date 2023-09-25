@@ -78,9 +78,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             readUser = tempDoc;
         })
 
-        const userData = readUser.map(({ password, quesiton1, quesiton2, answer1, answer2, ...rest }) => rest);
+        //REMOVE CREATED AT VARIABLES IN FUTURE, WILL NEED THEM TO BE IN USERDATA ARRAY
+        //Remove password information from user info before writing to the table
+        const userData = readUser.map(({ password, passwordCreatedAt, userCreatedAt, question1, question2, answer1, answer2, ...rest }) => rest);
         console.log(userData);
-        console.log(rest);
 
         const extendedTableHtml = `
             <table>
