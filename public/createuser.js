@@ -247,8 +247,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 answer2: answer2,
                 address: address,
                 DOB: dateOfBirth,
-                role: "blank",
-                approved: "blank",
+                role: 'blank',
+                approved: 'blank',
                 userCreatedAt: serverTimestamp()
             }
 
