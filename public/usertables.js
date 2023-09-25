@@ -41,14 +41,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Replace this with your Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
         const usersArray = [];
-        const userDocs = await users.get().then((querySnapshot) => {
+        const q = query(users); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
+        const userDocs = await getDocs(q).then((querySnapshot) => {
             const tempDoc = [];
             querySnapshot.forEach((doc) => {
                 tempDoc.push({ id: doc.id, username: doc.username })
             });
             console.log(tempDoc);
             usersArray = tempDoc;
-        })
+        });
         //const users = [{ username: "User1" }, { username: "User2" }, /* ... */];
 
         const tbody = extendableTable.querySelector("tbody");
