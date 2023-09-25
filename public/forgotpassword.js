@@ -68,7 +68,7 @@ async function fetchUser(username){
         const userData = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));
-        const getUsers = await getDocs(q).then((querySnapshot) => {
+        const getUsers = (await getDocs(q)).then((querySnapshot) => {
             const tempDoc = [];
             tempDoc.push({ id: doc.id, ...doc.data() });
             userData = tempDoc;
