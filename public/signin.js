@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, updateDoc, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js"
 
@@ -63,16 +63,25 @@ document.getElementById("main_form").addEventListener("submit", async function (
       console.log("Passwords did not match!!");
       console.log("password on db: " + userPage.data().password + " typed pswd: " + password);
       
-      const updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
+      var updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
 
-      try {
-        await updateDoc(docRef, updateData);
-        console.log('Updated the password attemps: ' + userPage.data().failedPasswordAttempts);
-      } catch (error) {
-        console.error("Error updating document: ", error);
-      }
-    
+      // Update the number of incorrect attempts on the db
+      updateDoc(docRef, updateData)
+        .then(() => {
+          console.log('Updated the attemps successfully.');
+        })
+        .catch((error) => {
+          console.error('There was an error updating the attemps: ', error);
+        });
       isValid = false;
+      
+      
+      // getDoc(docRef)
+      //   .then((docSnapshot) => {
+      //     if (docSnapshot.exists()) {
+
+      //     }
+      //   })
     } else {
       console.log("The passwords matched");
     }
@@ -87,10 +96,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
 
 
     
-    validateSignOn(userPage);
     //var username = document.getElementById("username").value;
-    var email = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
 
     
     
