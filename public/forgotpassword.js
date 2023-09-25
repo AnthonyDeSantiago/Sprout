@@ -63,10 +63,11 @@ async function validateNewPassword(password, user){
     return true;
 }
 
-async function fetchUser(username){
+async function fetchUser(username, userEmail){
     try{
         var userData = [];
         username = username.toString();
+        userEmail = userEmail.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
             const tempDoc = [];
@@ -82,7 +83,8 @@ async function fetchUser(username){
             return false;
         }
     } catch(error) {
-        console.log(error)
+        console.log(error);
+        alert("Please enter the correct username and e-mail associated with the account before proceeding.");
     }
     return false;
 }
