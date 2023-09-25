@@ -78,8 +78,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             readUser = tempDoc;
         })
 
-        const userData = readUser.map(({ password, quesiton1, quesiton2, answer1, answer2 }) => rest);
+        const userData = readUser.map(({ password, quesiton1, quesiton2, answer1, answer2, ...rest }) => rest);
         console.log(userData);
+        console.log(rest);
 
         const extendedTableHtml = `
             <table>
