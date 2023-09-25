@@ -38,38 +38,61 @@ console.log("signin.js has loaded!!!");
 //     const errorMessage = error.message;
 //   });
 
-/*
-  Testing if the user exists first
-*/
-function checkIfUserExists(username) {
-  const docRef = doc(users, username);
-  getDoc(docRef)
-    .then((docSnapshot) => {
-      if (docSnapshot.exists()) {
-        console.log('Document exists:', docSnapshot.data());
-        return true;
-      } else {
-        console.log('Document does not exist.');
-        return false;
-      }
-    })
-    .catch((error) => {
-      console.error('Error checking document existence: ', error);
-      return false;
-    });
-}
+
+
 
 
 
 document.getElementById("main_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     
+    var username = document.getElementById("username").value;
+    var email = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+
+    console.log("username: " + username);
+    const docRef = doc(db, 'users', username.toString());
+    const userPage = await(getDoc(docRef));
+
+    console.log("answer1: " + userPage.data().answer1);
+
+    var isValid = true;
+
+    //Validate if password is correct
+    if (password != userPage.data().password) {
+      console.log("Passwords did not match!!");
+      console.log("password on db: " + userPage.data().password + " typed pswd: " + password);
+      
+      const updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
+
+      try {
+        await updateDoc(docRef, updateData);
+        console.log('Updated the password attemps: ' + userPage.data().failedPasswordAttempts);
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    
+      isValid = false;
+    } else {
+      console.log("The passwords matched");
+    }
+
+    //Check if user is suspended
+    if (userPage.data().suspended) {
+      console.log("The user is suspended");
+      isValid = false;
+    } else {
+      console.log("The user is not suspended");
+    }
+
+
+    
+    validateSignOn(userPage);
     //var username = document.getElementById("username").value;
     var email = document.getElementById("username").value;
     var password = document.getElementById("password").value;
 
-    //const docRef = doc(db, 'users', username.toString());
-    //const userPage = await(getDoc(docRef));
+    
     
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
