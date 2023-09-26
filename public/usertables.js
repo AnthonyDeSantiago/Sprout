@@ -19,14 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
-const auth = getAuth();
-
-/* changes the placeholder picture to whatever you picked in the Sign up Function */
-let profilePicture = document.getElementById("blank_choose_ur_pic");
-let inputFile = document.getElementById("input_file");
-inputFile.onchange = function(){
-    profilePicture.src = URL.createObjectURL(inputFile.files[0]);
-}
+//const auth = getAuth(app);
 
 console.log("usertables.js loaded")
 
@@ -37,18 +30,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     const extendedTable = document.querySelector(".extended-table");
 
     // Example: Function to populate the extendable table with user data
-    function loadUsers() {
+    async function loadUsers() {
         // Replace this with your Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
-        const usersArray = [];
-        const userDocs = await users.get().then((querySnapshot) => {
-            const tempDoc = [];
+        var usersArray = [];
+        const q = query(users); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
+        const userDocs = await getDocs(q).then((querySnapshot) => {
+            var tempDoc = [];
             querySnapshot.forEach((doc) => {
-                tempDoc.push({ id: doc.id, username: doc.username })
+                tempDoc.push({ id: doc.id, username: doc.get("username") })
             });
-            console.log(tempDoc);
             usersArray = tempDoc;
-        })
+        });
         //const users = [{ username: "User1" }, { username: "User2" }, /* ... */];
 
         const tbody = extendableTable.querySelector("tbody");
@@ -70,54 +63,75 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // Example: Function to populate the extended table when a username is clicked
-    function showExtendedTable(username) {
+    async function showExtendedTable(username) {
         // Replace this with your Firebase data retrieval logic
         // You may want to fetch data for the specific user by their username
         // and populate the extended table with the unknown columns
-        const userData = [];
+        var readUser = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
-            const tempDoc = [];
-            tempDoc.push({ id: doc.id, ...doc.data() });
-            userData = tempDoc;
-        })
+            var tempDoc = [];
+            querySnapshot.forEach((doc) => {
+                tempDoc.push({ id: doc.id, ...doc.data() });
+            });
+            readUser = tempDoc;
+        });
+    
+        // Get the user data object
+        const userData = readUser[0];
         console.log(userData);
-        // For demonstration purposes, let's assume the data is available in an array
-        /*const userData = [
-            { column1: "Value1", column2: "Value2", column3: "Value3", column4: "Value4" },
-        ];*/
-
+    
         const extendedTableHtml = `
             <table>
                 <thead>
                     <tr>
-                        <th>Column 1</th>
-                        <th>Column 2</th>
-                        <th>Column 3</th>
-                        <th>Column 4</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Approved</th>
+                        <th>Role</th>
+                        <th>Suspended</th>
+                        <th>E-mail</th>
+                        <th>Address</th>
+                        <th>DOB</th>
+                        <th>Password Last Created</th>
+                        <th>User Created</th>
+                        <th>User ID</th>
                     </tr>
                 </thead>
                 <tbody>
-                    ${userData
-                        .map(
-                            (data) => `
-                        <tr>
-                            <td>${data.column1}</td>
-                            <td>${data.column2}</td>
-                            <td>${data.column3}</td>
-                            <td>${data.column4}</td>
-                        </tr>
-                    `
-                        )
-                        .join("")}
+                    <tr>
+                        <td>${userData.firstName}</td>
+                        <td>${userData.lastName}</td>
+                        <td>${userData.username}</td>
+                        <td>${userData.approved}</td>
+                        <td>${userData.role}</td>
+                        <td>${userData.suspended}</td>
+                        <td>${userData.userEmail}</td>
+                        <td>${userData.address}</td>
+                        <td>${userData.DOB}</td>
+                        <td>${userData.passwordCreatedAt}</td>
+                        <td>${userData.userCreatedAt}</td>
+                        <td>${userData.id}</td>
+                    </tr>
                 </tbody>
             </table>
+            
+            <!-- Buttons for Edit, Delete, Email, and Suspend -->
+            <div class="button-container">
+                <button class="edit-button" onclick="editUser('${userData.id}')">Edit User</button>
+                <button class="delete-button" onclick="confirmDelete('${userData.id}')">Delete</button>
+                <button class="email-button" onclick="emailUser('${userData.userEmail}')">Email User</button>
+                <button class="suspend-button" onclick="suspendUser('${userData.id}')">Suspend</button>
+            </div>
         `;
-
+    
         extendedTable.innerHTML = extendedTableHtml;
+        document.getElementById("extended-table").style.display = "contents";
     }
-
+    
     // Load user data when the page loads
     loadUsers();
 });
+

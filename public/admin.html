@@ -5,48 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css" class="rel">
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            background-color: white;
+            background-image: url('your-image-url.jpg');
+            background-size: cover;
+        }
+        .search-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .search-input {
+            background-color: #828282;
+            border: 1px solid black;
+            color: white;
+            border-radius: 5px;
+            padding: 5px;
+            width: 40%;
+            max-width: 300px;
+        }
+        .extendable-table table {
+            width: 100%;
+            max-width: 100%;
+        }
+    </style>
+    <!-- Include your JavaScript files -->
     <script defer src="sprout.js" type="module"></script>
     <script defer src="usertables.js" type="module"></script>
-    <script type="module">
-        /*
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-        
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-            apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
-            authDomain: "sprout-financials.firebaseapp.com",
-            projectId: "sprout-financials",
-            storageBucket: "sprout-financials.appspot.com",
-            messagingSenderId: "864423850272",
-            appId: "1:864423850272:web:725227e1ed9a578ef36745",
-            measurementId: "G-Z0E9H5Z16M"
-        };
-        
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);*/
-    </script>
 </head>
 <body>
     <div class="header-nav">
-		<div class="sprout_logo">
-			<img src="assets/NAME.png"  id="logo">
-		</div>
-		<div class="userprofile">
-			<div class="userprofile_image">
-				<img src="" id="userprofile_image_src">
-			</div>
-			<div class="userprofile_text">
-				<span id="userprofile_name">Welcome User</span>
-			</div>
-		</div>
-		
-	</div>
+      <div class="sprout_logo">
+        <img src="assets/NAME.png"  id="logo">
+      </div>
+      <div class="userprofile">
+        <div class="userprofile_image">
+          <img src="" id="userprofile_image_src">
+        </div>
+        <div class="userprofile_text">
+          <span id="userprofile_name">Welcome User</span>
+        </div>
+      </div>
+	  </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <p>Type in username or account number to search</p>
+        <input class="search-input" type="text" id="search" placeholder="Search...">
+    </div>
 
     <!-- Extendable Table Container -->
     <div class="extendable-table">
@@ -63,16 +70,9 @@
     </div>
 
     <!-- Extended Table Container -->
-    <div class="extended-table">
+    <div class="extended-table" id="extended-table">
         <!-- This section will be populated when a username is clicked -->
     </div>
 
-    <!-- Include your Firebase initialization script -->
 </body>
 </html>
-
-
-
-
-
-

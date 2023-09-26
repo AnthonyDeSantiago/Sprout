@@ -20,6 +20,20 @@ const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
 const auth = getAuth();
 
+//avatar_image_path can be pulled into the db
+let avatar_image_path = null;
+const radioButtons = document.querySelectorAll('input[name="avatar"]');
+
+radioButtons.forEach((radioButton) => {
+  radioButton.addEventListener("click", function () {
+    if (this.checked) {
+      avatar_image_path = this.value;
+      console.log("Selected avatar image path:", avatar_image_path);
+      
+    }
+  });
+});
+
 console.log("createuser.js loaded!!")
 /*Passwords must be:
 --> a minimum of 8 characters,
@@ -120,7 +134,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(userEmailElement, errorMessage)
         isValid = false;
     }
-
+    console.log("hit email");
     if (!validateFirstName(firstName)) {
         var errorMessage = 'First name must be only letters and contain no spaces'
         if (firstName == '') {
@@ -129,7 +143,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(firstNameElement, errorMessage);
         isValid = false;
     }
-
+    console.log("hit f name");
     if (!validateLastName(lastName)) {
         var errorMessage = 'Last name must be only letters'
         if (lastName == '') {
@@ -138,7 +152,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(lastNameElement, errorMessage);
         isValid = false;
     }
-
+    console.log("hit l name");
     if (!validateAddress(address)) {
         var errorMessage = 'Please enter a valid address'
         if (address == '') {
@@ -147,6 +161,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(addressElement, errorMessage)
         isValid = false;
     }
+    console.log("hit add");
 
     if (!validateDate(dateOfBirth)) {
         var errorMessage = 'Date of birth must be in MM/DD/YYYY format'
@@ -156,6 +171,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(dateOfBirthElement, errorMessage);
         isValid = false;
     }
+    console.log("hit dob");
 
     if (!validatePassword(password)) {
         var errorMessage = 'Passwords must be at least 8 characters, start with a letter, and contain a number and a special character'
@@ -166,25 +182,28 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         showError(passwordElement, errorMessage);
         isValid = false;
     }
+    console.log("hit pass");
 
     if (answer1 == '') {
         var errorMessage = 'Please enter an answer.';
         showError(answer1Element, errorMessage);
         isValid = false;
     }
+    console.log("hit ans1");
 
     if (answer2 == '') {
         var errorMessage = 'Please enter an answer';
         showError(answer2Element, errorMessage);
         isValid = false;
     }
-
+    console.log("hit ans2");
     
     if (!isValid) {
         return false;
     }
     
     try{
+        console.log("hit try create");
         //Ideally this date would be populating from the server timestamp, not the client-side date - TBD IN FUTURE UPDATE
         const date = new Date();
         let month = String(date.getMonth()+1).padStart(2,"0");
@@ -199,54 +218,64 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         let emailAlreadyInUse = await testUserEmail(userEmail);
         console.log("emailAlreadyInUse = "+ emailAlreadyInUse);
         
-        if(!emailAlreadyInUse){
-            /*
+        if(!emailAlreadyInUse){           
+            var user;
             await createUserWithEmailAndPassword(auth, userEmail, password)
                 .then((userCredential) => {
                     // Signed in 
-                    const user = userCredential.user;
-                    console.log("user = " + user);
-                    // ...
+                    const userCred = userCredential.user;
+                    console.log("fetched userCred = "+ userCred);
+                    //email verification
+                    /*sendEmailVerification(user)
+                        .then(()=>{
+                            console.log('Email Verfication sent');
+                    });*/
+
+                    user = userCred;
+                            
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // ..
-                });*/
-    
-            /*const user = auth.currentUser;
-            const uid = user.uid;
-            console.log("UID = " + uid);
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            }); 
+            console.log("user" + user);
+            try{
+                 
+                const uid = await user.uid;
+                console.log(uid);
+
+                const approved = false;
+                const susEnd = new Date(2200, 1, 1);
+                        
+                const newUser = {
+                        id: uid,
+                        userEmail: userEmail,
+                        firstName: firstName,
+                        lastName: lastName,
+                        username: username,
+                        password: password,
+                        passwordCreatedAt: serverTimestamp(),
+                        question1: question1,
+                        answer1: answer1,
+                        question2: question2,
+                        answer2: answer2,
+                        address: address,
+                        DOB: dateOfBirth,
+                        suspended: true,
+                        suspensionEndDate: susEnd,
+                        role: 'blank',
+                        approved: approved,
+                        userCreatedAt: serverTimestamp(),
+                        avatar_path: avatar_image_path
+                }
             
-            updateProfile(auth.currentUser, {
-              displayName: String(firstName + " " + lastName), photoURL: "https://example.com/jane-q-user/profile.jpg"
-            }).then(() => {
-              console.log("Profile updated");
-                // Profile updated!
-              // ...
-            }).catch((error) => {
-              // An error occurred
-              // ...
-            });*/
-            
-            const newUser = {
-                userEmail: userEmail,
-                firstName: firstName,
-                lastName: lastName,
-                username: username,
-                password: password,
-                passwordCreatedAt: serverTimestamp(),
-                question1: question1,
-                answer1: answer1,
-                question2: question2,
-                answer2: answer2,
-                address: address,
-                DOB: dateOfBirth,
-                userCreatedAt: serverTimestamp()
+                await setDoc(doc(db, 'users', uid.toString()),  newUser);
+                console.log('New user request added successfully!');
+                alert("Your user request has been submitted. An admin will contact you shortly. Thank you!");        
             }
-            
-            await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
-            console.log('New user request for added successfully!');
+            catch(error){
+                console.log('there was an error creating the user');
+            }
 
         } else{ 
             alert("User email already in use. Return to the login screen and choose Forgot Password if you are having trouble accessing your account.")
@@ -299,7 +328,7 @@ async function testUserName(testUsername){
     const docRef = query(users, where('username', '==', testUsername));
     const docCheck = await getDocs(docRef);
     let count = 0;
-    checkEmail.forEach((doc) => {
+    docCheck.forEach((doc) => {
         count += 1;
     });
     console.log("checkUsername = " + count);
@@ -379,4 +408,11 @@ function testValidationFunctions() {
 
     
     return true;
+}
+
+//shows the picked image in the "Upload Image"
+let profilePicture = document.getElementById("blank_choose_ur_pic");
+let inputFile = document.getElementById("input_file");
+inputFile.onchange = function(){
+    profilePicture.src = URL.createObjectURL(inputFile.files[0]);
 }

@@ -34,32 +34,41 @@
 </head>
 
 <body>
-
+    
+    <div scr = "asset/blank.png" class="login_bg">
     <!-- Blank Logo -->
-    <img src="asset/blank.png" id = "blank">
+    <!-- <img src="asset/blank.png" id = "blank"> -->
+
     
     <main id = "main_form">
-
-        <!-- Logo in every page -->
-        <!-- <img src="asset/LOGO.png" class ="logo"> -->
+        
+        <!-- Name in every page -->
         <img src="asset/NAME.png" class ="logo_name">
-
+        
         <!-- login form -->
         <form id = "login_form">
-            <input type="username" id="username" class="login_form_field" placeholder="Username">
-            <input type="password" id="password" class="login_form_field" placeholder="Password">                
+            <div class="form-control">
+                <input type="username" id="username" class="login_form_field" placeholder="Username">
+                <small>Error Message</small>
+            </div>
+            
+            <div class="form-control">
+                <input type="password" id="password" class="login_form_field" placeholder="Password">
+                <small>Error Message</small>
+            </div>                
             <!-- button -->
             <a href="future.html">
-                <button class = "login_submit_form" type = "submit">Submit</button>
+                <button id="sign_in" class = "login_submit_form" type = "submit">Submit</button>
             </a>
             <nav class = "nav_form_field">
                 <a href="./new_user_page.html">New User</a>
-                <a href="./password_page_1.html">Forgot Password</a>
+                <a href="./forgot_password.html">Forgot Password</a>
             </nav>
 
         </form>
-
     </main>
+</div>
+</div>
 
 
             

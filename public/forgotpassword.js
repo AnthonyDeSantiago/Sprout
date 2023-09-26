@@ -1,3 +1,5 @@
+console.log("forgotpassword.js has loaded!!!");
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
@@ -14,12 +16,13 @@ const firebaseConfig = {
     appId: "1:864423850272:web:725227e1ed9a578ef36745",
     measurementId: "G-Z0E9H5Z16M"
 };
+
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const users = collection(db, 'users');
-const user = await fetchUser(username, userEmail);
 
-console.log("forgotpassword.js has loaded!!!");
+const users = collection(db, 'users');
+//let user = [];
 
 function showError(input, message) {
     const formControl = input.parentElement;
@@ -41,52 +44,71 @@ function validatePassword(password) {
 }
 
 async function validateNewPassword(password, user){
-    var passwordUnusued = true;
     let currentPassword = user.password;
     if(String(password) == String(currentPassword)){
         console.log("current password used");
-        return false;
+        return true;
     }
     if(user.hasOwnProperty('oldPasswords')){
         console.log("has old passwords");
         let oldPasswords = user.oldPasswords;
         oldPasswords.forEach((pass) => {
-            if String(pass) = String(password){
+            if(String(pass) == String(password)){
                 console.log("old password used");
-                return false;
+                return true;
             }
         });
     }
-    return true;
+    return false;
 }
 
-async function fetchUser(username, userEmail){
-        const userData = [];
+async function fetchUser(username/*, userEmail*/){
+    try{
+        var userData = [];
         username = username.toString();
-        userEmail = userEmail.toString();
-        const q = query(users, where('username', '==', username));
-        const getUsers = await getDocs(q).then((querySnapshot) => {
+        //userEmail = userEmail.toString();
+        const q = query(users, where('username', '==', username), limit(1));
+        const getUser = await getDocs(q).then((querySnapshot) => {
             const tempDoc = [];
-            tempDoc.push({ id: doc.id, ...doc.data() });
+            querySnapshot.forEach((doc) => {
+                tempDoc.push({ id: doc.id, ...doc.data() });
+            });
             userData = tempDoc;
         })
-        if(userData.userEmail == userEmail){
-            return userData;
-        } else {
-            console.log("userData error, userData = " + userData);
-            return false;
-        }
-        
+        var userStr = JSON.stringify(userData, null, 4);
+        console.log("User data = " + userStr);
+        //if(userData.userEmail == userEmail){
+        var user = userData[0];
+        return user;
+        //} else {
+        //    console.log("userData error, userData = " + userData);
+        //    return false;
+        //}
+    } catch(error) {
+        console.log(error);
+        alert("Please enter the correct username and e-mail associated with the account before proceeding.");
+    }
+    return false;
 }
 
-document.addEventListener("DOMContentLoaded", async function () {
-    console.log("questions are loaded");
+document.getElementById("answer1").addEventListener("click", async function (e) {
+    e.preventDefault();
+    console.log("username is entered");
+    const userEmailElement = document.getElementById("user_email");
+    const userNameElement = document.getElementById("username");
+    var userEmail = userEmailElement.value;
+    var username = userNameElement.value;
+    const user = await fetchUser(username);
+    //var userStr = JSON.stringify(user, null, 4);
+    //console.log("User data = " + userStr);
+
     const question1 = user.question1;
     const question2 = user.question2;
-    document.getElementById("question1").textcontent=String(question1);
+    document.getElementById("question1").textContent = question1;
     console.log(question1);
-    document.getElementById("question2").textcontent=String(question2);
+    document.getElementById("question2").textContent = String(question2);
     console.log(question2);
+    console.log("questions are loaded");
 
     return true;
 });
@@ -99,14 +121,18 @@ document.getElementById("password_form").addEventListener("submit", async functi
     const userNameElement = document.getElementById("username");
     const answer1Element = document.getElementById("answer1");
     const answer2Element = document.getElementById("answer2");
-    const answer2Element = document.getElementById("password");
+    const passwordElement = document.getElementById("password");
 
     var userEmail = userEmailElement.value;
     var username = userNameElement.value;
     var answer1 = answer1Element.value;
     var answer2 = answer2Element.value;
-
-
+    var password = passwordElement.value;
+    
+    const user = await fetchUser(username);
+    var userStr = JSON.stringify(user, null, 4);
+    console.log("User data password_form listener = " + userStr);
+    
     var isValid = true;
 
     if (userEmail == '') {
@@ -141,7 +167,7 @@ document.getElementById("password_form").addEventListener("submit", async functi
         showError(passwordElement, errorMessage);
         isValid = false;
     }
-    if (!validateNewPassword(password)) {
+    if (!validateNewPassword(password, user)) {
         var errorMessage = 'Passwords used in the past cannot be re-used.'
         if (password == '') {
             errorMessage = "Please enter a password."
@@ -164,8 +190,10 @@ document.getElementById("password_form").addEventListener("submit", async functi
         oldPasswords.push(user.password);
     }
 
-    const userRef = doc(db, 'users', username.toString());
-
+    //const q = query(users, where('username', '==', username), limit(1));
+    //const userRef = await getDocs(q);
+    const userRef = doc(db, 'users', String(user.id));
+    
     await updateDoc(userRef, {
         password: password,
         passwordCreatedAt: serverTimestamp(),
@@ -173,6 +201,7 @@ document.getElementById("password_form").addEventListener("submit", async functi
     });
             
     console.log('User updated successfully!');
-
+    //TBD
+    window.location.href = 'index.html';
     return true;
 });

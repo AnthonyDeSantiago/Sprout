@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create a New User</title>
     <link rel="stylesheet" href="style.css" class="rel">
     <script defer src = "sprout.js" type="module"></script>
+    <script defer src = "createuser.js" type="module"></script>
+    <script defer src = "email_auth.js" type="module"></script>
 </head>
 
-        <!-- Blank Logo -->
-        <img src="asset/blank.png" id = "blank">
+
 <body>
+    <div>
+        <!-- Blank Logo -->
+        <!-- <img src="asset/blank.png" id = "blank"> -->
 
         <main id = "user_page_form">
 
-            <!-- Logo in every page -->
-            <img src="asset/LOGO.png" class = "logo">
+            <!-- Name in every page -->
+            <img src="asset/NAME.png" class ="logo_name">
 
             <!-- Form page  -->
             <form id ="new_user_form">
@@ -57,12 +61,12 @@
                 </div>
                 
                 <h2 id = "avatar_form">
-                    <input type="radio" name="avatar" id="avatar_radio" value="av1">
-                    <img src="asset/blank.png" id = "new_profile_pic">
-                    <input type="radio" name="avatar" id="avatar_radio" value="av2">
-                    <img src="asset/blank.png" id = "new_profile_pic">
-                    <input type="radio" name="avatar" id="avatar_radio" value="av3">
-                    <img src="asset/blank.png" id = "new_profile_pic">
+                    <input type="radio" name="avatar" id="avatar_radio" value="asset/cat.png">
+                    <img src="asset/cat.png" id = "new_profile_pic">
+                    <input type="radio" name="avatar" id="avatar_radio" value="asset/bear.png">
+                    <img src="asset/bear.png" id = "new_profile_pic">
+                    <input type="radio" name="avatar" id="avatar_radio" value="asset/panda.png">
+                    <img src="asset/panda.png" id = "new_profile_pic">
                 </h2>
                 
                 <div class="self_profile_pic">
@@ -111,15 +115,9 @@
                     
                 
                 <!--I put the button in the form hope thats ok-->   
-                <button class="new_user_submit_form" type="submit">Submit</button>
+                <button id="sign_up" class="new_user_submit_form" type="submit">Submit</button>
             </form>
-
-            <!--Changing Button temporarily-->
-            <!-- button -->
-            <!--<a href="index.html">
-                <button class = "new_user_submit_form">Submit</button>
-            </a>-->
-            <!--******************************************-->
         </main>
+    </div>
 </body>
 </html>
