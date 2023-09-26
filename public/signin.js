@@ -58,7 +58,6 @@ async function fetchUser(username) {
     const querySnapshot = await getDocs(q);
     
     if (querySnapshot.size === 0) {
-      // No user found with the given username
       return null;
     }
 
@@ -102,64 +101,17 @@ document.getElementById("main_form").addEventListener("submit", async function (
       return false;
     }
 
-    // if (password == '') {
-    //   var errorMessage = "Please enter a password.";
-    //   showError(passwordElement, errorMessage);
-    // }
-
-    // const userQuery = query(users, where('username', '==', username));
-    // const userSnapShot = await getDocs(userQuery);
-
-    // if (userSnapShot.empty) {
-    //   var errorMessage = "Username does not exist.";
-    //       showError(userNameElement, errorMessage);
-    //       isValid = false;
-    //       return false;
-    // }
-
-    // const docRef = userSnapShot.docs[0];
+    
     const user = await fetchUser(username);
     if (user == null) {
-      console.log("docRef is null");
-    } else {
-      console.log("docRef is not null: " + user.password);
+      var errorMessage = "Username does not exist.";
+      showError(userNameElement, errorMessage);
+      return false;
     }
     
     const docRef = doc(db, 'users', user.id);
-
-    if (docRef == null) {
-      var errorMessage = "Username does not exist.";
-      showError(userNameElement, errorMessage);
-      isValid = false;
-      return false;
-    }
-
     
-
-    // console.log("Has the property: " + userData.hasOwnProperty('failedPasswordAttempts'));
-
-    // if (!userData.hasOwnProperty('failedPasswordAttempts')) {
-    //   await updateDoc(docRef, {failedPasswordAttempts: 0});
-    //   console.log("adding the failed attempts field if it is not already there");
-    // }
-    
-    
-    
-    
-
     var isValid = true;
-
-    //Check if user exists - I don't know how to make it break out of event listener
-    // getDoc(docRef)
-    //   .then((docSnapshot) => {
-    //     if (!docSnapshot.exists()) {
-    //       var errorMessage = "Username does not exist.";
-    //       showError(userNameElement, errorMessage);
-    //       isValid = false;
-    //       return false;
-    //     }
-    //   })
-
     
 
     //Validate if password is correct
@@ -170,7 +122,16 @@ document.getElementById("main_form").addEventListener("submit", async function (
       var errorMessage = "Password is incorrect!";
       showError(passwordElement, errorMessage);
 
-      var updateData = {failedPasswordAttempts: user.failedPasswordAttempts + 1};
+      const docData = (await getDoc(docRef)).data();
+      if (!docData.hasOwnProperty('failedPasswordAttempts')) {
+        // The 'failedPasswordAttempts' field doesn't exist, so initialize it to 0
+        await updateDoc(docRef, { failedPasswordAttempts: 0 });
+        console.log("Adding the failed attempts field if it's not already there");
+      }
+
+      const updatedFailedPasswordAttempts = (docData.failedPasswordAttempts || 0) + 1;
+      var updateData = {failedPasswordAttempts: updatedFailedPasswordAttempts};
+      
 
       if (updateData.failedPasswordAttempts >= 3) {
         //Suspend the user aka turn db.suspended = true
@@ -201,7 +162,9 @@ document.getElementById("main_form").addEventListener("submit", async function (
 
     //Check if user is suspended
     if (user.suspended) {
+      console.log("User is suspended!");
       isValid = false;
+      return false;
     } 
 
     
