@@ -212,10 +212,10 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                         const user = userCredential.user;
                         console.log("fetched userCred = "+ user);
                         //email verification
-                        sendEmailVerification(user)
+                        /*sendEmailVerification(user)
                             .then(()=>{
                                 console.log('Email Verfication sent');
-                        });
+                        });*/
                         
                         const uid = user.uid;
                         console.log(uid);
