@@ -210,9 +210,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                     .then(async (userCredential) => {
                         // Signed in 
                         const user = userCredential.user;
-                        const user = await auth.currentUser;
-                        console.log("fetched userCred = "+ userCred);
-                        console.log("fetched user = " + user)
+                        console.log("fetched userCred = "+ user);
                         //email verification
                         sendEmailVerification(user)
                             .then(()=>{
@@ -221,6 +219,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                         
                         const uid = user.uid;
                         console.log(uid);
+                        const credID
                         const approved = false;
                         const susEnd = new Date(2200, 1, 1);
                         
