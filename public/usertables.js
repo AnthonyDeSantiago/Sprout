@@ -1,8 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
@@ -61,15 +61,60 @@ document.addEventListener("DOMContentLoaded", async function () {
             tbody.appendChild(row);
         });
     }
+    // open the Edit User Popup
+function openEditUserPopup() {
+    const editUserPopup = document.getElementById('editUserPopup');
+    editUserPopup.style.display = 'block';
+}
 
-    // Example: Function to populate the extended table when a username is clicked
+// close the Edit User Popup
+function closeEditUserPopup() {
+    const editUserPopup = document.getElementById('editUserPopup');
+    editUserPopup.style.display = 'none';
+}
+
+function showDeleteUserPopup() {
+    const deleteUserPopup = document.getElementById('deleteUserPopup');
+    const popupBackground = document.getElementById('popupBackground');
+    deleteUserPopup.style.display = 'block';
+    popupBackground.style.display = 'block';
+}
+
+// Function to close the Delete User Popup and Popup Background
+function closeDeleteUserPopup() {
+    const deleteUserPopup = document.getElementById('deleteUserPopup');
+    const popupBackground = document.getElementById('popupBackground');
+    deleteUserPopup.style.display = 'none';
+    popupBackground.style.display = 'none';
+}
+
+// edit a user's data (called when "Save" is clicked in the Edit User Popup)
+function saveEditedUser(userId) {
+    //  logic to save the edited user data to Firebase
+
+    // You can access the new data from the input fields
+    const newUsername = document.getElementById('newUsername').value;
+    
+    // Close the Edit User Popup
+    closeEditUserPopup();
+}
+
+// delete a user 
+function deleteUser(userId) {
+    // Implement your logic here to delete the user from Firebase
+
+    // Update the database and userstable
+
+    // Close the Delete User Popup
+    closeDeleteUserPopup();
+}
+    // populate extended table when username is clicked
     async function showExtendedTable(username) {
-        // Replace this with your Firebase data retrieval logic
-        // You may want to fetch data for the specific user by their username
-        // and populate the extended table with the unknown columns
+        // fetch data for the specific user by their username
+        // and populate the extended table with the columns
         var readUser = [];
         username = username.toString();
-        const q = query(users, where('username', '==', username), where('role', '!=', "deleted"));
+        const q = query(users, where('username', '==', username)); 
         const getUsers = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
@@ -134,4 +179,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Load user data when the page loads
     loadUsers();
 });
+
 

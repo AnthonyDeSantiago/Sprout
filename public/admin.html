@@ -35,23 +35,19 @@
     <script defer src="usertables.js" type="module"></script>
 </head>
 <body>
-<!--header nav-->
     <div class="header-nav">
-
-		<div class="sprout_logo">
-			<img src="asset/NAME.png"  id="logo">
-		</div>
-		<div class="userprofile">
-			<div class="userprofile_image">
-				<img src="" id="userprofile_image_src">
-			</div>
-			<div class="userprofile_text">
-				<span id="userprofile_name">Welcome User</span>
-			</div>
-		</div>
-		
-	</div>
-
+      <div class="sprout_logo">
+        <img src="assets/NAME.png"  id="logo">
+      </div>
+      <div class="userprofile">
+        <div class="userprofile_image">
+          <img src="" id="userprofile_image_src">
+        </div>
+        <div class="userprofile_text">
+          <span id="userprofile_name">Welcome Admin, </span>
+        </div>
+      </div>
+      </div>
 
     <!-- Search Bar -->
     <div class="search-container">
@@ -77,6 +73,32 @@
     <div class="extended-table" id="extended-table">
         <!-- This section will be populated when a username is clicked -->
     </div>
+    <!-- Popup Background -->
+<div id="popupBackground" class="popup-background"></div>
+         <!-- Add this div for the Edit User Popup Form -->
+    <div id="editUserPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeEditUserPopup()">&times;</span>
+            <!-- Add your edit user form elements here -->
+            <h2>Edit User</h2>
+            <!-- Example: Input fields for editing user data -->
+            <label for="newUsername">New Username:</label>
+            <input type="text" id="newUsername" name="newUsername" placeholder="Enter New Username">
+            <button onclick="saveEditedUser('${userData.id}')">Save</button>
+        </div>
+    </div>
 
+<div id="popupBackground" class="popup-background"></div>
+
+    <div id="deleteUserPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeDeleteUserPopup()">&times;</span>
+            <!-- Confirmation message for deleting the user -->
+            <h2>Are you sure you want to delete this user?</h2>
+            <button onclick="deleteUser('${userData.id}')">Yes</button>
+            <!-- Add an "onclick" event to call the closeDeleteUserPopup function when "No" is clicked -->
+            <button onclick="closeDeleteUserPopup()">No</button>
+        </div>
+    </div>
 </body>
 </html>
