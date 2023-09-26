@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // and populate the extended table with the unknown columns
         var readUser = [];
         username = username.toString();
-        const q = query(users, where('username', '==', username));
+        const q = query(users, where('username', '==', username), where('role', '!=', "deleted"));
         const getUsers = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
