@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
-//const auth = getAuth(app);
+const auth = getAuth();
 
 const user = await auth.currentUser;
 
