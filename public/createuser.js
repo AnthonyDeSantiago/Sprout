@@ -227,7 +227,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
             
             try{
                  
-                const uid = user.uid;
+                const uid = await user.uid;
                 console.log(uid);
 
                 const approved = false;
