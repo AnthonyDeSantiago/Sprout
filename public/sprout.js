@@ -20,6 +20,48 @@ const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
 //const auth = getAuth(app);
 
+const user = await auth.currentUser;
 
+if (user !== null) {
+  user.providerData.forEach((profile) => {
+    console.log("Sign-in provider: " + profile.providerId);
+    console.log("  Provider-specific UID: " + profile.uid);
+    console.log("  Name: " + profile.displayName);
+    console.log("  Email: " + profile.email);
+    console.log("  Photo URL: " + profile.photoURL);
+  });
+}
+
+async function fetchUser(){
+    try{
+        uid = uid.toString();
+        const userRef = doc(db, 'users', uid);
+        const getUser = await getDoc(userRef);
+        
+        var userStr = JSON.stringify(getUser, null, 4);
+        console.log("User data = " + userStr);
+        
+        return getUser;
+    } catch(error) {
+        console.log(error);
+        alert("Unable to authenticate user. Please contact administrator.");
+    }
+    return false;
+}
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+    if (user) {
+        console.log("User is signed in"); 
+        const userProfile = await fetchUser(user.uid);
+        console.log(String(userProfile.firstName + " " + userProfile.lastName));
+        document.getElementById("userprofile_name").textContent = String(userProfile.firstName + " " + userProfile.lastName);
+        document.getElementById("userprofile_image_src").src = String(userProfile.avatar);
+        console.log("User role is " + userProfile.role);
+    } else {
+        console.log("No user is signed in.");
+        
+    }
+});
 
 
