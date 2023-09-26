@@ -207,7 +207,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         if(!emailAlreadyInUse){           
             try{
                 createUserWithEmailAndPassword(auth, userEmail, password)
-                    .then(async (userCredential) => {
+                    .then((userCredential) => {
                         // Signed in 
                         const user = userCredential.user;
                         console.log("fetched userCred = "+ user);
