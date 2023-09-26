@@ -210,14 +210,14 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                     .then((userCredential) => {
                         // Signed in 
                         const userCred = userCredential.user;
-                         
+                        const user = await auth.currentUser;
+                        
                         //email verification
-                        await sendEmailVerification(auth.currentUser)
+                        sendEmailVerification(user)
                             .then(()=>{
                                 console.log('Email Verfication sent');
-                            });
+                        });
                         
-                        const user = await auth.currentUser;
                         const uid = user.uid;
                         console.log(uid);
                         const approved = false;
