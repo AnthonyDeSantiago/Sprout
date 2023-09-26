@@ -205,36 +205,31 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         console.log("emailAlreadyInUse = "+ emailAlreadyInUse);
         
         if(!emailAlreadyInUse){
-            /*
-            await createUserWithEmailAndPassword(auth, userEmail, password)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
-                    console.log("user = " + user);
-                    // ...
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // ..
-                });*/
-    
-            /*const user = auth.currentUser;
-            const uid = user.uid;
-            console.log("UID = " + uid);
+            const createAccount = async () =>{            
+                try{
+                    const userCred = await createUserWithEmailAndPassword(auth, userEmail, password);
+                    console.log(userCred.user);
             
-            updateProfile(auth.currentUser, {
-              displayName: String(firstName + " " + lastName), photoURL: "https://example.com/jane-q-user/profile.jpg"
-            }).then(() => {
-              console.log("Profile updated");
-                // Profile updated!
-              // ...
-            }).catch((error) => {
-              // An error occurred
-              // ...
-            });*/
+                    //email verification
+                    await sendEmailVerification(auth.currentUser)
+                        .then(()=>{
+                            console.log('Email Verfication sent');
+                        })
+                }
+                catch(error){
+                    console.log('there was an error creating the user');
+                    return false;
+                }
+            }
+
+            const user = auth.currentUser;
+            const uid = user.providerData.providerId;
+            console.log(uid);
+            const approved = false;
+            const susEnd = new Date(2200, 1, 1);
             
             const newUser = {
+                id: uid,
                 userEmail: userEmail,
                 firstName: firstName,
                 lastName: lastName,
@@ -247,13 +242,15 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 answer2: answer2,
                 address: address,
                 DOB: dateOfBirth,
+                suspended: true,
+                suspensionEndDate: susEnd,
                 role: 'blank',
-                approved: 'blank',
+                approved: approved,
                 userCreatedAt: serverTimestamp()
             }
 
 
-            await setDoc(doc(db, 'new_user_requests', username.toString()),  newUser);
+            await setDoc(doc(db, 'users', uid.toString()),  newUser);
             console.log('New user request added successfully!');
 
         } else{ 
