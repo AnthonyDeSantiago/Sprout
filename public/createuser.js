@@ -219,7 +219,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                         
                         const uid = user.uid;
                         console.log(uid);
-                        const credID
+
                         const approved = false;
                         const susEnd = new Date(2200, 1, 1);
                         
