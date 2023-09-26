@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
-const auth = getAuth(app);
+const auth = getAuth();
 
 console.log("createuser.js loaded!!")
 /*Passwords must be:
@@ -205,24 +205,28 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         console.log("emailAlreadyInUse = "+ emailAlreadyInUse);
         
         if(!emailAlreadyInUse){           
-            try{
-                var user;
+            var user;
                 createUserWithEmailAndPassword(auth, userEmail, password)
                     .then((userCredential) => {
                         // Signed in 
-                        user = userCredential.user;
-                        console.log("fetched userCred = "+ user);
+                        const userCred = userCredential.user;
+                        console.log("fetched userCred = "+ userCred);
                         //email verification
                         /*sendEmailVerification(user)
                             .then(()=>{
                                 console.log('Email Verfication sent');
                         });*/
+
+                        user = userCred;
                             
                     })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                });  
+                }); 
+            
+            try{
+                 
                 const uid = user.uid;
                 console.log(uid);
 
@@ -255,7 +259,6 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
             }
             catch(error){
                 console.log('there was an error creating the user');
-                return false;
             }
 
         } else{ 
