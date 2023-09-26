@@ -128,8 +128,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         `;
     
         extendedTable.innerHTML = extendedTableHtml;
-        var table = getElementByClass(.extended-table);
-        table.style.display = "contents";
+        document.getElementById("extended-table").style.display = "contents";
     }
     
     // Load user data when the page loads
