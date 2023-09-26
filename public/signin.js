@@ -162,6 +162,8 @@ document.getElementById("main_form").addEventListener("submit", async function (
 
     //Check if user is suspended
     if (user.suspended) {
+      var errorMessage = "Acount suspended. Please Contact Admin.";
+      showError(passwordElement, errorMessage);
       console.log("User is suspended!");
       isValid = false;
       return false;
