@@ -178,6 +178,18 @@ document.getElementById("main_form").addEventListener("submit", async function (
         })
     }
 
+    await signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log("user signed in = " + user);
+            // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+
     console.log("User.role = " + user.role);
 
     if (user.role == "admin") {
@@ -189,17 +201,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
     }
 
    
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            console.log("user signed in");
-            // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-        });
+    
 });
 /*
 onAuthStateChanged(auth, (user) => {
