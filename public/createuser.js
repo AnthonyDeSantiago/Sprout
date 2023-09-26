@@ -215,7 +215,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                         await sendEmailVerification(auth.currentUser)
                             .then(()=>{
                                 console.log('Email Verfication sent');
-                            })
+                            });
                         
                         const user = await auth.currentUser;
                         const uid = user.uid;
