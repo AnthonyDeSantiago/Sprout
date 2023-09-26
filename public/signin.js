@@ -90,6 +90,14 @@ document.getElementById("main_form").addEventListener("submit", async function (
 
     const userQuery = query(users, where('username', '==', username));
     const userSnapShot = await getDocs(userQuery);
+
+    if (userSnapShot.empty) {
+      var errorMessage = "Username does not exist.";
+          showError(userNameElement, errorMessage);
+          isValid = false;
+          return false;
+    }
+
     const docRef = userSnapShot.docs[0];
 
     
@@ -100,15 +108,15 @@ document.getElementById("main_form").addEventListener("submit", async function (
     var isValid = true;
 
     //Check if user exists - I don't know how to make it break out of event listener
-    getDoc(docRef)
-      .then((docSnapshot) => {
-        if (!docSnapshot.exists()) {
-          var errorMessage = "Username does not exist.";
-          showError(userNameElement, errorMessage);
-          isValid = false;
-          return false;
-        }
-      })
+    // getDoc(docRef)
+    //   .then((docSnapshot) => {
+    //     if (!docSnapshot.exists()) {
+    //       var errorMessage = "Username does not exist.";
+    //       showError(userNameElement, errorMessage);
+    //       isValid = false;
+    //       return false;
+    //     }
+    //   })
 
     
 
