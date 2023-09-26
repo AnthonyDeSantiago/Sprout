@@ -33,8 +33,8 @@ const createAccount = async () =>{
         console.log('there was an error')
     }
 }
-
-sign_up.addEventListener("click", createAccount);
+//being handled in createuser.js right now
+//sign_up.addEventListener("click", createAccount);
 
 
 
