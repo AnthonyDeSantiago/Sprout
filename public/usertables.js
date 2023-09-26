@@ -148,7 +148,7 @@ async function confirmDelete(id){
     
     await updateDoc(userRef, {
         role: "deleted"
-    }
+    });
 }
 
 async function editUser(id){
