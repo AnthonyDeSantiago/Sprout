@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         var usersArray = [];
         var oneYearAgo = new Date();
         oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-        const q = query(users, where('role', '!=', "deleted"), where('passwordCreatedAt', '>', oneYearAgo)); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
+        const q = query(users, where('passwordCreatedAt', '>', oneYearAgo)); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
         const userDocs = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
@@ -50,17 +50,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         tbody.innerHTML = ""; // Clear existing rows
 
         usersArray.forEach((user) => {
-            const row = document.createElement("tr");
-            const usernameCell = document.createElement("td");
-
-            // Add a click event to the username cell
-            usernameCell.innerText = user.username;
-            usernameCell.addEventListener("click", () => {
-                showExtendedTable(user.username);
-            });
-
-            row.appendChild(usernameCell);
-            tbody.appendChild(row);
+            if(user.role != "deleted"){
+                const row = document.createElement("tr");
+                const usernameCell = document.createElement("td");
+    
+                // Add a click event to the username cell
+                usernameCell.innerText = user.username;
+                usernameCell.addEventListener("click", () => {
+                    showExtendedTable(user.username);
+                });
+    
+                row.appendChild(usernameCell);
+                tbody.appendChild(row);
+            }
         });
     }
 
