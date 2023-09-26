@@ -52,6 +52,25 @@ function hideError(input) {
   formControl.className = "form-control";
 }
 
+async function fetchUser(username) {
+  try {
+    const q = query(collection(db, 'users'), where('username', '==', username), limit(1));
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.size === 0) {
+      // No user found with the given username
+      return null;
+    }
+
+    const doc = querySnapshot.docs[0];
+    return { id: doc.id, ...doc.data() };
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred while fetching the user.");
+    return null;
+  }
+}
+
 document.addEventListener('keydown', function(event) {
   const passwordElement = document.getElementById("password");
   const userNameElement = document.getElementById("username");
@@ -83,32 +102,48 @@ document.getElementById("main_form").addEventListener("submit", async function (
       return false;
     }
 
-    if (password == '') {
-      var errorMessage = "Please enter a password.";
-      showError(passwordElement, errorMessage);
-    }
+    // if (password == '') {
+    //   var errorMessage = "Please enter a password.";
+    //   showError(passwordElement, errorMessage);
+    // }
 
-    const userQuery = query(users, where('username', '==', username));
-    const userSnapShot = await getDocs(userQuery);
+    // const userQuery = query(users, where('username', '==', username));
+    // const userSnapShot = await getDocs(userQuery);
 
-    if (userSnapShot.empty) {
-      var errorMessage = "Username does not exist.";
-          showError(userNameElement, errorMessage);
-          isValid = false;
-          return false;
-    }
+    // if (userSnapShot.empty) {
+    //   var errorMessage = "Username does not exist.";
+    //       showError(userNameElement, errorMessage);
+    //       isValid = false;
+    //       return false;
+    // }
 
-    const docRef = userSnapShot.docs[0];
-    const userData = docRef.data();
-
-    console.log("Has the property: " + userData.hasOwnProperty('failedPasswordAttempts'));
-
-    if (!userData.hasOwnProperty('failedPasswordAttempts')) {
-      await updateDoc(docRef, {failedPasswordAttempts: 0});
-      console.log("adding the failed attempts field if it is not already there");
+    // const docRef = userSnapShot.docs[0];
+    const user = await fetchUser(username);
+    if (user == null) {
+      console.log("docRef is null");
+    } else {
+      console.log("docRef is not null: " + user.password);
     }
     
-    //const docRef = doc(db, 'users', username.toString());
+    const docRef = doc(db, 'users', user.id);
+
+    if (docRef == null) {
+      var errorMessage = "Username does not exist.";
+      showError(userNameElement, errorMessage);
+      isValid = false;
+      return false;
+    }
+
+    
+
+    // console.log("Has the property: " + userData.hasOwnProperty('failedPasswordAttempts'));
+
+    // if (!userData.hasOwnProperty('failedPasswordAttempts')) {
+    //   await updateDoc(docRef, {failedPasswordAttempts: 0});
+    //   console.log("adding the failed attempts field if it is not already there");
+    // }
+    
+    
     
     
 
@@ -128,14 +163,14 @@ document.getElementById("main_form").addEventListener("submit", async function (
     
 
     //Validate if password is correct
-    if (password != userData.password) {
+    if (password != user.password) {
       console.log("Passwords did not match!!");
-      console.log("password on db: " + userData.password + " typed pswd: " + password);
+      console.log("password on db: " + user.password + " typed pswd: " + password);
       
       var errorMessage = "Password is incorrect!";
       showError(passwordElement, errorMessage);
 
-      var updateData = {failedPasswordAttempts: userData.failedPasswordAttempts + 1};
+      var updateData = {failedPasswordAttempts: user.failedPasswordAttempts + 1};
 
       if (updateData.failedPasswordAttempts >= 3) {
         //Suspend the user aka turn db.suspended = true
@@ -165,7 +200,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
 
 
     //Check if user is suspended
-    if (userPage.data().suspended) {
+    if (user.suspended) {
       isValid = false;
     } 
 
