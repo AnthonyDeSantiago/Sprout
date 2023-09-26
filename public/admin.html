@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="style.css" class="rel">
+    <link rel="stylesheet" href="style.css">
     <style>
         /* Add your custom CSS styles here */
         body {
@@ -29,29 +29,14 @@
             width: 100%;
             max-width: 100%;
         }
+        /* Add your additional styles here */
     </style>
-    <!-- Include your JavaScript files -->
-    <script defer src="sprout.js" type="module"></script>
-    <script defer src="usertables.js" type="module"></script>
 </head>
 <body>
-<!--header nav-->
+    <!-- Your existing header content -->
     <div class="header-nav">
-
-		<div class="sprout_logo">
-			<img src="asset/NAME.png"  id="logo">
-		</div>
-		<div class="userprofile">
-			<div class="userprofile_image">
-				<img src="" id="userprofile_image_src">
-			</div>
-			<div class="userprofile_text">
-				<span id="userprofile_name">Welcome User</span>
-			</div>
-		</div>
-		
-	</div>
-
+        <!-- Your header content here -->
+    </div>
 
     <!-- Search Bar -->
     <div class="search-container">
@@ -78,5 +63,34 @@
         <!-- This section will be populated when a username is clicked -->
     </div>
 
+    <!-- Popup Background for Edit User -->
+    <div id="editUserPopupBackground" class="popup-background"></div>
+
+    <!-- Edit User Popup Form -->
+    <div id="editUserPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeEditUserPopup()">&times;</span>
+            <h2>Edit User</h2>
+            <label for="newUsername">New Username:</label>
+            <input type="text" id="newUsername" name="newUsername" placeholder="Enter New Username">
+            <button onclick="saveEditedUser('${userData.id}')">Save</button>
+        </div>
+    </div>
+
+    <!-- Popup Background for Delete User -->
+    <div id="deleteUserPopupBackground" class="popup-background"></div>
+
+    <!-- Delete User Popup Form -->
+    <div id="deleteUserPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeDeleteUserPopup()">&times;</span>
+            <h2>Are you sure you want to delete this user?</h2>
+            <button onclick="deleteUser('${userData.id}')">Yes</button>
+            <button onclick="closeDeleteUserPopup()">No</button>
+        </div>
+    </div>
+
+    <!-- Include your JavaScript files -->
+    <script defer src="usertables.js" type="module"></script>
 </body>
 </html>
