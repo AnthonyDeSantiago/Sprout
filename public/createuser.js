@@ -255,7 +255,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 }
             
                 await setDoc(doc(db, 'users', uid.toString()),  newUser);
-                console.log('New user request added successfully!');        
+                console.log('New user request added successfully!');
+                alert("Your user request has been submitted. An admin will contact you shortly. Thank you!");        
             }
             catch(error){
                 console.log('there was an error creating the user');
