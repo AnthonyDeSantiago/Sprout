@@ -52,7 +52,7 @@ const emailAndPassword = async () =>{
     }
 }
 
-sign_in.addEventListener("click", emailAndPassword);
+//sign_in.addEventListener("click", emailAndPassword);
 
 
 
