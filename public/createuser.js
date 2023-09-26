@@ -20,6 +20,20 @@ const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
 const auth = getAuth();
 
+let avatar_image_path = null;
+const radioButtons = document.querySelectorAll('input[name="avatar"]');
+
+
+radioButtons.forEach((radioButton) => {
+  radioButton.addEventListener("click", function () {
+    if (this.checked) {
+      avatar_image_path = this.value;
+      console.log("Selected avatar image path:", avatar_image_path);
+      
+    }
+  });
+});
+
 console.log("createuser.js loaded!!")
 /*Passwords must be:
 --> a minimum of 8 characters,
