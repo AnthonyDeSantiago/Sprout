@@ -102,7 +102,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
 
     
     //const docRef = doc(db, 'users', username.toString());
-    const userPage = await(getDoc(docRef));
+    
     
 
     var isValid = true;
@@ -121,7 +121,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
     
 
     //Validate if password is correct
-    if (password != userPage.data().password) {
+    if (password != docRef.data().password) {
       console.log("Passwords did not match!!");
       console.log("password on db: " + userPage.data().password + " typed pswd: " + password);
       
