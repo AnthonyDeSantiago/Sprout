@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Replace this with your Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
         var usersArray = [];
-        const q = query(users); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
+        const q = query(users, where('approved', '==', false), where('role', '!=', "deleted")); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
         const userDocs = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // and populate the extended table with the unknown columns
         var readUser = [];
         username = username.toString();
-        const q = query(users, where('username', '==', username), where('approved', '==', false);
+        const q = query(users, where('username', '==', username));
         const getUsers = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
