@@ -58,7 +58,6 @@ async function fetchUser(username) {
     const querySnapshot = await getDocs(q);
     
     if (querySnapshot.size === 0) {
-      // No user found with the given username
       return null;
     }
 
@@ -120,21 +119,12 @@ document.getElementById("main_form").addEventListener("submit", async function (
     // const docRef = userSnapShot.docs[0];
     const user = await fetchUser(username);
     if (user == null) {
-      console.log("docRef is null");
-    } else {
-      console.log("docRef is not null: " + user.password);
+      var errorMessage = "Username does not exist.";
+      showError(userNameElement, errorMessage);
+      return false;
     }
     
     const docRef = doc(db, 'users', user.id);
-
-    if (docRef == null) {
-      var errorMessage = "Username does not exist.";
-      showError(userNameElement, errorMessage);
-      isValid = false;
-      return false;
-    }
-
-    
 
     // console.log("Has the property: " + userData.hasOwnProperty('failedPasswordAttempts'));
 
@@ -170,7 +160,24 @@ document.getElementById("main_form").addEventListener("submit", async function (
       var errorMessage = "Password is incorrect!";
       showError(passwordElement, errorMessage);
 
-      var updateData = {failedPasswordAttempts: user.failedPasswordAttempts + 1};
+      const docData = (await getDoc(docRef)).data();
+      if (!docData.hasOwnProperty('failedPasswordAttempts')) {
+        // The 'failedPasswordAttempts' field doesn't exist, so initialize it to 0
+        await updateDoc(docRef, { failedPasswordAttempts: 0 });
+        console.log("Adding the failed attempts field if it's not already there");
+      }
+
+      // Now you can safely update the 'failedPasswordAttempts' field
+      const updatedFailedPasswordAttempts = (docData.failedPasswordAttempts || 0) + 1;
+
+
+      var updateData = {failedPasswordAttempts: updatedFailedPasswordAttempts};
+      // if (!docRef.hasOwnProperty('failedPasswordAttempts')) {
+      //   await updateDoc(docRef, {failedPasswordAttempts: 0});
+      //   console.log("adding the failed attempts field if it is not already there");
+      // }
+
+      // var updateData = {failedPasswordAttempts: docRef.failedPasswordAttempts + 1};
 
       if (updateData.failedPasswordAttempts >= 3) {
         //Suspend the user aka turn db.suspended = true
