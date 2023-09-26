@@ -178,7 +178,7 @@ document.getElementById("main_form").addEventListener("submit", async function (
         })
     }
 
-    await signInWithEmailAndPassword(auth, email, password)
+    await signInWithEmailAndPassword(auth, user.userEmail, password)
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
