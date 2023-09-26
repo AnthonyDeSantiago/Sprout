@@ -1,8 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
@@ -120,10 +120,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             
             <!-- Buttons for Edit, Delete, Email, and Suspend -->
             <div class="button-container">
-                <button class="edit-button" onclick="editUser('${userData.id}')">Edit User</button>
-                <button class="delete-button" onclick="confirmDelete('${userData.id}')">Delete</button>
-                <button class="email-button" onclick="emailUser('${userData.userEmail}')">Email User</button>
-                <button class="suspend-button" onclick="suspendUser('${userData.id}')">Suspend</button>
+                <button id="edit-button" onclick="editUser('${userData.id}')">Edit User</button>
+                <button id="delete-button" onclick="confirmDelete('${userData.id}')">Delete</button>
+                <button id="email-button" onclick="emailUser('${userData.userEmail}')">Email User</button>
+                <button id="suspend-button" onclick="suspendUser('${userData.id}')">Suspend</button>
             </div>
         `;
     
@@ -134,4 +134,64 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Load user data when the page loads
     loadUsers();
 });
+
+async function suspendUser(id){
+    const userRef = doc(db, 'users', String(id));
+    
+    await updateDoc(userRef, {
+        suspend: true
+    }
+}
+
+async function confirmDelete(id){
+    const userRef = doc(db, 'users', String(id));
+    
+    await updateDoc(userRef, {
+        role: "deleted"
+    }
+}
+
+async function editUser(id){
+    var readUser = [];
+    const id = id.toString();
+    const q = query(users, where('id', '==', id));
+    const getUsers = await getDocs(q).then((querySnapshot) => {
+            var tempDoc = [];
+            querySnapshot.forEach((doc) => {
+                tempDoc.push({ id: doc.id, ...doc.data() });
+            });
+            readUser = tempDoc;
+    });
+    
+    // Get the user data object
+    const userData = readUser[0];
+    
+    document.getElementById("editUserPopup").style.display = "contents";
+    
+    document.getElementById("editUserPopup").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        
+        const newUserName = document.getElementById("newUsername");
+        var newEmail = document.getElementById("newEmail");
+        const newfirstNameElement = document.getElementById("newfirst_name");
+        const newlastNameElement = document.getElementById("newlast_name");
+        const newaddressElement = document.getElementById("newaddress");
+        const newDOB = document.getElementById("newdateofbirth");
+
+        const userRef = doc(db, 'users', String(id));
+    
+        await updateDoc(userRef, {
+            username: newUserName,
+            userEmail: newEmail,
+            firstName: newfirstNameElement,
+            lastName: newlastNameElement,
+            address: newaddressElement,
+            DOB: newDOB,           
+        }
+
+        console.log("User updated successfully");
+    });
+
+}
+
 
