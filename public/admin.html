@@ -145,10 +145,74 @@
     <!-- Include your JavaScript files -->
     <script defer src="usertables.js" type="module"></script>
 	<script>
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+		import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+		import { collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+		import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+		import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+		
+		const firebaseConfig = {
+		    apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
+		    authDomain: "sprout-financials.firebaseapp.com",
+		    databaseURL: "https://sprout-financials-default-rtdb.firebaseio.com",
+		    projectId: "sprout-financials",
+		    storageBucket: "sprout-financials.appspot.com",
+		    messagingSenderId: "864423850272",
+		    appId: "1:864423850272:web:725227e1ed9a578ef36745",
+		    measurementId: "G-Z0E9H5Z16M"
+		};
+		
+		const app = initializeApp(firebaseConfig);
+		const db = getFirestore(app);
+		const newUserRequest = collection(db, 'new_user_requests');
+		const users = collection(db, 'users');
+		//const auth = getAuth(app);
 		function closeEditUserPopup(){
 			document.getElementById("editUserPopup").style.display = "none";
 		}
+
+		async function editUser(userid){
+			
+		    var readUser = [];
+		    const id = userid.toString();
+		    const q = query(users, where('id', '==', id));
+		    const getUsers = await getDocs(q).then((querySnapshot) => {
+		            var tempDoc = [];
+		            querySnapshot.forEach((doc) => {
+		                tempDoc.push({ id: doc.id, ...doc.data() });
+		            });
+		            readUser = tempDoc;
+		    });
+		    
+		    // Get the user data object
+		    const userData = readUser[0];
+		    
+		    document.getElementById("editUserPopup").style.display = "contents";
+		    
+		    document.getElementById("editUserPopup").addEventListener("submit", async function (e) {
+		        e.preventDefault();
+		        
+		        const newUserName = document.getElementById("newUsername");
+		        var newEmail = document.getElementById("newEmail");
+		        const newfirstNameElement = document.getElementById("newfirst_name");
+		        const newlastNameElement = document.getElementById("newlast_name");
+		        const newaddressElement = document.getElementById("newaddress");
+		        const newDOB = document.getElementById("newdateofbirth");
 		
+		        const userRef = doc(db, 'users', String(id));
+		    
+		        await updateDoc(userRef, {
+		            username: newUserName,
+		            userEmail: newEmail,
+		            firstName: newfirstNameElement,
+		            lastName: newlastNameElement,
+		            address: newaddressElement,
+		            DOB: newDOB,           
+		        });
+		
+		        console.log("User updated successfully");
+		    });
+		}
 	</script>
 </body>
 </html>
