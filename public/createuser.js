@@ -20,9 +20,9 @@ const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
 const auth = getAuth();
 
+//avatar_image_path can be pulled into the db
 let avatar_image_path = null;
 const radioButtons = document.querySelectorAll('input[name="avatar"]');
-
 
 radioButtons.forEach((radioButton) => {
   radioButton.addEventListener("click", function () {
