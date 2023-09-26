@@ -178,8 +178,17 @@ document.getElementById("main_form").addEventListener("submit", async function (
         })
     }
 
-    
-    
+    console.log("User.role = " + user.role);
+
+    if (user.role == "admin") {
+      console.log("User is an admin");
+      window.location.href = 'adminplaceholder.html';
+    } else {
+      console.log("user is not an admin");
+      window.location.href = 'userplaceholder.html';
+    }
+
+   
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
