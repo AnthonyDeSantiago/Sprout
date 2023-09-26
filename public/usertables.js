@@ -140,7 +140,7 @@ async function suspendUser(id){
     
     await updateDoc(userRef, {
         suspend: true
-    }
+    });
 }
 
 async function confirmDelete(id){
@@ -187,7 +187,7 @@ async function editUser(id){
             lastName: newlastNameElement,
             address: newaddressElement,
             DOB: newDOB,           
-        }
+        });
 
         console.log("User updated successfully");
     });
