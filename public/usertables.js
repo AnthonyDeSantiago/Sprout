@@ -151,9 +151,9 @@ async function confirmDelete(id){
     });
 }
 
-async function editUser(id){
+async function editUser(userid){
     var readUser = [];
-    const id = id.toString();
+    const id = userid.toString();
     const q = query(users, where('id', '==', id));
     const getUsers = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
