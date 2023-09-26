@@ -206,52 +206,52 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         
         if(!emailAlreadyInUse){           
             try{
+                var user;
                 createUserWithEmailAndPassword(auth, userEmail, password)
                     .then((userCredential) => {
                         // Signed in 
-                        const user = userCredential.user;
+                        user = userCredential.user;
                         console.log("fetched userCred = "+ user);
                         //email verification
                         /*sendEmailVerification(user)
                             .then(()=>{
                                 console.log('Email Verfication sent');
                         });*/
-                        
-                        const uid = user.uid;
-                        console.log(uid);
-
-                        const approved = false;
-                        const susEnd = new Date(2200, 1, 1);
-                        
-                        const newUser = {
-                            id: uid,
-                            userEmail: userEmail,
-                            firstName: firstName,
-                            lastName: lastName,
-                            username: username,
-                            password: password,
-                            passwordCreatedAt: serverTimestamp(),
-                            question1: question1,
-                            answer1: answer1,
-                            question2: question2,
-                            answer2: answer2,
-                            address: address,
-                            DOB: dateOfBirth,
-                            suspended: true,
-                            suspensionEndDate: susEnd,
-                            role: 'blank',
-                            approved: approved,
-                            userCreatedAt: serverTimestamp()
-                        }
-            
-                        await setDoc(doc(db, 'users', uid.toString()),  newUser);
-                        console.log('New user request added successfully!');
                             
                     })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                 });  
+                const uid = user.uid;
+                console.log(uid);
+
+                const approved = false;
+                const susEnd = new Date(2200, 1, 1);
+                        
+                const newUser = {
+                        id: uid,
+                        userEmail: userEmail,
+                        firstName: firstName,
+                        lastName: lastName,
+                        username: username,
+                        password: password,
+                        passwordCreatedAt: serverTimestamp(),
+                        question1: question1,
+                        answer1: answer1,
+                        question2: question2,
+                        answer2: answer2,
+                        address: address,
+                        DOB: dateOfBirth,
+                        suspended: true,
+                        suspensionEndDate: susEnd,
+                        role: 'blank',
+                        approved: approved,
+                        userCreatedAt: serverTimestamp()
+                }
+            
+                await setDoc(doc(db, 'users', uid.toString()),  newUser);
+                console.log('New user request added successfully!');        
             }
             catch(error){
                 console.log('there was an error creating the user');
