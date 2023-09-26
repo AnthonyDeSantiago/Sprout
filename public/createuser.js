@@ -206,24 +206,24 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         
         if(!emailAlreadyInUse){           
             var user;
-                createUserWithEmailAndPassword(auth, userEmail, password)
-                    .then((userCredential) => {
-                        // Signed in 
-                        const userCred = userCredential.user;
-                        console.log("fetched userCred = "+ userCred);
-                        //email verification
-                        /*sendEmailVerification(user)
-                            .then(()=>{
-                                console.log('Email Verfication sent');
-                        });*/
+            await createUserWithEmailAndPassword(auth, userEmail, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const userCred = userCredential.user;
+                    console.log("fetched userCred = "+ userCred);
+                    //email verification
+                    /*sendEmailVerification(user)
+                        .then(()=>{
+                            console.log('Email Verfication sent');
+                    });*/
 
-                        user = userCred;
+                    user = userCred;
                             
-                    })
+                })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                }); 
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            }); 
             
             try{
                  
