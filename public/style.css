@@ -51,7 +51,7 @@ html{
 	top: 50%;
 	transform: translateY(-50%);
 	display: flex;
-	align-items: center;
+	align-items: right;
 	justify-content: center;
 	max-height: 110px;
 }

@@ -88,9 +88,14 @@ document.getElementById("main_form").addEventListener("submit", async function (
       showError(passwordElement, errorMessage);
     }
 
-    const docRef = doc(db, 'users', username.toString());
-    const userPage = await(getDoc(docRef));
     const userQuery = query(users, where('username', '==', username));
+    const userSnapShot = await getDocs(userQuery);
+    const docRef = userSnapShot.docs[0];
+
+    
+    //const docRef = doc(db, 'users', username.toString());
+    const userPage = await(getDoc(docRef));
+    
 
     var isValid = true;
 
