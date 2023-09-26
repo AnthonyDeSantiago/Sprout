@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         var usersArray = [];
         var oneYearAgo = new Date();
         oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-        const q = query(users, where('passwordCreatedAt', '>', oneYearAgo)); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
+        const q = query(users, where('passwordCreatedAt', '<', oneYearAgo)); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
         const userDocs = await getDocs(q).then((querySnapshot) => {
             var tempDoc = [];
             querySnapshot.forEach((doc) => {
