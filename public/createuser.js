@@ -209,9 +209,10 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 createUserWithEmailAndPassword(auth, email, password)
                     .then(async (userCredential) => {
                         // Signed in 
-                        const userCred = userCredential.user;
+                        const user = userCredential.user;
                         const user = await auth.currentUser;
-                        
+                        console.log("fetched userCred = "+ userCred);
+                        console.log("fetched user = " + user)
                         //email verification
                         sendEmailVerification(user)
                             .then(()=>{
