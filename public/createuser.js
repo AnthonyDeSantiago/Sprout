@@ -265,7 +265,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                         suspensionEndDate: susEnd,
                         role: 'blank',
                         approved: approved,
-                        userCreatedAt: serverTimestamp()
+                        userCreatedAt: serverTimestamp(),
+                        avatar_path: avatar_image_path
                 }
             
                 await setDoc(doc(db, 'users', uid.toString()),  newUser);
