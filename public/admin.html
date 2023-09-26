@@ -30,6 +30,12 @@
             width: 100%;
             max-width: 100%;
         }
+		#editUserPopup{
+		    display: none;
+		}
+		#deleteUserPopup{
+		    display: none;
+		}
         /* Add your additional styles here */
     </style>
 </head>
@@ -81,10 +87,45 @@
     <div id="editUserPopup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="closeEditUserPopup()">&times;</span>
-            <h2>Edit User</h2>
-            <label for="newUsername">New Username:</label>
-            <input type="text" id="newUsername" name="newUsername" placeholder="Enter New Username">
-            <button onclick="saveEditedUser('${userData.id}')">Save</button>
+            <h2>Edit User: </h2>
+            <form id ="edit_user_form">
+				<div class="form-control">
+                    <label for="username">Update Username</label>
+                    <input type="text" name="user_email" id="newUsername" class="new_user_form_field" placeholder="Enter New Email">
+                    <small>Error Message</small>
+                </div>
+				
+                <div class="form-control">
+                    <label for="email">Update Email</label>
+                    <input type="text" name="user_email" id="newEmail" class="new_user_form_field" placeholder="Enter New Email">
+                    <small>Error Message</small>
+                </div>
+
+                <div class="form-control">
+                    <label for="first">Update First Name</label>
+                    <input type="text" name="first_name" id="newfirst_name" class="new_user_form_field" placeholder="Enter New First Name">
+                    <small>Error Message</small>
+                </div>
+
+                <div class="form-control">
+                    <label for="last">Update Last Name</label>
+                    <input type="text" name="last_name" id="newlast_name" class="new_user_form_field" placeholder="Enter New Last Name">
+                    <small>Error Message</small>
+                </div>
+            
+                
+                <div class="form-control">
+                    <label for="address">Update Address</label>
+                    <input type="text" name="address" id="newaddress" class="new_user_form_field" placeholder="Enter New Address">
+                    <small>Error Message</small>
+                </div>
+
+                <div class="form-control">
+                    <label for="dateofbirth">Update Date of Birth</label>
+                    <input type="text" name="dateofbirth" id="newdateofbirth" class="new_user_form_field" placeholder="MM/DD/YYYY">
+                    <small>Error Message</small>
+                </div>
+			</form>
         </div>
     </div>
 
@@ -103,5 +144,11 @@
 
     <!-- Include your JavaScript files -->
     <script defer src="usertables.js" type="module"></script>
+	<script>
+		function closeEditUserPopup(){
+			document.getElementById("editUserPopup").style.display = "none";
+		}
+		
+	</script>
 </body>
 </html>
