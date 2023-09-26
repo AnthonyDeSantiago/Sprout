@@ -1,15 +1,10 @@
+import exp from 'constants';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
+import { getFirestore, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { funct } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 
-/* const firebaseConfig = initializeApp({
-    apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
-    authDomain: "sprout-financials.firebaseapp.com",
-    projectId: "sprout-financials",
-    storageBucket: "sprout-financials.appspot.com",
-    messagingSenderId: "864423850272",
-    appId: "1:864423850272:web:725227e1ed9a578ef36745",
-    measurementId: "G-Z0E9H5Z16M"
-}); */
+include('createuser.js')
 
 const auth = getAuth();
 
@@ -23,13 +18,55 @@ const createAccount = async () =>{
         console.log(userCred.user);
 
         //email verification
-        await sendEmailVerification(auth.currentUser)
-        .then(()=>{
-        console.log('Email Verfication sent');
-}
-)
+        /* await sendEmailVerification(auth.currentUser)
+        .then(()=>{ */
+
+
+
+
+
+        //sending email to admin - not working
+        const fun = initializeApp();
+        const ad = funct();
+        const nodemailer = require('nodemailer');
+        const cors = require('cors')({origin: true});
+        admin.initializeApp();
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth:{
+                user: 'insert a GMAIL',
+                pass: '& the password'
+            }
+        });
+
+        exports.sendMail = ad.https.onRequest((req,res)=>{
+            cors(req,res,()=>{
+
+        const dest = req.query.dest;
+
+        const mailOptions = {
+            from: 'Admin <Insert the GMAIL you put above>',
+            to: dest,
+            subject: 'Hello World',
+            html: 'This is HTML'
+        };
+
+        return transporter.sendMail(mailOptions, (erro, info)=>{
+            if (erro){
+                return res.send(erro.toString());
+            }
+            return res.send('Sended');
+        });
+    });
+});
+
+
+
+
     }
-    catch(error){
+    catch(error)
+    {
         console.log('there was an error')
     }
 }
@@ -37,7 +74,7 @@ const createAccount = async () =>{
 //sign_up.addEventListener("click", createAccount);
 
 
-
+getFirestore.collection
 
 //logging in & prob. switch some value with the user create value
 const emailAndPassword = async () =>{
@@ -53,6 +90,9 @@ const emailAndPassword = async () =>{
 }
 
 //sign_in.addEventListener("click", emailAndPassword);
+
+
+
 
 
 

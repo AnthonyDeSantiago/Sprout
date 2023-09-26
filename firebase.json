@@ -12,5 +12,9 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "extensions": {
+    "firestore-send-email": "firebase/firestore-send-email@0.1.27",
+    "firestore-send-email-kpfv": "firebase/firestore-send-email@0.1.27"
   }
 }
