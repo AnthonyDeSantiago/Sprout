@@ -5,7 +5,34 @@
 /* full page */
 html{
     height: 100%;
-    
+    font-size: 16px;
+}
+/********************************NAV BAR*******************************************************/
+.header-nav {
+    width: 100%;
+    height: 110px;
+    background-color: #137547;
+    color: white;
+    text-align: left;
+	overflow: hidden;
+	position: relative;
+}
+
+.sprout_logo{
+	display: flex;
+	position: absolute;
+	left: 0;
+	padding-left: 5%;
+	top: 50%;
+	transform: translateY(-50%);
+	max-height: 110px;
+	align-items: center;
+	justify-content: center;
+}
+
+#logo{
+	max-height: 90px;
+  
 }
 
 .login_bg{
@@ -16,6 +43,31 @@ html{
     background-position: center;
 }
 
+.userprofile {
+	position: absolute;
+	right: 0;
+	padding-right: 10%;
+	width: 20%;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-height: 110px;
+}
+
+#userprofile_image_src{
+	max-width: 100%;
+	max-height: 100px;
+}
+
+.userprofile_text{
+	font-size: 24 px;
+	padding-left: 5%;
+	text-wrap: wrap;
+}
+
+/**********************************************************************************************/
 /* controls the top left profile pic */
 #blank{
     width: 3%;
@@ -405,6 +457,9 @@ input{
     font-size: 200%;
 }
 /* --------------------Admin-STARTS-HERE---------------------- */
+
+/*.admin-welcome {
+    width: 1297px;
 .header-nav {
     width: 100%;
     height: 98px;
@@ -413,7 +468,7 @@ input{
     text-align: right;
     padding-right: 10%;
     line-height: 98px; /* Vertically centers the text */
-}
+}*/
 
 /* Style for the extendable table */
 .extendable-table {
