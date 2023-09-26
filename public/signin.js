@@ -99,7 +99,14 @@ document.getElementById("main_form").addEventListener("submit", async function (
     }
 
     const docRef = userSnapShot.docs[0];
+    const userData = docRef.data();
 
+    console.log("Has the property: " + userData.hasOwnProperty('failedPasswordAttempts'));
+
+    if (!userData.hasOwnProperty('failedPasswordAttempts')) {
+      await updateDoc(docRef, {failedPasswordAttempts: 0});
+      console.log("adding the failed attempts field if it is not already there");
+    }
     
     //const docRef = doc(db, 'users', username.toString());
     
@@ -121,14 +128,14 @@ document.getElementById("main_form").addEventListener("submit", async function (
     
 
     //Validate if password is correct
-    if (password != docRef.data().password) {
+    if (password != userData.password) {
       console.log("Passwords did not match!!");
-      console.log("password on db: " + userPage.data().password + " typed pswd: " + password);
+      console.log("password on db: " + userData.password + " typed pswd: " + password);
       
       var errorMessage = "Password is incorrect!";
       showError(passwordElement, errorMessage);
 
-      var updateData = {failedPasswordAttempts: userPage.data().failedPasswordAttempts + 1};
+      var updateData = {failedPasswordAttempts: userData.failedPasswordAttempts + 1};
 
       if (updateData.failedPasswordAttempts >= 3) {
         //Suspend the user aka turn db.suspended = true
