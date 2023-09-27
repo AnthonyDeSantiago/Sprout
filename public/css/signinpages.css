@@ -1,0 +1,356 @@
+/**********************************************************************************************/
+
+.logo_form{
+    padding-top: 10%;
+    width:60%;
+    height: auto;
+    align-items: center;
+}
+
+.form-control {
+    size: inherit;
+    margin-bottom: 1%;
+    padding-bottom: 1%;
+    position: relative;
+}
+
+.form-control label {
+    size: inherit;
+    color: #444444;
+    display: block;
+    margin-bottom: 1%;
+    font-size: x-large;
+}
+
+.form-control input {
+    border: 2px solid #6d6d6d;
+    border-radius: 4px;
+    display: block;
+    margin-bottom: 1%;
+    width: 100%;
+    padding: 2%
+}
+
+.form-control input:focus {
+    outline: 0;
+    border-color: #161616;
+}
+
+.form-control.error input {
+    border-color: var(--error-color);
+}
+
+.form-control small {
+    visibility: hidden;
+}
+
+.form-control.error small {
+    color: var(--error-color);
+    visibility: visible;
+}
+
+.form_button{
+    width: 48%;
+    height: auto;
+    display: inline-flex;
+    margin-top: 5%;
+}
+
+/**********************************************LOGIN_FORM****************************************/
+
+.login_bg{
+    background-image: url("assets/bg.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+/* controls the box main  */
+#main_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: white;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25%;
+    margin-top: 10%;
+    border-radius: 1%;
+    min-width: 400px;
+    
+}
+
+
+/* control the loginbox position */
+#login_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width:100%;    
+    margin-top: 10%;
+    
+}
+
+/* controls the login form textboxes */
+.login_form_field{
+    background-color: white;
+    display: inline-block;
+    align-items: center;
+    font-size: 150%;
+    border-radius: 5%;
+    height: 10%;
+    width: 30%;
+    padding: 3% 5% 3% 5%;  /* top% right% bot% Left% */
+    margin-bottom: -4%;
+    outline: 0;
+}
+
+/* color of the text box when not in use*/
+.login_form_field::placeholder{
+    background-color: white;
+}
+
+
+/* controls the looks of login submit button */
+.login_submit_form{
+    background-color: rgb(19, 117, 71);
+    display: inline-block;
+    color: white;
+    font-size: 180%;
+    border-radius: 5%;
+    outline: none;
+    border: none;
+    width: 225%;
+    margin-bottom: 5%;
+    margin-left:0;
+    margin-right:auto;
+}
+
+/* controls the looks of the new user & forgot password */
+.nav_form_field{
+    position: relative;
+    width: 48%;
+    margin-top: 5%;
+    display: flex;
+    font-size: 105%;
+    padding-bottom: 12%;
+    justify-content: space-between;
+}
+
+
+/* --------------------NEW-USERS-STARTS-HERE---------------------- */
+/* control the page in new user */
+/* controls the box main  */
+#user_page_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: white;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1%;
+    margin-top: 0%;
+    min-width: 400px;
+    
+}
+
+/* control the loginbox position */
+#new_user_form {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin-top: 10%; 
+    width:100%;    
+}
+
+
+/* controls the new user form textboxes */
+.new_user_form_field{
+    background-color: white;
+    display: inline-block;
+    align-items: center;
+    font-size: 150%;
+    height: 10%;
+    width: 50%;
+    border-radius: 1%; 
+    padding: 3% 5% 3% 5%; /* top% right% bot% Left% */
+    margin-bottom: -4%;
+    outline: 0;
+}
+
+/* centers the profile pic */
+#avatar_form{
+    text-align: center;
+    margin-top: 2%;
+    width: 90%;
+    position: relative;
+    
+}
+
+/* Given Profile Pictures size */
+#new_profile_pic{
+    width: 18%;
+    height: auto;
+    vertical-align: middle;
+    border-radius: 50%;
+    margin: auto;
+    padding: 2%;
+    justify-content:space-evenly;
+}
+
+/* Control the radio next to the avatar */
+#avatar_radio{
+    display: inline-block;
+    vertical-align: middle;
+    margin: auto;
+    width: 15px;
+}
+
+/* Choosing your own Profile Picture */
+.self_profile_pic{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* card background for the choose profile picture */
+.card{
+    width: 65%;
+    background: #eeeeee;
+    padding: 5%;
+    border-radius: 5%;
+    text-align: center;
+    color: #333;
+    margin-bottom: 3%;
+}
+
+/* placeholder image for choose profile picture */
+.card img{
+    width: 30%;
+    border-radius: 50%;
+}
+
+/* upload image box */
+.upload_box{
+    display: block;
+    width: 40%;
+    background: #8bcc45;
+    color: white;
+    padding: 2%;
+    margin: 5% auto;
+    border-radius: 5%;
+    cursor: pointer;
+    font-size: 110%;
+}
+
+/* removes the choose file option for choosing profile picture */
+input{
+    display: none;
+}
+
+/* control the submit button in new user */
+.new_user_submit_form{
+    background-color: rgb(19, 117, 71);
+    display: inline-block;
+    color: white;
+    font-size: 180%;
+    border-radius: 5%;
+    outline: none;
+    border: none;
+    width: 200%;
+    margin-bottom: 30%;
+    margin-left:0;
+    margin-right:auto;
+}
+
+/* centers the dropdown list */
+.selector{
+    text-align: center;
+}
+
+/* control the dropdown list */
+.dropdown_list_SQ{
+    font-size: 200%;
+    
+}
+
+/* control the size of the things inside the dropdown list */
+.question_select{
+    font-size: 100%;
+    padding: 2% 2%;
+    margin-bottom: 2%;
+}
+
+
+
+/* --------------------FORGOT-PASSWORD-STARTS-HERE---------------------- */
+/* control the page of forgot password */
+/* controls the box main  */
+#forgot_page_form{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: white;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1%;
+    margin-top: 1%;
+    min-width: 400px;
+
+}
+
+/* control the loginbox position */
+#password_form {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width:100%;    
+    margin-top: 10%;
+    
+}
+
+/* control the form textboxes of forgot password */
+.forgot_password_form{
+    background-color: white;
+    display: inline-block;
+    align-items: center;
+    font-size: 150%;
+    height: 10%;
+    width: 50%;
+    border-radius: 1%; 
+    padding: 3% 5% 3% 5%; /* top% right% bot% Left% */
+    margin-bottom: -4%;
+    outline: 0;
+}
+
+/* control the password page 1 submit button */
+.password_submit_form{
+    background-color: rgb(19, 117, 71);
+    display: inline-block;
+    color: white;
+    font-size: 180%;
+    border-radius: 5%;
+    outline: none;
+    border: none;
+    width: 200%;
+    margin-bottom: 30%;
+    margin-left:0;
+    margin-right:auto;
+}
+
+.question_popup{
+    font-size:150%;
+    font-weight: bold;
+}
+
+/* color of the text box when not in use*/
+.recover_password_form::placeholder{
+    color: white;
+}
+

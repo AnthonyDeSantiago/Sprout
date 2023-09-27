@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprout Financials</title>
+    <link rel="icon" href="assets/ICON.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="css/main_style.css" class="rel">
+    <link rel="stylesheet" href="css/signinpages.css" class="rel">
+    <script defer src = "js/sprout.js" type = "module"></script>
+    <script defer src = "js/auth/sign_in.js" type = "module"></script>
+</head>
+
+
+<body>
+    
+    <main id = "main_form">
+        
+        <!-- Name in every page -->
+        <img src="assets/LOGO.png" class ="logo_form">
+        
+        <!-- login form -->
+        <form id = "login_form">
+            <div class="form-control">
+                <input type="username" id="username" class="login_form_field" placeholder="Username">
+                <small>Error Message</small>
+            </div>
+            
+            <div class="form-control">
+                <input type="password" id="password" class="login_form_field" placeholder="Password">
+                <small>Error Message</small>
+            </div>  
+            <div class = "form_button">              
+                <!-- button -->
+                <a href="future.html">
+                    <button id="sign_in" class = "login_submit_form" type = "submit">Submit</button>
+                </a>
+            </div>
+            <nav class = "nav_form_field">
+                <a href="./new_user.html">New User</a>
+                <a href="./forgot_password.html">Forgot Password</a>
+            </nav>
+
+        </form>
+    </main>
+            
+</body>
+</html>

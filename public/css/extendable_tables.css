@@ -1,0 +1,75 @@
+/* --------------------Admin-STARTS-HERE---------------------- */
+
+body {
+    background-color: white;
+    background-image: url('your-image-url.jpg');
+    background-size: cover;
+}
+.search-container {
+    text-align: left;
+    margin-top: 20px;
+}
+.search-input {
+    background-color: #828282;
+    border: 1px solid black;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    width: 40%;
+    max-width: 300px;
+}
+
+/* Style for the extendable table */
+.extendable-table {
+    margin-top: 20px;
+}
+
+.extendable-table table {
+    width: 90%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5%;
+}
+
+.extendable-table th,
+.extendable-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.extendable-table th {
+    background-color: #f2f2f2;
+}
+
+/* Style for the extended table */
+.extended-table {
+    display: none; /* Initially hide the extended table */
+    margin-top: 10px;
+}
+
+.extended-table table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.extended-table th,
+.extended-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.extended-table th {
+    background-color: #f2f2f2;
+}
+#editUserPopup{
+    display: none;
+}
+#deleteUserPopup{
+    display: none;
+}
