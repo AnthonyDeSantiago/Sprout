@@ -25,41 +25,6 @@ const createAccount = async () =>{
 
 
 
-        //sending email to admin - not working
-        const fun = initializeApp();
-        const ad = funct();
-        const nodemailer = require('nodemailer');
-        const cors = require('cors')({origin: true});
-        admin.initializeApp();
-
-        let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth:{
-                user: 'insert a GMAIL',
-                pass: '& the password'
-            }
-        });
-
-        exports.sendMail = ad.https.onRequest((req,res)=>{
-            cors(req,res,()=>{
-
-        const dest = req.query.dest;
-
-        const mailOptions = {
-            from: 'Admin <Insert the GMAIL you put above>',
-            to: dest,
-            subject: 'Hello World',
-            html: 'This is HTML'
-        };
-
-        return transporter.sendMail(mailOptions, (erro, info)=>{
-            if (erro){
-                return res.send(erro.toString());
-            }
-            return res.send('Sended');
-        });
-    });
-});
 
 
 
