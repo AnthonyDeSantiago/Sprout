@@ -85,12 +85,44 @@ function validateEmail(email) {
     return emailPattern.test(email);
 }
 
+
 function showError(input, message) {
     const formControl = input.parentElement;
     formControl.className = "form-control error";
     const small = formControl.querySelector('small');
     small.innerText = message
 }
+
+function hideError(input) {
+    const formControl = input.parentElement;
+    formControl.className = "form-control";
+}
+
+document.addEventListener('keydown', function(event) {
+    console.log("Code reached the event listener?")
+    const userEmailElement = document.getElementById("user_email");
+    const firstNameElement = document.getElementById("first_name");
+    const lastNameElement = document.getElementById("last_name");
+    const dateOfBirthElement = document.getElementById("dateofbirth");
+    const addressElement = document.getElementById("address");
+    const passwordElement = document.getElementById("password");
+    const password2Element = document.getElementById("password2");
+    const answer1Element = document.getElementById("answer1");
+    const answer2Element = document.getElementById("answer2");
+    const question1Element = document.getElementById('question1_selected');
+    const question2Element = document.getElementById("question2_selected");
+    hideError(userEmailElement);
+    hideError(firstNameElement);
+    hideError(lastNameElement);
+    hideError(dateOfBirthElement);
+    hideError(addressElement);
+    hideError(passwordElement);
+    hideError(password2Element);
+    hideError(answer1Element);
+    hideError(answer2Element);
+    hideError(question1Element);
+    hideError(question2Element);
+});
 
 // document.getElementById("password_form").addEventListener("submit", async function (e) {
 //     console.log("button was pressed")
@@ -105,6 +137,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
     const dateOfBirthElement = document.getElementById("dateofbirth");
     const addressElement = document.getElementById("address");
     const passwordElement = document.getElementById("password");
+    const password2Element = document.getElementById("password2");
     const answer1Element = document.getElementById("answer1");
     const answer2Element = document.getElementById("answer2");
     const question1Element = document.getElementById('question1_selected');
@@ -116,6 +149,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
     var address = addressElement.value;
     var dateOfBirth = dateOfBirthElement.value;
     var password = passwordElement.value;
+    var password2 = password2Element.value;
     var answer1 = answer1Element.value;
     var answer2 = answer2Element.value;
     var question1 = question1Element.value;
@@ -183,6 +217,18 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         isValid = false;
     }
     console.log("hit pass");
+
+    if (password != password2) {
+        var errorMessage = "Passwords do not match. Please try again.";
+        if (password2 == '') {
+            errorMessage = "Please retype password here.";
+            showError(password2Element, errorMessage);
+        } else {
+            showError(password2Element, errorMessage);
+            showError(passwordElement, errorMessage);
+        }
+        isValid = false;
+    }
 
     if (answer1 == '') {
         var errorMessage = 'Please enter an answer.';
