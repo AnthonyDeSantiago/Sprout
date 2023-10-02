@@ -151,6 +151,7 @@ function validateEmail(email) {
     return emailPattern.test(email);
 }
 
+
 function showError(input, message) {
     const formControl = input.parentElement;
     formControl.className = "form-control error";
@@ -163,6 +164,7 @@ function hideError(input) {
     formControl.className = "form-control";
 }
 
+
 /******************* EVENT LISTENERS FOR SUBMIT + ERRORS ************************/
 /*document.addEventListener('keydown', function (event) {
     console.log("Code reached the event listener?")
@@ -173,11 +175,13 @@ function hideError(input) {
     hideError(addressElement);
     hideError(passwordElement);
     hideError(password2Element);
+
     hideError(profileUploadElement);
     hideError(answer1Element);
     hideError(answer2Element);
     hideError(question1Element);
     hideError(question2Element);
+
 });*/
 
 document.getElementById("new_user_form").addEventListener("submit", async function (e) {
@@ -254,6 +258,18 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
         isValid = false;
     }
     console.log("hit pass");
+    if (password != password2) {
+        var errorMessage = "Passwords do not match. Please try again.";
+        if (password2 == '') {
+            errorMessage = "Please retype password here.";
+            showError(password2Element, errorMessage);
+        } else {
+            showError(password2Element, errorMessage);
+            showError(passwordElement, errorMessage);
+        }
+        isValid = false;
+    }
+
     if (password != password2) {
         var errorMessage = "Passwords do not match. Please try again.";
         if (password2 == '') {
