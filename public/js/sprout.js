@@ -1,8 +1,18 @@
+console.log("!!! sprout.js loaded !!!")
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+
 import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+import { getStorage, ref } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
@@ -15,54 +25,72 @@ const firebaseConfig = {
     measurementId: "G-Z0E9H5Z16M"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);  //Initialize Firebase
+const auth = getAuth(app);                  //Init Firebase Auth + get a reference to the service
+const storage = getStorage(app);
+
 const db = getFirestore(app);
-const newUserRequest = collection(db, 'new_user_requests');
 const users = collection(db, 'users');
-const auth = getAuth(app);
 
-const user = await auth.currentUser;
+let activeUserUID = null;    // uid for active user (filled in when auth state changes)
+let userRef = null;   // doc ref for user in users
+let userData = null;  // actual doc in DB users
+let userDisplay = null;
+let userPhoto = null;
 
-if (user !== null) {
-  user.providerData.forEach((profile) => {
-    console.log("Sign-in provider: " + profile.providerId);
-    console.log("  Provider-specific UID: " + profile.uid);
-    console.log("  Name: " + profile.displayName);
-    console.log("  Email: " + profile.email);
-    console.log("  Photo URL: " + profile.photoURL);
-  });
-}
+//Applies to anything with the ID "signOutButton" -- ensure HTML is meeting this requirement to retain user sign out ability
+const signOutButton = document.querySelector("#signOutButton");
 
-async function fetchUser(){
-    try{
-        uid = uid.toString();
-        const userRef = doc(db, 'users', uid);
-        const getUser = await getDoc(userRef);
-        
+
+const fetchUser = async () => {
+    try {
+        const userRef = doc(db, 'users', activeUserUID);
+        const getUser = (await getDoc(userRef)).data();
+
         var userStr = JSON.stringify(getUser, null, 4);
-        console.log("User data = " + userStr);
-        
+        //console.log("User data = " + userStr);
+
         return getUser;
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         alert("Unable to authenticate user. Please contact administrator.");
     }
     return false;
 }
 
+const checkAuthState = async () => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            
+            user.providerData.forEach((profile) => {
+                console.log("Sign-in provider: " + profile.providerId);
+                console.log("  Provider-specific UID: " + profile.uid);
+                console.log("  Name: " + profile.displayName);
+                userDisplay = profile.displayName;
+                console.log("  Email: " + profile.email);
+                console.log("  Photo URL: " + profile.photoURL);
+                userPhoto = profile.photoURL;
+            });
+            
+            if(document.getElementById("userprofile_name") != null && document.getElementById("userprofile_image_src") != null){
+                document.getElementById("userprofile_name").textContent = user.displayName;
+                document.getElementById("userprofile_image_src").src = user.photoURL;
+            }
+        }
+        else {
+            //Any code put here will impact sign in pages, so be careful
+            //For example: do not put an alert that there is no user here,
+            //it will cause an error with sign in
+        }
+    })
+}
 
-document.addEventListener("DOMContentLoaded", async function () {
-    if (user) {
-        console.log("User is signed in"); 
-        const userProfile = await fetchUser(user.uid);
-        console.log(String(userProfile.firstName + " " + userProfile.lastName));
-        document.getElementById("userprofile_name").textContent = String(userProfile.firstName + " " + userProfile.lastName);
-        document.getElementById("userprofile_image_src").src = String(userProfile.avatar);
-        console.log("User role is " + userProfile.role);
-    } else {
-        console.log("No user is signed in.");
-        
-    }
-});
+const userSignOut = async () => {
+    await signOut(auth);
+}
 
+checkAuthState();
 
+if(document.getElementById("signOutButton") != null){
+    signOutButton.addEventListener('click', userSignOut);
+}

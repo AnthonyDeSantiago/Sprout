@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/signinpages.css" class="rel">
     <script defer src = "js/sprout.js" type = "module"></script>
     <script defer src = "js/auth/new_user_create.js" type = "module"></script>
-    <script defer src = "js/auth/email_auth.js" type="module"></script>
+    <!--<script defer src = "js/auth/email_auth.js" type="module"></script>-->
 </head>
 
 
@@ -68,11 +68,11 @@
                 <div class="form-control" id = "avatar_form">
                     <label for="avatar">Choose or Upload an Avatar:</label>
                 </br>
-                    <input type="radio" name="avatar" id="avatar_radio" value="assets/cat.png">
+                    <input type="radio" name="avatar" id="avatar_cat" value="assets/cat.png">
                     <img src="assets/cat.png" id = "new_profile_pic">
-                    <input type="radio" name="avatar" id="avatar_radio" value="assets/bear.png">
+                    <input type="radio" name="avatar" id="avatar_bear" value="assets/bear.png">
                     <img src="assets/bear.png" id = "new_profile_pic">
-                    <input type="radio" name="avatar" id="avatar_radio" value="assets/panda.png">
+                    <input type="radio" name="avatar" id="avatar_panda" value="assets/panda.png">
                     <img src="assets/panda.png" id = "new_profile_pic">
             </div>
                 
@@ -80,7 +80,7 @@
                     <div class="card">
                         <img src="assets/blank.png" id="blank_choose_ur_pic">
                         <label for="input_file" class = "upload_box">Upload Image</label>
-                        <input type="file" accept="image/jpeg, image/png, image/jpg" id="input_file">
+                        <input type="file" accept="image/jpeg, image/jpg" id="input_file"> <!-- temporarily removed image/png-->
                     </div>
 
                 </div>
