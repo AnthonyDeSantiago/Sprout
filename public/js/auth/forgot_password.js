@@ -113,6 +113,26 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
     return true;
 });
 
+function hideError(input) {
+    const formControl = input.parentElement;
+    formControl.className = "form-control";
+}
+
+document.addEventListener('keydown', function(event) {
+    console.log("Code reached the event listener?")
+    const userEmailElement = document.getElementById("user_email");
+    const passwordElement = document.getElementById("password");
+    const password2Element = document.getElementById("password2");
+    const answer1Element = document.getElementById("answer1");
+    const answer2Element = document.getElementById("answer2");
+
+    hideError(userEmailElement);
+    hideError(passwordElement);
+    hideError(password2Element);
+    hideError(answer1Element);
+    hideError(answer2Element);
+});
+
 document.getElementById("password_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     console.log("button is pressed");
@@ -122,12 +142,14 @@ document.getElementById("password_form").addEventListener("submit", async functi
     const answer1Element = document.getElementById("answer1");
     const answer2Element = document.getElementById("answer2");
     const passwordElement = document.getElementById("password");
+    const password2Element = document.getElementById("password2");
 
     var userEmail = userEmailElement.value;
     var username = userNameElement.value;
     var answer1 = answer1Element.value;
     var answer2 = answer2Element.value;
     var password = passwordElement.value;
+    var password2 = password2Element.value;
     
     const user = await fetchUser(username);
     var userStr = JSON.stringify(user, null, 4);
@@ -176,6 +198,19 @@ document.getElementById("password_form").addEventListener("submit", async functi
         showError(passwordElement, errorMessage);
         isValid = false;
     }
+
+    if (password != password2) {
+        var errorMessage = "Passwords do not match. Please try again.";
+        if (password2 == '') {
+            errorMessage = "Please retype password here.";
+            showError(password2Element, errorMessage);
+        } else {
+            showError(password2Element, errorMessage);
+            showError(passwordElement, errorMessage);
+        }
+        isValid = false;
+    }
+
     if (!isValid) {
         return false;
     }
