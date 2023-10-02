@@ -17,10 +17,62 @@ const users = collection(db, 'users');
 document.addEventListener("DOMContentLoaded", async function () {
     const extendableTable = document.querySelector(".extendable-table");
     const extendedTable = document.querySelector(".extended-table");
+    const createUserButton = document.getElementById("createUserButton");
+    const searchInput = document.getElementById("search");
 
-    // Example: Function to populate the extendable table with user data
+    createUserButton.addEventListener("click", () => {
+        // Show the create user popup form
+        document.getElementById("createUserPopup").style.display = "contents";
+    });
+
+    // Add event listener for the create user form submission
+    const createUserForm = document.getElementById("create_user_form");
+    createUserForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        // Get input values from the form
+        const newUsername = document.getElementById("newUsername").value;
+        // Get more input values as needed
+
+        // Add logic to create the new user using Firebase Firestore
+    
+        await addNewUserToFirestore(newUsername, /* other input values */);
+
+        // Close the popup after user creation
+        closeCreateUserPopup();
+    });
+    function filterUsersByUsername(username) {
+        const tbody = document.querySelector(".extendable-table tbody");
+        const rows = tbody.querySelectorAll("tr");
+        rows.forEach((row) => {
+            const usernameCell = row.querySelector("td");
+            const usernameText = usernameCell.textContent.toLowerCase();
+            if (usernameText.includes(username.toLowerCase())) {
+                row.style.display = ""; // Show matching rows
+            } else {
+                row.style.display = "none"; // Hide non-matching rows
+            }
+        });
+    }
+
+    // Add event listener for search input changes
+    searchInput.addEventListener("input", function () {
+        const searchTerm = searchInput.value.trim();
+        filterUsersByUsername(searchTerm);
+    });
+});
+
+function addNewUserToFirestore(username, /* other input parameters */) {
+// Implement logic to add the new user to Firebase Firestore here
+}
+
+function closeCreateUserPopup() {
+// Close the create user popup form
+document.getElementById("createUserPopup").style.display = "none";
+}
+    // Function to populate the extendable table with user data
     async function loadUsers() {
-        // Replace this with your Firebase data retrieval logic
+        // Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
         var usersArray = [];
         const q = query(users, where('role', '!=', "deleted")); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
@@ -51,11 +103,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // Example: Function to populate the extended table when a username is clicked
+    // Function to populate the extended table when a username is clicked
     async function showExtendedTable(username) {
-        // Replace this with your Firebase data retrieval logic
-        // You may want to fetch data for the specific user by their username
-        // and populate the extended table with the unknown columns
+        // Firebase data retrieval logic
+        // fetch data for the specific user by their username and populate the extended table with the unknown columns
         var readUser = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));

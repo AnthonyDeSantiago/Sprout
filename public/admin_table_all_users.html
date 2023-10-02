@@ -31,7 +31,38 @@
         <p>Type in username or account number to search</p>
         <input class="search-input" type="text" id="search" placeholder="Search...">
     </div>
+<!-- Add a button to create a new user -->
+<button id="createUserButton">Create User</button>
 
+<!-- Extendable Table Container -->
+<div class="extendable-table">
+    <table id="userTable">
+        <!-- Table headers and data will be populated here -->
+    </table>
+</div>
+
+<!-- Popup Background for Create User -->
+<div id="createUserPopupBackground" class="popup-background"></div>
+
+<!-- Create User Popup Form -->
+<div id="createUserPopup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closeCreateUserPopup()">&times;</span>
+        <h2>Create New User</h2>
+        <form id="create_user_form">
+            <!-- Add input fields for new user data -->
+            <!-- For example: -->
+            <div class="form-control">
+                <label for="newUsername">Username</label>
+                <input type="text" name="newUsername" id="newUsername" class="new_user_form_field" placeholder="Enter Username">
+                <small>Error Message</small>
+            </div>
+            <!-- Add more input fields as needed -->
+
+            <button type="submit">Create User</button>
+        </form>
+    </div>
+</div>
     <!-- Extendable Table Container -->
     <div class="extendable-table">
         <table>
@@ -99,6 +130,7 @@
 			</form>
         </div>
     </div>
+    
 
     <!-- Popup Background for Delete User -->
     <div id="deleteUserPopupBackground" class="popup-background"></div>
