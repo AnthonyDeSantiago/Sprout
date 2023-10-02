@@ -1,44 +1,19 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+console.log("!!! signin.js has loaded !!!");
+
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { collection, doc, getDoc, getDocs, updateDoc, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
-    authDomain: "sprout-financials.firebaseapp.com",
-    databaseURL: "https://sprout-financials-default-rtdb.firebaseio.com",
-    projectId: "sprout-financials",
-    storageBucket: "sprout-financials.appspot.com",
-    messagingSenderId: "864423850272",
-    appId: "1:864423850272:web:725227e1ed9a578ef36745",
-    measurementId: "G-Z0E9H5Z16M"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const users = collection(db, 'users')
+const auth = getAuth();
 
-const auth = getAuth(app);
+const db = getFirestore();
+const users = collection(db, 'users');
 
-console.log("signin.js has loaded!!!");
-
-
-// setPersistence(auth, browserSessionPersistence)
-//   .then(() => {
-//     // Existing and future Auth states are now persisted in the current
-//     // session only. Closing the window would clear any existing state even
-//     // if a user forgets to sign out.
-//     // ...
-//     // New sign-in will be persisted with session persistence.
-//     return signInWithEmailAndPassword(auth, email, password);
-//   })
-//   .catch((error) => {
-//     // Handle Errors here.
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//   });
-
-
+//initialize user database/auth items
+let userDB = null;    // array copy of user
+let userRef = null;   // doc ref for user in users
+let userData = null;  // actual doc in DB users
 
 function showError(input, message) {
   const formControl = input.parentElement;
@@ -56,7 +31,7 @@ async function fetchUser(username) {
   try {
     const q = query(collection(db, 'users'), where('username', '==', username), limit(1));
     const querySnapshot = await getDocs(q);
-    
+
     if (querySnapshot.size === 0) {
       return null;
     }
@@ -70,160 +45,155 @@ async function fetchUser(username) {
   }
 }
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
   const passwordElement = document.getElementById("password");
   const userNameElement = document.getElementById("username");
   hideError(passwordElement);
   hideError(userNameElement);
 });
 
-document.getElementById("main_form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    
-    const passwordElement = document.getElementById("password");
-    const userNameElement = document.getElementById("username");
+const userSignIn = async (e) => {
+  e.preventDefault();
 
+  const passwordElement = document.getElementById("password");
+  const userNameElement = document.getElementById("username");
 
-    var username = document.getElementById("username").value;
-    var email = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+  var username = document.getElementById("username").value;
+  var password = document.getElementById("password").value;
 
-    console.log("username: " + username);
-
-    /**Duct Tape for error handling: Do it better later */
-    if (username == '') {
-      var errorMessage = "Please enter a username.";
-      showError(userNameElement, errorMessage);
-      if (password == '') {
-        errorMessage = "Please enter a password.";
-        showError(passwordElement, errorMessage);
-      }
-      return false;
-    }
-
-    
-    const user = await fetchUser(username);
-    if (user == null) {
-      var errorMessage = "Username does not exist.";
-      showError(userNameElement, errorMessage);
-      return false;
-    }
-    
-    const docRef = doc(db, 'users', user.id);
-    
-    var isValid = true;
-    
-
-    //Validate if password is correct
-    if (password != user.password) {
-      console.log("Passwords did not match!!");
-      console.log("password on db: " + user.password + " typed pswd: " + password);
-      
-      var errorMessage = "Password is incorrect!";
+  /**Duct Tape for error handling: Do it better later */
+  if (username == '') {
+    var errorMessage = "Please enter a username.";
+    showError(userNameElement, errorMessage);
+    if (password == '') {
+      errorMessage = "Please enter a password.";
       showError(passwordElement, errorMessage);
-
-      const docData = (await getDoc(docRef)).data();
-      if (!docData.hasOwnProperty('failedPasswordAttempts')) {
-        // The 'failedPasswordAttempts' field doesn't exist, so initialize it to 0
-        await updateDoc(docRef, { failedPasswordAttempts: 0 });
-        console.log("Adding the failed attempts field if it's not already there");
-      }
-
-      const updatedFailedPasswordAttempts = (docData.failedPasswordAttempts || 0) + 1;
-      var updateData = {failedPasswordAttempts: updatedFailedPasswordAttempts};
-      
-
-      if (updateData.failedPasswordAttempts >= 3) {
-        //Suspend the user aka turn db.suspended = true
-        updateDoc(docRef, {suspended: true})
-          .then(() => {
-            errorMessage = "3 Failed Attempts: Account Suspended";
-            showError(passwordElement, errorMessage);
-            console.log('User is now suspended!');
-          })
-      } else {
-        // Update the number of incorrect attempts on the db
-        updateDoc(docRef, updateData)
-          .then(() => {
-            console.log('Updated the attemps successfully.');
-          })
-          .catch((error) => {
-            console.error('There was an error updating the attemps: ', error);
-          });
-      }
-      
-      isValid = false;
-      
-    } else {
-      console.log("The passwords matched");
     }
+    return false;
+  }
 
+  userDB = await fetchUser(username);
 
+  if (userDB == null) {
+    var errorMessage = "Username does not exist.";
+    showError(userNameElement, errorMessage);
+    return false;
+  } else if (userDB.suspended) {        //Check if user is suspended
+    alert("Acount suspended. Please Contact Admin.");
+    console.log("User is suspended!");
+    return false;
+  }
 
-    //Check if user is suspended
-    if (user.suspended) {
-      var errorMessage = "Acount suspended. Please Contact Admin.";
-      showError(passwordElement, errorMessage);
-      console.log("User is suspended!");
-      isValid = false;
-      return false;
-    } 
+  userRef = doc(db, 'users', userDB.id);
+  userData = (await getDoc(userRef)).data();
 
-    
-    //If after a bunch of checks the user sign on is valid, update attempts value
-    if (isValid) {
-      updateDoc(docRef, {failedPasswordAttempts: 0})
+  signInWithEmailAndPassword(auth, userDB.userEmail, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+
+      //sign in successful - update failed sign in counter to 0
+      updateDoc(userRef, { failedPasswordAttempts: 0 })
         .then(() => {
-          console.log('failedPasswordAttemps has been reset');
+          console.log('failedPasswordAttempts has been reset');
         })
-    }
 
-    await signInWithEmailAndPassword(auth, user.userEmail, password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            console.log("user signed in = " + user);
-            // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-        });
+      const uid = user.uid;
+      //Test to see if user is actually logged in, re-pulling user from database
+      if (uid == userDB.id) {
+        alert("You have signed in successfully!");
+        console.log("User.id = " + userDB.id);
+        console.log("UID = " + uid);
+      } else {
+        alert("There has been an error with your credentials. Please try again later, or contact the admin if this issue persists.");
+        return false;
+      }
 
-    console.log("User.role = " + user.role);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("ERROR WITH SIGN IN: " + errorCode + " | " + errorMessage);
+      if (String(errorCode) == "auth/missing-password") {      //MISSING_PASSWORD
+        showError(passwordElement, "Please enter a password.");
+        return false;
+      }
+      if (errorCode == "auth/wrong-password") {    //INVALID_PASSWORD
+        showError(passwordElement, "Password entered is incorrect.");
+        incorrectPasswordAttempt(userRef, userData);
+        return false;
+      }
+      if (errorCode == "auth/invalid-email") {         //INVALID_EMAIL
+        showError(passwordElement, "Credentials entered are incorrect.");
+        return false;
+      }
+      return false;
+    })
+  return true;
+}
 
-    if (user.role == "admin") {
-      console.log("User is an admin");
-      window.location.href = 'adminplaceholder.html';
-    } else {
-      console.log("user is not an admin");
-      window.location.href = 'userplaceholder.html';
-    }
+async function incorrectPasswordAttempt(docRef, docData) {
+  console.log("Passwords did not match!!");
 
-   
-    
-});
-/*
-onAuthStateChanged(auth, (user) => {
+  var errorMessage = "Password is incorrect!";
+  showError(passwordElement, errorMessage);
+
+  if (!docData.hasOwnProperty('failedPasswordAttempts')) {
+    // The 'failedPasswordAttempts' field doesn't exist, so initialize it to 0
+    await updateDoc(docRef, { failedPasswordAttempts: 0 });
+    console.log("Adding the failed attempts field if it's not already there");
+  }
+
+  const updatedFailedPasswordAttempts = (docData.failedPasswordAttempts || 0) + 1;
+  var updateData = { failedPasswordAttempts: updatedFailedPasswordAttempts };
+
+  if (updateData.failedPasswordAttempts >= 3) {
+    //Suspend the user aka turn db.suspended = true
+    updateDoc(docRef, { suspended: true })
+      .then(() => {
+        errorMessage = "3 Failed Attempts: Account Suspended";
+        showError(passwordElement, errorMessage);
+        console.log('User is now suspended!');
+      })
+  } else {
+    // Update the number of incorrect attempts on the db
+    updateDoc(docRef, updateData)
+      .then(() => {
+        console.log('Updated the attemps successfully.');
+      })
+      .catch((error) => {
+        console.error('There was an error updating the attemps: ', error);
+      });
+  }
+}
+
+const checkAuthState = async () => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const uid = user.uid;
-        console.log(uid);
-        // ...
+      // User is signed in
+      const uid = user.uid;
+
+      if (userData != null) {
+        if (userData.role == "admin") {
+          console.log("User is an admin.");
+          window.location.href = 'admin_home.html';
+        } else if (userData.role == "manager") {
+          console.log("User is a manager.");
+          window.location.href = 'user_home.html';
+        } else if (userData.role == "regular") {
+          console.log("User is a regular user/accountant.");
+          window.location.href = 'user_home.html';
+        } else {
+          alert("Unable to resolve the role associated with your account. Please contact the admin.");
+        }
+      }
+      // ...
     } else {
-        // User is signed out
-        // ...
+      // User is signed out
+      // ...
     }
-});
+  });
+}
 
+checkAuthState();
 
-const user = auth.currentUser;
-
-if (user) {
-  console.log("User is signed in"); //, see docs for a list of available properties
-  // https://firebase.google.com/docs/reference/js/auth.user
-  // ...
-} else {
-  console.log("No user is signed in");
-}*/
+document.getElementById("main_form").addEventListener('submit', userSignIn);

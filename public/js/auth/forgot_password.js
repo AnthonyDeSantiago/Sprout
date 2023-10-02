@@ -1,27 +1,16 @@
-console.log("forgotpassword.js has loaded!!!");
+console.log("!!! forgotpassword.js has loaded !!!");
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+//import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
-    authDomain: "sprout-financials.firebaseapp.com",
-    databaseURL: "https://sprout-financials-default-rtdb.firebaseio.com",
-    projectId: "sprout-financials",
-    storageBucket: "sprout-financials.appspot.com",
-    messagingSenderId: "864423850272",
-    appId: "1:864423850272:web:725227e1ed9a578ef36745",
-    measurementId: "G-Z0E9H5Z16M"
-};
+const auth = getAuth();
 
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+const db = getFirestore();
 const users = collection(db, 'users');
+
 //let user = [];
 
 function showError(input, message) {
