@@ -1,16 +1,36 @@
 /* about.css */
+
 body {
-    padding-top: 10%; /* Adjust this percentage based on your preference */
+    background-color: #8DC748; /* Set the background color to 8DC748 */
+    padding-top: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
+    position: relative;
 }
 
 h1 {
     text-align: center;
-    width: 80%; /* Adjust this percentage based on your preference */
+    width: 90%;
 }
 
+#icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1000px;
+    height: 1000px;
+}
+
+.white-box {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Adjust the width of the white box */
+    text-align: center;
+}

@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.centered-text {
+    margin-top: 50px;
+    font-size: 24px;
+}
+
+.rectangle {
+    width: 200px;
+    height: 50px;
+    border: 2px solid black;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-text, .man-text, .acc-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensures the text is vertically centered */
+}
+
+
+.footer {
+    width: 100%;
+    height: 50px;
+    background-color: #FCF2BD;
+    position: fixed;
+    bottom: 0;
+}

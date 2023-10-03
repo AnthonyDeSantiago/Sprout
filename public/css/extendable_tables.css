@@ -5,6 +5,38 @@ body {
     background-image: url('your-image-url.jpg');
     background-size: cover;
 }
+/* Dropdown styles */
+.dropdown {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.dropdown-button {
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 .search-container {
     text-align: left;
     margin-top: 20px;
@@ -71,5 +103,9 @@ body {
     display: none;
 }
 #deleteUserPopup{
+    display: none;
+}
+/* CSS for hiding elements */
+.hidden {
     display: none;
 }

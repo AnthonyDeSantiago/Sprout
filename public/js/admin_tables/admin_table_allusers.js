@@ -1,3 +1,15 @@
+function toggleDropdown() {
+    var dropdownContent = document.getElementById("dropdownContent");
+    dropdownContent.classList.toggle("show");
+}
+
+function goBack() {
+    window.history.back();
+}
+
+function logout() {
+    // Implement your logout logic here
+}
 // Log a message indicating that the script has been loaded
 console.log("!!! admin_table_allusers.js loaded !!!");
 
@@ -31,10 +43,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     const searchInput = document.getElementById("search");
 
     // Event listener for 'Create User' button click
-    createUserButton.addEventListener("click", () => {
-        // Show the create user popup form
-        document.getElementById("createUserPopup").style.display = "contents";
-    });
+createUserButton.addEventListener("click", () => {
+    // Show the create user popup form
+    document.getElementById("createUserPopup").classList.remove("hidden");
+});
+
+
 
     // Event listener for create user form submission
     createUserForm.addEventListener("submit", async function (e) {
@@ -244,16 +258,17 @@ function getUserIdToDelete() {
         // Show the suspend confirmation popup
         document.getElementById("suspendPopup").style.display = "block";
     
-        // Event listener for the 'Yes' button click in the suspend confirmation popup
+                // Event listener for 'Yes' button click in the suspend confirmation popup
         suspendConfirmButton.addEventListener("click", () => {
-            // Close the suspend confirmation popup
-            document.getElementById("suspendPopup").style.display = "none";
-    
             // Show the date/time selection popup
-            document.getElementById("datePopup").style.display = "block";
+            document.getElementById("datePopup").classList.remove("hidden");
         });
-    });
-    
+
+        // Event listener for 'No' button click in the suspend confirmation popup
+        suspendCancelButton.addEventListener("click", () => {
+            // Hide the date/time selection popup if the user clicks 'No'
+            document.getElementById("datePopup").classList.add("hidden");
+        });
     // Event listener for the 'Submit' button click in the date/time selection popup
     const dateSubmitButton = document.getElementById("date-submit-button");
     dateSubmitButton.addEventListener("click", async () => {

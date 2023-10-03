@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.background {
+    background-color: #F5F28B;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+.logo {
+    width: 700px;
+    height: 204px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.financials {
+    width: 329px;
+    height: 129px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 20px;
+}
+
+.black-rectangle {
+    background-color: #000;
+    width: 295px;
+    height: 96px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.start-text {
+    color: #F5F28B;
+    font-size: 24px;
+    font-weight: bold;
+}
