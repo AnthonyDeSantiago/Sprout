@@ -149,6 +149,79 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Display the extended table
         document.getElementById("extended-table").style.display = "contents";
     }
+// Variable to store the ID of the user to be deleted
+let userIdToDelete = null;
+
+// Event listener for the 'Delete' button click
+const deleteButtons = document.querySelectorAll(".delete-button");
+deleteButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        // Get the user ID from the data attribute of the clicked delete button
+        userIdToDelete = event.target.getAttribute("data-user-id");
+
+        // Show the delete confirmation popup
+        document.getElementById("deleteUserPopupBackground").style.display = "block";
+        document.getElementById("deleteUserPopup").style.display = "block";
+    });
+});
+
+// Function to delete a user by updating their 'role' field to 'deleted'
+async function deleteUser(id) {
+    // Reference to the user document in Firestore using the provided ID
+    const userRef = doc(db, 'users', String(id));
+    // Update the 'role' field to 'deleted'
+    await updateDoc(userRef, {
+        role: "deleted"
+    });
+
+    // Log a message indicating successful user deletion
+    console.log("User deleted successfully");
+
+    // Close the delete confirmation popup after deletion
+    document.getElementById("deleteUserPopupBackground").style.display = "none";
+    document.getElementById("deleteUserPopup").style.display = "none";
+
+    // Show user deleted confirmation popup
+    document.getElementById("userDeletedPopupBackground").style.display = "block";
+    document.getElementById("userDeletedPopup").style.display = "block";
+
+    // Automatically close the user deleted confirmation popup after 10 seconds
+    setTimeout(() => {
+        document.getElementById("userDeletedPopupBackground").style.display = "none";
+        document.getElementById("userDeletedPopup").style.display = "none";
+    }, 10000);
+
+    // Update the username table after deletion (you need to implement this logic)
+    // ...
+}
+
+// Event listener for 'Yes' button click in the delete confirmation popup
+const deleteConfirmButton = document.getElementById("delete-confirm-button");
+deleteConfirmButton.addEventListener("click", async () => {
+    // Call the deleteUser function with the stored user ID to delete the user
+    if (userIdToDelete) {
+        await deleteUser(userIdToDelete);
+        // Reset the stored user ID after deletion
+        userIdToDelete = null;
+    }
+});
+
+// Event listener for 'No' button click in the delete confirmation popup
+const deleteCancelButton = document.getElementById("delete-cancel-button");
+deleteCancelButton.addEventListener("click", () => {
+    // Close the delete confirmation popup without deleting the user
+    document.getElementById("deleteUserPopupBackground").style.display = "none";
+    document.getElementById("deleteUserPopup").style.display = "none";
+
+    // Reset the stored user ID when the user cancels the deletion
+    userIdToDelete = null;
+});
+
+// Function to get the user ID to delete (used when 'Yes' is clicked in the delete confirmation popup)
+function getUserIdToDelete() {
+    // Return the stored user ID to delete, or null if no user ID is available
+    return userIdToDelete;
+}
 
     // Function to suspend a user by updating their 'suspend' field to true
     async function suspendUser(id) {
@@ -160,15 +233,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // Function to confirm and delete a user by updating their 'role' field to 'deleted'
-    async function confirmDelete(id) {
-        // Reference to the user document in Firestore using the provided ID
-        const userRef = doc(db, 'users', String(id));
-        // Update the 'role' field to 'deleted'
-        await updateDoc(userRef, {
-            role: "deleted"
-        });
-    }
+    
     let userIdToSuspend = null;
 
     // Event listener for the 'Suspend' button click to display the suspend popup

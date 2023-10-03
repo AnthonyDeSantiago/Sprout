@@ -173,18 +173,27 @@ const checkAuthState = async () => {
       const uid = user.uid;
 
       if (userData != null) {
-        if (userData.role == "admin") {
-          console.log("User is an admin.");
-          window.location.href = 'admin_home.html';
-        } else if (userData.role == "manager") {
-          console.log("User is a manager.");
-          window.location.href = 'user_home.html';
-        } else if (userData.role == "regular") {
-          console.log("User is a regular user/accountant.");
-          window.location.href = 'user_home.html';
-        } else {
-          alert("Unable to resolve the role associated with your account. Please contact the admin.");
-        }
+        // Check if the user is deleted based on custom claims
+        user.getIdTokenResult().then((idTokenResult) => {
+          if (idTokenResult.claims.deleted) {
+            // User is deleted, handle accordingly (e.g., show error message or sign them out)
+            console.log("User account has been deleted.");
+            // Redirect to a deleted account page or show an error message
+            // window.location.href = 'deleted_account.html';
+            return;
+          }
+
+          // Check user role and redirect accordingly
+          if (userData.role == "admin") {
+            console.log("User is an admin.");
+            window.location.href = 'admin_home.html';
+          } else if (userData.role == "manager" || userData.role == "regular") {
+            console.log("User is a manager or regular user/accountant.");
+            window.location.href = 'user_home.html';
+          } else {
+            alert("Unable to resolve the role associated with your account. Please contact the admin.");
+          }
+        });
       }
       // ...
     } else {

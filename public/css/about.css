@@ -1,0 +1,16 @@
+/* about.css */
+body {
+    padding-top: 10%; /* Adjust this percentage based on your preference */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    width: 80%; /* Adjust this percentage based on your preference */
+}
+
