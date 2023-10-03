@@ -1,71 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="icon" href="assets/ICON.png" type="image/x-icon"/>
+
+    <!-- Favicon and stylesheets -->
+    <link rel="icon" href="assets/ICON.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/main_style.css" class="rel">
     <link rel="stylesheet" href="css/extendable_tables.css" class="rel">
-    <script defer src = "js/sprout.js" type = "module"></script>
-    <script defer src = "js/admin_tables/admin_table_allusers.js" type = "module"></script>
+
+    <!-- JavaScript files -->
+    <script defer src="js/sprout.js" type="module"></script>
+    <script defer src="js/admin_tables/admin_table_allusers.js" type="module"></script>
 </head>
+
 <body>
-    <!--header nav-->
+    <!-- Header navigation -->
     <div class="header-nav">
-		<div class="sprout_logo">
-			<img src="assets/LOGO.png"  id="logo">
-		</div>
-		<div class="userprofile">
-			<div class="userprofile_image">
-				<img src="" id="userprofile_image_src">
-			</div>
-			<div class="userprofile_text">
-				<span id="userprofile_name">Welcome User</span>
-			</div>
-		</div>
-	</div>
+        <div class="sprout_logo">
+            <img src="assets/LOGO.png" id="logo">
+        </div>
+        <div class="userprofile">
+            <div class="userprofile_image">
+                <img src="" id="userprofile_image_src">
+            </div>
+            <div class="userprofile_text">
+                <span id="userprofile_name">Welcome User</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Search Bar -->
     <div class="search-container">
         <p>Type in username or account number to search</p>
         <input class="search-input" type="text" id="search" placeholder="Search...">
     </div>
-<!-- Add a button to create a new user -->
-<button id="createUserButton">Create User</button>
 
-<!-- Extendable Table Container -->
-<div class="extendable-table">
-    <table id="userTable">
-        <!-- Table headers and data will be populated here -->
-    </table>
-</div>
+    <!-- Add a button to create a new user -->
+    <button id="createUserButton">Create User</button>
 
-<!-- Popup Background for Create User -->
-<div id="createUserPopupBackground" class="popup-background"></div>
-
-<!-- Create User Popup Form -->
-<div id="createUserPopup" class="popup">
-    <div class="popup-content">
-        <span class="close" onclick="closeCreateUserPopup()">&times;</span>
-        <h2>Create New User</h2>
-        <form id="create_user_form">
-            <!-- Add input fields for new user data -->
-            <!-- For example: -->
-            <div class="form-control">
-                <label for="newUsername">Username</label>
-                <input type="text" name="newUsername" id="newUsername" class="new_user_form_field" placeholder="Enter Username">
-                <small>Error Message</small>
-            </div>
-            <!-- Add more input fields as needed -->
-
-            <button type="submit">Create User</button>
-        </form>
-    </div>
-</div>
     <!-- Extendable Table Container -->
     <div class="extendable-table">
-        <table>
+        <table id="userTable">
             <thead>
                 <tr>
                     <th>Username</th>
@@ -77,9 +56,72 @@
         </table>
     </div>
 
+    <!-- Popup Background for Create User -->
+    <div id="createUserPopupBackground" class="popup-background"></div>
+
+    <!-- Create User Popup Form -->
+    <div id="createUserPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeCreateUserPopup()">&times;</span>
+            <h2>Create New User</h2>
+            <form id="create_user_form">
+                <div class="form-control">
+                    <label for="newUsername">Username</label>
+                    <input type="text" name="newUsername" id="newUsername" class="new_user_form_field"
+                        placeholder="Enter Username">
+                    <small class="error-message" id="newUsernameError"></small>
+                </div>
+                <!-- Add more input fields as needed -->
+
+                <button type="button" onclick="submitCreateUserForm()">Create User</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Extended Table Container -->
     <div class="extended-table" id="extended-table">
-        <!-- This section will be populated when a username is clicked -->
+        <!-- Username Info Container -->
+        <div class="user-info-buttons">
+            <!-- User Info will be displayed here -->
+        </div>
+
+        <!-- Buttons for Edit, Delete, Email, and Suspend -->
+        <div class="button-container" id="button-container">
+            <button id="edit-button">Edit User</button>
+            <button id="delete-button">Delete</button>
+            <button id="email-button">Email User</button>
+            <button id="suspend-button">Suspend</button>
+        </div>
+    </div>
+
+    <!-- Popup Background for Suspend User -->
+    <div id="suspendPopupBackground" class="popup-background"></div>
+
+    <!-- Suspend User Popup Form -->
+    <div id="suspendPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" id="suspend-close-button">&times;</span>
+            <h2>Are you sure you want to suspend this user?</h2>
+            <button id="suspend-confirm-button">Yes</button>
+            <button id="suspend-cancel-button">No</button>
+        </div>
+    </div>
+
+    <!-- Date/Time Selection Popup Form -->
+    <div id="datePopup" class="popup">
+        <div class="popup-content">
+            <span class="close" id="date-close-button">&times;</span>
+            <h2>Select Suspension Date and Time</h2>
+            <div class="form-control">
+                <label for="date-input">Date:</label>
+                <input type="date" id="date-input" class="date-time-input">
+            </div>
+            <div class="form-control">
+                <label for="time-input">Time:</label>
+                <input type="time" id="time-input" class="date-time-input">
+            </div>
+            <button id="date-submit-button">Submit</button>
+        </div>
     </div>
 
     <!-- Popup Background for Edit User -->
@@ -90,47 +132,46 @@
         <div class="popup-content">
             <span class="close" onclick="closeEditUserPopup()">&times;</span>
             <h2>Edit User: </h2>
-            <form id ="edit_user_form">
-				<div class="form-control">
-                    <label for="username">Update Username</label>
-                    <input type="text" name="user_email" id="newUsername" class="new_user_form_field" placeholder="Enter New Email">
-                    <small>Error Message</small>
-                </div>
-				
+            <form id="edit_user_form">
                 <div class="form-control">
-                    <label for="email">Update Email</label>
-                    <input type="text" name="user_email" id="newEmail" class="new_user_form_field" placeholder="Enter New Email">
-                    <small>Error Message</small>
+                    <label for="newUserEmail">Update Email</label>
+                    <input type="text" name="newUserEmail" id="newUserEmail" class="new_user_form_field"
+                        placeholder="Enter New Email">
+                    <small class="error-message" id="newUserEmailError"></small>
                 </div>
 
                 <div class="form-control">
-                    <label for="first">Update First Name</label>
-                    <input type="text" name="first_name" id="newfirst_name" class="new_user_form_field" placeholder="Enter New First Name">
-                    <small>Error Message</small>
+                    <label for="newFirstName">Update First Name</label>
+                    <input type="text" name="newFirstName" id="newFirstName" class="new_user_form_field"
+                        placeholder="Enter New First Name">
+                    <small class="error-message" id="newFirstNameError"></small>
                 </div>
 
                 <div class="form-control">
-                    <label for="last">Update Last Name</label>
-                    <input type="text" name="last_name" id="newlast_name" class="new_user_form_field" placeholder="Enter New Last Name">
-                    <small>Error Message</small>
-                </div>
-            
-                
-                <div class="form-control">
-                    <label for="address">Update Address</label>
-                    <input type="text" name="address" id="newaddress" class="new_user_form_field" placeholder="Enter New Address">
-                    <small>Error Message</small>
+                    <label for="newLastName">Update Last Name</label>
+                    <input type="text" name="newLastName" id="newLastName" class="new_user_form_field"
+                        placeholder="Enter New Last Name">
+                    <small class="error-message" id="newLastNameError"></small>
                 </div>
 
                 <div class="form-control">
-                    <label for="dateofbirth">Update Date of Birth</label>
-                    <input type="text" name="dateofbirth" id="newdateofbirth" class="new_user_form_field" placeholder="MM/DD/YYYY">
-                    <small>Error Message</small>
+                    <label for="newAddress">Update Address</label>
+                    <input type="text" name="newAddress" id="newAddress" class="new_user_form_field"
+                        placeholder="Enter New Address">
+                    <small class="error-message" id="newAddressError"></small>
                 </div>
-			</form>
+
+                <div class="form-control">
+                    <label for="newDateOfBirth">Update Date of Birth</label>
+                    <input type="text" name="newDateOfBirth" id="newDateOfBirth" class="new_user_form_field"
+                        placeholder="MM/DD/YYYY">
+                    <small class="error-message" id="newDateOfBirthError"></small>
+                </div>
+
+                <button type="button" onclick="submitEditUserForm()">Update User</button>
+            </form>
         </div>
     </div>
-    
 
     <!-- Popup Background for Delete User -->
     <div id="deleteUserPopupBackground" class="popup-background"></div>
@@ -140,11 +181,10 @@
         <div class="popup-content">
             <span class="close" onclick="closeDeleteUserPopup()">&times;</span>
             <h2>Are you sure you want to delete this user?</h2>
-            <button onclick="deleteUser('${userData.id}')">Yes</button>
+            <button onclick="deleteUser(userData.id)">Yes</button>
             <button onclick="closeDeleteUserPopup()">No</button>
         </div>
     </div>
-
-    <!-- Include your JavaScript files -->
 </body>
+
 </html>
