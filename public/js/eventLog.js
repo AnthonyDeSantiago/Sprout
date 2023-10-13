@@ -25,67 +25,82 @@ const firebaseConfig = {
     measurementId: "G-Z0E9H5Z16M"
 };
 
+export async function initializeEventLogging(specific_collection, userID) {
+    /*
+    Stuff that needs to be in the eventLog document
+        [X] Before Image
+        [X] After Image
+        [ ] User ID
+        [X] Unique Auto Generated ID
+        [X] Time and Date
+    */
 
-try {
-    const db = getFirestore();
-    console.log("Firestore instance successfully initialized hooway man!: ", db);
+    try {
+        const db = getFirestore();
+        console.log("Firestore instance successfully initialized hooway man!: ", db);
 
-    // Going start with event logging user's data for now and expand to other data later
-    const users = collection(db, 'users');
-    const eventLog = collection(db, 'eventLog');
+        // Going start with event logging user's data for now and expand to other data later
+        const recordsCollection = collection(db, specific_collection);
+        const eventLog = collection(db, 'eventLog');
+        const beforeImageMap = new Map();
 
-    let initialLoad = true;
+        let initialLoad = true;
 
-    onSnapshot(users, (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-            const doc = change.doc;
-            const docID = doc.id;
-            const eventType = change.type;
-            const timestamp = serverTimestamp();
+        onSnapshot(recordsCollection, (snapshot) => {
+            
+            snapshot.docChanges().forEach((change) => {
+                const doc = change.doc;
+                const docID = doc.id;
+                const eventType = change.type;
+                const timestamp = serverTimestamp();
 
-            let beforeImage = {};
-            let afterImage = {};
+                let beforeImage = {};
+                let afterImage = {};
 
-            if (initialLoad && eventType == 'added') {
-                return;
-            }
+                if (initialLoad && eventType == 'added') {
+                    beforeImageMap.set(docID, doc.data());
+                    return;
+                }
 
-            if (eventType === 'added' || eventType === 'modified') {
-                beforeImage = doc.data();
-            }
+                if (eventType === 'added' || eventType === 'modified') {
+                    beforeImage = doc.data();
+                }
 
-            if (eventType === 'modified' || eventType === 'removed') {
-                afterImage = doc.data();
-            }
+                if (eventType === 'modified' || eventType === 'removed') {
+                    afterImage = doc.data();
+                }
 
-            const logData = {
-                afterImage: afterImage,
-                eventType: eventType,
-                userId: '',
-                timestamp: timestamp
-            }
+                const logData = {
+                    beforeImage: beforeImageMap.get(docID),
+                    afterImage: afterImage,
+                    eventType: eventType,
+                    userId: userID,
+                    timestamp: timestamp
+                }
 
-            addDoc(eventLog, logData)
-                .then((eventLog) => {
-                    console.log('Document is added to event log!');
-                })
-                .catch((error) => {
-                    console.log('There was an error add doc to event log!');
-                });
-
-
-
-            console.log("!!!!!!!!!!A change has been detected in users database!!!!!!!!");
-            console.log(afterImage);
-            console.log(docID);
+                addDoc(eventLog, logData)
+                    .then((eventLog) => {
+                        console.log('Document is added to event log!');
+                    })
+                    .catch((error) => {
+                        console.log('There was an error add doc to event log!');
+                    });
 
 
-            initialLoad = false;
+
+                console.log("!!!!!!!!!!A change has been detected in recordsCollection database!!!!!!!!");
+                console.log(afterImage);
+                console.log(docID);
+
+
+                initialLoad = false;
+            });
         });
-    });
 
-} catch (error) {
-    console.log("Error initializing Firestore: ", error);
+    } catch (error) {
+        console.log("Error initializing Firestore: ", error);
+    }
 }
 
+initializeEventLogging('users', 'some_id');
 
