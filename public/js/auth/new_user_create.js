@@ -5,7 +5,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase
 import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
-import { getStorage, ref, uploadBytesResumable, uploadBytes, getDownloadURL  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
+import { getStorage, ref, uploadBytesResumable, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
 //Firebase tool variables
 const db = getFirestore();      //Cloud Firestore grab
@@ -65,7 +65,7 @@ inputFile.onchange = async function () {
         () => {
             getDownloadURL(uploadTask.snapshot.ref).then((profileImageURL) => {
                 console.log('File available at', profileImageURL);
-                
+
                 //ideally at some point we will set this image to be cropped as a square 
                 //on input, then we can return to using border radius
                 profilePicturePreview.src = profileImageURL;
@@ -302,7 +302,7 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
 
     try {
         var user = null;
-        
+
         console.log("hit try to create user");
         var date = new Date();
         let month = String(date.getMonth() + 1).padStart(2, "0");
@@ -344,8 +344,8 @@ document.getElementById("new_user_form").addEventListener("submit", async functi
                 const susEnd = new Date(2222, 2, 2);
 
                 let creationDate = serverTimestamp();
-                
-                if(profile_image_url == null){
+
+                if (profile_image_url == null) {
                     profile_image_url = avatar_image_path;
                 }
 
@@ -455,7 +455,7 @@ async function testUserName(testUsername) {
 const checkAuthState = async () => {
     onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
-            if(currentUser.uid == newUser.id){
+            if (currentUser.uid == newUser.id) {
                 updateProfile(currentUser, {
                     displayName: newUser.firstName + " " + newUser.lastName,
                     photoURL: newUser.avatar
