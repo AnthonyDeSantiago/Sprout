@@ -14,16 +14,6 @@ import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTime
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { getStorage, ref } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDA5itOehOkeLc9ob3a8GsTJ9VhbWdee7I",
-    authDomain: "sprout-financials.firebaseapp.com",
-    databaseURL: "https://sprout-financials-default-rtdb.firebaseio.com",
-    projectId: "sprout-financials",
-    storageBucket: "sprout-financials.appspot.com",
-    messagingSenderId: "864423850272",
-    appId: "1:864423850272:web:725227e1ed9a578ef36745",
-    measurementId: "G-Z0E9H5Z16M"
-};
 
 export async function initializeEventLogging(specific_collection, userID) {
     /*
@@ -101,6 +91,4 @@ export async function initializeEventLogging(specific_collection, userID) {
         console.log("Error initializing Firestore: ", error);
     }
 }
-
-initializeEventLogging('users', 'some_id');
 
