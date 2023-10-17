@@ -20,36 +20,35 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Example: Function to populate the extendable table with user data
     async function loadUsers() {
-        // Replace this with your Firebase data retrieval logic
-        // Loop through your users and create rows for each in the table
-        var usersArray = [];
-        const q = query(users, where('approved', '==', false), where('role', '!=', "deleted")); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
-        const userDocs = await getDocs(q).then((querySnapshot) => {
-            var tempDoc = [];
-            querySnapshot.forEach((doc) => {
-                tempDoc.push({ id: doc.id, username: doc.get("username") })
-            });
-            usersArray = tempDoc;
+        const q = query(users, where('approved', '==', false), where('role', '!=', "deleted"));
+        const userDocs = await getDocs(q);
+        const usersArray = [];
+    
+        userDocs.forEach((doc) => {
+            usersArray.push({ id: doc.id, ...doc.data() });
         });
-        //const users = [{ username: "User1" }, { username: "User2" }, /* ... */];
-
-        const tbody = extendableTable.querySelector("tbody");
-        tbody.innerHTML = ""; // Clear existing rows
-
-        usersArray.forEach((user) => {
-            const row = document.createElement("tr");
-            const usernameCell = document.createElement("td");
-
-            // Add a click event to the username cell
-            usernameCell.innerText = user.username;
-            usernameCell.addEventListener("click", () => {
-                showExtendedTable(user.username);
-            });
-
-            row.appendChild(usernameCell);
-            tbody.appendChild(row);
+    
+        const table = $('#userTable').DataTable({
+            data: usersArray,
+            columns: [
+                { data: 'username' },
+                { data: 'userEmail' },
+                { data: 'firstName' },
+                { data: 'lastName' },
+                { data: 'address' },
+                { data: 'DOB' }
+            ],
+            pageLength: 10,
+            // Add more DataTables options as needed
+        });
+    
+        // Add a click event listener to rows for showing extended table
+        $('#userTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+            showExtendedTable(data.username);
         });
     }
+    
 
     // Example: Function to populate the extended table when a username is clicked
     async function showExtendedTable(username) {

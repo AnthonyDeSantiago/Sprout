@@ -1,15 +1,3 @@
-function toggleDropdown() {
-    var dropdownContent = document.getElementById("dropdownContent");
-    dropdownContent.classList.toggle("show");
-}
-
-function goBack() {
-    window.history.back();
-}
-
-function logout() {
-    // Implement your logout logic here
-}
 // Log a message indicating that the script has been loaded
 console.log("!!! admin_table_allusers.js loaded !!!");
 
@@ -23,7 +11,18 @@ import {
     query, 
     where 
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+function toggleDropdown() {
+    var dropdownContent = document.getElementById("dropdownContent");
+    dropdownContent.classList.toggle("show");
+}
 
+function goBack() {
+    window.history.back();
+}
+
+function logout() {
+    // Implement your logout logic here
+}
 // Get a reference to the Firestore database
 const db = getFirestore();
 
@@ -42,17 +41,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     const createUserButton = document.getElementById("createUserButton");
     const searchInput = document.getElementById("search");
 
-    // Event listener for 'Create User' button click
+ // Event listener for 'Create User' button click
 createUserButton.addEventListener("click", () => {
-    // Show the create user popup form
-    document.getElementById("createUserPopup").classList.remove("hidden");
+    document.getElementById("createUserPopup").style.display = "block";
 });
 
-
-
-    // Event listener for create user form submission
-    createUserForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
+// Event listener for create user form submission
+const createUserForm = document.getElementById("create_user_form");
+createUserForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
         // Get the new username from the form input
         const newUsername = document.getElementById("newUsername").value;
@@ -100,41 +97,32 @@ createUserButton.addEventListener("click", () => {
         document.getElementById("createUserPopup").style.display = "none";
     }
 
-    // Function to load users from Firebase Firestore and populate the extendable table
-    async function loadUsers() {
-        // Array to store retrieved users from Firestore
-        var usersArray = [];
-        // Query to get users where role is not 'deleted'
-        const q = query(users, where('role', '!=', "deleted"));
-        // Get the documents from the query
-        const userDocs = await getDocs(q);
-        // Loop through the documents and add user data to the usersArray
-        userDocs.forEach((doc) => {
-            usersArray.push({ id: doc.id, username: doc.get("username") });
-        });
+  // Function to load users from Firebase Firestore and populate the DataTable
+async function loadUsers() {
+    // Query to get users where role is not 'deleted'
+    const q = query(users, where('role', '!=', "deleted"));
+    
+    // Get the documents from the query
+    const userDocs = await getDocs(q);
 
-        // Get the table body element
-        const tbody = extendableTable.querySelector("tbody");
-        // Clear existing rows in the table body
-        tbody.innerHTML = "";
+    // Clear existing rows in the DataTable
+    userTable.clear();
 
-        // Loop through the usersArray and create rows for each user in the table
-        usersArray.forEach((user) => {
-            const row = document.createElement("tr");
-            const usernameCell = document.createElement("td");
+    // Loop through the documents and add user data to the DataTable
+    userDocs.forEach((doc) => {
+        const user = doc.data();
+        userTable.row.add([
+            user.username,
+            // Add more data columns as needed
+            `<button class="edit-button" data-user-id="${doc.id}">Edit</button>
+            <button class="delete-button" data-user-id="${doc.id}">Delete</button>`
+        ]).draw(false);
+    });
+}
 
-            // Add the user's username to the username cell
-            usernameCell.innerText = user.username;
-            // Add a click event listener to the username cell to show extended user data
-            usernameCell.addEventListener("click", () => {
-                showExtendedTable(user.username);
-            });
+// Load user data when the page loads
+loadUsers();
 
-            // Append the username cell to the row and the row to the table body
-            row.appendChild(usernameCell);
-            tbody.appendChild(row);
-        });
-    }
 
     // Function to display extended user data when a username is clicked
     async function showExtendedTable(username) {
@@ -164,19 +152,17 @@ createUserButton.addEventListener("click", () => {
         document.getElementById("extended-table").style.display = "contents";
     }
 // Variable to store the ID of the user to be deleted
+// Initialize userIdToDelete variable
 let userIdToDelete = null;
 
 // Event listener for the 'Delete' button click
-const deleteButtons = document.querySelectorAll(".delete-button");
-deleteButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-        // Get the user ID from the data attribute of the clicked delete button
-        userIdToDelete = event.target.getAttribute("data-user-id");
+$('#userTable').on('click', '.delete-button', function () {
+    // Get the user ID from the data attribute of the clicked delete button
+    userIdToDelete = $(this).data('user-id');
 
-        // Show the delete confirmation popup
-        document.getElementById("deleteUserPopupBackground").style.display = "block";
-        document.getElementById("deleteUserPopup").style.display = "block";
-    });
+    // Show the delete confirmation popup
+    document.getElementById("deleteUserPopupBackground").style.display = "block";
+    document.getElementById("deleteUserPopup").style.display = "block";
 });
 
 // Function to delete a user by updating their 'role' field to 'deleted'
@@ -237,78 +223,71 @@ function getUserIdToDelete() {
     return userIdToDelete;
 }
 
+
     // Function to suspend a user by updating their 'suspend' field to true
-    async function suspendUser(id) {
-        // Reference to the user document in Firestore using the provided ID
-        const userRef = doc(db, 'users', String(id));
-        // Update the 'suspend' field to true
+async function suspendUser(id, selectedDate, selectedTime) {
+    // Reference to the user document in Firestore using the provided ID
+    const userRef = doc(db, 'users', String(id));
+    try {
+        // Update the user's record in the Firestore database with the suspension date and time
         await updateDoc(userRef, {
-            suspend: true
+            suspend: true,
+            suspensionDate: selectedDate,
+            suspensionTime: selectedTime,
         });
+        // Display a confirmation message that the user has been suspended
+        alert("User has been suspended successfully.");
+    } catch (error) {
+        console.error("Error suspending user:", error);
+        alert("An error occurred while suspending the user. Please try again later.");
     }
+}
 
-    
-    let userIdToSuspend = null;
+let userIdToSuspend = null;
 
-    // Event listener for the 'Suspend' button click to display the suspend popup
-    suspendButton.addEventListener("click", (event) => {
-        // Get the user ID from the data attribute of the clicked element
-        userIdToSuspend = event.target.getAttribute("data-user-id");
-    
-        // Show the suspend confirmation popup
-        document.getElementById("suspendPopup").style.display = "block";
-    
-                // Event listener for 'Yes' button click in the suspend confirmation popup
-        suspendConfirmButton.addEventListener("click", () => {
-            // Show the date/time selection popup
-            document.getElementById("datePopup").classList.remove("hidden");
-        });
+// Event listener for the 'Suspend' button click to display the suspend popup
+suspendButton.addEventListener("click", (event) => {
+    // Get the user ID from the data attribute of the clicked element
+    userIdToSuspend = event.target.getAttribute("data-user-id");
 
-        // Event listener for 'No' button click in the suspend confirmation popup
-        suspendCancelButton.addEventListener("click", () => {
-            // Hide the date/time selection popup if the user clicks 'No'
-            document.getElementById("datePopup").classList.add("hidden");
-        });
+    // Show the suspend confirmation popup
+    document.getElementById("suspendPopup").style.display = "block";
+
+    // Event listener for 'Yes' button click in the suspend confirmation popup
+    suspendConfirmButton.addEventListener("click", () => {
+        // Show the date/time selection popup
+        document.getElementById("datePopup").classList.remove("hidden");
+    });
+
+    // Event listener for 'No' button click in the suspend confirmation popup
+    suspendCancelButton.addEventListener("click", () => {
+        // Hide the date/time selection popup if the user clicks 'No'
+        document.getElementById("datePopup").classList.add("hidden");
+    });
+
     // Event listener for the 'Submit' button click in the date/time selection popup
     const dateSubmitButton = document.getElementById("date-submit-button");
     dateSubmitButton.addEventListener("click", async () => {
         // Get selected date and time values from the form inputs
         const selectedDate = document.getElementById("date-input").value;
         const selectedTime = document.getElementById("time-input").value;
-    
+
         if (userIdToSuspend) {
-            // Reference to the user document in Firestore using the stored user ID
-            const userRef = doc(db, 'users', userIdToSuspend);
-    
-            try {
-                // Update the user's record in the Firestore database with the suspension date and time
-                await updateDoc(userRef, {
-                    suspend: true, // Set 'suspend' field to true to suspend the user
-                    suspensionDate: selectedDate,
-                    suspensionTime: selectedTime,
-                });
-    
-                // Display a confirmation message that the user has been suspended
-                alert("User has been suspended successfully.");
-            } catch (error) {
-                console.error("Error suspending user:", error);
-                alert("An error occurred while suspending the user. Please try again later.");
-            }
-    
+            await suspendUser(userIdToSuspend, selectedDate, selectedTime);
             // Reset the stored user ID after processing suspension
             userIdToSuspend = null;
         }
-    
+
         // Close the date/time selection popup
         document.getElementById("datePopup").style.display = "none";
     });
+});
 
-    // Event listener for the 'Edit' button click
-    const editButtons = document.querySelectorAll(".edit-button");
-    editButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const userId = button.dataset.userId;
-            editUser(userId);
+
+   // Event listener for the 'Edit' button click
+   $('#userTable').on('click', '.edit-button', function () {
+    const userId = $(this).data('user-id');
+    editUser(userId);
         });
     });
 
@@ -375,4 +354,5 @@ function getUserIdToDelete() {
 
     // Load user data when the page loads
     loadUsers();
+})
 });
