@@ -54,3 +54,30 @@ export async function printDocumentIds(specific_collection) {
         console.error("Error getting documents:", error);
     }
 }
+
+export async function populateTable(collectionName) {
+    const recordsCollection = collection(db, collectionName);
+  
+    try {
+      const querySnapshot = await getDocs(recordsCollection);
+      const tableBody = document.querySelector('#datatablesSimple tbody');
+      let rowNumber = 1;
+  
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        tableBody.innerHTML += `
+          <tr>
+            <td>${data.accountNumber}</td>
+            <td>${data.accountName}</td>
+            <td>${data.normalSide}</td>
+            <td>${data.accountSubcategory}</td>
+            <td>${data.balance}</td>
+            <td>${data.accountDescription}</td>
+          </tr>
+        `;
+        rowNumber++;
+      });
+    } catch (error) {
+      console.error("Error getting documents:", error);
+    }
+}
