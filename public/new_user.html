@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/signinpages.css" class="rel">
     <script defer src = "js/sprout.js" type = "module"></script>
     <script defer src = "js/auth/new_user_create.js" type = "module"></script>
-    <!--<script defer src = "js/auth/email_auth.js" type="module"></script>-->
+    <script defer src = "js/email_auth.js" type = "module"></script>
 </head>
 
 
@@ -43,13 +43,13 @@
                 
                 <div class="form-control">
                     <label for="address">Address</label>
-                    <input type="text" name="address" id="address" class="new_user_form_field" placeholder="Enter Address">
+                    <input type="text" name="address" id="new_user_form_field" class="new_user_form_field" placeholder="Enter Address">
                     <small>Error Message</small>
                 </div>
 
                 <div class="form-control">
                     <label for="dateofbirth">Date of Birth</label>
-                    <input type="text" name="dateofbirth" id="dateofbirth" class="new_user_form_field" placeholder="MM/DD/YYYY">
+                    <input type="date" name="dateofbirth" id="dateofbirth" class="new_user_form_field" placeholder="MM/DD/YYYY">
                     <small>Error Message</small>
                 </div>
 
@@ -132,4 +132,12 @@
         </main>
     </div>
 </body>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("Fwd-qXGKUkQJGDPsj");
+   })();
+</script>
 </html>

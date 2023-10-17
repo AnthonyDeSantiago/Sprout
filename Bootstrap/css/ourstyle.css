@@ -1,0 +1,17 @@
+/* LOGO in Top Nav */
+.bg-logo{
+    width: 8%;
+}
+
+/* Logo in Login Screen */
+.bg-login-logo{
+    width: 300px;
+}
+
+.default-picture{
+    width: 10%;
+}
+
+.form-select{
+    width: 320px;
+}

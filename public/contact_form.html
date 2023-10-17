@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/contact_calendar.css" class="rel">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <script defer src = "js/email_auth.js" type = "module"></script>
+    
+</head>
+<body>
+    <!-- send email to desinated admin email -->
+    <div>
+        <input id="fullName" type="text" placeholder="Full Name" required>
+        <br>
+        <input id="email" type="email" placeholder="Email" required>
+        <br>
+        <textarea id="mess" placeholder="Message" required></textarea>
+        <br>
+        <button class="form-btn">Send Message</button>
+    </div>
+    <br>
+
+    <!-- this send email based off a template -->
+    <div>
+        <button class="email-btn">Send Email based of EmailJS</button>
+    </div>
+
+</body>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
+    (function(){
+        emailjs.init("Fwd-qXGKUkQJGDPsj");
+})();
+</script>
+</html>
