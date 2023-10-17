@@ -118,8 +118,39 @@
                                 Asset Accounts
                             </div>
                             <div class="card-body">
-                                <button class="btn btn-primary mb-2">Add Account</button>
-                                <table id="datatablesSimple">
+                                <!-- Add Account Button -->
+                                <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+                                    Add Account
+                                </button>
+                                
+                                <!-- Add Account Modal -->
+                                <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="addAccountModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="addAccountModalLabel">Add New Account</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form id="accountForm">
+                                                <input type="text" id="accountName" placeholder="Account Name">
+                                                <input type="text" id="accountNumber" placeholder="Account Number">
+                                                <input type="text" id="accountDescription" placeholder="Account Description">
+                                                <input type="text" id="normalSide" placeholder="Normal Side">
+                                                <input type="text" id="accountCategory" placeholder="Account Category">
+                                                <input type="text" id="accountSubcategory" placeholder="Account Subcategory">
+                                                <input type="text" id="accountInitialBalance" placeholder="Account Initial Balance">
+                                                <input type="text" id="accountTimestamp" placeholder="Account Timestamp">
+                                                <input type="text" id="accountOrder" placeholder="Account Order">
+                                                <input type="text" id="accountComment" placeholder="Account Comment">
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+  
+                                <table id="asset_accounts">
                                     <thead>
                                         <tr>
                                             <th>No.</th>
@@ -153,7 +184,11 @@
                                 </table>
                             </div>
                         </div>
+
+                        
                     </div>
+
+                    
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
@@ -168,12 +203,15 @@
                     </div>
                 </footer>
             </div>
+
+            
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
+        <!-- <script src="js/datatables-simple-demo.js"></script> -->
+        <script src="js/dashboard-datatables-simple.js"></script>
     </body>
 </html>
