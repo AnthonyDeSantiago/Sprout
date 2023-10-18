@@ -85,33 +85,35 @@ export async function populateTableFilter(collectionName, filterCategory, tableI
 }
 
 export async function populateTable(collectionName, tableId) {
-    const recordsCollection = collection(db, collectionName);
-  
-    try {
+  const recordsCollection = collection(db, collectionName);
+
+  try {
       const querySnapshot = await getDocs(recordsCollection);
       const tableBody = document.querySelector(`#${tableId} tbody`); // Use the provided tableId
       let rowNumber = 1;
-  
+
       querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        if (true) {
-          tableBody.innerHTML += `
-            <tr>
-              <td>${data.accountNumber}</td>
-              <td>${data.accountName}</td>
-              <td>${data.normalSide}</td>
-              <td>${data.accountCategory}</td>
-              <td>${data.balance}</td>
-              <td>${data.accountDescription}</td>
-            </tr>
-          `;
-          rowNumber++;
-        }
+          const data = doc.data();
+          if (true) {
+              tableBody.innerHTML += `
+                  <tr>
+                      <td><input type="checkbox"></td>
+                      <td>${data.accountNumber}</td>
+                      <td>${data.accountName}</td>
+                      <td>${data.normalSide}</td>
+                      <td>${data.accountCategory}</td>
+                      <td>${data.balance}</td>
+                      <td>${data.accountDescription}</td>
+                  </tr>
+              `;
+              rowNumber++;
+          }
       });
-    } catch (error) {
+  } catch (error) {
       console.error("Error getting documents:", error);
-    }
+  }
 }
+
 
 export async function addDocument(specific_collection, data) {
     const recordsCollection = await getCollection(specific_collection);
