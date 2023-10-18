@@ -48,29 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         location.reload();
     });
 
-    // Get all the checkbox elements
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-    // Add an event listener to each checkbox
-    checkboxes.forEach(checkbox => {
-        console.log("dljslkfj");
-        checkbox.addEventListener('change', function () {
-            console.log("dljslkfj");
-            if (this.checked) {
-                // Get the data row identifier
-                const rowId = this.getAttribute('data-row');
-
-                // Find the related data element in the same row
-                const dataElement = document.querySelector(`td[data-row="${rowId}"]`);
-
-                // Access the data you need from the data element
-                const rowData = dataElement.textContent;
-
-                // Do something with the rowData
-                console.log('Checked:', rowData);
-            }
-        });
-    });
+    
 
     console.log("made it to the end");
 
@@ -79,8 +57,19 @@ document.addEventListener("DOMContentLoaded", function () {
 const editButton = document.querySelector('.btn[data-bs-target="#editAccountModal"]');
 
 editButton.addEventListener('click', function() {
-  // This code will run when the Edit button is clicked
-  console.log('Edit button pressed');
-  // You can add your custom logic here
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    
+    for (const checkbox of checkboxes) {
+        if (checkbox.checked) {
+            const row = checkbox.closest('tr');
+            
+            const rowData = Array.from(row.cells).map(cell => cell.textContent);
+            
+            console.log('Checked Row Data:', rowData);
+            break;
+        }
+    }
 });
+
+
 
