@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const accountForm = document.getElementById("accountForm");
 
     accountForm.addEventListener("submit", async function (e) {
-        e.preventDefault(); // Prevent the default form submission behavior
+        e.preventDefault(); 
         console.log("Hit Save!")
-        // Access form input elements by their IDs
+        
         const accountName = document.getElementById("accountName").value;
         const accountNumber = document.getElementById("accountNumber").value;
         const accountDescription = document.getElementById("accountDescription").value;
@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         await addDocument('accounts', newAccount);
+    
         accountForm.reset();
+        location.reload();
     });
 });
