@@ -8,15 +8,15 @@
 /* small calendar */
 .wrapper{
     width: 100%;
-    min-height: 100vh;
+    min-height: 60vh;
     display: flex;
-    align-items: center;
+    align-items: end;
     justify-content: center;
 }
 
 .calendar{
-    width: 300px;
-    height: 250px;
+    width: 200px;
+    height: 130px;
     background: gray;
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    font-size: 24px;
+    font-size: 18px;
 }
 .left{
     width: 58%;
@@ -38,19 +38,28 @@
     width: 42%;
     background: #137547;
     color: #fff;
+    padding-top: 20px;
+    font-size: 18px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
 #date{
-    font-size: 100px;
-    line-height: 90px;
+    padding-top: 20px;
+    font-size: 60px;
+    line-height: 45px;
     color: #fff;
 }
 
 #day{
     color: #fff;
 }
+
+
+
+
+
+
 
 /* popup calendar */
 .wrapper2{

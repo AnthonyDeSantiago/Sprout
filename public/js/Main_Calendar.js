@@ -1,7 +1,7 @@
 
 /* comment the full calendar for this to work */
 
-/* const date = document.getElementById("date");
+const date = document.getElementById("date");
 const day = document.getElementById("day");
 const month = document.getElementById("month");
 const year = document.getElementById("year");
@@ -14,11 +14,11 @@ const months = ["January","Febuary","March","April","May","June","July","August"
 date.innerHTML = (today.getDate()<10?"0":"") + today.getDate();
 day.innerHTML = weekDays[today.getDay()];
 month.innerHTML = months[today.getMonth()];
-year.innerHTML = today.getFullYear(); */
+year.innerHTML = today.getFullYear();
 
     
 //full cal
-isLeapYear = (year) =>{
+/* isLeapYear = (year) =>{
     return (year % 4 === 0 && year % 100 !== 0 && year % 400 !==0 || (year % 100 === 0 && year % 400 === 0))
 }
 
@@ -91,10 +91,10 @@ generateCal(curr_month.value, curr_year.value)
 
 
 /* button to get calendar to hide or show */
-const button = document.querySelector("cal-btn");
+/* const button = document.querySelector("cal-btn");
 
 button.onclick = () =>{
     const but = document.getElementsByClassName("wrapper2");
     but.style.opacity = "100";
 
-}
+}  */
