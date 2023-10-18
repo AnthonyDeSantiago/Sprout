@@ -94,9 +94,9 @@
                                 <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addAccountModal">
                                     Add
                                 </button>
-                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#editAccountModal">
                                     Edit
-                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#deactivateAccountModal">
                                     Deactivate
                                 </button>
                                 <!-- Add Account Modal -->
@@ -105,6 +105,99 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                             <h5 class="modal-title" id="addAccountModalLabel">Add New Account</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form id="accountForm">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input class="form-control" id="accountName" type="text" placeholder="name@example.com" />
+                                                            <label for="inputEmail">Account Name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="accountNumber" type="text" placeholder="user" />
+                                                            <label for="inputUser">Account Number</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input class="form-control" id="accountDescription" type="text" placeholder="name@example.com" />
+                                                            <label for="inputEmail">Account Description</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="normalSide" type="text" placeholder="user" />
+                                                            <label for="inputUser">Normal Side</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input class="form-control" id="accountCategory" type="text" placeholder="name@example.com" />
+                                                            <label for="inputEmail">Account Category</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="accountSubcategory" type="text" placeholder="user" />
+                                                            <label for="inputUser">Account Subcategory</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input class="form-control" id="accountInitialBalance" type="text" placeholder="name@example.com" />
+                                                            <label for="inputEmail">Initial Balance</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="accountOrder" type="text" placeholder="user" />
+                                                            <label for="inputUser">Account Order</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input class="form-control" id="accountComment" type="text" placeholder="name@example.com" />
+                                                            <label for="inputEmail">Comment</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <input type="text" id="accountName" placeholder="Account Name">
+                                                <input type="text" id="accountNumber" placeholder="Account Number">
+                                                <input type="text" id="accountDescription" placeholder="Account Description">
+                                                <input type="text" id="normalSide" placeholder="Normal Side">
+                                                <input type="text" id="accountCategory" placeholder="Account Category">
+                                                <input type="text" id="accountSubcategory" placeholder="Account Subcategory">
+                                                <input type="text" id="accountInitialBalance" placeholder="Account Initial Balance">
+                                                <input type="text" id="accountOrder" placeholder="Account Order">
+                                                <input type="text" id="accountComment" placeholder="Account Comment"> -->
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog" aria-labelledby="editAccountModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="addAccountModalLabel">Edit Account</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
