@@ -4,8 +4,13 @@ console.log("dashboard.js has loaded!!!");
 
 import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData} from "./database_module.mjs";
 import { initializeEventLogging } from "./eventLog.mjs";
+import {fetchUserFromEmail} from "./sprout.js"
+import {
+    getAuth,
+    onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-
+var username = null;
 const accounts = await getCollection('accounts');
 let accountNumber = null;
 
@@ -16,9 +21,9 @@ populateTable('accounts', 'asset_accounts');
 let newAccount = null;
 document.addEventListener("DOMContentLoaded", function () {
     //##########################################
-    // Need User ID from Camile
+    // User ID goes here
     //--------------------------------------------
-    initializeEventLogging('accounts', 'some-id');
+    initializeEventLogging('accounts', username);
     //---------------------------------------------
     //##############################################
     const accountForm = document.getElementById("accountForm");
@@ -41,22 +46,28 @@ document.addEventListener("DOMContentLoaded", function () {
             const accountComment = document.getElementById("accountComment").value;
             const timestamp = await getTimestamp();
 
-            newAccount = {
-                accountCategory: accountCategory,
-                accountDescription: accountDescription,
-                accountName: accountName,
-                accountNumber: accountNumber,
-                accountSubcategory:accountSubcategory,
-                balance: accountInitialBalance,
-                comment: accountComment,
-                initialBalance: accountInitialBalance,
-                normalSide: normalSide,
-                order: accountOrder,
-                active: true,
-                timestampAdded: timestamp
-            }
+            var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
 
-            await addDocument('accounts', newAccount);
+            if(moneyPattern.test(accountInitialBalance) == true){
+                newAccount = {
+                    accountCategory: accountCategory,
+                    accountDescription: accountDescription,
+                    accountName: accountName,
+                    accountSubcategory:accountSubcategory,
+                    balance: accountInitialBalance,
+                    comment: accountComment,
+                    initialBalance: accountInitialBalance,
+                    normalSide: normalSide,
+                    order: accountOrder
+                }
+
+                await addDocument('accounts', newAccount);
+            }
+            else{
+                document.getElementById("editAccountInitialBalance").style.color = "red";
+                document.getElementById("money-error1").style.color = "red";
+                document.getElementById("money-error1").textContent = "\tPlease enter balance in currency format.";
+            }
             
             accountForm.reset();
             //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
@@ -81,21 +92,29 @@ document.addEventListener("DOMContentLoaded", function () {
         const accountInitialBalance = document.getElementById("editAccountInitialBalance").value;
         const accountOrder = document.getElementById("editAccountOrder").value;
         const accountComment = document.getElementById("editAccountComment").value;
-
-        newAccount = {
-            accountCategory: accountCategory,
-            accountDescription: accountDescription,
-            accountName: accountName,
-            accountSubcategory:accountSubcategory,
-            balance: accountInitialBalance,
-            comment: accountComment,
-            initialBalance: accountInitialBalance,
-            normalSide: normalSide,
-            order: accountOrder
-        }
-
-        await editAccountData(accountNumber, newAccount);
         
+        var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
+
+        if(moneyPattern.test(accountInitialBalance) == true){
+            newAccount = {
+                accountCategory: accountCategory,
+                accountDescription: accountDescription,
+                accountName: accountName,
+                accountSubcategory:accountSubcategory,
+                balance: accountInitialBalance,
+                comment: accountComment,
+                initialBalance: accountInitialBalance,
+                normalSide: normalSide,
+                order: accountOrder
+            }
+
+            await editAccountData(accountNumber, newAccount);
+        }
+        else{
+            document.getElementById("editAccountInitialBalance").style.color = "red";
+            document.getElementById("money-error2").style.color = "red";
+            document.getElementById("money-error2").textContent = "\tPlease enter balance in currency format.";
+        }
         accountForm.reset();
         //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
         setTimeout(function () {
@@ -144,3 +163,25 @@ editButton.addEventListener('click', async function() {
         }
     }
 });
+
+const checkAuthState = async () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            
+            user.providerData.forEach((profile) => {
+                userDisplay = profile.displayName;
+                userEmail = profile.email;
+            });
+
+            userData = await fetchUserFromEmail(userEmail)
+            username = userData.username;
+        }
+        else {
+            //Any code put here will impact sign in pages, so be careful
+            //For example: do not put an alert that there is no user here,
+            //it will cause an error with sign in
+        }
+    })
+}
+
+checkAuthState();

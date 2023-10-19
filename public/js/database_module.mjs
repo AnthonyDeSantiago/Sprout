@@ -73,6 +73,7 @@ export async function populateTableFilter(collectionName, filterCategory, tableI
               <td>${data.normalSide}</td>
               <td>${data.accountCategory}</td>
               <td>${data.balance}</td>
+              <td>${data.order}</td>
               <td>${data.accountDescription}</td>
             </tr>
           `;
@@ -104,6 +105,7 @@ export async function populateTable(collectionName, tableId) {
                       <td>${data.normalSide}</td>
                       <td>${data.accountCategory}</td>
                       <td>${data.balance}</td>
+                      <td>${data.order}</td>
                       <td>${data.accountDescription}</td>
                   </tr>
               `;
