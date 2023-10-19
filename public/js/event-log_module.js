@@ -59,19 +59,24 @@ export async function populateTableFilter(collectionName, filterCategory, tableI
     const recordsCollection = collection(db, collectionName);
   
     try {
-      const querySnapshot = await getDocs(recordsCollection);
+      const querySnapshot = await getDocs(query(recordsCollection, orderBy('timestamp')));
       const tableBody = document.querySelector(`#${tableId} tbody`); // Use the provided tableId
       let rowNumber = 1;
-  
+    
+      
+
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         if (data.accountCategory === filterCategory) {
+          let timestamp =new Date(data.timestamp.seconds)
+          let newTimestamp = new Date(timestamp)
+          newTimestamp.setHours(timestamp.getHours())
           tableBody.innerHTML += `
             <tr>
               <td>${data.userId}</td>
-              <td>${data.id}</td>
+              <td>${doc.id}</td>
               <td>${data.eventType}</td>
-              <td>${data.timestamp}</td>
+              <td>${newTimestamp}</td>
               <td>${data.beforeImage}</td>
               <td>${data.afterImage}</td>
             </tr>
@@ -88,21 +93,25 @@ export async function populateTable(collectionName, tableId) {
   const recordsCollection = collection(db, collectionName);
 
   try {
-      const querySnapshot = await getDocs(recordsCollection);
+      const querySnapshot = await getDocs(query(recordsCollection, orderBy('timestamp')));
       const tableBody = document.querySelector(`#${tableId} tbody`);
       let rowNumber = 1;
+      
       const rowToHide = tableBody.querySelectorAll("tr")[0];
       rowToHide.style.display = "none";
       querySnapshot.forEach((doc) => {
           const data = doc.data();
           if (true) {
+              let timestamp =new Date(data.timestamp.seconds*1000)
+              let newTimestamp = new Date(timestamp)
+              newTimestamp.setHours(timestamp.getHours())
               tableBody.innerHTML += `
                   <tr>
                       <td><input type="checkbox"></td>
                       <td>${data.userId}</td>
-                      <td>${data.id}</td>
+                      <td>${doc.id}</td>
                       <td>${data.eventType}</td>
-                      <td>${data.timestamp}</td>
+                      <td>${newTimestamp}</td>
                       <td>${data.beforeImage}</td>
                       <td>${data.afterImage}</td>
                   </tr>

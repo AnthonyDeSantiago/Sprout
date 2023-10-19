@@ -1,6 +1,6 @@
 console.log("event-log.js has loaded!!!");
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./event-log_module.mjs";
+import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./event-log_module.js";
 
 const eventLog = await getCollection('eventLog');
 

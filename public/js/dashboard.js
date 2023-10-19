@@ -10,19 +10,24 @@ import {
     onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-var username = null;
+var username;
+const auth = getAuth();                  //Init Firebase Auth + get a reference to the service
 const accounts = await getCollection('accounts');
 let accountNumber = null;
-
+let userDisplay = null;
+let userEmail = null;
+let userData = null;
 
 printDocumentIds('accounts');
 
 populateTable('accounts', 'asset_accounts');
 let newAccount = null;
-document.addEventListener("DOMContentLoaded", function () {
+async function loadDocuments() {
+
     //##########################################
     // User ID goes here
     //--------------------------------------------
+    console.log("USERNAME >>>>>>>>>>>>>>>>>>>>> " + username);
     initializeEventLogging('accounts', username);
     //---------------------------------------------
     //##############################################
@@ -127,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("made it to the end");
 
-});
+}
 
 const editButton = document.querySelector('.btn[data-bs-target="#editAccountModal"]');
 
@@ -175,6 +180,8 @@ const checkAuthState = async () => {
 
             userData = await fetchUserFromEmail(userEmail)
             username = userData.username;
+            
+            loadDocuments();
         }
         else {
             //Any code put here will impact sign in pages, so be careful

@@ -113,13 +113,13 @@ const checkAuthState = async () => {
                     userRole = "Administrator";
                 } else if (userData.role == "manager") {    
                     userRole = "Manager";
-                    document.getElementById("admin-only").style.display = "none";
+                    document.getElementsByClassName("admin-only").style.display = "none";
                 } else if (userData.role == "regular") {    
                     userRole = "Accountant";
-                    document.getElementById("admin-only").style.display = "none";
+                    document.getElementsByClassName("admin-only").style.display = "none";
                 } else {    
                     alert("Unable to resolve the role associated with your account. Please contact the admin.");
-                    document.getElementById("admin-only").style.display = "none";
+                    document.getElementsByClassName("admin-only").style.display = "none";
                 }
 
                 document.getElementById("user-role").textContent = userRole;

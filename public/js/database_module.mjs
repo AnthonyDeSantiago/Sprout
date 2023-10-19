@@ -68,8 +68,8 @@ export async function populateTableFilter(collectionName, filterCategory, tableI
         if (data.accountCategory === filterCategory) {
           tableBody.innerHTML += `
             <tr>
-              <td>${data.accountNumber}</td>
-              <td>${data.accountName}</td>
+              <td><a href="ledger.html">${data.accountNumber}</a></td>
+              <td><a href="ledger.html">${data.accountName}</a></td>
               <td>${data.normalSide}</td>
               <td>${data.accountCategory}</td>
               <td>${data.balance}</td>
@@ -100,8 +100,8 @@ export async function populateTable(collectionName, tableId) {
               tableBody.innerHTML += `
                   <tr>
                       <td><input type="checkbox"></td>
-                      <td>${data.accountNumber}</td>
-                      <td>${data.accountName}</td>
+                      <td><a href="ledger.html">${data.accountNumber}</a></td>
+                      <td><a href="ledger.html">${data.accountName}</a></td>
                       <td>${data.normalSide}</td>
                       <td>${data.accountCategory}</td>
                       <td>${data.balance}</td>
