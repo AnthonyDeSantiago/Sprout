@@ -89,9 +89,10 @@ export async function populateTable(collectionName, tableId) {
 
   try {
       const querySnapshot = await getDocs(recordsCollection);
-      const tableBody = document.querySelector(`#${tableId} tbody`); // Use the provided tableId
+      const tableBody = document.querySelector(`#${tableId} tbody`);
       let rowNumber = 1;
-
+      const rowToHide = tableBody.querySelectorAll("tr")[0];
+      rowToHide.style.display = "none";
       querySnapshot.forEach((doc) => {
           const data = doc.data();
           if (true) {
