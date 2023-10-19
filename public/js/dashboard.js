@@ -130,7 +130,6 @@ editButton.addEventListener('click', async function() {
 
             const data = await getAccountData(accountNum);
             document.getElementById("editAccountName").value = data.accountName;
-            document.getElementById("editAccountNumber").value = data.accountNumber;
             document.getElementById("editAccountDescription").value = data.accountDescription;
             document.getElementById("editNormalSide").value = data.normalSide;
             document.getElementById("editAccountCategory").value = data.accountCategory;
