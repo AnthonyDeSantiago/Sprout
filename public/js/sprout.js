@@ -75,6 +75,8 @@ const checkAuthState = async () => {
             if(document.getElementById("userprofile_name") != null && document.getElementById("userprofile_image_src") != null){
                 document.getElementById("userprofile_name").textContent = user.displayName;
                 document.getElementById("userprofile_image_src").src = user.photoURL;
+                document.getElementById("userprofile_image_src").style.paddingRight = "7px";
+                document.getElementById("userprofile_image_blank").style.display = "none";
             }
         }
         else {
