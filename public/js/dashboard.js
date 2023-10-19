@@ -61,11 +61,31 @@ editButton.addEventListener('click', function() {
     
     for (const checkbox of checkboxes) {
         if (checkbox.checked) {
+            
+
             const row = checkbox.closest('tr');
             
             const rowData = Array.from(row.cells).map(cell => cell.textContent);
             
             console.log('Checked Row Data:', rowData);
+
+            const editAccountModal = new bootstrap.Modal(document.getElementById("editAccountModal"));
+            
+
+            const accountNameInput = document.getElementById("accountName");
+            const accountNumberInput = document.getElementById("accountNumber");
+            const accountDescriptionInput = document.getElementById("accountDescription");
+            const normalSideInput = document.getElementById("normalSide");
+            const accountCategoryInput = document.getElementById("accountCategory");
+            const accountSubcategoryInput = document.getElementById("accountSubcategory");
+            const accountInitialBalanceInput = document.getElementById("accountInitialBalance");
+            const accountOrderInput = document.getElementById("accountOrder");
+            const accountCommentInput = document.getElementById("accountComment");
+
+            accountNameInput.value = "Testing";
+
+            editAccountModal.show();
+
             break;
         }
     }
