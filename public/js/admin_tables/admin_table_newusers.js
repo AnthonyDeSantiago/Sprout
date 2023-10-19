@@ -1,24 +1,13 @@
 console.log("!!! admin_table_newuserss.js loaded !!!");
 
-//import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-//import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
-
-
-//const auth = getAuth();
+import { getFirestore, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 const db = getFirestore();
 const users = collection(db, 'users');
 
-
-//--------------------------------------------------admin
 document.addEventListener("DOMContentLoaded", async function () {
-    const extendableTable = document.querySelector(".extendable-table");
-    const extendedTable = document.querySelector(".extended-table");
-
-    // Example: Function to populate the extendable table with user data
+    // Function to populate the extendable table with user data
     async function loadUsers() {
         const q = query(users, where('approved', '==', false), where('role', '!=', "deleted"));
         const userDocs = await getDocs(q);
@@ -49,12 +38,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
     
-
-    // Example: Function to populate the extended table when a username is clicked
+    // Function to populate the extended table when a username is clicked
     async function showExtendedTable(username) {
-        // Replace this with your Firebase data retrieval logic
-        // You may want to fetch data for the specific user by their username
-        // and populate the extended table with the unknown columns
         var readUser = [];
         username = username.toString();
         const q = query(users, where('username', '==', username));
@@ -66,13 +51,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             readUser = tempDoc;
         });
     
-        // Get the user data object
         const userData = readUser[0];
         console.log(userData);
     
         const extendedTableHtml = `
-            <table>
-                <thead>
+            <table class="table table-bordered mt-3">
+                <thead class="thead-dark">
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -107,19 +91,24 @@ document.addEventListener("DOMContentLoaded", async function () {
             </table>
             
             <!-- Buttons for Edit, Delete, Email, and Suspend -->
-            <div class="button-container">
-                <!-- To approve user, set suspended to false, suspensionEndDate to null value, approved to true -->
-                <button class="approve-button" onclick="approveUser('${userData.id}')">Approve</button>
-                <button class="deny-button" onclick="denyUser('${userData.id}')">Deny</button>
-                <!-- To set role, change role to "admin", "manager", or "regular" --> 
-                <button class="set-role-button" onclick="setRole('${userData.userEmail}')">Set Role</button>
+            <div class="button-container mt-3">
+                <button class="btn btn-success" onclick="approveUser('${userData.id}')">Approve</button>
+                <button class="btn btn-danger" onclick="denyUser('${userData.id}')">Deny</button>
+                <button class="btn btn-primary" onclick="setRole('${userData.userEmail}')">Set Role</button>
             </div>
         `;
     
-        extendedTable.innerHTML = extendedTableHtml;
-        document.getElementById("extended-table").style.display = "contents";
+        document.getElementById("extended-table").innerHTML = extendedTableHtml;
+        document.getElementById("extended-table").style.display = "block";
     }
     
     // Load user data when the page loads
-    loadUsers();
+    // Load user data when the page loads
+    loadUsers().then(() => {
+        // Trigger a click event on the first row of the table
+        const firstRow = document.querySelector('#userTable tbody tr');
+        if (firstRow) {
+            firstRow.click();
+        }
+    });
 });

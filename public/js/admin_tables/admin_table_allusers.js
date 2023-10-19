@@ -1,18 +1,20 @@
-// Log a message indicating that the script has been loaded
 console.log("!!! admin_table_allusers.js loaded !!!");
 
-// Import necessary functions from Firebase Firestore
-import { 
-    getFirestore, 
-    collection, 
-    doc, 
-    getDocs, 
-    updateDoc, 
-    query, 
-    where 
+import {
+    getFirestore,
+    collection,
+    doc,
+    getDocs,
+    updateDoc,
+    query,
+    where
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+const db = getFirestore();
+const users = collection(db, 'users');
+
 function toggleDropdown() {
-    var dropdownContent = document.getElementById("dropdownContent");
+    const dropdownContent = document.getElementById("dropdownContent");
     dropdownContent.classList.toggle("show");
 }
 
@@ -23,336 +25,195 @@ function goBack() {
 function logout() {
     // Implement your logout logic here
 }
-// Get a reference to the Firestore database
-const db = getFirestore();
+// Function to handle the creation of a new user
+async function createUser() {
+    // Get values from the input fields
+    const userEmail = document.getElementById("userEmail").value;
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const address = document.getElementById("address").value;
+    const DOB = document.getElementById("DOB").value;
+    const password = document.getElementById("password").value;
 
-// Get a reference to the 'users' collection in the Firestore database
-const users = collection(db, 'users');
+    // Check if all fields are filled
+    if (!userEmail || !firstName || !lastName || !address || !DOB || !password) {
+        alert("Please fill out all fields.");
+        return;
+    }
 
-// Wait for the DOM content to be fully loaded before executing the script
-document.addEventListener("DOMContentLoaded", async function () {
-    // Get references to various HTML elements
-    const extendableTable = document.querySelector(".extendable-table");
-    const extendedTable = document.querySelector(".extended-table");
-    const suspendButton = document.getElementById("suspend-button");
-    const suspendPopup = document.getElementById("suspendPopup");
-    const suspendConfirmButton = document.getElementById("suspend-confirm-button");
-    const suspendCancelButton = document.getElementById("suspend-cancel-button");
+    // Create a new user object
+    const newUser = {
+        userEmail: userEmail,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        DOB: DOB,
+        password: password, 
+        approved: false,
+        role: "user"
+    };
+
+    try {
+        // Add the new user to the Firestore database
+        await addDoc(users, newUser);
+        alert("User created successfully!");
+
+        // Reload the user table to reflect the new data
+        loadUsers();
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        alert("There was an error creating the user. Please try again.");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
     const createUserButton = document.getElementById("createUserButton");
-    const searchInput = document.getElementById("search");
+    const editUserBtn = document.getElementById("editUserBtn");
+    let userIdToDelete = null;
+    let userIdToSuspend = null;
 
- // Event listener for 'Create User' button click
-createUserButton.addEventListener("click", () => {
-    document.getElementById("createUserPopup").style.display = "block";
-});
+    // Create User functionality
+    createUserButton.addEventListener("click", () => {
+        document.getElementById("createUserPopup").style.display = "block";
+    });
+    const createUserForm = document.getElementById("create_user_form");
 
-// Event listener for create user form submission
-const createUserForm = document.getElementById("create_user_form");
-createUserForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
 
-        // Get the new username from the form input
-        const newUsername = document.getElementById("newUsername").value;
-        // Implement logic to add the new user to Firebase Firestore here using 'newUsername'
-
-        // Close the create user popup form after submission
+     createUserForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        await createUser();
         closeCreateUserPopup();
     });
 
-    // Function to filter users by username based on search input
-    function filterUsersByUsername(username) {
-        // Get the table body element
-        const tbody = document.querySelector(".extendable-table tbody");
-        // Get all rows in the table body
-        const rows = tbody.querySelectorAll("tr");
-
-        // Loop through each row and check if the username matches the search term
-        rows.forEach((row) => {
-            const usernameCell = row.querySelector("td");
-            const usernameText = usernameCell.textContent.toLowerCase();
-            if (usernameText.includes(username.toLowerCase())) {
-                row.style.display = ""; // Show matching rows
-            } else {
-                row.style.display = "none"; // Hide non-matching rows
-            }
-        });
-    }
-
-    // Event listener for search input changes
-    searchInput.addEventListener("input", function () {
-        // Get the trimmed search term from the input
-        const searchTerm = searchInput.value.trim();
-        // Call the filter function with the search term
-        filterUsersByUsername(searchTerm);
-    });
-
-    // Function to add a new user to Firebase Firestore
-    async function addNewUserToFirestore(username) {
-        // Implement logic to add the new user to Firebase Firestore here using 'username'
-    }
-
-    // Function to close the create user popup form
     function closeCreateUserPopup() {
-        // Hide the create user popup form
         document.getElementById("createUserPopup").style.display = "none";
     }
 
-  // Function to load users from Firebase Firestore and populate the DataTable
-async function loadUsers() {
-    // Query to get users where role is not 'deleted'
-    const q = query(users, where('role', '!=', "deleted"));
-    
-    // Get the documents from the query
-    const userDocs = await getDocs(q);
-
-    // Clear existing rows in the DataTable
-    userTable.clear();
-
-    // Loop through the documents and add user data to the DataTable
-    userDocs.forEach((doc) => {
-        const user = doc.data();
-        userTable.row.add([
-            user.username,
-            // Add more data columns as needed
-            `<button class="edit-button" data-user-id="${doc.id}">Edit</button>
-            <button class="delete-button" data-user-id="${doc.id}">Delete</button>`
-        ]).draw(false);
-    });
-}
-
-// Load user data when the page loads
-loadUsers();
-
-
-    // Function to display extended user data when a username is clicked
-    async function showExtendedTable(username) {
-        // Array to store retrieved user data from Firestore
-        var readUser = [];
-        // Query to get user data where username matches the clicked username
-        const q = query(users, where('username', '==', username));
-        // Get the documents from the query
-        const getUsers = await getDocs(q);
-        // Loop through the documents and add user data to the readUser array
-        getUsers.forEach((doc) => {
-            readUser.push({ id: doc.id, ...doc.data() });
-        });
-
-        // Get the user data object from the readUser array
-        const userData = readUser[0];
-        console.log(userData);
-
-        // HTML content for the extended table displaying user details
-        const extendedTableHtml = `
-            <!-- Extended table HTML content with user details -->
-        `;
-
-        // Set the inner HTML of the extended table with the generated content
-        extendedTable.innerHTML = extendedTableHtml;
-        // Display the extended table
-        document.getElementById("extended-table").style.display = "contents";
-    }
-// Variable to store the ID of the user to be deleted
-// Initialize userIdToDelete variable
-let userIdToDelete = null;
-
-// Event listener for the 'Delete' button click
-$('#userTable').on('click', '.delete-button', function () {
-    // Get the user ID from the data attribute of the clicked delete button
-    userIdToDelete = $(this).data('user-id');
-
-    // Show the delete confirmation popup
-    document.getElementById("deleteUserPopupBackground").style.display = "block";
-    document.getElementById("deleteUserPopup").style.display = "block";
-});
-
-// Function to delete a user by updating their 'role' field to 'deleted'
-async function deleteUser(id) {
-    // Reference to the user document in Firestore using the provided ID
-    const userRef = doc(db, 'users', String(id));
-    // Update the 'role' field to 'deleted'
-    await updateDoc(userRef, {
-        role: "deleted"
+    // Delete User functionality
+    $('#userTable').on('click', '.delete-button', function() {
+        userIdToDelete = $(this).data('user-id');
+        document.getElementById("deleteUserPopupBackground").style.display = "block";
+        document.getElementById("deleteUserPopup").style.display = "block";
     });
 
-    // Log a message indicating successful user deletion
-    console.log("User deleted successfully");
+    const deleteConfirmButton = document.getElementById("deleteUserBtn");
+    deleteConfirmButton.addEventListener("click", async() => {
+        if (userIdToDelete) {
+            await deleteUser(userIdToDelete);
+            userIdToDelete = null;
+        }
+    });
 
-    // Close the delete confirmation popup after deletion
-    document.getElementById("deleteUserPopupBackground").style.display = "none";
-    document.getElementById("deleteUserPopup").style.display = "none";
-
-    // Show user deleted confirmation popup
-    document.getElementById("userDeletedPopupBackground").style.display = "block";
-    document.getElementById("userDeletedPopup").style.display = "block";
-
-    // Automatically close the user deleted confirmation popup after 10 seconds
-    setTimeout(() => {
-        document.getElementById("userDeletedPopupBackground").style.display = "none";
-        document.getElementById("userDeletedPopup").style.display = "none";
-    }, 10000);
-
-    // Update the username table after deletion (you need to implement this logic)
-    // ...
-}
-
-// Event listener for 'Yes' button click in the delete confirmation popup
-const deleteConfirmButton = document.getElementById("delete-confirm-button");
-deleteConfirmButton.addEventListener("click", async () => {
-    // Call the deleteUser function with the stored user ID to delete the user
-    if (userIdToDelete) {
-        await deleteUser(userIdToDelete);
-        // Reset the stored user ID after deletion
+    const deleteCancelButton = document.getElementById("delete-cancel-button");
+    deleteCancelButton.addEventListener("click", () => {
+        document.getElementById("deleteUserPopupBackground").style.display = "none";
+        document.getElementById("deleteUserPopup").style.display = "none";
         userIdToDelete = null;
+    });
+
+    async function deleteUser(id) {
+        const userRef = doc(db, 'users', String(id));
+        await updateDoc(userRef, { role: "deleted" });
+        console.log("User deleted successfully");
+        // TODO: Implement logic to update the user table after deletion
     }
-});
 
-// Event listener for 'No' button click in the delete confirmation popup
-const deleteCancelButton = document.getElementById("delete-cancel-button");
-deleteCancelButton.addEventListener("click", () => {
-    // Close the delete confirmation popup without deleting the user
-    document.getElementById("deleteUserPopupBackground").style.display = "none";
-    document.getElementById("deleteUserPopup").style.display = "none";
+    // Suspend User functionality
+    const suspendButton = document.getElementById("suspend-button");
+    suspendButton.addEventListener("click", function(event) {
+        userIdToSuspend = event.target.getAttribute("data-user-id");
+        document.getElementById("suspendPopup").style.display = "block";
+    });
 
-    // Reset the stored user ID when the user cancels the deletion
-    userIdToDelete = null;
-});
-
-// Function to get the user ID to delete (used when 'Yes' is clicked in the delete confirmation popup)
-function getUserIdToDelete() {
-    // Return the stored user ID to delete, or null if no user ID is available
-    return userIdToDelete;
-}
-
-
-    // Function to suspend a user by updating their 'suspend' field to true
-async function suspendUser(id, selectedDate, selectedTime) {
-    // Reference to the user document in Firestore using the provided ID
-    const userRef = doc(db, 'users', String(id));
-    try {
-        // Update the user's record in the Firestore database with the suspension date and time
-        await updateDoc(userRef, {
-            suspend: true,
-            suspensionDate: selectedDate,
-            suspensionTime: selectedTime,
-        });
-        // Display a confirmation message that the user has been suspended
-        alert("User has been suspended successfully.");
-    } catch (error) {
-        console.error("Error suspending user:", error);
-        alert("An error occurred while suspending the user. Please try again later.");
-    }
-}
-
-let userIdToSuspend = null;
-
-// Event listener for the 'Suspend' button click to display the suspend popup
-suspendButton.addEventListener("click", (event) => {
-    // Get the user ID from the data attribute of the clicked element
-    userIdToSuspend = event.target.getAttribute("data-user-id");
-
-    // Show the suspend confirmation popup
-    document.getElementById("suspendPopup").style.display = "block";
-
-    // Event listener for 'Yes' button click in the suspend confirmation popup
+    const suspendConfirmButton = document.getElementById("suspend-confirm-button");
     suspendConfirmButton.addEventListener("click", () => {
-        // Show the date/time selection popup
         document.getElementById("datePopup").classList.remove("hidden");
     });
 
-    // Event listener for 'No' button click in the suspend confirmation popup
+    const suspendCancelButton = document.getElementById("suspend-cancel-button");
     suspendCancelButton.addEventListener("click", () => {
-        // Hide the date/time selection popup if the user clicks 'No'
         document.getElementById("datePopup").classList.add("hidden");
     });
 
-    // Event listener for the 'Submit' button click in the date/time selection popup
     const dateSubmitButton = document.getElementById("date-submit-button");
-    dateSubmitButton.addEventListener("click", async () => {
-        // Get selected date and time values from the form inputs
+    dateSubmitButton.addEventListener("click", async() => {
         const selectedDate = document.getElementById("date-input").value;
         const selectedTime = document.getElementById("time-input").value;
-
         if (userIdToSuspend) {
             await suspendUser(userIdToSuspend, selectedDate, selectedTime);
-            // Reset the stored user ID after processing suspension
             userIdToSuspend = null;
         }
-
-        // Close the date/time selection popup
         document.getElementById("datePopup").style.display = "none";
     });
-});
 
-
-   // Event listener for the 'Edit' button click
-   $('#userTable').on('click', '.edit-button', function () {
-    const userId = $(this).data('user-id');
-    editUser(userId);
-        });
-    });
-
-    // Function to edit a user's information based on the provided user ID
-    async function editUser(userid) {
-        // Array to store retrieved user data from Firestore
-        var readUser = [];
-        // Convert the user ID to a string for query
-        const id = userid.toString();
-        // Query to get user data where 'id' field matches the provided user ID
-        const q = query(users, where('id', '==', id));
-        // Get the documents from the query
-        const getUsers = await getDocs(q);
-        // Loop through the documents and add user data to the readUser array
-        getUsers.forEach((doc) => {
-            readUser.push({ id: doc.id, ...doc.data() });
-        });
-
-        // Get the user data object from the readUser array
-        const userData = readUser[0];
-        
-        // Display the edit user popup form
-        document.getElementById("editUserPopup").style.display = "block";
-
-        // Event listener for edit user form submission
-        document.getElementById("editUserPopup").addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            // Get updated user information from the form inputs
-            const newUserName = document.getElementById("newUsername").value;
-            const newEmail = document.getElementById("newEmail").value;
-            const newFirstNameElement = document.getElementById("newfirst_name").value;
-            const newLastNameElement = document.getElementById("newlast_name").value;
-            const newAddressElement = document.getElementById("newaddress").value;
-            const newDOB = document.getElementById("newdateofbirth").value;
-
-            // Reference to the user document in Firestore using the provided user ID
-            const userRef = doc(db, 'users', String(id));
-
-            // Update user information in Firestore
+    async function suspendUser(id, selectedDate, selectedTime) {
+        const userRef = doc(db, 'users', String(id));
+        try {
             await updateDoc(userRef, {
-                username: newUserName,
-                userEmail: newEmail,
-                firstName: newFirstNameElement,
-                lastName: newLastNameElement,
-                address: newAddressElement,
-                DOB: newDOB,
+                suspend: true,
+                suspensionDate: selectedDate,
+                suspensionTime: selectedTime,
             });
-
-            // Log a message indicating successful user update
-            console.log("User updated successfully");
-
-            // Close the edit user popup form after submission
-            document.getElementById("editUserPopup").style.display = "none";
-        });
+            alert("User has been suspended successfully.");
+        } catch (error) {
+            console.error("Error suspending user:", error);
+            alert("An error occurred while suspending the user. Please try again later.");
+        }
     }
 
-    const usernameCells = document.querySelectorAll(".extendable-table tbody td");
-    usernameCells.forEach((cell) => {
-        cell.addEventListener("click", () => {
-            showExtendedTable(cell.innerText);
-        });
+    // Edit User functionality
+    editUserBtn.addEventListener("click", function() {
+        document.getElementById("editUserPopupBackground").style.display = "block";
+        document.getElementById("editUserPopup").style.display = "block";
     });
 
+    const editUserForm = document.getElementById("edit_user_form");
+    editUserForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        // TODO: Implement logic to edit the user in Firebase Firestore
+        closeEditUserPopup();
+    });
+
+    function closeEditUserPopup() {
+        document.getElementById("editUserPopupBackground").style.display = "none";
+        document.getElementById("editUserPopup").style.display = "none";
+    }
+
     // Load user data when the page loads
+    async function loadUsers() {
+        const q = query(users, where('approved', '!=', false), where('role', '!=', "deleted"));
+        const userDocs = await getDocs(q);
+        const usersArray = [];
+    
+        userDocs.forEach((doc) => {
+            usersArray.push({ id: doc.id, ...doc.data() });
+        });
+    
+        if ($.fn.dataTable.isDataTable('#userTable')) {
+            // If table is initialized, clear and refresh data.
+            $('#userTable').DataTable().clear().destroy();
+        }
+    
+        const table = $('#userTable').DataTable({
+            data: usersArray,
+            columns: [
+                { data: 'username', title: 'Username' },
+                { data: 'userEmail', title: 'Email' },
+                { data: 'firstName', title: 'First Name' },
+                { data: 'lastName', title: 'Last Name' },
+                { data: 'address', title: 'Address' },
+                { data: 'DOB', title: 'DOB' }
+            ],
+            pageLength: 10,
+        });
+    
+        // Add a click event listener to rows for showing extended table
+        $('#userTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+            showExtendedTable(data.username);
+        });
+    }
+    
+
     loadUsers();
-})
 });
