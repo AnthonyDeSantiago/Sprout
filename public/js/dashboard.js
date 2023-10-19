@@ -121,12 +121,7 @@ function populateFormWithDefaultValues() {
 editButton.addEventListener('click', async function() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     const editAccountModal = new bootstrap.Modal(document.getElementById("editAccountModal"));
-            
 
-
-    populateFormWithDefaultValues();
-
-    editAccountModal.show();
 
     for (const checkbox of checkboxes) {
         if (checkbox.checked) {
@@ -137,9 +132,19 @@ editButton.addEventListener('click', async function() {
             console.log("Account Number: ", rowData[1]);
             const accountNum = rowData[1];
 
-            data = await getAccountData(rowData[1]);
+            const data = await getAccountData(accountNum);
+            document.getElementById("editAccountName").value = data.accountName;
+            document.getElementById("editAccountNumber").value = data.accountNumber;
+            document.getElementById("editAccountDescription").value = data.accountDescription;
+            document.getElementById("editNormalSide").value = data.normalSide;
+            document.getElementById("editAccountCategory").value = data.accountCategory;
+            document.getElementById("editAccountSubcategory").value = data.accountSubcategory;
+            document.getElementById("editAccountInitialBalance").value = data.accountInitialBalance;
+            document.getElementById("editAccountOrder").value = data.accountOrder;
+            document.getElementById("editAccountComment").value = data.accountComment;
             console.log("Data: ", data);
-
+            console.log("accountName", data.accountName);
+            editAccountModal.show();
             break;
         }
     }
