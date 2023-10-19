@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const accountInitialBalance = document.getElementById("accountInitialBalance").value;
             const accountOrder = document.getElementById("accountOrder").value;
             const accountComment = document.getElementById("accountComment").value;
+            const timestamp = await getTimestamp();
 
             newAccount = {
                 accountCategory: accountCategory,
@@ -42,7 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 initialBalance: accountInitialBalance,
                 normalSide: normalSide,
                 order: accountOrder,
-                active: true
+                active: true,
+                timestampAdded: timestamp
             }
 
             await addDocument('accounts', newAccount);
