@@ -15,3 +15,8 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+/* enables tooltips */
+const tooltips = document.querySelectorAll('.tt')
+tooltips.forEach(t => {
+    new bootstrap.Tooltips(t)
+});
