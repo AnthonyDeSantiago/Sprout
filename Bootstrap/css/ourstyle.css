@@ -20,6 +20,6 @@
 
 /* tooltip bubble color */
 .ttColors{
-    --bs-tooltip-color: #fff;
+    --bs-tooltip-color: rgb(170, 234, 255)
     --bs-tooltip-bg: #000;
 }
