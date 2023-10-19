@@ -84,6 +84,16 @@ document.addEventListener("DOMContentLoaded", function() {
         await createUser();
         closeCreateUserPopup();
     });
+    function openCreateUserPopup() {
+        document.getElementById("createUserPopup").style.display = "block";
+    }
+    
+    function submitCreateUserForm() {
+        // Here, you'll handle the form submission logic. 
+        // Since you're using Firebase, this logic will probably involve adding a new user to your Firestore database.
+        // For now, I'll just call the createUser function you provided earlier.
+        createUser();
+    }
 
     function closeCreateUserPopup() {
         document.getElementById("createUserPopup").style.display = "none";
