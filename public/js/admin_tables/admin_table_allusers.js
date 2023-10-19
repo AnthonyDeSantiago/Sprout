@@ -1,17 +1,11 @@
 console.log("!!! admin_table_allusers.js loaded !!!");
-
-import {
-    getFirestore,
-    collection,
-    doc,
-    getDocs,
-    updateDoc,
-    query,
-    where
-} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFirestore, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 const db = getFirestore();
 const users = collection(db, 'users');
+
+
 
 function toggleDropdown() {
     const dropdownContent = document.getElementById("dropdownContent");
@@ -48,22 +42,27 @@ async function createUser() {
         lastName: lastName,
         address: address,
         DOB: DOB,
-        password: password, 
-        approved: false,
+        password: password,
+        approved: false,  // Assuming new users aren't approved automatically
         role: "user"
     };
 
     try {
         // Add the new user to the Firestore database
-        await addDoc(users, newUser);
+        const docRef = await addDoc(users, newUser);  // Assuming 'users' is the reference to your Firestore collection
         alert("User created successfully!");
 
-        // Reload the user table to reflect the new data
-        loadUsers();
+        // Optionally, you can reload the user table to reflect the new data
+        loadUsers();  // Assuming you have a function that loads users into a table
     } catch (error) {
         console.error("Error adding document: ", error);
         alert("There was an error creating the user. Please try again.");
     }
+}
+
+// This function is triggered when the "Create User" button in the modal is clicked
+function submitCreateUserForm() {
+    createUser();
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -73,31 +72,11 @@ document.addEventListener("DOMContentLoaded", function() {
     let userIdToSuspend = null;
 
     // Create User functionality
-    createUserButton.addEventListener("click", () => {
-        document.getElementById("createUserPopup").style.display = "block";
+    createUserButton.addEventListener("click", function() {
+        submitCreateUserForm();
     });
-    const createUserForm = document.getElementById("create_user_form");
 
 
-     createUserForm.addEventListener("submit", async function(e) {
-        e.preventDefault();
-        await createUser();
-        closeCreateUserPopup();
-    });
-    function openCreateUserPopup() {
-        document.getElementById("createUserPopup").style.display = "block";
-    }
-    
-    function submitCreateUserForm() {
-        // Here, you'll handle the form submission logic. 
-        // Since you're using Firebase, this logic will probably involve adding a new user to your Firestore database.
-        // For now, I'll just call the createUser function you provided earlier.
-        createUser();
-    }
-
-    function closeCreateUserPopup() {
-        document.getElementById("createUserPopup").style.display = "none";
-    }
 
     // Delete User functionality
     $('#userTable').on('click', '.delete-button', function() {
