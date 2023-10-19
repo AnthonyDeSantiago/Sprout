@@ -4,6 +4,7 @@ console.log("dashboard.js has loaded!!!");
 
 import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./database_module.mjs";
 
+
 const accounts = await getCollection('accounts');
 
 
@@ -40,7 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 comment: accountComment,
                 initialBalance: accountInitialBalance,
                 normalSide: normalSide,
-                order: accountOrder
+                order: accountOrder,
+                active: true
             }
 
             await addDocument('accounts', newAccount);
@@ -92,7 +94,4 @@ editButton.addEventListener('click', async function() {
         }
     }
 });
-
-
-
 
