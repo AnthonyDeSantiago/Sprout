@@ -129,3 +129,36 @@ export async function addDocument(specific_collection, data) {
 export async function getTimestamp() {
     return await serverTimestamp();
 }
+
+
+export async function getAccountData(accountNumber) {
+    const recordsCollection = collection(db, 'accounts');
+    
+    console.log('Searching for account with accountNumber:', accountNumber);
+    const q = query(recordsCollection, where('accountNumber', '==', accountNumber));
+    console.log('Query parameters:', q);
+  
+    try {
+        const querySnapshot = await getDocs(q);
+    
+        if (querySnapshot.size === 0) {
+            console.log('No documents found with the provided account number.');
+            return null;
+        }
+    
+
+        const doc = querySnapshot.docs[0];
+        const accountData = doc.data();
+        console.log('Found matching document with account data:', accountData);
+        return accountData;
+    } catch (error) {
+        console.error('Error getting documents:', error);
+        return null;
+    }
+}
+
+  
+  
+  
+  
+  

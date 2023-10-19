@@ -3,7 +3,7 @@ console.log("!!! signin.js has loaded !!!");
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { collection, doc, getDoc, getDocs, updateDoc, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
 const auth = getAuth();
 
@@ -190,13 +190,39 @@ const checkAuthState = async () => {
       // User is signed in
       const uid = user.uid;
       const email = user.email;
+      let providerID = "";
+      let providerUID = "";
+      let displayName = "";
+      let providerEmail = "";
+      let photoURL = "";
+      
+      user.providerData.forEach((profile) => {
+        providerID = profile.providerId;
+        providerUID = profile.uid;
+        displayName = profile.displayName;
+        providerEmail = profile.email;
+        photoURL = profile.photoURL;
+      });
 
       userData = await fetchUserFromEmail(email)
 
       if (userData != null) {
+        
+        if (displayName == null || photoURL == null){ 
+          updateProfile(auth.currentUser, {
+            displayName: userData.firstName.toString() + " " + userData.lastName.toString(), 
+            photoURL: userData.avatar.toString()
+          }).then(() => {
+            console.log("Profile updated!")
+          }).catch((error) => {
+            // An error occurred
+            // ...
+          });
+        }
+    
         if (userData.role == "admin") {
           console.log("User is an admin.");
-          window.location.href = 'admin_home.html';
+          window.location.href = 'dashboard.html';
         } else if (userData.role == "manager") {
           console.log("User is a manager.");
           window.location.href = 'manager_home.html';

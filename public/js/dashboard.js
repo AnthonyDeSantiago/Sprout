@@ -2,7 +2,7 @@ console.log("dashboard.js has loaded!!!");
 
 
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp} from "./database_module.mjs";
+import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./database_module.mjs";
 
 const accounts = await getCollection('accounts');
 
@@ -118,9 +118,8 @@ function populateFormWithDefaultValues() {
 
 
 
-editButton.addEventListener('click', function() {
+editButton.addEventListener('click', async function() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    
     const editAccountModal = new bootstrap.Modal(document.getElementById("editAccountModal"));
             
 
@@ -131,15 +130,15 @@ editButton.addEventListener('click', function() {
 
     for (const checkbox of checkboxes) {
         if (checkbox.checked) {
-            
-
             const row = checkbox.closest('tr');
-            
             const rowData = Array.from(row.cells).map(cell => cell.textContent);
             
             console.log('Checked Row Data:', rowData);
+            console.log("Account Number: ", rowData[1]);
+            const accountNum = rowData[1];
 
-            
+            data = await getAccountData(rowData[1]);
+            console.log("Data: ", data);
 
             break;
         }
