@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
         
         const accountName = document.getElementById("accountName").value;
         const accountNumber = document.getElementById("accountNumber").value;
-        console.log(accountNumber);
         const accountDescription = document.getElementById("accountDescription").value;
         const normalSide = document.getElementById("normalSide").value;
         const accountCategory = document.getElementById("accountCategory").value;
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         await addDocument('accounts', newAccount);
     
         accountForm.reset();
-        //location.reload();
+        location.reload();
     });
 
     
