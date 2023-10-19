@@ -108,22 +108,7 @@
                                 Accounts
                             </div>
                             <div class="card-body">
-                                <!-- Add Account Button -->
-                                <span class="tt" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Add New Account">
-                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addAccountModal">
-                                    Add
-                                </button>
-                                </span>
-                                <span class="tt" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Edit Account">
-                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#editAccountModal">
-                                    Edit
-                                </button>
-                                </span>
-                                <span class="tt" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Deactivate Account">
-                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#deactivateAccountModal">
-                                    Deactivate
-                                </button>
-                                </span>
+                                
                                 <!-- Add Account Modal -->
                                 <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="addAccountModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -244,14 +229,7 @@
                                                         </div>
                                                     </div>
     
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-3">
-                                                            <label for="accountName" class="form-label">Account Number</label>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                            <input class="form-control" id="editAccountNumber" type="text" placeholder="Account Number" />
-                                                        </div>
-                                                    </div>
+                                                    
     
     
                                                     <div class="row mb-3">
@@ -348,17 +326,38 @@
                                             <th>Balance</th>
                                             <th>Description</th>
                                         </tr>
+                                        <div>
+                                            <!-- Add Account Button -->
+                                            <span class="tt float-end" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Deactivate Account">
+                                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#deactivateAccountModal">
+                                                    Deactivate
+                                                </button>
+                                                </span>
+                                                <span class="tt float-end" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Edit Account">
+                                                    <button class="btn btn-primary mx-2 " data-bs-toggle="modal" data-bs-target="#editAccountModal">
+                                                        Edit
+                                                    </button>
+                                                    </span>
+                                            <span class="tt float-end" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Add New Account">
+                                            <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+                                                Add
+                                            </button>
+                                            </span>
+                                        
+                                        
+                                        </div>
                                     </tfoot>
                                     <tbody>
                                         <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>Bradley Greer</td>
-                                            <td>Software Engineer</td>
-                                            <td>London</td>
-                                            <td>41</td>
-                                            <td>2012/10/13</td>
-                                            <td>$132,000</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>

@@ -8,17 +8,9 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 });
 
-window.addEventListener('DOMContentLoaded', event => {
-    // Simple-DataTables
-    // https://github.com/fiduswriter/Simple-DataTables/wiki
 
-    const datatablesSimple = document.getElementById('eventLog_entries');
-    if (datatablesSimple) {
-        new simpleDatatables.DataTable(datatablesSimple);
-    }
-});
-
-new DataTable('#example', {
+/* REQ FOR LEDGER */
+new DataTable('#ledger', {
     footerCallback: function (row, data, start, end, display) {
         let api = this.api();
 

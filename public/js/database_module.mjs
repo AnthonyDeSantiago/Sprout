@@ -89,9 +89,10 @@ export async function populateTable(collectionName, tableId) {
 
   try {
       const querySnapshot = await getDocs(recordsCollection);
-      const tableBody = document.querySelector(`#${tableId} tbody`); // Use the provided tableId
+      const tableBody = document.querySelector(`#${tableId} tbody`);
       let rowNumber = 1;
-
+      const rowToHide = tableBody.querySelectorAll("tr")[0];
+      rowToHide.style.display = "none";
       querySnapshot.forEach((doc) => {
           const data = doc.data();
           if (true) {
@@ -154,6 +155,28 @@ export async function getAccountData(accountNumber) {
     } catch (error) {
         console.error('Error getting documents:', error);
         return null;
+    }
+}
+
+export async function editAccountData(accountNumber, newData) {
+    const recordsCollection = collection(db, 'accounts');
+    const q = query(recordsCollection, where('accountNumber', '==', accountNumber));
+    try {
+        const querySnapshot = await getDocs(q);
+    
+        if (querySnapshot.size === 0) {
+            console.log('No documents found with the provided account number.');
+            return false;
+        }
+    
+        const docRef = querySnapshot.docs[0].ref;
+
+        await setDoc(docRef, newData, { merge: true });
+        console.log('Account data updated successfully');
+        return true;
+    } catch (error) {
+        console.error('Error updating account data:', error);
+        return false;
     }
 }
 
