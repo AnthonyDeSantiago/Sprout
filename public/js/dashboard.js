@@ -3,6 +3,7 @@ console.log("dashboard.js has loaded!!!");
 
 
 import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./database_module.mjs";
+import { initializeEventLogging } from "./eventLog.mjs";
 
 
 const accounts = await getCollection('accounts');
@@ -13,6 +14,12 @@ printDocumentIds('accounts');
 populateTable('accounts', 'asset_accounts');
 let newAccount = null;
 document.addEventListener("DOMContentLoaded", function () {
+    //##########################################
+    // Need User ID from Camile
+    //--------------------------------------------
+    initializeEventLogging('accounts', 'some-id');
+    //---------------------------------------------
+    //##############################################
     const accountForm = document.getElementById("accountForm");
     const addSaveButton = document.getElementById("addSaveButton");
     const editSaveButton = document.getElementById("editSaveButton");
@@ -48,9 +55,13 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             await addDocument('accounts', newAccount);
-    
+            
             accountForm.reset();
-            location.reload();
+            //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
+            setTimeout(function () {
+                location.reload();
+            }, 250);
+            
         }
 
         
