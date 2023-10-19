@@ -49,37 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
             location.reload();
         }
 
-        // if (e.submitter === editSaveButton) {
-        //     const accountName = document.getElementById("editAccountName").value;
-        //     const accountNumber = document.getElementById("editAccountNumber").value;
-        //     const accountDescription = document.getElementById("editAccountDescription").value;
-        //     const normalSide = document.getElementById("eidtNormalSide").value;
-        //     const accountCategory = document.getElementById("editAccountCategory").value;
-        //     const accountSubcategory = document.getElementById("editAccountSubcategory").value;
-        //     const accountInitialBalance = document.getElementById("editAccountInitialBalance").value;
-        //     const accountOrder = document.getElementById("editAccountOrder").value;
-        //     const accountComment = document.getElementById("editAccountComment").value;
-
-        //     newAccount = {
-        //         accountCategory: accountCategory,
-        //         accountDescription: accountDescription,
-        //         accountName: accountName,
-        //         accountNumber: accountNumber,
-        //         accountSubcategory:accountSubcategory,
-        //         balance: accountInitialBalance,
-        //         comment: accountComment,
-        //         initialBalance: accountInitialBalance,
-        //         normalSide: normalSide,
-        //         order: accountOrder
-        //     }
-
-        //     await addDocument('accounts', newAccount);
-    
-        //     accountForm.reset();
-        //     location.reload();
-        // }
-
-
         
     });
 
@@ -90,32 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const editButton = document.querySelector('.btn[data-bs-target="#editAccountModal"]');
-
-const defaultValues = {
-    accountName: "Default Account Name",
-    accountNumber: "12345",
-    accountDescription: "Default Description",
-    normalSide: "Credit",
-    accountCategory: "Default Category",
-    accountSubcategory: "Default Subcategory",
-    accountInitialBalance: "1000",
-    accountOrder: "01",
-    accountComment: "Default Comment",
-};
-
-// Function to populate the form with default values
-function populateFormWithDefaultValues() {
-    document.getElementById("editAccountName").value = defaultValues.accountName;
-    document.getElementById("editAccountNumber").value = defaultValues.accountNumber;
-    document.getElementById("editAccountDescription").value = defaultValues.accountDescription;
-    document.getElementById("editNormalSide").value = defaultValues.normalSide;
-    document.getElementById("editAccountCategory").value = defaultValues.accountCategory;
-    document.getElementById("editAccountSubcategory").value = defaultValues.accountSubcategory;
-    document.getElementById("editAccountInitialBalance").value = defaultValues.accountInitialBalance;
-    document.getElementById("editAccountOrder").value = defaultValues.accountOrder;
-    document.getElementById("editAccountComment").value = defaultValues.accountComment;
-}
-
 
 
 editButton.addEventListener('click', async function() {
