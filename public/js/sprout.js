@@ -113,13 +113,17 @@ const checkAuthState = async () => {
                     userRole = "Administrator";
                 } else if (userData.role == "manager") {    
                     userRole = "Manager";
-                    document.getElementsByClassName("admin-only").style.display = "none";
+                    document.getElementById("admin-only").style.display = "none";
+                    document.getElementById("admin-only2").style.display = "none";
                 } else if (userData.role == "regular") {    
                     userRole = "Accountant";
-                    document.getElementsByClassName("admin-only").style.display = "none";
+                    console.log("REGULAR USER LOGGED IN")
+                    document.getElementById("admin-only").style.display = "none";
+                    document.getElementById("admin-only2").style.display = "none";
                 } else {    
                     alert("Unable to resolve the role associated with your account. Please contact the admin.");
-                    document.getElementsByClassName("admin-only").style.display = "none";
+                    document.getElementById("admin-only").style.display = "none";
+                    document.getElementById("admin-only2").style.display = "none";
                 }
 
                 document.getElementById("user-role").textContent = userRole;
