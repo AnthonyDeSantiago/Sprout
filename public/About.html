@@ -48,8 +48,31 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
+                            <!-- small calendar -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#calendarSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                                <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
+                                Calendar
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="calendarSubmenu">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    
+                                        <div class="calendar">
+                                            <div class="left">
+                                                <p id="date">01</p>
+                                                <p id="day">Sunday</p>
+                                            </div>
+                                            <div class="right">
+                                                <p id="month">January</p>
+                                                <p id="year">2020</p>
+                                            </div>
+                                        </div>
+                                    
+                                    </a>
+                                </nav>
+                            </div>
 
-                            <div class="sb-sidenav-menu-heading">Admin</div>
+                            <div class="sb-sidenav-menu-heading">Accounts</div>
                             <a class="nav-link" href="dashboard.html">
                                 <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
                                 Chart of Accounts
@@ -58,25 +81,51 @@
                                 <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
                                 Event Log
                             </a>
+                            <a class="nav-link" href="ledger.html">
+                                <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+                                Ledger
+                            </a>
                             <div class="sb-sidenav-menu-heading">Services</div>
                             <a class="nav-link" href="html">
                                 <div class="sb-nav-link-icon"><i class="bi bi-journal"></i></div>
                                 Journalizing 
                             </a>
 
-                            <!-- small calendar -->
-                            <div class="wrapper">
-                                <div class="calendar">
-                                    <div class="left">
-                                        <p id="date">01</p>
-                                        <p id="day">Sunday</p>
-                                    </div>
-                                    <div class="right">
-                                        <p id="month">January</p>
-                                        <p id="year">2020</p>
-                                    </div>
+                            <div id="admin-only2">
+                                <div class="sb-sidenav-menu-heading">User Administration</div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    User Management
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+
+                                <div class="collapse" id="tablesSubmenu">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="admin_table_all_users.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                            Users Dashboard
+                                        </a>
+                                        <a class="nav-link" href="admin_table_new_user_requests.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            New User Requests
+                                        </a>
+                                        <a class="nav-link" href="admin_table_expired_passwords.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            Expired Passwords
+                                        </a>
+                                    </nav>
+                        
                                 </div>
                             </div>
+
+                            <!-- Help Link -->
+                            <div class="sb-sidenav-menu-heading">Support</div>
+                            <a class="nav-link" href="help_page.html">
+                                 <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                 Help 
+                            </a>
+                            
+
                         </div>
                     </div>
                         
