@@ -1,52 +1,145 @@
-    <!-- jalon  -->
-
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dashboard</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/ourstyle.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/Main_Calendar.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <script defer src="js/Main_Calendar.js"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script defer src = "js/sprout.js" type = "module"></script>
+    </head>
+    
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 
-<head>
-    <!-- Meta tags and title -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>about page</title>
+            
+            <!-- Navbar User Dropdown -->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 ms-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="" id="userprofile_image_src" vertical-align = "bottom" height="20em" width = "auto"><span class="pe-3" id="userprofile_name">Sprout User</span><i class="fas fa-user fa-fw" id="userprofile_image_blank"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="index.html" id="signOutButton">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
 
-    <!-- Favicon and stylesheets -->
-    <link rel="icon" href="assets/ICON.png" type="image/x-icon" />
-    <link rel="stylesheet" href="css/about.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
+            <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
+            
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
-<body>
-    <a href="#" class="icon" onclick="goBack()">
-        <img src="assets/ICON.png" alt="Icon">
-    </a>
+        </nav>
+        
+        <!-- Side Accordian Navbar -->
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
 
-    <header>
-        <h1>Who are we?</h1>
-    </header>
+                            <div class="sb-sidenav-menu-heading">Admin</div>
+                            <a class="nav-link" href="dashboard.html">
+                                <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
+                                Chart of Accounts
+                            </a>
+                            <a class="nav-link" href="event_log.html">
+                                <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
+                                Event Log
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Services</div>
+                            <a class="nav-link" href="html">
+                                <div class="sb-nav-link-icon"><i class="bi bi-journal"></i></div>
+                                Journalizing 
+                            </a>
 
-        <p class="white-box">
-            About Us - Sprout Financials: Sprouting to Greater Heights
+                            <!-- small calendar -->
+                            <div class="wrapper">
+                                <div class="calendar">
+                                    <div class="left">
+                                        <p id="date">01</p>
+                                        <p id="day">Sunday</p>
+                                    </div>
+                                    <div class="right">
+                                        <p id="month">January</p>
+                                        <p id="year">2020</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
 
-            <br></br>At Sprout Financials, we're not just a financial company; we're your trusted partner on the path to financial success. Our journey began with a simple yet powerful idea: just like a seedling reaches for the sky, your financial aspirations should know no bounds. With this belief at our core, we've been helping individuals, families, and businesses reach new heights of financial prosperity.
-            <br></br><b>Our Story</b>
-            <br></br>Sprout Financials was born out of a vision to provide financial solutions that nurture your dreams. Our founders, driven by a passion for finance and a commitment to our clients, set out on this remarkable journey. Today, our company stands tall, deeply rooted in expertise and experience.
-            <br></br><b>Our Mission</b>
-            <br></br>Our mission is crystal clear: to empower you to achieve your financial goals. Whether it's securing your future, growing your investments, or expanding your business, we're here to guide you every step of the way. We believe that financial success is a journey, not a destination. With Sprout Financials, you're not just a client; you're a fellow traveler on this journey to greater heights.
-            <br></br><b>Why Choose Sprout Financials?</b>
-            <br></br>Expertise: Our team of financial experts brings years of industry knowledge to the table. We understand the complexities of finance and offer solutions tailored to your unique needs.
-            <br></br>Personalized Approach: Your financial goals are as unique as you are. That's why we take the time to understand your aspirations, crafting customized strategies to help you achieve them.
-            <br></br>Innovation: In a rapidly evolving financial landscape, we embrace innovation. We stay ahead of the curve, leveraging cutting-edge technology and financial trends to your advantage.
-            <br></br>Integrity: Trust is the cornerstone of our business. We uphold the highest ethical standards, ensuring transparency and honesty in every interaction.
-            <br></br>Community: At Sprout Financials, we believe in giving back. We actively participate in community initiatives, contributing to a better, more financially literate world.
-            <br></br><b>Our Services</b>
-            <br></br>Financial Planning: From budgeting to retirement planning, we provide comprehensive financial planning services to secure your future.
-            <br></br>Investment Management: Grow your wealth with our expert investment strategies and portfolio management.
-            <br></br>Business Solutions: We support entrepreneurs and businesses with financing, growth strategies, and financial management.
-            <br></br>Education: Financial literacy is key to success. We offer educational resources to empower you with financial knowledge.
-            <br></br><b>Join Us on the Journey</b>
-            <br></br>At Sprout Financials, we're more than just financial professionals; we're your financial allies. Join us on this exciting journey to greater heights. Together, we'll watch your financial dreams sprout, grow, and reach for the sky.
-            <br></br>Your success is our success. Together, we're Sprouting to Greater Heights.
-        </p>
+                    <!-- side nav footer -->
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Sprout User
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Who Are We?</h1>
+                            <p class="white-box">
+                                About Us - Sprout Financials: Sprouting to Greater Heights
+                    
+                                <br></br>At Sprout Financials, we're not just a financial company; we're your trusted partner on the path to financial success. Our journey began with a simple yet powerful idea: just like a seedling reaches for the sky, your financial aspirations should know no bounds. With this belief at our core, we've been helping individuals, families, and businesses reach new heights of financial prosperity.
+                                <br></br><b>Our Story</b>
+                                <br></br>Sprout Financials was born out of a vision to provide financial solutions that nurture your dreams. Our founders, driven by a passion for finance and a commitment to our clients, set out on this remarkable journey. Today, our company stands tall, deeply rooted in expertise and experience.
+                                <br></br><b>Our Mission</b>
+                                <br></br>Our mission is crystal clear: to empower you to achieve your financial goals. Whether it's securing your future, growing your investments, or expanding your business, we're here to guide you every step of the way. We believe that financial success is a journey, not a destination. With Sprout Financials, you're not just a client; you're a fellow traveler on this journey to greater heights.
+                                <br></br><b>Why Choose Sprout Financials?</b>
+                                <br></br>Expertise: Our team of financial experts brings years of industry knowledge to the table. We understand the complexities of finance and offer solutions tailored to your unique needs.
+                                <br></br>Personalized Approach: Your financial goals are as unique as you are. That's why we take the time to understand your aspirations, crafting customized strategies to help you achieve them.
+                                <br></br>Innovation: In a rapidly evolving financial landscape, we embrace innovation. We stay ahead of the curve, leveraging cutting-edge technology and financial trends to your advantage.
+                                <br></br>Integrity: Trust is the cornerstone of our business. We uphold the highest ethical standards, ensuring transparency and honesty in every interaction.
+                                <br></br>Community: At Sprout Financials, we believe in giving back. We actively participate in community initiatives, contributing to a better, more financially literate world.
+                                <br></br><b>Our Services</b>
+                                <br></br>Financial Planning: From budgeting to retirement planning, we provide comprehensive financial planning services to secure your future.
+                                <br></br>Investment Management: Grow your wealth with our expert investment strategies and portfolio management.
+                                <br></br>Business Solutions: We support entrepreneurs and businesses with financing, growth strategies, and financial management.
+                                <br></br>Education: Financial literacy is key to success. We offer educational resources to empower you with financial knowledge.
+                                <br></br><b>Join Us on the Journey</b>
+                                <br></br>At Sprout Financials, we're more than just financial professionals; we're your financial allies. Join us on this exciting journey to greater heights. Together, we'll watch your financial dreams sprout, grow, and reach for the sky.
+                                <br></br>Your success is our success. Together, we're Sprouting to Greater Heights.
+                            </p>
+                    </div>
+
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Sprout Financial 2023</div>
+                            <div>
+                                <a href="about.html">About Us</a>
+                                &middot;
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script> 
         <script src="js/about/about.js"></script>
     </body>
     
