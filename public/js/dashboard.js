@@ -139,9 +139,9 @@ editButton.addEventListener('click', async function() {
             document.getElementById("editNormalSide").value = data.normalSide;
             document.getElementById("editAccountCategory").value = data.accountCategory;
             document.getElementById("editAccountSubcategory").value = data.accountSubcategory;
-            document.getElementById("editAccountInitialBalance").value = data.accountInitialBalance;
-            document.getElementById("editAccountOrder").value = data.accountOrder;
-            document.getElementById("editAccountComment").value = data.accountComment;
+            document.getElementById("editAccountInitialBalance").value = data.initialBalance;
+            document.getElementById("editAccountOrder").value = data.order;
+            document.getElementById("editAccountComment").value = data.comment;
             console.log("Data: ", data);
             console.log("accountName", data.accountName);
             editAccountModal.show();
