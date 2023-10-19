@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/ourstyle.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/Main_Calendar.css">
+        <script defer src="js/Main_Calendar.js"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script defer src = "js/event-log.js" type = "module"></script>
+        <script defer src = "js/sprout.js" type = "module"></script>
+    </head>
+    
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+            
+            <!-- Navbar User Dropdown -->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 ms-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="" id="userprofile_image_src" vertical-align = "bottom" height="20em" width = "auto"><span class="pe-3" id="userprofile_name">Sprout User</span><i class="fas fa-user fa-fw" id="userprofile_image_blank"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="index.html" id="signOutButton">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Navbar Brand-->
+            <!-- <a class="navbar-brand ps-3" href="index.html">Sprout Financial</a> -->
+            <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
+            
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            
+            
+            
+        </nav>
+        
+        <!-- Side Accordian Navbar -->
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Admin</div>
+                            <a class="nav-link" href="dashboard.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Chart of Accounts
+                            </a>
+                            <a class="nav-link" href="event_log.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Event Log
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Services</div>
+                            <a class="nav-link" href="html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Journalizing 
+                            </a>
+
+                            <!-- small calendar -->
+                            <div class="wrapper">
+                                <div class="calendar">
+                                    <div class="left">
+                                        <p id="date">01</p>
+                                        <p id="day">Sunday</p>
+                                    </div>
+                                    <div class="right">
+                                        <p id="month">January</p>
+                                        <p id="year">2020</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- side nav footer -->
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <span id ="user-role">Sprout User</span>
+                    </div>
+                </nav>
+            </div>
+
+            
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Event Log</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active"></li>
+                        </ol>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Events
+                            </div>
+                            <div class="card-body">
+                                <!-- Add Account Button -->
+                                <span class="tt" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Refresh Event Log">
+                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#eventLogModal">
+                                    Refresh Event Log
+                                </button>
+                                </span>
+                                <!-- Event Log Modal -->
+                                <div class="modal fade" id="eventLogModal" tabindex="-1" role="dialog" aria-labelledby="eventLogModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <!-- <h5 class="modal-title" id="addAccountModalLabel">Add New Account</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>-->
+                                            <div class="modal-body">
+                                            <form id="eventLogForm">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="username" class="form-label">Username</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control" id="username" type="text" placeholder="Username" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="username" class="form-label">Event ID</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control" id="eventID" type="text" placeholder="Event ID" />
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="username" class="form-label">Event Type</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control" id="eventType" type="text" placeholder="Event Type" />
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="username" class="form-label">Timestamp</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control" id="timestamp" type="text" placeholder="Timestamp" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="username" class="form-label">Before Image</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control" id="beforeImage" type="text" placeholder="Before Image" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="username" class="form-label">After Image</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control" id="afterImage" type="text" placeholder="After Image" />
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                <!--<button type="submit" class="btn btn-primary" id="addSaveButton">Save</button>-->
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+  
+                                <table id="eventLog_entries">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Username</th>
+                                            <th>Timestamp</th>
+                                            <th>Event Type</th>
+                                            <th>Before Image</th>
+                                            <th>After Image</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th>Username</th>
+                                            <th>Timestamp</th>
+                                            <th>Event Type</th>
+                                            <th>Before Image</th>
+                                            <th>After Image</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>Admin</td>
+                                            <td>October 16, 2023 at 2:30:37 PM UTC-4</td>
+                                            <td>Beginning of Time</td>
+                                            <td>--</td>
+                                            <td>Startup</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                    
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Sprout Financial 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+            
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <!-- <script src="js/datatables-simple-demo.js"></script> -->
+        <script src="js/dashboard-datatables-simple.js"></script>
+    </body>
+</html>

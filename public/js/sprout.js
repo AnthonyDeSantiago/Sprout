@@ -37,6 +37,9 @@ let userRef = null;   // doc ref for user in users
 let userData = null;  // actual doc in DB users
 let userDisplay = null;
 let userPhoto = null;
+let username = null;
+let userEmail = null;
+let userRole = null;
 
 //Applies to anything with the ID "signOutButton" -- ensure HTML is meeting this requirement to retain user sign out ability
 const signOutButton = document.querySelector("#signOutButton");
@@ -58,8 +61,26 @@ const fetchUser = async () => {
     return false;
 }
 
+async function fetchUserFromEmail(email) {
+    try {
+      const q = query(collection(db, 'users'), where('userEmail', '==', email), limit(1));
+      const querySnapshot = await getDocs(q);
+  
+      if (querySnapshot.size === 0) {
+        return null;
+      }
+  
+      const doc = querySnapshot.docs[0];
+      return { id: doc.id, ...doc.data() };
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while fetching the user via email reference.");
+      return null;
+    }
+  }
+
 const checkAuthState = async () => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
         if (user) {
             
             user.providerData.forEach((profile) => {
@@ -68,6 +89,7 @@ const checkAuthState = async () => {
                 console.log("  Name: " + profile.displayName);
                 userDisplay = profile.displayName;
                 console.log("  Email: " + profile.email);
+                userEmail = profile.email;
                 console.log("  Photo URL: " + profile.photoURL);
                 userPhoto = profile.photoURL;
             });
@@ -77,6 +99,20 @@ const checkAuthState = async () => {
                 document.getElementById("userprofile_image_src").src = user.photoURL;
                 document.getElementById("userprofile_image_src").style.paddingRight = "7px";
                 document.getElementById("userprofile_image_blank").style.display = "none";
+            } 
+
+            userData = await fetchUserFromEmail(email)
+            username = userData.username;
+
+            if(userData != null){
+                userRole = "Sprout User"
+                if (userData.role == "admin") { userRole = "Administrator";
+                } else if (userData.role == "manager") {    userRole = "Manager";
+                } else if (userData.role == "regular") {    userRole = "Accountant";
+                } else {    alert("Unable to resolve the role associated with your account. Please contact the admin.");
+                }
+
+                document.getElementById("user-role").textContent = userRole;
             }
         }
         else {
