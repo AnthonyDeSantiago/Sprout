@@ -2,7 +2,7 @@ console.log("dashboard.js has loaded!!!");
 
 
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./database_module.mjs";
+import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData} from "./database_module.mjs";
 import { initializeEventLogging } from "./eventLog.mjs";
 
 
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //---------------------------------------------
     //##############################################
     const accountForm = document.getElementById("accountForm");
+    const editAccountForm = document.getElementById("editAccountForm");
     const addSaveButton = document.getElementById("addSaveButton");
     const editSaveButton = document.getElementById("editSaveButton");
 
@@ -67,6 +68,43 @@ document.addEventListener("DOMContentLoaded", function () {
         
     });
 
+
+    editAccountForm.addEventListener("submit", async function (e) {
+        e.preventDefault(); 
+        
+        const accountName = document.getElementById("editAccountName").value;
+        const accountNumber = document.getElementById("editAccountNumber").value;
+        const accountDescription = document.getElementById("editAccountDescription").value;
+        const normalSide = document.getElementById("editNormalSide").value;
+        const accountCategory = document.getElementById("editAccountCategory").value;
+        const accountSubcategory = document.getElementById("editAccountSubcategory").value;
+        const accountInitialBalance = document.getElementById("editAccountInitialBalance").value;
+        const accountOrder = document.getElementById("editAccountOrder").value;
+        const accountComment = document.getElementById("editAccountComment").value;
+
+        newAccount = {
+            accountCategory: accountCategory,
+            accountDescription: accountDescription,
+            accountName: accountName,
+            accountNumber: accountNumber,
+            accountSubcategory:accountSubcategory,
+            balance: accountInitialBalance,
+            comment: accountComment,
+            initialBalance: accountInitialBalance,
+            normalSide: normalSide,
+            order: accountOrder
+        }
+
+        await editAccountData(accountNumber, newAccount);
+        
+        accountForm.reset();
+        //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
+        setTimeout(function () {
+            location.reload();
+        }, 250);
+
+    });
+
     
 
     console.log("made it to the end");
@@ -107,9 +145,3 @@ editButton.addEventListener('click', async function() {
         }
     }
 });
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 07e9c8c4ba0bd9268cb74ce46e5509eeaebb595c

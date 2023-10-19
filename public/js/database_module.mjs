@@ -157,6 +157,28 @@ export async function getAccountData(accountNumber) {
     }
 }
 
+export async function editAccountData(accountNumber, newData) {
+    const recordsCollection = collection(db, 'accounts');
+    const q = query(recordsCollection, where('accountNumber', '==', accountNumber));
+    try {
+        const querySnapshot = await getDocs(q);
+    
+        if (querySnapshot.size === 0) {
+            console.log('No documents found with the provided account number.');
+            return false;
+        }
+    
+        const docRef = querySnapshot.docs[0].ref;
+
+        await setDoc(docRef, newData, { merge: true });
+        console.log('Account data updated successfully');
+        return true;
+    } catch (error) {
+        console.error('Error updating account data:', error);
+        return false;
+    }
+}
+
   
   
   
