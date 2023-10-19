@@ -4,6 +4,7 @@ console.log("dashboard.js has loaded!!!");
 
 import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./database_module.mjs";
 
+
 const accounts = await getCollection('accounts');
 
 
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const accountInitialBalance = document.getElementById("accountInitialBalance").value;
             const accountOrder = document.getElementById("accountOrder").value;
             const accountComment = document.getElementById("accountComment").value;
+            const timestamp = await getTimestamp();
 
             newAccount = {
                 accountCategory: accountCategory,
@@ -40,7 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 comment: accountComment,
                 initialBalance: accountInitialBalance,
                 normalSide: normalSide,
-                order: accountOrder
+                order: accountOrder,
+                active: true,
+                timestampAdded: timestamp
             }
 
             await addDocument('accounts', newAccount);
@@ -93,5 +97,8 @@ editButton.addEventListener('click', async function() {
     }
 });
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 07e9c8c4ba0bd9268cb74ce46e5509eeaebb595c
