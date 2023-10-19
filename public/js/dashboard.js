@@ -7,6 +7,7 @@ import { initializeEventLogging } from "./eventLog.mjs";
 
 
 const accounts = await getCollection('accounts');
+let accountNumber = null;
 
 
 printDocumentIds('accounts');
@@ -73,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault(); 
         
         const accountName = document.getElementById("editAccountName").value;
-        const accountNumber = document.getElementById("editAccountNumber").value;
         const accountDescription = document.getElementById("editAccountDescription").value;
         const normalSide = document.getElementById("editNormalSide").value;
         const accountCategory = document.getElementById("editAccountCategory").value;
@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
             accountCategory: accountCategory,
             accountDescription: accountDescription,
             accountName: accountName,
-            accountNumber: accountNumber,
             accountSubcategory:accountSubcategory,
             balance: accountInitialBalance,
             comment: accountComment,
@@ -127,6 +126,7 @@ editButton.addEventListener('click', async function() {
             console.log('Checked Row Data:', rowData);
             console.log("Account Number: ", rowData[1]);
             const accountNum = rowData[1];
+            accountNumber = rowData[1];
 
             const data = await getAccountData(accountNum);
             document.getElementById("editAccountName").value = data.accountName;
