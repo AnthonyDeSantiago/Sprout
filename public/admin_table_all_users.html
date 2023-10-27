@@ -1,24 +1,5 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - All Users</title>
-    <link rel="icon" href="assets/ICON.png" type="image/x-icon"/>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css"/>
 
-    <link rel="stylesheet" href="css/main_style.css" class="rel">
-    <link rel="stylesheet" href="css/extendable_tables.css" class="rel">
-    
-    <!-- Deferring your custom scripts -->
-    <script defer src="js/sprout.js" type="module"></script>
-    <script defer src="js/admin_tables/admin_table_allusers.js" type="module"></script>
 </head>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,11 +74,32 @@
                                 <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
                                 Event Log
                             </a>
-                            <div class="sb-sidenav-menu-heading">Services</div>
-                            <a class="nav-link" href="html">
-                                <div class="sb-nav-link-icon"><i class="bi bi-journal"></i></div>
-                                Journalizing 
-                            </a>
+                            <div class="sb-sidenav-menu-heading">Journals</div>
+                                
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Journalizing
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+
+                                <div class="collapse" id="tablesSubmenu">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="newjournal.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                            Create Journal Entries 
+                                        </a>
+                                        <a class="nav-link" href="viewjournal.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                           View journal Entries
+                                        </a>
+                                        <a class="nav-link" href="pendingjournals.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            Expired Passwords
+                                        </a>
+                                    </nav>
+                        
+                                </div>
+                            </div>
 
                             <div id="admin-only">
                                 <div class="sb-sidenav-menu-heading">User Administration</div>

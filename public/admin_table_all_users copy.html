@@ -85,12 +85,35 @@
                                 <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
                                 Ledger
                             </a>
-                            <div class="sb-sidenav-menu-heading">Services</div>
-                            <a class="nav-link" href="html">
-                                <div class="sb-nav-link-icon"><i class="bi bi-journal"></i></div>
-                                Journalizing 
-                            </a>
+                            <div class="sb-sidenav-menu-heading">Journals</div>
+                                    
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu1" aria-expanded="false" aria-controls="tablesSubmenu1">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                        Journalizing
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
 
+                                    <div class="collapse" id="tablesSubmenu1">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="newjournal.html">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                Create Journal Entries 
+                                            </a>
+                                            <a class="nav-link" href="viewjournal.html">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            View journal Entries
+                                            </a>
+                                            <div id="admin-only2">     
+                                            <a class="nav-link" href="pendingjournals.html">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                                Approve Journal Entries 
+                                            </a>
+                                            </div>
+                                        </nav>
+                            
+                                    </div>
+                                
+                          
                             <div id="admin-only2">
                                 <div class="sb-sidenav-menu-heading">User Administration</div>
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
@@ -127,24 +150,12 @@
                             
 
                         </div>
+                        
+                  
+                  
                     </div>
                     
 
-                            </div>
-                            <div class="sb-sidenav-menu-heading">calendar</div>
-                             <!-- small calendar -->
-                             <div class="wrapper">
-                                <div class="calendar">
-                                    <div class="left">
-                                        <p id="date">01</p>
-                                        <p id="day">Sunday</p>
-                                    </div>
-                                    <div class="right">
-                                        <p id="month">January</p>
-                                        <p id="year">2020</p>
-                                    </div>
-                                </div>
-                            </div>
                           
 
                             
@@ -589,7 +600,7 @@
                 </footer>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        
         <script src="js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
