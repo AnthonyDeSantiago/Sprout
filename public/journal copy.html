@@ -143,12 +143,55 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Insert something or delete</h1>
+                        <h1 class="mt-4">Journal Entry</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Insert something or delete</li>
+                            <li class="breadcrumb-item active">Add or view journal entries</li>
                         </ol>
+    
+                        <!-- New Journal Entry Section -->
+                        <h3>Create New Journal Entry</h3>
+                        <form id="journalForm">
+                            <div class="form-group">
+                                <label>Select Account:</label>
+                                <select class="form-control" id="accountSelect">
+                                    <!-- This will be populated from the Chart of Accounts -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Debit Amount:</label>
+                                <input type="number" class="form-control" id="debitAmount">
+                            </div>
+                            <div class="form-group">
+                                <label>Credit Amount:</label>
+                                <input type="number" class="form-control" id="creditAmount">
+                            </div>
+                            <div class="form-group">
+                                <label>Attach Source Document:</label>
+                                <input type="file" class="form-control" id="sourceDocument"
+                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.jpg,.png">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+                        </form>
+    
+                        <!-- View Journal Entries Section -->
+                        <h3 class="mt-5">View Journal Entries</h3>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Account Name</th>
+                                    <th>Debit Amount</th>
+                                    <th>Credit Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="journalEntriesTable">
+                                <!-- This will be populated with Journal Entries -->
+                            </tbody>
+                        </table>
                     </div>
-
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
@@ -166,11 +209,20 @@
                 </footer>
             </div>
         </div>
-        
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+            crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" 
+        crossorigin="anonymous">
+</script>
+        <script src="js/journal.js"></script>
     </body>
-</html>
+    
+    </html>
