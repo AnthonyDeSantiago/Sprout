@@ -18,6 +18,7 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script defer src = "js/dashboard.js" type = "module"></script>
         <script defer src = "js/sprout.js" type = "module"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     </head>
     
     <body class="sb-nav-fixed">
@@ -355,7 +356,7 @@
                                 </div>
                                 
                                 
-  
+
                                 <table id="asset_accounts">
                                     <thead>
                                         <tr>
@@ -397,12 +398,12 @@
                                                 Add
                                             </button>
                                             </span>
-                                        
-                                        
+                                    
                                         </div>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
+                                        <!-- makes row clickable -->
+                                        <tr data-href="http://www.google.com/">
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -411,8 +412,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                        </tr>
-                                        
+                                        </tr>                                  
                                     </tbody>
                                 </table>
                             </div>
@@ -438,8 +438,6 @@
                     </div>
                 </footer>
             </div>
-
-            
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -448,5 +446,7 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <!-- <script src="js/datatables-simple-demo.js"></script> -->
         <script src="js/dashboard-datatables-simple.js"></script>
+        <!-- search function -->
+        <script src="js/ledger-datatables-simple.js"></script>
     </body>
 </html>

@@ -136,3 +136,4 @@ let table = new DataTable('#ledger');
 document.querySelectorAll('#min, #max').forEach((el) => {
     el.addEventListener('change', () => table.draw());
 });
+

@@ -15,3 +15,8 @@
 .form-select{
     width: 320px;
 }
+
+/* pointer for clickable COA */
+tr[data-href] {
+    cursor: pointer;
+}

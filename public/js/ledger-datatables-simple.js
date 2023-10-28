@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
-/* REQ FOR LEDGER */
+/* REQ FOR LEDGER ADDING numbers */
 new DataTable('#ledger', {
     footerCallback: function (row, data, start, end, display) {
         let api = this.api();
@@ -60,5 +60,52 @@ new DataTable('#ledger', {
 });
 
 
+/* journal entry search function */
+new DataTable('#journalEntriesTable', {
+    initComplete: function () {
+        this.api()
+            .columns()
+            .every(function () {
+                let column = this;
+                let title = column.footer().textContent;
+ 
+                // Create input element
+                let input = document.createElement('input');
+                input.placeholder = title;
+                column.footer().replaceChildren(input);
+ 
+                // Event listener for user input
+                input.addEventListener('keyup', () => {
+                    if (column.search() !== this.value) {
+                        column.search(input.value).draw();
+                    }
+                });
+            });
+    }
+});
+
+/* COA search function */
+new DataTable('#asset_accounts', {
+    initComplete: function () {
+        this.api()
+            .columns()
+            .every(function () {
+                let column = this;
+                let title = column.footer().textContent;
+ 
+                // Create input element
+                let input = document.createElement('input');
+                input.placeholder = title;
+                column.footer().replaceChildren(input);
+ 
+                // Event listener for user input
+                input.addEventListener('keyup', () => {
+                    if (column.search() !== this.value) {
+                        column.search(input.value).draw();
+                    }
+                });
+            });
+    }
+});
 
 
