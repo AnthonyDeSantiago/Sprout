@@ -182,6 +182,24 @@ export async function editAccountData(accountNumber, newData) {
     }
 }
 
+export async function getAccountsList() {
+    const accountsCollection = collection(db, 'accounts');
+    const accountsQuery = query(accountsCollection);
+
+    try {
+        const querySnapshot = await getDocs(accountsQuery);
+        const accountsList = [];
+        querySnapshot.forEach((doc) => {
+            accountsList.push(doc.data().accountName);
+        });
+        return accountsList;
+    } catch (error) {
+        console.error('Error happened: ', error);
+        throw error;
+    }
+
+}
+
   
   
   
