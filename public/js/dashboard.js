@@ -2,7 +2,7 @@ console.log("dashboard.js has loaded!!!");
 
 
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList} from "./database_module.mjs";
+import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList, validateNewAccountData, countAccountsByAccountNumber, countAccountsByAccountName} from "./database_module.mjs";
 import { initializeEventLogging } from "./eventLog.mjs";
 import {fetchUserFromEmail} from "./sprout.js"
 import {
@@ -67,18 +67,41 @@ async function loadDocuments() {
                 active: true,
                 timestampAdded: timestamp
             }
+            
+            const nameCount = await countAccountsByAccountName(accountName);
+            const numberCount = await countAccountsByAccountNumber(accountNumber);
 
-            await addDocument('accounts', newAccount);
+            console.log("How many with that nums: ", numberCount);
+            console.log("How many with that names: ", nameCount);
             
-            accountForm.reset();
-            //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
-            setTimeout(function () {
-                location.reload();
-            }, 250);
-            
+            var isValid = true;
+
+            if (nameCount > 0) {
+                console.log("Account Name Already Exists!");
+                document.getElementById("accountName").style.color = "red";
+                document.getElementById("accountName-error1").style.color = "red";
+                document.getElementById("accountName-error1").textContent = "\tAccount Name Already Exists.";
+                isValid = false;
+            }
+
+            if (numberCount > 0) {
+                console.log("Account Number Already Exists!");
+                document.getElementById("accountNumber").style.color = "red";
+                document.getElementById("accountNumber-error1").style.color = "red";
+                document.getElementById("accountNumber-error1").textContent = "\tAccount Number Already Exists.";
+                isValid = false;
+            }
+
+            if (isValid) {
+                console.log("code reached here!");
+                await addDocument('accounts', newAccount);
+                accountForm.reset();
+                //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
+                setTimeout(function () {
+                    location.reload();
+                }, 250);
+            }
         }
-
-        
     });
 
 
