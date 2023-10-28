@@ -2,7 +2,7 @@ console.log("dashboard.js has loaded!!!");
 
 
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData} from "./database_module.mjs";
+import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList} from "./database_module.mjs";
 import { initializeEventLogging } from "./eventLog.mjs";
 import {fetchUserFromEmail} from "./sprout.js"
 import {
@@ -10,6 +10,8 @@ import {
     onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
+const list = await getAccountsList();
+console.log(list);
 var username;
 const auth = getAuth();                  //Init Firebase Auth + get a reference to the service
 const accounts = await getCollection('accounts');
@@ -51,28 +53,22 @@ async function loadDocuments() {
             const accountComment = document.getElementById("accountComment").value;
             const timestamp = await getTimestamp();
 
-            var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
-
-            if(moneyPattern.test(accountInitialBalance) == true){
-                newAccount = {
-                    accountCategory: accountCategory,
-                    accountDescription: accountDescription,
-                    accountName: accountName,
-                    accountSubcategory:accountSubcategory,
-                    balance: accountInitialBalance,
-                    comment: accountComment,
-                    initialBalance: accountInitialBalance,
-                    normalSide: normalSide,
-                    order: accountOrder
-                }
-
-                await addDocument('accounts', newAccount);
+            newAccount = {
+                accountCategory: accountCategory,
+                accountDescription: accountDescription,
+                accountName: accountName,
+                accountNumber: accountNumber,
+                accountSubcategory:accountSubcategory,
+                balance: accountInitialBalance,
+                comment: accountComment,
+                initialBalance: accountInitialBalance,
+                normalSide: normalSide,
+                order: accountOrder,
+                active: true,
+                timestampAdded: timestamp
             }
-            else{
-                document.getElementById("editAccountInitialBalance").style.color = "red";
-                document.getElementById("money-error1").style.color = "red";
-                document.getElementById("money-error1").textContent = "\tPlease enter balance in currency format.";
-            }
+
+            await addDocument('accounts', newAccount);
             
             accountForm.reset();
             //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
