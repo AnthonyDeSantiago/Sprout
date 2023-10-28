@@ -70,6 +70,7 @@ async function loadDocuments() {
             
             const nameCount = await countAccountsByAccountName(accountName);
             const numberCount = await countAccountsByAccountNumber(accountNumber);
+            var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
 
             console.log("How many with that nums: ", numberCount);
             console.log("How many with that names: ", nameCount);
@@ -89,6 +90,14 @@ async function loadDocuments() {
                 document.getElementById("accountNumber").style.color = "red";
                 document.getElementById("accountNumber-error1").style.color = "red";
                 document.getElementById("accountNumber-error1").textContent = "\tAccount Number Already Exists.";
+                isValid = false;
+            }
+
+            if (moneyPattern.test(accountInitialBalance) == false) {
+                console.log("Incorrect currency format!");
+                document.getElementById("accountInitialBalance").style.color = "red";
+                document.getElementById("money-error1").style.color = "red";
+                document.getElementById("money-error1").textContent = "\tPlease enter balance in currency format.";
                 isValid = false;
             }
 
