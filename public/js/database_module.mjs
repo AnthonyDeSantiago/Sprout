@@ -200,8 +200,67 @@ export async function getAccountsList() {
 
 }
 
+export async function validateNewAccountData(data) {
+    // const accountsCollection = collection(db, 'accounts');
+    const accountNumber = data.accountNumber;
+    const accountName = data.accountName;
+
+    // console.log("accountNumber: ", accountNumber);
+
+    // const name_query = query(accountsCollection, where('accountName', '==', accountName));
+    // const number_query = query(accountsCollection, where('accountNumber', '==', accountNumber));
+
+    // try {
+    //     const name_query_snapshot = await getDocs(name_query);
+    //     const number_query_snapshot = await getDocs(number_query);
+    //     var isValid = false;
+    //     console.log(name_query_snapshot.docs);
+    //     if (name_query_snapshot.size === 0 && number_query_snapshot.size === 0) {
+    //         isValid = true;
+    //     }
+
+    //     return isValid;
+    // } catch (error) {
+    //     console.error('Error happened: ', error);
+    //     throw error;
+    // }
+
+    console.log(accountNumber);
+    console.log(accountName);
+    const numberOccurances = await countAccountsByAccountNumber(accountNumber);
+    const nameOccurances = await countAccountsByAccountName(accountName);
+
+    
+    return false;
+}
   
   
-  
+export async function countAccountsByAccountNumber(targetAccountNumber) {
+    const accountsCollection = collection(db, 'accounts');
+    const queryByAccountNumber = query(accountsCollection, where('accountNumber', '==', targetAccountNumber));
+
+    try {
+        const querySnapshot = await getDocs(queryByAccountNumber);
+        const count = querySnapshot.size;
+        return count;
+    } catch (error) {
+        console.error('Error counting accounts by accountNumber:', error);
+        throw error;
+    }
+}
+
+export async function countAccountsByAccountName(targetAccountName) {
+    const accountsCollection = collection(db, 'accounts');
+    const queryByAccountName = query(accountsCollection, where('accountName', '==', targetAccountName));
+
+    try {
+        const querySnapshot = await getDocs(queryByAccountName);
+        const count = querySnapshot.size;
+        return count;
+    } catch (error) {
+        console.error('Error counting accounts by accountName:', error);
+        throw error;
+    }
+}
   
   
