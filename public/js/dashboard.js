@@ -97,11 +97,20 @@ async function loadDocuments() {
             const nameCount = await countAccountsByAccountName(accountName);
             const numberCount = await countAccountsByAccountNumber(accountNumber);
             var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
+            var accountNumberPattern = /^[0-9]+$/;
 
             console.log("How many with that nums: ", numberCount);
             console.log("How many with that names: ", nameCount);
             
             var isValid = true;
+
+            if (!accountNumberPattern.test(accountNumber)) {
+                console.log("Acount Number must be only numbers!");
+                addAccountNumber.style.color = 'red';
+                addAccountNumberError.style.color = 'red';
+                addAccountNumberError.textContent = "\tAccount number must not include decimals, spaces, or alphanumeric characters.";
+                isValid = false;
+            }
 
             if (nameCount > 0) {
                 console.log("Account Name Already Exists!");
