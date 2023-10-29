@@ -3,15 +3,15 @@ window.addEventListener('DOMContentLoaded', event => {
     // https://github.com/fiduswriter/Simple-DataTables/wiki
 
     const asset_accounts = document.getElementById('asset_accounts');
-    const liability_accounts = document.getElementById('liability_accounts');
+    const deactivated_accounts = document.getElementById('deactivated_accounts');
 
     if (asset_accounts) {
         new simpleDatatables.DataTable(asset_accounts);
     }
 
 
-    if (liability_accounts) {
-        new simpleDatatables.DataTable(liability_accounts);
+    if (deactivated_accounts) {
+        new simpleDatatables.DataTable(deactivated_accounts);
     }
     
 

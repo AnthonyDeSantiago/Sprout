@@ -2,7 +2,7 @@ console.log("dashboard.js has loaded!!!");
 
 
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList, validateNewAccountData, countAccountsByAccountNumber, countAccountsByAccountName} from "./database_module.mjs";
+import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList, validateNewAccountData, countAccountsByAccountNumber, countAccountsByAccountName, populateDeactivatedTable} from "./database_module.mjs";
 import { initializeEventLogging } from "./eventLog.mjs";
 import {fetchUserFromEmail} from "./sprout.js"
 import {
@@ -23,6 +23,7 @@ let userData = null;
 printDocumentIds('accounts');
 
 populateTable('accounts', 'asset_accounts');
+populateDeactivatedTable('accounts', 'deactivated_accounts');
 let newAccount = null;
 async function loadDocuments() {
 
@@ -262,6 +263,7 @@ deactivateButton.addEventListener('click', async function() {
             if (isActive) {
                 data.active = false;
                 await editAccountData(accountNum, data);
+                location.reload();
             }
             console.log("Is it active: ", data.active);
         }
