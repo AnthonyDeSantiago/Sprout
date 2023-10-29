@@ -298,35 +298,50 @@ activateButton.addEventListener('click', async function() {
 });
 
 accountTable.addEventListener('click', async function(event) {
-    if (event.target.type === 'checkbox') {
-        editButton.removeAttribute('disabled');
-        const clickedCheckbox = event.target;
+    const clickedCheckbox = event.target;
+    
+    if (clickedCheckbox.type === 'checkbox') {
         const checkboxes = accountTable.querySelectorAll('input[type="checkbox"]');
-        const row = clickedCheckbox.closest('tr');
-        const rowData = Array.from(row.cells).map(cell => cell.textContent);
-        const accountNum = rowData[1];
-        const data = await getAccountData(accountNum);
-        if (!(convertCurrencyToNumber(data.balance) > 0)) {
-            deactivateButton.removeAttribute('disabled');
-        } else {
-            deactivateButton.setAttribute('disabled', 'disabled');
-        }
-        checkboxes.forEach(function(checkbox) {
-            if (checkbox !== clickedCheckbox) {
-                checkbox.checked = false;
-            }
-        });
+        const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
 
-        console.log("Specifically a checkbox was checked, do !!!");
+        editButton.setAttribute('disabled', 'true');
+        deactivateButton.setAttribute('disabled', 'true');
+
+        if (checkedCheckboxes.length > 0) {
+            editButton.removeAttribute('disabled');
+            const row = clickedCheckbox.closest('tr');
+            const rowData = Array.from(row.cells).map(cell => cell.textContent);
+            const accountNum = rowData[1];
+            const data = await getAccountData(accountNum);
+
+            if (!(convertCurrencyToNumber(data.balance) > 0)) {
+                deactivateButton.removeAttribute('disabled');
+            }
+
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox !== clickedCheckbox) {
+                    checkbox.checked = false;
+                }
+            });
+        }
+
+        console.log("A checkbox was interacted with");
     }
 });
+
 
 
 deactivatedAccountTable.addEventListener('click', async function(event) {
-    if (event.target.type === 'checkbox') {
+    const checkboxes = deactivatedAccountTable.querySelectorAll('input[type="checkbox"]');
+    const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+    
+    if (checkedCheckboxes.length > 0) {
         activateButton.removeAttribute('disabled');
+    } else {
+        activateButton.setAttribute('disabled', 'true');
     }
 });
+
 
 function convertCurrencyToNumber(currencyString) {
     const numericString = currencyString.replace(/[^0-9.]/g, '');
