@@ -12,14 +12,7 @@ import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.co
 const db = getFirestore();
 const users = collection(db, 'users');
 
-
-//--------------------------------------------------admin
-document.addEventListener("DOMContentLoaded", async function () {
-    const extendableTable = document.querySelector(".extendable-table");
-    const extendedTable = document.querySelector(".extended-table");
-
-    // Example: Function to populate the extendable table with user data
-    async function loadUsers() {
+async function loadUsers() {
         // Replace this with your Firebase data retrieval logic
         // Loop through your users and create rows for each in the table
         var usersArray = [];
@@ -54,6 +47,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         });
     }
+    // Load user data when the page loads
+    loadUsers();
+//--------------------------------------------------admin
+document.addEventListener("DOMContentLoaded", async function () {
+    const extendableTable = document.querySelector(".extendable-table");
+    const extendedTable = document.querySelector(".extended-table");
+
+    // Example: Function to populate the extendable table with user data
+    
 
     // Example: Function to populate the extended table when a username is clicked
     async function showExtendedTable(username) {
@@ -121,6 +123,5 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("extended-table").style.display = "contents";
     }
     
-    // Load user data when the page loads
-    loadUsers();
+    
 });
