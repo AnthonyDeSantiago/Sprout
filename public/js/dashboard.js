@@ -2,7 +2,7 @@ console.log("dashboard.js has loaded!!!");
 
 
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList, validateNewAccountData, countAccountsByAccountNumber, countAccountsByAccountName, populateDeactivatedTable} from "./database_module.mjs";
+import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList, validateNewAccountData, countAccountsByAccountNumber, countAccountsByAccountName, populateDeactivatedTable, logAccountingError} from "./database_module.mjs";
 import { initializeEventLogging } from "./eventLog.mjs";
 import {fetchUserFromEmail} from "./sprout.js"
 import {
@@ -257,6 +257,7 @@ editButton.addEventListener('click', async function() {
 
 deactivateButton.addEventListener('click', async function() {
     console.log("Deactivate was pressed!");
+    await logAccountingError("Deactivate was pressed");
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     for (const checkbox of checkboxes) {
         if (checkbox.checked) {

@@ -295,4 +295,19 @@ export async function countAccountsByAccountName(targetAccountName) {
     }
 }
   
-  
+class AccountingError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "Accounting Error";
+    }
+}
+
+window.AccountingError = AccountingError;
+
+
+export async function logAccountingError(message) {
+    const newError = {
+        message: message
+    };
+    await addDocument('errorLog', newError);
+}
