@@ -214,6 +214,7 @@ async function loadDocuments() {
 
 const editButton = document.querySelector('.btn[data-bs-target="#editAccountModal"]');
 const deactivateButton = document.querySelector('.btn[data-bs-target="#deactivateAccountModal"]');
+deactivateButton.setAttribute('disabled', 'disabled');
 const activateButton = document.getElementById('activate-button');
 const accountTable = document.getElementById('asset_accounts');
 
@@ -296,7 +297,13 @@ accountTable.addEventListener('click', async function(event) {
     if (event.target.type === 'checkbox') {
         const clickedCheckbox = event.target;
         const checkboxes = accountTable.querySelectorAll('input[type="checkbox"]');
-
+        const row = clickedCheckbox.closest('tr');
+        const rowData = Array.from(row.cells).map(cell => cell.textContent);
+        const accountNum = rowData[1];
+        const data = await getAccountData(accountNum);
+        if (!(convertCurrencyToNumber(data.balance) > 0)) {
+            deactivateButton.removeAttribute('disabled');
+        }
         checkboxes.forEach(function(checkbox) {
             if (checkbox !== clickedCheckbox) {
                 checkbox.checked = false;
@@ -308,12 +315,8 @@ accountTable.addEventListener('click', async function(event) {
 });
 
 function convertCurrencyToNumber(currencyString) {
-    // Remove the dollar sign and any other non-numeric characters
     const numericString = currencyString.replace(/[^0-9.]/g, '');
-
-    // Parse the numeric string as a floating-point number
     const floatValue = parseFloat(numericString);
-
     return floatValue;
 }
 
