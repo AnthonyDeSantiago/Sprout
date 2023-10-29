@@ -43,15 +43,25 @@ async function loadDocuments() {
     const addAccountName = document.getElementById("accountName");
     const addAccountNumber = document.getElementById("accountNumber");
     const addAccountInitialBalance = document.getElementById("accountInitialBalance");
+    const editAccountName = document.getElementById("editAccountName");
+    const editAccountNameError = document.getElementById("accountName-error2");
+    const editAccountInitialBalanceError = document.getElementById("money-error2");
+    const editAccountInitialBalance = document.getElementById("editAccountInitialBalance");
 
     document.addEventListener('keydown', function (event) {
         console.log("Code reached the event listener?")
         addAccountNameError.textContent = '';
         addAccountNumberError.textContent = '';
         addAccountInitialBalanceError.textContent = '';
+        editAccountNameError.textContent = '';
+        editAccountInitialBalanceError.textContent = '';
+
         addAccountName.style.color = "black";
         addAccountNumber.style.color = 'black';
         addAccountInitialBalance.style.color = 'black';
+        editAccountName.style.color = 'black';
+        editAccountInitialBalance.style.color = 'black';
+
     });
 
     accountForm.addEventListener("submit", async function (e) {
@@ -141,34 +151,48 @@ async function loadDocuments() {
         const accountInitialBalance = document.getElementById("editAccountInitialBalance").value;
         const accountOrder = document.getElementById("editAccountOrder").value;
         const accountComment = document.getElementById("editAccountComment").value;
-        
-        var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
 
-        if(moneyPattern.test(accountInitialBalance) == true){
-            newAccount = {
-                accountCategory: accountCategory,
-                accountDescription: accountDescription,
-                accountName: accountName,
-                accountSubcategory:accountSubcategory,
-                balance: accountInitialBalance,
-                comment: accountComment,
-                initialBalance: accountInitialBalance,
-                normalSide: normalSide,
-                order: accountOrder
-            }
-
-            await editAccountData(accountNumber, newAccount);
+        newAccount = {
+            accountCategory: accountCategory,
+            accountDescription: accountDescription,
+            accountName: accountName,
+            accountSubcategory:accountSubcategory,
+            balance: accountInitialBalance,
+            comment: accountComment,
+            initialBalance: accountInitialBalance,
+            normalSide: normalSide,
+            order: accountOrder
         }
-        else{
+        
+        const nameCount = await countAccountsByAccountName(accountName);
+        var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
+        var isValid = true;
+
+        if (nameCount > 0) {
+            console.log("Account Name Already Exists!");
+            document.getElementById("editAccountName").style.color = "red";
+            document.getElementById("accountName-error2").style.color = "red";
+            document.getElementById("accountName-error2").textContent = "\tAccount Name Already Exists.";
+            isValid = false;
+        }
+
+        if (moneyPattern.test(accountInitialBalance) == false) {
+            console.log("Incorrect currency format!");
             document.getElementById("editAccountInitialBalance").style.color = "red";
             document.getElementById("money-error2").style.color = "red";
             document.getElementById("money-error2").textContent = "\tPlease enter balance in currency format.";
+            isValid = false;
         }
-        accountForm.reset();
-        //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
-        setTimeout(function () {
-            location.reload();
-        }, 250);
+
+        if (isValid) {
+            console.log("code reached here!");
+            await editAccountData(accountNumber, newAccount);
+            accountForm.reset();
+            //I had to add a delay because the event logger would not catch the change using onsnapshot before the page reloaded.
+            setTimeout(function () {
+                location.reload();
+            }, 250);
+        }
 
     });
 
