@@ -253,11 +253,17 @@ deactivateButton.addEventListener('click', async function() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     for (const checkbox of checkboxes) {
         if (checkbox.checked) {
+            console.log("There is a checked box");
             const row = checkbox.closest('tr');
             const rowData = Array.from(row.cells).map(cell => cell.textContent);
-            for (const r of row.cells) {
-                r.style.color = 'gray';
+            const accountNum = rowData[1];
+            const data = await getAccountData(accountNum);
+            const isActive = data.active;
+            if (isActive) {
+                data.active = false;
+                await editAccountData(accountNum, data);
             }
+            console.log("Is it active: ", data.active);
         }
     }
 });
