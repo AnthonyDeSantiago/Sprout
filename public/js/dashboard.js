@@ -214,6 +214,7 @@ async function loadDocuments() {
 
 const editButton = document.querySelector('.btn[data-bs-target="#editAccountModal"]');
 const deactivateButton = document.querySelector('.btn[data-bs-target="#deactivateAccountModal"]');
+const activateButton = document.getElementById('activate-button');
 const accountTable = document.getElementById('asset_accounts');
 
 
@@ -260,8 +261,29 @@ deactivateButton.addEventListener('click', async function() {
             const accountNum = rowData[1];
             const data = await getAccountData(accountNum);
             const isActive = data.active;
-            if (isActive) {
+            if (isActive && !(convertCurrencyToNumber(data.balance) > 0)) {
                 data.active = false;
+                await editAccountData(accountNum, data);
+                location.reload();
+            }
+            console.log("Is it active: ", data.active);
+        }
+    }
+});
+
+activateButton.addEventListener('click', async function() {
+    console.log("activate was pressed!");
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (const checkbox of checkboxes) {
+        if (checkbox.checked) {
+            console.log("There is a checked box");
+            const row = checkbox.closest('tr');
+            const rowData = Array.from(row.cells).map(cell => cell.textContent);
+            const accountNum = rowData[1];
+            const data = await getAccountData(accountNum);
+            const isActive = data.active;
+            if (!isActive) {
+                data.active = true;
                 await editAccountData(accountNum, data);
                 location.reload();
             }
@@ -285,6 +307,15 @@ accountTable.addEventListener('click', async function(event) {
     }
 });
 
+function convertCurrencyToNumber(currencyString) {
+    // Remove the dollar sign and any other non-numeric characters
+    const numericString = currencyString.replace(/[^0-9.]/g, '');
+
+    // Parse the numeric string as a floating-point number
+    const floatValue = parseFloat(numericString);
+
+    return floatValue;
+}
 
 
 
