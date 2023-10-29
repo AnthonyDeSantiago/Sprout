@@ -214,9 +214,12 @@ async function loadDocuments() {
 
 const editButton = document.querySelector('.btn[data-bs-target="#editAccountModal"]');
 const deactivateButton = document.querySelector('.btn[data-bs-target="#deactivateAccountModal"]');
-deactivateButton.setAttribute('disabled', 'disabled');
 const activateButton = document.getElementById('activate-button');
 const accountTable = document.getElementById('asset_accounts');
+
+deactivateButton.setAttribute('disabled', 'disabled');
+activateButton.setAttribute('disabled', 'disabled');
+editButton.setAttribute('disabled', 'disabled');
 
 
 editButton.addEventListener('click', async function() {
@@ -295,6 +298,7 @@ activateButton.addEventListener('click', async function() {
 
 accountTable.addEventListener('click', async function(event) {
     if (event.target.type === 'checkbox') {
+        editButton.removeAttribute('disabled');
         const clickedCheckbox = event.target;
         const checkboxes = accountTable.querySelectorAll('input[type="checkbox"]');
         const row = clickedCheckbox.closest('tr');
@@ -303,6 +307,8 @@ accountTable.addEventListener('click', async function(event) {
         const data = await getAccountData(accountNum);
         if (!(convertCurrencyToNumber(data.balance) > 0)) {
             deactivateButton.removeAttribute('disabled');
+        } else {
+            deactivateButton.setAttribute('disabled', 'disabled');
         }
         checkboxes.forEach(function(checkbox) {
             if (checkbox !== clickedCheckbox) {
