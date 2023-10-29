@@ -8,9 +8,9 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 });
 
+/* Column number adding */
 
-/* REQ FOR LEDGER ADDING numbers */
-new DataTable('#ledger', {
+/* new DataTable('#ledger', {
     footerCallback: function (row, data, start, end, display) {
         let api = this.api();
 
@@ -57,7 +57,7 @@ new DataTable('#ledger', {
             '$' + pageTotal + ' ( $' + total + ' total)';
 
     }
-});
+}); */
 
 
 /* journal entry search function */
@@ -132,4 +132,58 @@ new DataTable('#postref', {
     }
 });
 
+
+/* Ledger Total of debit and credit */
+
+/* doesnt work for some reason in this project but in a test it does work but it only add from the row 
+while in datatable live website it does both add and sub in all column*/
+
+/* $(document).ready( function () {
+    var table = $('#ledger').DataTable({ 
+
+        drawCallback: function ( settings ) {
+        var api = this.api();
+        var rows = api.rows( {page: 'applied'} ).nodes();
+        var last = null;
+        var sum = 0;
+        var totals = {};
+    
+        
+        // Loop all cells in account column
+        api.cells(null, 0).every( function (rowIdx) {
+            var data = this.data();
+    
+            if ( ! totals.hasOwnProperty( data ) ) {
+                totals[data] = 0;
+        }
+    
+            // Get the Debit and Credit 
+            var salary = api.cell( rowIdx, 5).data();
+            var salary2 = api.cell (rowIdx, 6).data();       
+    
+            //this adds the debit and credit column and show in balance column
+            totals[data] += salary.replace(/[^\d.-]/g, '') * 1;
+            totals[data] -= salary2.replace(/[^\d.-]/g, '') * 1;
+    
+
+        });
+            console.log(totals);
+
+            // Loop the Office cells to update the Sum column
+            api.cells(null, 0).every( function (rowIdx) {
+            var data = this.data();
+            
+            // Update the Cum column with the totoall for the group
+            api.cell( rowIdx, 7).data( totals[data] );
+
+            
+            console.log(typeof totals);
+
+        
+        });
+        
+
+        },
+});
+}); */
 
