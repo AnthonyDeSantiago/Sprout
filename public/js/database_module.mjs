@@ -96,7 +96,7 @@ export async function populateTable(collectionName, tableId) {
       rowToHide.style.display = "none";
       querySnapshot.forEach((doc) => {
           const data = doc.data();
-          if (true) {
+          if (data.active === true) {
               tableBody.innerHTML += `
                   <tr>
                       <td><input type="checkbox"></td>
@@ -116,6 +116,38 @@ export async function populateTable(collectionName, tableId) {
       console.error("Error getting documents:", error);
   }
 }
+
+export async function populateDeactivatedTable(collectionName, tableId) {
+    const recordsCollection = collection(db, collectionName);
+  
+    try {
+        const querySnapshot = await getDocs(recordsCollection);
+        const tableBody = document.querySelector(`#${tableId} tbody`);
+        let rowNumber = 1;
+        const rowToHide = tableBody.querySelectorAll("tr")[0];
+        rowToHide.style.display = "none";
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data.active === false) {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><a href="ledger.html">${data.accountNumber}</a></td>
+                        <td><a href="ledger.html">${data.accountName}</a></td>
+                        <td>${data.normalSide}</td>
+                        <td>${data.accountCategory}</td>
+                        <td>${data.balance}</td>
+                        <td>${data.order}</td>
+                        <td>${data.accountDescription}</td>
+                    </tr>
+                `;
+                rowNumber++;
+            }
+        });
+    } catch (error) {
+        console.error("Error getting documents:", error);
+    }
+  }
 
 
 export async function addDocument(specific_collection, data) {

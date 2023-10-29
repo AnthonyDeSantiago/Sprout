@@ -156,7 +156,7 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="bi bi-clipboard-data me-1"></i>
-                                Accounts
+                                Active Accounts
                             </div>
                             <div class="card-body">
                                 
@@ -400,6 +400,71 @@
                                             <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addAccountModal">
                                                 Add
                                             </button>
+                                            </span>
+                                    
+                                        </div>
+                                    </tfoot>
+                                    <tbody>
+                                        <!-- makes row clickable -->
+                                        <tr data-href="http://www.google.com/">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>                                  
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!-- Deactivated accounts -->
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="bi bi-clipboard-data me-1"></i>
+                                Deactivated Accounts
+                            </div>
+                            <div class="card-body">
+                                
+
+                                <table id="deactivated_accounts">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Account No.</th>
+                                            <th>Account Name</th>
+                                            <th>Normal Side</th>
+                                            <th>Category</th>
+                                            <th>Balance</th>
+                                            <th>Account Order</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th>Account No.</th>
+                                            <th>Account Name</th>
+                                            <th>Normal Side</th>
+                                            <th>Category</th>
+                                            <th>Balance</th>
+                                            <th>Account Order</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <div id="admin-only">
+                                            <!-- Add Account Button -->
+                                            <span class="tt float-end" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Deactivate Account">
+                                                <button class="btn btn-primary mx-2" id="activate-button">
+                                                    Activate
+                                                </button>
                                             </span>
                                     
                                         </div>
