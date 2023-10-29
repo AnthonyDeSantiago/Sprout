@@ -212,6 +212,8 @@ async function loadDocuments() {
 }
 
 const editButton = document.querySelector('.btn[data-bs-target="#editAccountModal"]');
+const deactivateButton = document.querySelector('.btn[data-bs-target="#deactivateAccountModal"]');
+const accountTable = document.getElementById('asset_accounts');
 
 
 editButton.addEventListener('click', async function() {
@@ -245,6 +247,38 @@ editButton.addEventListener('click', async function() {
         }
     }
 });
+
+deactivateButton.addEventListener('click', async function() {
+    console.log("Deactivate was pressed!");
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (const checkbox of checkboxes) {
+        if (checkbox.checked) {
+            const row = checkbox.closest('tr');
+            const rowData = Array.from(row.cells).map(cell => cell.textContent);
+            for (const r of row.cells) {
+                r.style.color = 'gray';
+            }
+        }
+    }
+});
+
+accountTable.addEventListener('click', async function(event) {
+    if (event.target.type === 'checkbox') {
+        const clickedCheckbox = event.target;
+        const checkboxes = accountTable.querySelectorAll('input[type="checkbox"]');
+
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox !== clickedCheckbox) {
+                checkbox.checked = false;
+            }
+        });
+
+        console.log("Specifically a checkbox was checked, do !!!");
+    }
+});
+
+
+
 
 const checkAuthState = async () => {
     onAuthStateChanged(auth, async (user) => {
