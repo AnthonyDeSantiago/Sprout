@@ -216,6 +216,7 @@ const editButton = document.querySelector('.btn[data-bs-target="#editAccountModa
 const deactivateButton = document.querySelector('.btn[data-bs-target="#deactivateAccountModal"]');
 const activateButton = document.getElementById('activate-button');
 const accountTable = document.getElementById('asset_accounts');
+const deactivatedAccountTable = document.getElementById('deactivated_accounts');
 
 deactivateButton.setAttribute('disabled', 'disabled');
 activateButton.setAttribute('disabled', 'disabled');
@@ -317,6 +318,13 @@ accountTable.addEventListener('click', async function(event) {
         });
 
         console.log("Specifically a checkbox was checked, do !!!");
+    }
+});
+
+
+deactivatedAccountTable.addEventListener('click', async function(event) {
+    if (event.target.type === 'checkbox') {
+        activateButton.removeAttribute('disabled');
     }
 });
 
