@@ -37,6 +37,22 @@ async function loadDocuments() {
     const editAccountForm = document.getElementById("editAccountForm");
     const addSaveButton = document.getElementById("addSaveButton");
     const editSaveButton = document.getElementById("editSaveButton");
+    const addAccountNameError = document.getElementById("accountName-error1");
+    const addAccountNumberError = document.getElementById("accountNumber-error1");
+    const addAccountInitialBalanceError = document.getElementById("money-error1");
+    const addAccountName = document.getElementById("accountName");
+    const addAccountNumber = document.getElementById("accountNumber");
+    const addAccountInitialBalance = document.getElementById("accountInitialBalance");
+
+    document.addEventListener('keydown', function (event) {
+        console.log("Code reached the event listener?")
+        addAccountNameError.textContent = '';
+        addAccountNumberError.textContent = '';
+        addAccountInitialBalanceError.textContent = '';
+        addAccountName.style.color = "black";
+        addAccountNumber.style.color = 'black';
+        addAccountInitialBalance.style.color = 'black';
+    });
 
     accountForm.addEventListener("submit", async function (e) {
         e.preventDefault(); 
