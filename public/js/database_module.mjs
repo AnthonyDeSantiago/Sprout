@@ -334,6 +334,49 @@ export async function getAccountID(accountNumber) {
 }
 
 
-// export async function getFieldValue(accountNumber) {
+export async function getFieldValue(collectionName, documentID, fieldName) {
+    try {
+      const documentRef = doc(db, collectionName, documentID);
+      const docSnap = await getDoc(documentRef);
+  
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (fieldName in data) {
+          return data[fieldName];
+        } else {
+          console.error(`Field "${fieldName}" does not exist in the document.`);
+          return null;
+        }
+      } else {
+        console.error(`Document with ID "${documentID}" does not exist in the collection "${collectionName}".`);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error getting field value:", error);
+      return null;
+    }
+  }
 
-// }
+  export async function getDocsWithValue(collectionName, fieldName, fieldValue) {
+    const recordsCollection = collection(db, collectionName);
+  
+    try {
+      const q = query(recordsCollection, where(fieldName, '==', fieldValue));
+      const querySnapshot = await getDocs(q);
+      
+      const documents = [];
+      querySnapshot.forEach((doc) => {
+        documents.push(doc.data());
+      });
+  
+      return documents;
+    } catch (error) {
+      console.error("Error getting documents with value:", error);
+      return null;
+    }
+  }
+
+  
+  
+  
+  
