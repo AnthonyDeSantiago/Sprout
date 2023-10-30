@@ -1,9 +1,11 @@
+import { getFirestore, collection, query, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
 console.log("!!! newjournal.js loaded !!!");
 
-import { getFirestore, collection, query, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-
 const db = getFirestore();
-const journal = collection(db, 'journal');
+const journals_db = collection(db, 'journals');
+const transactions_db = collection(db, 'transactions');
+const accounts_db = collection(db, 'accounts');
 const currentUser = "YOUR_USER_NAME"; // You can replace this later
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -35,6 +37,7 @@ function handleJournalFormSubmission(event) {
     const creditAmount = document.getElementById("creditAmount");
     const sourceDocument = document.getElementById("sourceDocument");
     let errors = [];
+    let hournal_entry = null[]
 
     if (!accountSelect.value) {
         errors.push("Account not selected.");
@@ -72,7 +75,60 @@ function handleJournalFormSubmission(event) {
     if (errors.length > 0) {
         showErrorModal(errors);
     } else {
-        // Process the form submission.
+        let transactionsIDs = [];
+        let journalID = null;
+        let creationDate = serverTimestamp();
+
+        //For each transaction in the array containing the user input
+        for (transaction in journal_entry) {
+
+            var readAccount = [];
+            const q = query(accounts_db, where('accountName', '==', accountSelect));
+            const account_spec = await getDocs(q).then((querySnapshot) => {
+                var tempDoc = [];
+                querySnapshot.forEach((doc) => {
+                    tempDoc.push({ id: doc.id });
+                });
+                readAccount = tempDoc;
+            });
+            let accountID = readAccount[0].id;
+
+            // Add a new transaction document with a generated id.
+            try {
+                const docRef = await addDoc(transactions_db, {
+                    creationDate: creationDate,
+                    account: accountID,
+                    journal: null,
+                    debit: debitAmount,
+                    credit: creditAmount,
+                    user: currentUser
+                });
+                console.log("Transaction written with ID: ", docRef.id);
+                transactionsIDs.push(docRef.id);        //add the transaction id to an array
+            } catch (error) {
+                console.error("Error adding transaction: ", error);
+            };
+        }
+
+        //once all the transactions are processed, add their ids to a journal document
+        try {
+            const docRefJournal = await addDoc(journals_db, {
+                creationDate: creationDate,
+                transactions: transactionsIDs,
+                user: currentUser
+            });
+            console.log("Journal written with ID: ", docRefJournal.id);
+            ledgerID = docRefJournal.id;                //grab journal id
+        } catch (error) {
+            console.error("Error adding journal: ", error);
+        };
+
+        //go back and add journal id to transaction documents
+        for (id in transactionsIDs) {
+            await updateDoc(doc(db, 'transactions', id.toString()), {
+                journal: journalID
+            });
+        }
     }
 }
 
@@ -92,7 +148,7 @@ function showErrorModal(errors) {
 }
 
 async function loadJournalEntries() {
-    const q = query(journal);
+    const q = query(journals_db);
     const journalDocs = await getDocs(q);
     const journalEntriesArray = [];
 
@@ -108,10 +164,10 @@ async function loadJournalEntries() {
             { data: 'debitAmount', title: 'Debit Amount' },
             { data: 'creditAmount', title: 'Credit Amount' },
             { data: 'status', title: 'Status' },
-            { 
-                data: null, 
+            {
+                data: null,
                 title: 'Action',
-                render: function(data, type, row) {
+                render: function (data, type, row) {
                     return '<button class="btn btn-info btn-sm">View/Edit</button>';  // Example action button
                 }
             }
@@ -121,8 +177,7 @@ async function loadJournalEntries() {
 }
 
 async function getAccountsList() {
-    const accountsCollection = collection(db, 'accounts');
-    const accountsQuery = query(accountsCollection);
+    const accountsQuery = query(accounts_db);
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
@@ -146,7 +201,4 @@ async function populateAccountsDropdown() {
         option.textContent = account;
         accountSelect.appendChild(option);
     });
-
-
-
-   
+}
