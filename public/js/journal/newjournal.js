@@ -29,7 +29,7 @@ function logAccountingError(error, user) {
     });
 }
 
-function handleJournalFormSubmission(event) {
+async function handleJournalFormSubmission(event) {
     event.preventDefault();
 
     const accountSelect = document.getElementById("accountSelect");
