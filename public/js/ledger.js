@@ -1,4 +1,4 @@
-import { getAccountID, getDocsWithValue, getFieldValue } from "./database_module.mjs";
+import { capitalizeString, getAccountID, getDocsWithValue, getFieldValue } from "./database_module.mjs";
 
 console.log("ledger.js has loaded!!!");
 
@@ -8,6 +8,7 @@ const accountName = urlParameters.get("accountName");
 const accountID = await getAccountID(accountNumber);
 const journalEntries = await getDocsWithValue('journals', 'account', accountID);
 const transactions = await getDocsWithValue('transactions', 'account', accountID);
+const normalSide = capitalizeString(await getFieldValue('accounts', accountID, 'normalSide'));
 
 
 console.log("accountNumber:", accountNumber);
@@ -17,8 +18,10 @@ console.log("journal entries:", journalEntries);
 console.log("transactions:", transactions);
 console.log("debit: ", transactions[0].debit);
 console.log("transactions length", transactions.length);
+console.log("Normal side", normalSide);
 
 populateLedgerTable(transactions, 'ledger');
+printTotal();
 
 function populateLedgerTable(transactions, tableId) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
@@ -39,39 +42,33 @@ function populateLedgerTable(transactions, tableId) {
 }
 
 $(document).ready(function() {
-    console.log("Initializing");
+    console.log("Is this working now?");
     $('#ledger').DataTable();
 });
 
-  
-//   document.addEventListener('DOMContentLoaded', function() {
-//     const minDateInput = document.getElementById('min');
-//     const maxDateInput = document.getElementById('max');
-//     const tableBody = document.getElementById('ledger');
-  
-//     minDateInput.addEventListener('input', filterTable);
-//     maxDateInput.addEventListener('input', filterTable);
-//     console.log("Hello");
-  
-//     function filterTable() {
+
+function printTotal() {
+    const totalElement = document.getElementById("account-total");
+    const debitElement = document.getElementById("debit-total");
+    const creditElement = document.getElementById("credit-total");
+
+    let debitTotal = 0;
+    let creditTotal = 0;
+
+    for (let i = 0; i < transactions.length; i++) {
+        debitTotal += transactions[i].debit;
+        creditTotal += transactions[i].credit;
+    }
+    debitElement.textContent = debitTotal;
+    creditElement.textContent = creditTotal;
+    if (normalSide == 'DEBIT') {
+        // const total = debitTotal - creditTotal;
+        // totalElement.textContent = "Total: " + total;
         
-//       const minDate = new Date(minDateInput.value);
-//       const maxDate = new Date(maxDateInput.value);
-  
-//       const rows = tableBody.querySelectorAll('tr');
-  
-//       rows.forEach(row => {
-//         const creationDateCell = row.cells[0];
-//         if (creationDateCell) {
-//           const rowDate = new Date(creationDateCell.textContent);
-          
-//           if (rowDate >= minDate && rowDate <= maxDate) {
-//             row.style.display = 'table-row';
-//           } else {
-//             row.style.display = 'none';
-//           }
-//         }
-//       });
-//     }
-//   });
+    } else {
+        // const total = creditTotal - debitTotal;
+        // totalElement.textContent = "Total: " + total;
+
+    }
+}
   

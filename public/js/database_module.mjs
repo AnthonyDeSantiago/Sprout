@@ -357,7 +357,7 @@ export async function getFieldValue(collectionName, documentID, fieldName) {
     }
   }
 
-  export async function getDocsWithValue(collectionName, fieldName, fieldValue) {
+export async function getDocsWithValue(collectionName, fieldName, fieldValue) {
     const recordsCollection = collection(db, collectionName);
   
     try {
@@ -374,9 +374,22 @@ export async function getFieldValue(collectionName, documentID, fieldName) {
       console.error("Error getting documents with value:", error);
       return null;
     }
-  }
+}
 
+export function capitalizeString(inputString) {
+    const characters = inputString.split('');
+
+    for (let i = 0; i < characters.length; i++) {
+      characters[i] = characters[i].toUpperCase();
+    }
   
+    const capitalizedString = characters.join('');
+  
+    return capitalizedString;
+}
+
+
+
   
   
   
