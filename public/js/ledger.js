@@ -15,5 +15,26 @@ console.log("accountName:", accountName);
 console.log("account ID:", accountID);
 console.log("journal entries:", journalEntries);
 console.log("transactions:", transactions);
+console.log("debit: ", transactions[0].debit);
+console.log("transactions length", transactions.length);
 
+populateLedgerTable(transactions, 'ledger');
 
+function populateLedgerTable(transactions, tableId) {
+    const tableBody = document.querySelector(`#${tableId} tbody`);
+    for (let i = 0; i < transactions.length; i++) {
+      const transaction = transactions[i];
+      tableBody.innerHTML += `
+          <tr>
+              <td>${transaction.account}</td>
+              <td>${transaction.creationDate.toDate()}</td>
+              <td>${transaction.debit}</td>
+              <td>${transaction.credit}</td>
+              <td>${transaction.description}</td>
+              <td>${transaction.journal}</td>
+              <td>${transaction.user}</td>
+          </tr>
+      `;
+    }
+  }
+  
