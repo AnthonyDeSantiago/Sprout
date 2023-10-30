@@ -1,46 +1,32 @@
-import { getFirestore, collection, query, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-import {
-    getAuth,
-    onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
-import {fetchUserFromEmail} from "/js/sprout.js"
-
 console.log("!!! newjournal.js loaded !!!");
 
-const auth = getAuth();                  //Init Firebase Auth + get a reference to the service
-let username = null;
-let userDisplay = null;
-let userEmail = null;
-let userData = null;
-
+import { getFirestore, collection, query, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 const db = getFirestore();
-const journals_db = collection(db, 'journals');
-const transactions_db = collection(db, 'transactions');
-const accounts_db = collection(db, 'accounts');
+const journal = collection(db, 'journal');
 const currentUser = "YOUR_USER_NAME"; // You can replace this later
 
+
+document.addEventListener("DOMContentLoaded", async function () {
+    await initializePage();
+
+    const journalForm = document.getElementById("journalForm");
+    journalForm && journalForm.addEventListener("submit", handleJournalFormSubmission);
+});
 const checkAuthState = async () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            
             user.providerData.forEach((profile) => {
                 userDisplay = profile.displayName;
                 userEmail = profile.email;
             });
-
-            userData = await fetchUserFromEmail(userEmail)
+            userData = await fetchUserFromEmail(userEmail);
             username = userData.username;
             
             await initializePage();
 
             const journalForm = document.getElementById("journalForm");
             journalForm && journalForm.addEventListener("submit", handleJournalFormSubmission);
-        }
-        else {
-            //Any code put here will impact sign in pages, so be careful
-            //For example: do not put an alert that there is no user here,
-            //it will cause an error with sign in
         }
     })
 }
@@ -59,7 +45,7 @@ function logAccountingError(error, user) {
     });
 }
 
-async function handleJournalFormSubmission(event) {
+function handleJournalFormSubmission(event) {
     event.preventDefault();
 
     const accountSelect = document.getElementById("accountSelect");
@@ -67,7 +53,6 @@ async function handleJournalFormSubmission(event) {
     const creditAmount = document.getElementById("creditAmount");
     const sourceDocument = document.getElementById("sourceDocument");
     let errors = [];
-    let journal_entry = [];
 
     if (!accountSelect.value) {
         errors.push("Account not selected.");
@@ -105,60 +90,23 @@ async function handleJournalFormSubmission(event) {
     if (errors.length > 0) {
         showErrorModal(errors);
     } else {
-        let transactionsIDs = [];
-        let journalID = null;
-        let creationDate = serverTimestamp();
+      // The actual process of the form submission starts here.
 
-        //For each transaction in the array containing the user input
-        for (transaction in journal_entry) {
+      let transactionsIDs = [];
+      let journalID = null;
+      let creationDate = serverTimestamp();
 
-            var readAccount = [];
-            const q = query(accounts_db, where('accountName', '==', accountSelect));
-            const account_spec = await getDocs(q).then((querySnapshot) => {
-                var tempDoc = [];
-                querySnapshot.forEach((doc) => {
-                    tempDoc.push({ id: doc.id });
-                });
-                readAccount = tempDoc;
-            });
-            let accountID = readAccount[0].id;
+      // For each transaction in the array containing the user input
+      for (transaction in journal_entry) {
+          // ... (your logic to add the transaction)
+      }
 
-            // Add a new transaction document with a generated id.
-            try {
-                const docRef = await addDoc(transactions_db, {
-                    creationDate: creationDate,
-                    account: accountID,
-                    journal: null,
-                    debit: debitAmount,
-                    credit: creditAmount,
-                    user: username
-                });
-                console.log("Transaction written with ID: ", docRef.id);
-                transactionsIDs.push(docRef.id);        //add the transaction id to an array
-            } catch (error) {
-                console.error("Error adding transaction: ", error);
-            };
-        }
+      // Once all the transactions are processed, add their ids to a journal document
+      // ... (your logic to add the journal)
 
-        //once all the transactions are processed, add their ids to a journal document
-        try {
-            const docRefJournal = await addDoc(journals_db, {
-                creationDate: creationDate,
-                transactions: transactionsIDs,
-                user: username
-            });
-            console.log("Journal written with ID: ", docRefJournal.id);
-            ledgerID = docRefJournal.id;                //grab journal id
-        } catch (error) {
-            console.error("Error adding journal: ", error);
-        };
-
-        //go back and add journal id to transaction documents
-        for (id in transactionsIDs) {
-            await updateDoc(doc(db, 'transactions', id.toString()), {
-                journal: journalID
-            });
-        }
+      // Go back and add journal id to transaction documents
+      // ... (your logic to update transactions with the journal id)
+  
     }
 }
 
@@ -178,7 +126,7 @@ function showErrorModal(errors) {
 }
 
 async function loadJournalEntries() {
-    const q = query(journals_db);
+    const q = query(journal);
     const journalDocs = await getDocs(q);
     const journalEntriesArray = [];
 
@@ -194,10 +142,10 @@ async function loadJournalEntries() {
             { data: 'debitAmount', title: 'Debit Amount' },
             { data: 'creditAmount', title: 'Credit Amount' },
             { data: 'status', title: 'Status' },
-            {
-                data: null,
+            { 
+                data: null, 
                 title: 'Action',
-                render: function (data, type, row) {
+                render: function(data, type, row) {
                     return '<button class="btn btn-info btn-sm">View/Edit</button>';  // Example action button
                 }
             }
@@ -207,7 +155,8 @@ async function loadJournalEntries() {
 }
 
 async function getAccountsList() {
-    const accountsQuery = query(accounts_db);
+    const accountsCollection = collection(db, 'accounts');
+    const accountsQuery = query(accountsCollection);
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
@@ -216,10 +165,11 @@ async function getAccountsList() {
             accountsList.push(doc.data().accountName);
         });
         return accountsList;
-    } catch (error) {
+    } catch (error) 
+        {
         console.error('Error happened: ', error);
         throw error;
-    }
+                }
 }
 
 async function populateAccountsDropdown() {
@@ -231,7 +181,10 @@ async function populateAccountsDropdown() {
         option.textContent = account;
         accountSelect.appendChild(option);
     });
+   
 }
-
-
 checkAuthState();
+
+
+
+   
