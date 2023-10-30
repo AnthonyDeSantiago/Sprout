@@ -179,27 +179,22 @@
                     <!-- New Journal Entry Section -->
                     <h2>New Journal Entry</h2>
                     <form id="journalForm">
-                        <div class="form-group">
+                            <div class="form-group">
                             <label>Select Account:</label>
                             <select class="form-control" id="accountSelect">
                                 <!-- This will be populated from the Chart of Accounts -->
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Debit Amount:</label>
-                            <input type="number" class="form-control" id="debitAmount">
-                        </div>
-                        <div class="form-group">
-                            <label>Credit Amount:</label>
-                            <input type="number" class="form-control" id="creditAmount">
-                        </div>
-                        <div class="form-group">
-                            <label>Attach Source Document:</label>
-                            <input type="file" class="form-control" id="sourceDocument"
-                                accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.jpg,.png">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+                            </div>
+                            <div class="form-group">
+                                <label>Debit Amount:</label>
+                                <input type="number" class="form-control" id="debitAmount">
+                            </div>
+                            <div class="form-group">
+                                <label>Credit Amount:</label>
+                                <input type="number" class="form-control" id="creditAmount">
+                            </div>
+                            <button type="button" class="btn btn-primary" id="addTransactionBtn">Add Transaction</button>
+                            <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
                     </form>
 
                     <!-- View Journal Entries Section -->
@@ -219,6 +214,12 @@
                             <!-- This will be populated with Journal Entries -->
                         </tbody>
                     </table>
+                    <div class="form-group">
+                        <label>Attach Source Document for the entire Journal Entry:</label>
+                        <input type="file" class="form-control" id="sourceDocument"
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.jpg,.png">
+                    </div>
+                    <button type="button" class="btn btn-success" id="submitJournalBtn">Submit Journal</button>
 
                 </div>
             </main>
