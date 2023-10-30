@@ -50,8 +50,8 @@ const formbutton = document.querySelector('.add-btn');
 formbutton.onclick = ()=> {
 
         var params = {
-            /* name: document.getElementById('fullName').value,
-            email: document.getElementById('email').value, */
+            name: document.getElementById('roleSelect').value,
+            /* email: document.getElementById('email').value, */
             message: document.getElementById('mess').value,
         };
 
@@ -59,8 +59,8 @@ formbutton.onclick = ()=> {
     emailjs.send('service_9bu3nfr','template_0qdo9gb',params)
     .then(
         res =>{
-            /* document.getElementById("fullName").value = "",
-            document.getElementById("email").value = "", */
+            document.getElementById("roleSelect").value = "",
+            /* document.getElementById("email").value = "", */
             document.getElementById("mess").value = "",
             console.log.apply(res)
             alert("message sent sucessfully");

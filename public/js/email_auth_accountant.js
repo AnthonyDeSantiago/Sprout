@@ -18,8 +18,8 @@ const formbutton2 = document.querySelector('.acc-btn');
 formbutton2.onclick = ()=> {
 
         var params = {
-            /* name: document.getElementById('fullName').value,
-            email: document.getElementById('email').value, */
+            name: document.getElementById('roleSelect').value,
+            /* email: document.getElementById('email').value, */
             message: document.getElementById('mess2').value,
         };
 
@@ -27,8 +27,8 @@ formbutton2.onclick = ()=> {
     emailjs.send('service_9bu3nfr','template_7fwsavt',params)
     .then(
         res =>{
-            /* document.getElementById("fullName").value = "",
-            document.getElementById("email").value = "", */
+            document.getElementById("roleSelect").value = "",
+            /* document.getElementById("email").value = "", */
             document.getElementById("mess2").value = "",
             console.log.apply(res)
             alert("message sent sucessfully");
