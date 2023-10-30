@@ -9,6 +9,8 @@ const accountID = await getAccountID(accountNumber);
 const journalEntries = await getDocsWithValue('journals', 'account', accountID);
 const transactions = await getDocsWithValue('transactions', 'account', accountID);
 const normalSide = capitalizeString(await getFieldValue('accounts', accountID, 'normalSide'));
+const accountBreadCrumb = document.getElementById("accountBreadcrumb-element");
+
 
 
 console.log("accountNumber:", accountNumber);
@@ -22,6 +24,10 @@ console.log("Normal side", normalSide);
 
 populateLedgerTable(transactions, 'ledger');
 printTotal();
+accountBreadCrumb.textContent = accountName;
+
+
+
 
 function populateLedgerTable(transactions, tableId) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
@@ -71,4 +77,6 @@ function printTotal() {
 
     }
 }
+
+
   
