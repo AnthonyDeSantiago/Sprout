@@ -1,6 +1,18 @@
 import { getFirestore, collection, query, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import {
+    getAuth,
+    onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+import {fetchUserFromEmail} from "/js/sprout.js"
 
 console.log("!!! newjournal.js loaded !!!");
+
+const auth = getAuth();                  //Init Firebase Auth + get a reference to the service
+let username = null;
+let userDisplay = null;
+let userEmail = null;
+let userData = null;
+
 
 const db = getFirestore();
 const journals_db = collection(db, 'journals');
@@ -8,12 +20,30 @@ const transactions_db = collection(db, 'transactions');
 const accounts_db = collection(db, 'accounts');
 const currentUser = "YOUR_USER_NAME"; // You can replace this later
 
-document.addEventListener("DOMContentLoaded", async function () {
-    await initializePage();
+const checkAuthState = async () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            
+            user.providerData.forEach((profile) => {
+                userDisplay = profile.displayName;
+                userEmail = profile.email;
+            });
 
-    const journalForm = document.getElementById("journalForm");
-    journalForm && journalForm.addEventListener("submit", handleJournalFormSubmission);
-});
+            userData = await fetchUserFromEmail(userEmail)
+            username = userData.username;
+            
+            await initializePage();
+
+            const journalForm = document.getElementById("journalForm");
+            journalForm && journalForm.addEventListener("submit", handleJournalFormSubmission);
+        }
+        else {
+            //Any code put here will impact sign in pages, so be careful
+            //For example: do not put an alert that there is no user here,
+            //it will cause an error with sign in
+        }
+    })
+}
 
 async function initializePage() {
     await loadJournalEntries();
@@ -101,7 +131,7 @@ async function handleJournalFormSubmission(event) {
                     journal: null,
                     debit: debitAmount,
                     credit: creditAmount,
-                    user: currentUser
+                    user: username
                 });
                 console.log("Transaction written with ID: ", docRef.id);
                 transactionsIDs.push(docRef.id);        //add the transaction id to an array
@@ -115,7 +145,7 @@ async function handleJournalFormSubmission(event) {
             const docRefJournal = await addDoc(journals_db, {
                 creationDate: creationDate,
                 transactions: transactionsIDs,
-                user: currentUser
+                user: username
             });
             console.log("Journal written with ID: ", docRefJournal.id);
             ledgerID = docRefJournal.id;                //grab journal id
@@ -202,3 +232,6 @@ async function populateAccountsDropdown() {
         accountSelect.appendChild(option);
     });
 }
+
+
+checkAuthState();
