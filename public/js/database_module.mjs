@@ -305,9 +305,11 @@ class AccountingError extends Error {
 window.AccountingError = AccountingError;
 
 
-export async function logAccountingError(message) {
+export async function logAccountingError(message, user) {
     const newError = {
-        message: message
+        message: message,
+        user: user,
+        timestamp: await getTimestamp()
     };
     await addDocument('errorLog', newError);
 }

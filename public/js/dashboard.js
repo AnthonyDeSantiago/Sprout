@@ -257,7 +257,7 @@ editButton.addEventListener('click', async function() {
 
 deactivateButton.addEventListener('click', async function() {
     console.log("Deactivate was pressed!");
-    await logAccountingError("Deactivate was pressed");
+    await logAccountingError("Deactivate was pressed", 'some_user');
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     for (const checkbox of checkboxes) {
         if (checkbox.checked) {
