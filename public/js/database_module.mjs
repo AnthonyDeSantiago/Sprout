@@ -100,8 +100,8 @@ export async function populateTable(collectionName, tableId) {
               tableBody.innerHTML += `
                   <tr>
                       <td><input type="checkbox"></td>
-                      <td><a href="ledger.html">${data.accountNumber}</a></td>
-                      <td><a href="ledger.html">${data.accountName}</a></td>
+                      <td><a href="ledger.html?accountNumber=${data.accountNumber}&accountName=${data.accountName}">${data.accountNumber}</a></td>
+                      <td><a href="ledger.html?accountNumber=${data.accountNumber}&accountName=${data.accountName}">${data.accountName}</a></td>
                       <td>${data.normalSide}</td>
                       <td>${data.accountCategory}</td>
                       <td>${data.balance}</td>
