@@ -313,3 +313,27 @@ export async function logAccountingError(message, user) {
     };
     await addDocument('errorLog', newError);
 }
+
+export async function getAccountID(accountNumber) {
+    const accountsCollection = collection(db, 'accounts');
+
+    try {
+        const q = query(accountsCollection, where('accountNumber', '==', accountNumber));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            return querySnapshot.docs[0].id;
+        } else {
+            console.log("Dang couldn't find an account with that number");
+            return null;
+        }
+    } catch (error) {
+        console.error("Something went wrong getting account id: ", error);
+        return null;
+    }
+}
+
+
+// export async function getFieldValue(accountNumber) {
+
+// }
