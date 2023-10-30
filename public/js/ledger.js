@@ -25,16 +25,16 @@ function populateLedgerTable(transactions, tableId) {
     for (let i = 0; i < transactions.length; i++) {
       const transaction = transactions[i];
       tableBody.innerHTML += `
-          <tr>
-              <td>${transaction.account}</td>
-              <td>${transaction.creationDate.toDate()}</td>
-              <td>${transaction.debit}</td>
-              <td>${transaction.credit}</td>
-              <td>${transaction.description}</td>
-              <td>${transaction.journal}</td>
-              <td>${transaction.user}</td>
-          </tr>
-      `;
+            <tr>
+                <td>${transaction.creationDate.toDate()}</td>
+                <td>${transaction.account}</td>
+                <td>${transaction.user}</td>
+                <td>${transaction.journal}</td>
+                <td>${transaction.description}</td>
+                <td>${transaction.debit}</td>
+                <td>${transaction.credit}</td>
+            </tr>
+        `;
     }
   }
   
