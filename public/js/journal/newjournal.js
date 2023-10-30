@@ -37,7 +37,7 @@ function handleJournalFormSubmission(event) {
     const creditAmount = document.getElementById("creditAmount");
     const sourceDocument = document.getElementById("sourceDocument");
     let errors = [];
-    let hournal_entry = null[]
+    let journal_entry = [];
 
     if (!accountSelect.value) {
         errors.push("Account not selected.");
