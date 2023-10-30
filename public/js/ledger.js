@@ -36,9 +36,8 @@ function populateLedgerTable(transactions, tableId) {
       tableBody.innerHTML += `
             <tr>
                 <td>${transaction.creationDate.toDate()}</td>
-                <td>${transaction.account}</td>
                 <td>${transaction.user}</td>
-                <td>${transaction.journal}</td>
+                <td><a href="ledger.html">${transaction.journal}</td> 
                 <td>${transaction.description}</td>
                 <td>${transaction.debit}</td>
                 <td>${transaction.credit}</td>
