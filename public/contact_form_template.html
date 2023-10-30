@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/contact_calendar.css" class="rel">
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <script defer src = "js/email_auth.js" type = "module"></script>
     
@@ -21,7 +21,7 @@
     </div>
     <br>
 
-    <!-- this send email based off a template -->
+    <!-- this send email based off a template & js for this is currently commented out -->
     <div>
         <p>
         This is a button that sends email based off a template made in emailjs.
@@ -32,13 +32,14 @@
     </div>
 
 </body>
-<!-- need this script in every page with the contact form -->
-<script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
-</script>
+need this script in every page with the contact form
+
+<script type="text/javascript"src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
 <script type="text/javascript">
     (function(){
         emailjs.init("Fwd-qXGKUkQJGDPsj");
 })();
 </script>
+
 </html>
