@@ -36,5 +36,42 @@ function populateLedgerTable(transactions, tableId) {
             </tr>
         `;
     }
-  }
+}
+
+$(document).ready(function() {
+    console.log("Initializing");
+    $('#ledger').DataTable();
+});
+
+  
+//   document.addEventListener('DOMContentLoaded', function() {
+//     const minDateInput = document.getElementById('min');
+//     const maxDateInput = document.getElementById('max');
+//     const tableBody = document.getElementById('ledger');
+  
+//     minDateInput.addEventListener('input', filterTable);
+//     maxDateInput.addEventListener('input', filterTable);
+//     console.log("Hello");
+  
+//     function filterTable() {
+        
+//       const minDate = new Date(minDateInput.value);
+//       const maxDate = new Date(maxDateInput.value);
+  
+//       const rows = tableBody.querySelectorAll('tr');
+  
+//       rows.forEach(row => {
+//         const creationDateCell = row.cells[0];
+//         if (creationDateCell) {
+//           const rowDate = new Date(creationDateCell.textContent);
+          
+//           if (rowDate >= minDate && rowDate <= maxDate) {
+//             row.style.display = 'table-row';
+//           } else {
+//             row.style.display = 'none';
+//           }
+//         }
+//       });
+//     }
+//   });
   
