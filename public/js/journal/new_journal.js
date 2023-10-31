@@ -70,31 +70,48 @@ document.getElementById("journalForm").addEventListener("reset", async function 
 
 });
 
-// Function to validate source document type
+// Function to validate source document type and display an error if invalid
 function validateDocumentType(sourceDocument) {
     const acceptedDocTypes = ['application/pdf', 'image/jpeg', 'image/png']; // Add more as needed
 
     if (acceptedDocTypes.includes(sourceDocument.files[0].type)) {
         return true;
     } else {
+        displayErrors([{
+            inputFieldId: 'sourceDocument',
+            message: 'Invalid document type. Please upload a PDF, JPEG, or PNG file.'
+        }]);
+        logAccountingError("Invalid document type uploaded.", currentUser);
         return false;
     }
 }
 
-// Function to validate journal description is not null
+// Function to validate journal description is not null and display an error if null
 function validateDescription(journalDescription) {
-    return journalDescription.value.trim() !== "";
+    const isValid = journalDescription.value.trim() !== "";
+    
+    if (!isValid) {
+        displayErrors([{
+            inputFieldId: 'journalDescription',
+            message: 'Description cannot be empty.'
+        }]);
+        logAccountingError("Journal description is empty.", currentUser);
+    }
+    return isValid;
 }
 
-//async function handleJournalFormSubmission(event) {
+
+async function handleJournalFormSubmission(event) {
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
     e.preventDefault();
         // Clear existing errors
         displayErrors([]);
     const accountSelect = document.getElementById("accountSelect");
+    const description = document.getElementById("journalDescription");
     let debitAmount = parseInt(document.getElementById("debitAmount").value);
     let creditAmount = parseInt(document.getElementById("creditAmount").value);
-    const description = document.getElementById("transactionDescription");
+    
+
     let errors = [];
 
     var isValid = true;
@@ -117,10 +134,11 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     if (debitAmount > 0 && creditAmount == 0) {
         isValid = true;
     }
+  
 
     if (!accountSelect.value) {
         errors.push({
-            inputFieldId: 'accountSelectError',
+            inputFieldId: 'accountSelect',
             message: 'Account not selected.'
         });
         logAccountingError("Account not selected.", currentUser);
@@ -128,7 +146,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
     if (isNaN(debitAmount)) {
         errors.push({
-            inputFieldId: 'debitAmountError',
+            inputFieldId: 'debitAmount',
             message: 'Invalid debit value.'
         });
         logAccountingError("Invalid debit value.", currentUser);
@@ -137,7 +155,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
 
     if (isNaN(creditAmount)) {
         errors.push({
-            inputFieldId: 'creditAmountError',
+            inputFieldId: 'creditAmount',
             message: 'Invalid credit value.'
         });
         logAccountingError("Invalid credit value.", currentUser);
@@ -145,7 +163,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
     if (creditAmount > 0 && debitAmount > 0) {
         errors.push({
-            inputFieldId: 'debitAmount',
+            inputFieldId: 'creditAmount',
             message: 'Both credit and debit amount listed on the same transaction.'
         });
         logAccountingError("Both credit and debit amount listed on same transaction.", currentUser);
@@ -153,7 +171,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
     if((creditAmount <= 0 || isNaN(creditAmount)) && (debitAmount <= 0 || isNaN(debitAmount))) {
         errors.push({
-            inputFieldId: 'debitAmount'&&'creditAmount', 
+            inputFieldId: 'creditAmount'&&'debitAmount', 
             message: 'No credit or debit amount listed.'
         });
         logAccountingError("No credit or debit amount listed.", currentUser);
@@ -163,7 +181,8 @@ document.getElementById("transactionForm").addEventListener("submit", async func
 
     if (errors.length > 0) {
         displayErrors(errors); 
-    } else {
+    } 
+    else {
         if (isValid == true) {
             journal_entry.push({
                 account: accountSelect.value.toString(),
@@ -182,7 +201,8 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
 });
 
-/*async function handleJournalFormSubmission(event) {
+
+//async function handleJournalFormSubmission(event) {
 document.getElementById("journalForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -191,6 +211,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
     let errors = [];
 
     var isValid = true;
+
 
     let debitAmountSum = 0;
     let creditAmountSum = 0;
@@ -206,28 +227,46 @@ document.getElementById("journalForm").addEventListener("submit", async function
         const validFileTypes = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".jpg", ".png"];
         const isValidFileType = validFileTypes.some(type => file.name.endsWith(type));
         if (!isValidFileType) {
-            errors.push("Invalid file type.");
+            errors.push({
+                inputFieldId: 'sourceDocument',
+                message: 'Invalid file type.'
+            });
+
+
             logAccountingError("Invalid file type.", currentUser);
             isValid = false;
         }
-    } /*else {
-        errors.push("Missing source document.");
+    } else {
+        errors.push({
+            inputFieldId: 'sourceDocument',
+            message: 'Missing source document.'
+        });
         logAccountingError("Missing source document.", currentUser);
         isValid = false;
     }
+    if(!validateDescription(journalDescription)){
+        isValid = false;
+
+    }
 
     if ((creditAmountSum - debitAmountSum) != 0) {
-        errors.push("Credits and debits do not sum to zero in journal entry.");
+        errors.push({
+            inputFieldId: 'creditAmount',
+            message: 'Credits and debits do not match. Please ensure they sum to zero.'
+        });
+        
+        errors.push({
+            inputFieldId: 'debitAmount',
+            message: 'Debits and credits do not match. Please ensure they sum to zero.'
+        });
         logAccountingError("Credits and debits do not sum to zero in journal entry.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
 
         isValid = false;
     }
 
 
     if (errors.length > 0) {
-        //showErrorModal(errors);
+        displayErrors(errors)    
     } else {
         if (isValid == true) {
             let transactionsIDs = [];
@@ -240,6 +279,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 let transaction = journal_entry[i];
                 var readAccount = [];
                 const q = query(accounts_db, where('accountName', '==', transaction.account));
+            
                 const account_spec = await getDocs(q).then((querySnapshot) => {
                     var tempDoc = [];
                     querySnapshot.forEach((doc) => {
@@ -293,7 +333,8 @@ document.getElementById("journalForm").addEventListener("submit", async function
             }
         }
     }
-});*/
+});
+//}
 
 function displayErrors(errors) {
     // First, clear out all previous error messages
@@ -312,7 +353,22 @@ function displayErrors(errors) {
         }
     });
 }
-
+//a function to clear the error for a specific input
+function clearErrorForInput(inputFieldId) {
+    const inputField = document.getElementById(inputFieldId);
+    if (inputField) {
+        const errorElement = inputField.nextSibling;
+        if (errorElement && errorElement.classList.contains('error-text')) {
+            errorElement.remove();
+        }
+    }
+}
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', (e) => {
+        clearErrorForInput(e.target.id);
+    });
+});
+}
 
 async function initializeTransactionEntries() {
     transactionEntriesTable = new DataTable('#journalEntriesTable', {
@@ -360,9 +416,4 @@ async function populateAccountsDropdown() {
     });
 
 }
-
-
 checkAuthState();
-
-
-
