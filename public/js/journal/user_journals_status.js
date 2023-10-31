@@ -34,15 +34,15 @@ const checkAuthState = async () => {
                 case "admin":
                     await getUserList();
                     userPull = usersList;
-                    for(var i = 0; i < usersList.length; i++){
+                    for (var i = 0; i < usersList.length; i++) {
                         userPull.push(usersList[i].username);
                     }
                     break;
 
                 case "manager":
                     await getUserList();
-                    for(var i = 0; i < usersList.length; i++){
-                        if (usersList[i].role == "regular" || usersList[i].role == "manager"){
+                    for (var i = 0; i < usersList.length; i++) {
+                        if (usersList[i].role == "regular" || usersList[i].role == "manager") {
                             userPull.push(usersList[i].username);
                         }
                     }
@@ -89,7 +89,8 @@ async function getUserList() {
         const querySnapshot = await getDocs(usersQuery);
         const usersTempList = [];
         querySnapshot.forEach((doc) => {
-            usersTempList.push({username: doc.data().username, role: doc.data().role});
+            let user = { username: doc.data().username, role: doc.data().role }
+            usersTempList.push(user);
         });
         console.log(usersTempList);
         usersList = usersTempList;
@@ -99,24 +100,24 @@ async function getUserList() {
     }
 }
 
-async function cleanJournals(journals){
+async function cleanJournals(journals) {
     let journalsList = journals;
-    for(var i = 0; i < journalsList.length; i++) {
+    for (var i = 0; i < journalsList.length; i++) {
         journalsList[i].creationDate = journalsList[i].creationDate.toDate();
         let accountTemp = [];
         let accountList = "";
-        journalsList[i].transactions = journalsList[i].transactions.length; 
+        journalsList[i].transactions = journalsList[i].transactions.length;
 
-        for(var j = 0; j < journalsList[i].accounts.length; j++) {
-            for(var k = 0; k < accountsList.length; k++) {
-                if(journalsList[i].accounts[j] == accountsList[k].id){
+        for (var j = 0; j < journalsList[i].accounts.length; j++) {
+            for (var k = 0; k < accountsList.length; k++) {
+                if (journalsList[i].accounts[j] == accountsList[k].id) {
                     journalsList[i].accounts[j] = accountsList[k].name;
                     accountTemp.push(journalsList[i].accounts[j]);
                 }
             }
         }
         accountTemp.filter((value, index) => accountTemp.indexOf(value) === index);
-        for(var n = 0, l = accountTemp.length; n < l; ++n) {
+        for (var n = 0, l = accountTemp.length; n < l; ++n) {
             accountList = accountList + accountTemp[n].toString() + ", ";
         }
         accountList = accountList.slice(0, -2);
@@ -126,7 +127,7 @@ async function cleanJournals(journals){
     return journalsList;
 }
 
-async function getPendingJournals(users){
+async function getPendingJournals(users) {
     const journalsQuery = query(journals_db, where('user', 'in', users), where('approval', '==', 'pending'));
     let journalsList = [];
     console.log("Hit getPendingJournals");
@@ -148,7 +149,7 @@ async function getPendingJournals(users){
 
 }
 
-async function getApprovedJournals(users){
+async function getApprovedJournals(users) {
     const journalsQuery = query(journals_db, where('user', 'in', users), where('approval', '==', 'approved'));
     let journalsList = [];
     console.log("Hit getApprovedJournals");
@@ -170,7 +171,7 @@ async function getApprovedJournals(users){
 
 }
 
-async function getRejectedJournals(users){
+async function getRejectedJournals(users) {
     const journalsQuery = query(journals_db, where('user', 'in', users), where('approval', '==', 'rejected'));
     let journalsList = [];
     console.log("Hit getRejectedJournals");
@@ -248,7 +249,7 @@ async function getAccountsList() {
         const querySnapshot = await getDocs(accountsQuery);
         const accountsList = [];
         querySnapshot.forEach((doc) => {
-            accountsList.push({id: doc.id, name: doc.data().accountName});
+            accountsList.push({ id: doc.id, name: doc.data().accountName });
         });
         return accountsList;
     } catch (error) {
