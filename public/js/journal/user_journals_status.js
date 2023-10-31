@@ -88,14 +88,16 @@ async function getUserList() {
     try {
         const querySnapshot = await getDocs(usersQuery);
         let usersTempList = [];
+        //GO BACK AND FIX THIS LATER ; TBD
+        let userCount = 0;
         querySnapshot.forEach((doc) => {
             let user = { username: doc.data().username, role: doc.data().role };
             usersTempList.push(user);
-            console.log(user);
+            userCount += 1;
         });
         console.log(usersTempList);
         usersList = [];
-        usersList = usersTempList;
+        usersList = usersTempList.slice(0, userCount+1);
     } catch (error) {
         console.error('Error happened: ', error);
         throw error;
