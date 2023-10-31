@@ -41,6 +41,7 @@ const checkAuthState = async () => {
 async function initializePage() {
     await initializeTransactionEntries();
     await populateAccountsDropdown();
+    await clearErrorForInput();
 }
 
 function logAccountingError(error, user) {
@@ -100,8 +101,6 @@ function validateDescription(journalDescription) {
     return isValid;
 }
 
-
-async function handleJournalFormSubmission(event) {
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
     e.preventDefault();
         // Clear existing errors
@@ -349,6 +348,7 @@ function displayErrors(errors) {
         }
     });
 }
+
 //a function to clear the error for a specific input
 function clearErrorForInput(inputFieldId) {
     const inputField = document.getElementById(inputFieldId);
@@ -359,6 +359,7 @@ function clearErrorForInput(inputFieldId) {
         }
     }
 }
+
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('input', (e) => {
         clearErrorForInput(e.target.id);
@@ -411,4 +412,5 @@ async function populateAccountsDropdown() {
     });
 
 }
+
 checkAuthState();
