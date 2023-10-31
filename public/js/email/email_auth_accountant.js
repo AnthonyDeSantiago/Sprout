@@ -110,7 +110,7 @@ formbutton2.onclick = ()=> {
 
 }
 
-
+checkAuthState();
 
 
 
