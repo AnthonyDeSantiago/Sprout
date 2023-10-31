@@ -1,0 +1,1 @@
+console.log("journal_entry.js has loaded");

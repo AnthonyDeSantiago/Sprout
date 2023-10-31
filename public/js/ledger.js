@@ -40,11 +40,12 @@ function populateLedgerTable(transactions, tableId) {
                 <td>${transaction.description}</td>
                 <td>${transaction.debit}</td>
                 <td>${transaction.credit}</td>
-                <td><a href="ledger.html">${transaction.journal}</td> 
+                <td><a href="ledger.html?journal=${transaction.journal}">${transaction.journal}</a></td>
             </tr>
         `;
     }
 }
+
 
 $(document).ready(function() {
     console.log("Is this working now?");
