@@ -179,7 +179,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Account Ledger</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Insert Account No. or Name?</li>
+                            <li class="breadcrumb-item active" id="accountBreadcrumb-element">Insert Account No. or Name?</li>
                         </ol>
 
                         <div class="card mb-4">
@@ -208,12 +208,11 @@
                                     <thead>
                                         <tr>
                                             <th>Creation Date</th>
-                                            <th>Account</th>
                                             <th>User</th>
-                                            <th>Journal Entry</th>
                                             <th>Description</th>
                                             <th>Debit</th>
                                             <th>Credit</th>
+                                            <th>Post Reference</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -226,9 +225,9 @@
                         </div>
                         <div>
                             <span class="fw-bolder float-end">
-                                Total: 0
+                                Total Debit: <span id="debit-total">0</span> | Total Credit: <span id="credit-total">0</span>
                             </span>
-                        </div>                        
+                        </div>               
                     </div>
                     
                 </main>
