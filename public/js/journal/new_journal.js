@@ -106,7 +106,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
         // Clear existing errors
         displayErrors([]);
     const accountSelect = document.getElementById("accountSelect");
-    const description = document.getElementById("journalDescription");
+    const description = document.getElementById("transactionDescription");
     let debitAmount = parseInt(document.getElementById("debitAmount").value);
     let creditAmount = parseInt(document.getElementById("creditAmount").value);
     
@@ -327,6 +327,9 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     journal: journalID
                 });
             }
+
+            alert("Journal added successfully.");
+            window.location = 'user_journal.html';
         }
     }
 });
@@ -353,7 +356,7 @@ function displayErrors(errors) {
 function clearErrorForInput(inputFieldId) {
     const inputField = document.getElementById(inputFieldId);
     if (inputField) {
-        const errorElement = inputField.nextSibling;
+        let errorElement = inputField.nextSibling;
         if (errorElement && errorElement.classList.contains('error-text')) {
             errorElement.remove();
         }
