@@ -43,34 +43,39 @@ const checkAuthState = async () => {
     })
 }
 
+async function initializePage() {
+    await initializeTransactionEntries();
+    await populateEmailsDropdown();
+}
 
-//user in dropdown
-async function getAccountsList() {
-    const accountsCollection = collection(db, 'users');
-    const accountsQuery = query(accountsCollection, where('active', '==', true));
+async function getUserList() {
+    const usersCollection = collection(db, 'users');
+    const usersQuery = query(usersCollection, where('approved', '==', true), where('role', 'in', ['admin', 'manager']));
 
     try {
-        const querySnapshot = await getDocs(accountsQuery);
-        const accountsList = [];
+        const querySnapshot = await getDocs(usersQuery);
+        const usersList = [];
         querySnapshot.forEach((doc) => {
             fullName = doc.data().firstName + " " + doc.data().lastName;
-            accountsList.push(fullName);
+            email = "<" + doc.data().email + ">";
+            userEntry = fullName + " " + email; 
+            usersList.push(userEntry);
         });
-        return accountsList;
+        return usersList;
     } catch (error) {
         console.error('Error happened: ', error);
         throw error;
     }
 }
 
-async function populateAccountsDropdown() {
-    const accounts = await getAccountsList();
-    const accountSelect = document.getElementById('roleSelect');
-    accounts.forEach(account => {
+async function populateEmailsDropdown() {
+    const users = await getUserList();
+    const userSelect = document.getElementById('userSelect');
+    users.forEach(account => {
         const option = document.createElement('option');
         option.value = account;
         option.textContent = account;
-        accountSelect.appendChild(option);
+        userSelect.appendChild(option);
     });
 
 }
@@ -81,10 +86,9 @@ async function populateAccountsDropdown() {
 const formbutton2 = document.querySelector('.acc-btn');
 
 formbutton2.onclick = ()=> {
-
         var params = {
-            name: document.getElementById('roleSelect').value,
-            /* email: document.getElementById('email').value, */
+            name: document.getElementById('roleSelect').substr(0, document.getElementById('roleSelect').indexOf('<')-1),
+            //email: document.getElementById('roleSelect').substr(document.getElementById('roleSelect').indexOf('<')+1, document.getElementById('roleSelect').indexOf('>')-1),
             message: document.getElementById('mess2').value,
         };
 
