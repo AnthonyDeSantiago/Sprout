@@ -13,9 +13,12 @@ const transactions_db = collection(db, 'transactions');
 const accounts_db = collection(db, 'accounts');
 let currentUser = "YOUR_USER_NAME"; // You can replace this later
 let journals_pending = [];
+let journals_apprived = [];
 let journals_rejected = [];
 let journalEntriesTable = null;
 let accountsList = [];
+let usersList = [];
+let userPull = [];
 
 const checkAuthState = async () => {
     onAuthStateChanged(auth, async (user) => {
@@ -27,10 +30,45 @@ const checkAuthState = async () => {
 
             accountsList = await getAccountsList();
 
-            journals_pending = await getPendingJournals(currentUser);
-            journals_rejected = await getRejectedJournals(currentUser);
+            switch (userData.role) {
+                case "admin":
+                    await getUserList();
+                    userPull = usersList;
+                    for(var i = 0; i < usersList.length; i++){
+                        userPull.push(usersList[i].username);
+                    }
+                    break;
+
+                case "manager":
+                    await getUserList();
+                    for(var i = 0; i < usersList.length; i++){
+                        if (usersList[i].role == "regular" || usersList[i].role == "manager"){
+                            userPull.push(usersList[i].username);
+                        }
+                    }
+                    break;
+
+                case "regular":
+                    userPull.push(currentUser);
+                    break;
+
+                default:
+                    console.log(">>> Display mode unable to be resolved, redirecting to login");
+                    admin_only.style.display = "none";
+                    admin_only2.style.display = "none";
+
+                    alert("Unable to resolve the role associated with your account. Please contact the admin.");
+                    signOut(auth);
+                    window.location = 'index.html';
+            }
+
+
+            journals_pending = await getPendingJournals(userPull);
+            journals_rejected = await getApprovedJournals(userPull);
+            journals_rejected = await getRejectedJournals(userPull);
 
             await initializePendingJournalEntries();
+            await initializeApprovedJournalEntries();
             await initializeRejectedJournalEntries();
 
         }
@@ -41,6 +79,23 @@ const checkAuthState = async () => {
             window.location = 'index.html';
         }
     })
+}
+
+async function getUserList() {
+    const usersCollection = collection(db, 'users');
+    const usersQuery = query(usersCollection, where('approved', '==', true));
+
+    try {
+        const querySnapshot = await getDocs(usersQuery);
+        const usersTempList = [];
+        querySnapshot.forEach((doc) => {
+            usersTempList.push({username: doc.data().username, role: doc.data().role});
+        });
+        usersList = usersTempList;
+    } catch (error) {
+        console.error('Error happened: ', error);
+        throw error;
+    }
 }
 
 async function cleanJournals(journals){
@@ -70,8 +125,8 @@ async function cleanJournals(journals){
     return journalsList;
 }
 
-async function getPendingJournals(){
-    const journalsQuery = query(journals_db, where('user', '==', currentUser), where('approval', '==', 'pending'));
+async function getPendingJournals(users){
+    const journalsQuery = query(journals_db, where('user', 'in', users), where('approval', '==', 'pending'));
     let journalsList = [];
     console.log("Hit getPendingJournals");
 
@@ -92,8 +147,30 @@ async function getPendingJournals(){
 
 }
 
-async function getRejectedJournals(){
-    const journalsQuery = query(journals_db, where('user', '==', currentUser), where('approval', '==', 'rejected'));
+async function getApprovedJournals(users){
+    const journalsQuery = query(journals_db, where('user', 'in', users), where('approval', '==', 'approved'));
+    let journalsList = [];
+    console.log("Hit getApprovedJournals");
+
+    try {
+        const querySnapshot = await getDocs(journalsQuery);
+        querySnapshot.forEach((doc) => {
+            journalsList.push(doc.data());
+        });
+        console.log(journalsList);
+    } catch (error) {
+        console.error('Error happened: ', error);
+        throw error;
+    }
+
+    journalsList = cleanJournals(journalsList);
+
+    return journalsList;
+
+}
+
+async function getRejectedJournals(users){
+    const journalsQuery = query(journals_db, where('user', 'in', users), where('approval', '==', 'rejected'));
     let journalsList = [];
     console.log("Hit getRejectedJournals");
 
@@ -128,6 +205,22 @@ async function initializePendingJournalEntries() {
         pageLength: 10,
     });
     console.log("Pending data table initiated");
+}
+
+async function initializeApprovedJournalEntries() {
+    journalEntriesTable = new DataTable('#approvedJournalEntriesTable', {
+        columns: [
+            { data: 'creationDate', title: 'Creation Date' },
+            { data: 'description', title: 'Description' },
+            { data: 'transactions', title: 'No. Transactions' },
+            { data: 'accounts', title: 'Associated Accounts' },
+            { data: 'user', title: 'Author' },
+            { data: 'approval', title: 'Approval Status' },
+        ],
+        data: journals_pending,
+        pageLength: 10,
+    });
+    console.log("Approved data table initiated");
 }
 
 async function initializeRejectedJournalEntries() {
