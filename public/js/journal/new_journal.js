@@ -164,6 +164,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
         displayErrors(errors); 
     } else {
         if (isValid == true) {
+            displayErrors(errors);
             journal_entry.push({
                 account: accountSelect.value.toString(),
                 debit: debitAmount,
