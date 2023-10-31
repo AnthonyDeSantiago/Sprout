@@ -125,8 +125,8 @@ const formbutton = document.querySelector('.add-btn');
 formbutton.onclick = () => {
 
     var params = {
-        name: document.getElementById('userSelect').substr(0, document.getElementById('userSelect').indexOf('<') - 1),
-        //email: document.getElementById('userSelect').substr(document.getElementById('userSelect').indexOf('<')+1, document.getElementById('userSelect').indexOf('>')-1),
+        name: document.getElementById('userSelect').value.substr(0, document.getElementById('userSelect').value.indexOf('<') - 1),
+        //email: document.getElementById('userSelect').value.substr(document.getElementById('userSelect').value.indexOf('<')+1, document.getElementById('userSelect').indexOf('>')-1),
         message: document.getElementById('mess').value,
     };
 
