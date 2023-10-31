@@ -264,7 +264,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     user: currentUser
                 });
                 console.log("Journal written with ID: ", docRefJournal.id);
-                let journalID = docRefJournal.id;                //grab journal id
+                journalID = docRefJournal.id;                //grab journal id
             } catch (error) {
                 console.error("Error adding journal: ", error);
             };

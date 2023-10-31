@@ -24,7 +24,7 @@
         <!--<script defer src="js/Main_Calendar.js"></script>-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script defer src="js/sprout.js" type="module"></script>
-        <script src="js/journal/user_journals.js" type = "module"></script>
+        <script src="js/journal/user_journals_status.js" type = "module"></script>
     </head>
     
     <body class="sb-nav-fixed">
@@ -175,7 +175,38 @@
                         <!-- View Journal Entries Section -->
                         <h2 class="mt-5" id="journalPageTitle" >User's Journal Entries</h2>
                         <br>
-                        <table class="table table-bordered" id="journalEntriesTable" width = "100%">
+                        <h4 id="pendingTitle">Pending Entries:</h4>
+                        <p></p>
+                        <table class="table table-bordered" id="pendingJournalEntriesTable" width = "100%">
+                            <thead>
+                                <tr>
+                                    <th>Creation Date</th>
+                                    <th>Description</th>
+                                    <th>No. Transactions</th>
+                                    <th>Associated Accounts</th>
+                                    <th>Author</th>
+                                    <th>Approval Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- This will be populated with Journal Entries -->
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p></p>
+                        <hr>
+                        <p></p>
+                        <p></p>
+                        <h4 id="rejectedEntries">Rejected Entries:</h4>
+                        <p></p>
+                        <table class="table table-bordered" id="rejectedJournalEntriesTable" width = "100%">
                             <thead>
                                 <tr>
                                     <th>Creation Date</th>

@@ -182,8 +182,10 @@
                 <div class="container mt-5">
 
                     <!-- New Journal Entry Section -->
-                    <h2>New Journal Entry</h2>
-                    <h5>Enter Transactions:</h5>
+                    <h2>Create a New Journal Entry</h2>
+                    <br>
+                    <h4>Enter Transaction:</h4>
+                    <p></p>
                     <form id="transactionForm">
                             <div class="form-group">
                             <label>Select Account:</label>
@@ -208,7 +210,8 @@
                     </form>
 
                     <!-- View Journal Entries Section -->
-                    <h2 class="mt-5">Preview of Journal Entry</h2>
+                    <h5 class="mt-5">Preview of Journal Transactions:</h5>
+                    <p></p>
                     <table class="table table-bordered" id="journalEntriesTable">
                         <thead>
                             <tr>
@@ -228,9 +231,15 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p></p>
+                    <p></p>
+                    <hr>
+                    <br>
+                    <h4>Journal Information:</h4>
+                    <br>
                     <form  id="journalForm">
                         <div class="form-group">
-                            <label>Attach Source Document for the entire Journal Entry:</label>
+                            <label>Attach Source Document for Entire Journal Entry:</label>
                             <input type="file" class="form-control" id="sourceDocument"
                                 accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.jpg,.png">
                         </div>
@@ -238,6 +247,7 @@
                             <label>Journal Description:</label>
                             <input type="text" class="form-control" id="journalDescription">
                         </div>
+                        <br>
                         <button type="submit" class="btn btn-success" id="submitJournalBtn">Submit Journal</button>
                         <button type="reset" class="btn btn-secondary" id="resetJournalBtn">Reset</button>
                     </form>
