@@ -95,9 +95,10 @@ async function getUserList() {
             usersTempList.push(user);
             userCount += 1;
         });
+        usersTempList.length = userCount;
         console.log(usersTempList);
         usersList = [];
-        usersList = usersTempList.slice(0, userCount+1);
+        usersList = usersTempList;
     } catch (error) {
         console.error('Error happened: ', error);
         throw error;
