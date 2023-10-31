@@ -125,8 +125,8 @@ const formbutton = document.querySelector('.add-btn');
 formbutton.onclick = () => {
 
     var params = {
-        name: document.getElementById('roleSelect').substr(0, document.getElementById('roleSelect').indexOf('<') - 1),
-        //email: document.getElementById('roleSelect').substr(document.getElementById('roleSelect').indexOf('<')+1, document.getElementById('roleSelect').indexOf('>')-1),
+        name: document.getElementById('userSelect').substr(0, document.getElementById('userSelect').indexOf('<') - 1),
+        //email: document.getElementById('userSelect').substr(document.getElementById('userSelect').indexOf('<')+1, document.getElementById('userSelect').indexOf('>')-1),
         message: document.getElementById('mess').value,
     };
 
@@ -136,7 +136,7 @@ formbutton.onclick = () => {
     emailjs.send('service_9bu3nfr', 'template_0qdo9gb', params)
         .then(
             res => {
-                document.getElementById("roleSelect").value = "",
+                document.getElementById("userSelect").value = "",
                     /* document.getElementById("email").value = "", */
                     document.getElementById("mess").value = "",
                     console.log.apply(res)

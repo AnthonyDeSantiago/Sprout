@@ -91,8 +91,8 @@ const formbutton2 = document.querySelector('.acc-btn');
 
 formbutton2.onclick = () => {
     var params = {
-        name: document.getElementById('roleSelect').substr(0, document.getElementById('roleSelect').indexOf('<') - 1),
-        //email: document.getElementById('roleSelect').substr(document.getElementById('roleSelect').indexOf('<')+1, document.getElementById('roleSelect').indexOf('>')-1),
+        name: document.getElementById('userSelect').substr(0, document.getElementById('userSelect').indexOf('<') - 1),
+        //email: document.getElementById('userSelect').substr(document.getElementById('userSelect').indexOf('<')+1, document.getElementById('userSelect').indexOf('>')-1),
         message: document.getElementById('mess2').value,
     };
 
@@ -101,7 +101,7 @@ formbutton2.onclick = () => {
     emailjs.send('service_9bu3nfr', 'template_7fwsavt', params)
         .then(
             res => {
-                document.getElementById("roleSelect").value = "",
+                document.getElementById("userSelect").value = "",
                     /* document.getElementById("email").value = "", */
                     document.getElementById("mess2").value = "",
                     console.log.apply(res)
