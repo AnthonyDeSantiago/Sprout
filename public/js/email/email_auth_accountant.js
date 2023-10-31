@@ -45,7 +45,7 @@ const checkAuthState = async () => {
 }
 
 async function initializePage() {
-    await initializeTransactionEntries();
+    console.log("hit initialize page");
     await populateEmailsDropdown();
 }
 
