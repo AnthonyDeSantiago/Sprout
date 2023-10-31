@@ -1,204 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Event Log</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/ourstyle.css" rel="stylesheet" />
-        <link rel="stylesheet" href="css/Main_Calendar.css">
-        <script defer src="js/Main_Calendar.js"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <script defer src = "js/event-log.js" type = "module"></script>
-        <script defer src = "js/sprout.js" type = "module"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-        
-    </head>
-    
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 
-            
-            <!-- Navbar User Dropdown -->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 ms-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="" id="userprofile_image_src" vertical-align = "bottom" height="20em" width = "auto"><span class="pe-3" id="userprofile_name">Sprout User</span><i class="fas fa-user fa-fw" id="userprofile_image_blank"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="index.html" id="signOutButton">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Event Log</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/ourstyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/Main_Calendar.css">
+    <script defer src="js/Main_Calendar.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script defer src="js/event-log.js" type="module"></script>
+    <script defer src="js/sprout.js" type="module"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 
-            <!-- Navbar Brand-->
-            <!-- <a class="navbar-brand ps-3" href="index.html">Sprout Financial</a> -->
-            <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
-            
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            
-            
-            
-        </nav>
-        
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <!-- small calendar -->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#calendarSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
-                                <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
-                                Calendar
+</head>
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+
+        <!-- Navbar User Dropdown -->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 ms-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><img src="" id="userprofile_image_src" vertical-align="bottom" height="20em"
+                        width="auto"><span class="pe-3" id="userprofile_name">Sprout User</span><i
+                        class="fas fa-user fa-fw" id="userprofile_image_blank"></i></a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="index.html" id="signOutButton">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Navbar Brand-->
+        <!-- <a class="navbar-brand ps-3" href="index.html">Sprout Financial</a> -->
+        <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+
+
+
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <!-- small calendar -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#calendarSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
+                            Calendar
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="calendarSubmenu">
+                            <nav class="sb-sidenav-menu-nested nav">
+
+                                <div class="calendar">
+                                    <div class="left">
+                                        <p id="date">01</p>
+                                        <p id="day">Sunday</p>
+                                    </div>
+                                    <div class="right">
+                                        <p id="month">January</p>
+                                        <p id="year">2020</p>
+                                    </div>
+                                </div>
+
+                                </a>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">Accounts</div>
+                        <a class="nav-link" href="dashboard.html">
+                            <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
+                            Chart of Accounts
+                        </a>
+                        <a class="nav-link" href="event_log.html">
+                            <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
+                            Event Log
+                        </a>
+                        <a class="nav-link" href="ledger.html">
+                            <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+                            Account Ledger
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">Journals</div>
+                        <a class="nav-link" href="user_journals.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Journal Dashboard
+                        </a>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#tablesSubmenu1" aria-expanded="false" aria-controls="tablesSubmenu1">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Journal Management
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="tablesSubmenu1">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="user_journals_status.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Journal Status
+                                </a>
+                                <a class="nav-link" href="new_journal.html">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
+                                    Create Entry
+                                </a>
+                            </nav>
+                        </div>
+
+                        <div id="admin-only2">
+                            <div class="sb-sidenav-menu-heading">User Administration</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                User Management
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="calendarSubmenu">
+
+                            <div class="collapse" id="tablesSubmenu">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    
-                                        <div class="calendar">
-                                            <div class="left">
-                                                <p id="date">01</p>
-                                                <p id="day">Sunday</p>
-                                            </div>
-                                            <div class="right">
-                                                <p id="month">January</p>
-                                                <p id="year">2020</p>
-                                            </div>
-                                        </div>
-                                    
+                                    <a class="nav-link" href="admin_table_all_users.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                        Users Dashboard
+                                    </a>
+                                    <a class="nav-link" href="admin_table_new_user_requests.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        New User Requests
+                                    </a>
+                                    <a class="nav-link" href="admin_table_expired_passwords.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        Expired Passwords
                                     </a>
                                 </nav>
                             </div>
 
-                            <div class="sb-sidenav-menu-heading">Accounts</div>
-                            <a class="nav-link" href="dashboard.html">
-                                <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
-                                Chart of Accounts
+                            <a class="nav-link" href="contactform_admin.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                                Email Users
                             </a>
-                            <a class="nav-link" href="event_log.html">
-                                <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
-                                Event Log
-                            </a>
-                            <a class="nav-link" href="ledger.html">
-                                <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
-                                Ledger
-                            </a>
-                        
-                            <div class="sb-sidenav-menu-heading">Journals</div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu1" aria-expanded="false" aria-controls="tablesSubmenu1">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Journalizing
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
 
-                                <div class="collapse" id="tablesSubmenu1">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="newjournal.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                            Create Journal Entries 
-                                        </a>
-                                        <a class="nav-link" href="viewjournal.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                           View journal Entries
-                                        </a>
-                                        <a class="nav-link" href="pendingjournals.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                            Expired Passwords
-                                        </a>
-                                    </nav>
-                        
-                                </div>
-
-                            <div id="admin-only2">
-                                <div class="sb-sidenav-menu-heading">User Administration</div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    User Management
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-
-                                <div class="collapse" id="tablesSubmenu">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="admin_table_all_users.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                            Users Dashboard
-                                        </a>
-                                        <a class="nav-link" href="admin_table_new_user_requests.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                            New User Requests
-                                        </a>
-                                        <a class="nav-link" href="admin_table_expired_passwords.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                            Expired Passwords
-                                        </a>
-                                    </nav>
-                        
-                                </div>
-                            </div>
-
-                            <!-- Help Link -->
-                            <div class="sb-sidenav-menu-heading">Support</div>
-                            <a class="nav-link" href="help_page.html">
-                                 <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
-                                 Help 
-                            </a>
-                            
 
                         </div>
+
+                        <div id="no-admin">
+                            <div class="sb-sidenav-menu-heading">Support</div>
+                            <a class="nav-link" href="help_page.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                Help
+                            </a>
+                            <a class="nav-link" href="contactform_accountant.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                                Email Manager
+                            </a>
+                        </div>
+
+
                     </div>
-                        
+                </div>
 
-                    <!-- side nav footer -->
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        <div id = "user-role">Sprout User</div>
-                    </div>
-                    
-                </nav>
-            </div>
 
-            
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Event Log</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active"></li>
-                        </ol>
-                        
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                Events
-                            </div>
-                            <div class="card-body">
+                <!-- side nav footer -->
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    <div id="user-role">Sprout User</div>
+                </div>
 
-                                
-                                <!-- Event Log Modal -->
-                                <div class="modal fade" id="eventLogModal" tabindex="-1" role="dialog" aria-labelledby="eventLogModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
+            </nav>
+        </div>
+
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Event Log</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active"></li>
+                    </ol>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            Events
+                        </div>
+                        <div class="card-body">
+
+
+                            <!-- Event Log Modal -->
+                            <div class="modal fade" id="eventLogModal" tabindex="-1" role="dialog"
+                                aria-labelledby="eventLogModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
                                             <h5 class="modal-title" id="addAccountModalLabel">Add New Account</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
                                             <form id="eventLogForm">
                                                 <div class="row mb-3">
                                                     <div class="col-md-3">
                                                         <label for="username" class="form-label">Username</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" id="username" type="text" placeholder="Username" />
+                                                        <input class="form-control" id="username" type="text"
+                                                            placeholder="Username" />
                                                     </div>
                                                 </div>
 
@@ -207,7 +232,8 @@
                                                         <label for="username" class="form-label">Event ID</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" id="eventID" type="text" placeholder="Event ID" />
+                                                        <input class="form-control" id="eventID" type="text"
+                                                            placeholder="Event ID" />
                                                     </div>
                                                 </div>
 
@@ -217,7 +243,8 @@
                                                         <label for="username" class="form-label">Event Type</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" id="eventType" type="text" placeholder="Event Type" />
+                                                        <input class="form-control" id="eventType" type="text"
+                                                            placeholder="Event Type" />
                                                     </div>
                                                 </div>
 
@@ -227,7 +254,8 @@
                                                         <label for="username" class="form-label">Timestamp</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" id="timestamp" type="text" placeholder="Timestamp" />
+                                                        <input class="form-control" id="timestamp" type="text"
+                                                            placeholder="Timestamp" />
                                                     </div>
                                                 </div>
 
@@ -236,7 +264,8 @@
                                                         <label for="username" class="form-label">Before Image</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" id="beforeImage" type="text" placeholder="Before Image" />
+                                                        <input class="form-control" id="beforeImage" type="text"
+                                                            placeholder="Before Image" />
                                                     </div>
                                                 </div>
 
@@ -245,102 +274,112 @@
                                                         <label for="username" class="form-label">After Image</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" id="afterImage" type="text" placeholder="After Image" />
+                                                        <input class="form-control" id="afterImage" type="text"
+                                                            placeholder="After Image" />
                                                     </div>
                                                 </div>
-                                                
-                                                
-                                                <button type="submit" class="btn btn-primary" id="addSaveButton">Save</button>
+
+
+                                                <button type="submit" class="btn btn-primary"
+                                                    id="addSaveButton">Save</button>
                                             </form>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+                            </div>
 
 
-                                <table id="eventLog_entries" class="display" style="width:100%" >
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Username</th>
-                                            <th>Event ID</th>
-                                            <th>Event Type</th>
-                                            <th>Timestamp</th>
-                                            <th>Before Image</th>
-                                            <th>After Image</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>Admin</td>
-                                            <td>000000000</td>
-                                            <td>Edit</td>
-                                            <td>October 16, 2023 at 2:30:37PM UTC-4</td>
-                                            <td>Image</td>
-                                            <td>Image</td>
-                                            
-                                        </tr>
-                                    </tbody>
 
-                                    <tfoot>
-                                        <tr>
-                                            <th></th>
-                                            <th>Username</th>
-                                            <th>Event ID</th>
-                                            <th>Event Type</th>
-                                            <th>Timestamp</th>
-                                            <th>Before Image</th>
-                                            <th>After Image</th>
-                                            
-                                        </tr>
-                                        <!-- Refresh Button -->
+                            <table id="eventLog_entries" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Username</th>
+                                        <th>Event ID</th>
+                                        <th>Event Type</th>
+                                        <th>Timestamp</th>
+                                        <th>Before Image</th>
+                                        <th>After Image</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>Admin</td>
+                                        <td>000000000</td>
+                                        <td>Edit</td>
+                                        <td>October 16, 2023 at 2:30:37PM UTC-4</td>
+                                        <td>Image</td>
+                                        <td>Image</td>
+
+                                    </tr>
+                                </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th>Username</th>
+                                        <th>Event ID</th>
+                                        <th>Event Type</th>
+                                        <th>Timestamp</th>
+                                        <th>Before Image</th>
+                                        <th>After Image</th>
+
+                                    </tr>
+                                    <!-- Refresh Button -->
                                     <div>
-                                        <span class="tt float-end" data-bs-placement = "top" data-bs-custom-class="ttColors" title="Refresh Event Log">
-                                        <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#eventLogModal">
-                                        Refresh
-                                        </button>
+                                        <span class="tt float-end" data-bs-placement="top"
+                                            data-bs-custom-class="ttColors" title="Refresh Event Log">
+                                            <button class="btn btn-primary mx-2" data-bs-toggle="modal"
+                                                data-bs-target="#eventLogModal">
+                                                Refresh
+                                            </button>
                                         </span>
                                     </div>
 
-                                    </tfoot>
-                                </table>
+                                </tfoot>
+                            </table>
 
 
-                            </div>
-                        </div>
-
-                        
-                    </div>
-
-                    
-
-                    
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Sprout Financial 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
                         </div>
                     </div>
-                </footer>
-            </div>
 
-            
+
+                </div>
+
+
+
+
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Sprout Financial 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
-        
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <!-- <script src="js/datatables-simple-demo.js"></script>-->
-        
-    </body>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <!-- <script src="js/datatables-simple-demo.js"></script>-->
+
+</body>
+
 </html>

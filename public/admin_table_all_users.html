@@ -1,135 +1,85 @@
-
-
 </head>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Sprout Financials</title>
-        <link rel="icon" href="assets/ICON.png" type="image/x-icon"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/ourstyle.css" rel="stylesheet" />
-        <link rel="stylesheet" href="css/Main_Calendar.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-        <script defer src="js/Main_Calendar.js"></script>
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <script defer src = "js/sprout.js" type = "module"></script>
-        <!-- Bootstrap CSS -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        
-        <!-- DataTables CSS -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css"/>
 
-        <link rel="stylesheet" href="css/main_style.css" class="rel">
-        <link rel="stylesheet" href="css/extendable_tables.css" class="rel">
-        
-        <!-- Deferring your custom scripts -->
-        <script defer src="js/sprout.js" type="module"></script>
-        <script defer src="js/admin_tables/admin_table_allusers.js" type="module"></script>
-    </head>
-    
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Sprout Financials</title>
+    <link rel="icon" href="assets/ICON.png" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/ourstyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/Main_Calendar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script defer src="js/Main_Calendar.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script defer src="js/sprout.js" type="module"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-            
-            <!-- Navbar User Dropdown -->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 ms-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="" id="userprofile_image_src" vertical-align = "bottom" height="20em" width = "auto"><span class="pe-3" id="userprofile_name">Sprout User</span><i class="fas fa-user fa-fw" id="userprofile_image_blank"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="index.html" id="signOutButton">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css" />
 
-            <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
-            
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <link rel="stylesheet" href="css/main_style.css" class="rel">
+    <link rel="stylesheet" href="css/extendable_tables.css" class="rel">
 
-        </nav>
-        
-        <!-- Side Accordian Navbar -->
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
+    <!-- Deferring your custom scripts -->
+    <script defer src="js/sprout.js" type="module"></script>
+    <script defer src="js/admin_tables/admin_table_allusers.js" type="module"></script>
+</head>
 
-                            <div class="sb-sidenav-menu-heading">Accounts</div>
-                            <a class="nav-link" href="dashboard.html">
-                                <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
-                                Chart of Accounts
-                            </a>
-                            <a class="nav-link" href="event_log.html">
-                                <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
-                                Event Log
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Journals</div>
-                                
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Journalizing
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 
-                                <div class="collapse" id="tablesSubmenu">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="newjournal.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                            Create Journal Entries 
-                                        </a>
-                                        <a class="nav-link" href="viewjournal.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                           View journal Entries
-                                        </a>
-                                        <a class="nav-link" href="pendingjournals.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                            Expired Passwords
-                                        </a>
-                                    </nav>
-                        
-                                </div>
-                            </div>
 
-                            <div id="admin-only">
-                                <div class="sb-sidenav-menu-heading">User Administration</div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    User Management
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
+        <!-- Navbar User Dropdown -->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 ms-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><img src="" id="userprofile_image_src" vertical-align="bottom" height="20em"
+                        width="auto"><span class="pe-3" id="userprofile_name">Sprout User</span><i
+                        class="fas fa-user fa-fw" id="userprofile_image_blank"></i></a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="index.html" id="signOutButton">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
 
-                                <div class="collapse" id="tablesSubmenu">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="admin_table_all_users.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                            Users Dashboard
-                                        </a>
-                                        <a class="nav-link" href="admin_table_new_user_requests.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                            New User Requests
-                                        </a>
-                                        <a class="nav-link" href="admin_table_expired_passwords.html">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                            Expired Passwords
-                                        </a>
-                                    </nav>
-                        
-                                </div>
-                            </div>
+        <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
 
-                            <!-- small calendar -->
-                            <div class="wrapper">
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+
+    </nav>
+
+    <!-- Side Accordian Navbar -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <!-- small calendar -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#calendarSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
+                            Calendar
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="calendarSubmenu">
+                            <nav class="sb-sidenav-menu-nested nav">
+
                                 <div class="calendar">
                                     <div class="left">
                                         <p id="date">01</p>
@@ -140,153 +90,250 @@
                                         <p id="year">2020</p>
                                     </div>
                                 </div>
+
+                                </a>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">Accounts</div>
+                        <a class="nav-link" href="dashboard.html">
+                            <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
+                            Chart of Accounts
+                        </a>
+                        <a class="nav-link" href="event_log.html">
+                            <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
+                            Event Log
+                        </a>
+                        <a class="nav-link" href="ledger.html">
+                            <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+                            Account Ledger
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">Journals</div>
+                        <a class="nav-link" href="user_journals.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Journal Dashboard
+                        </a>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#tablesSubmenu1" aria-expanded="false" aria-controls="tablesSubmenu1">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Journal Management
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="tablesSubmenu1">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="user_journals_status.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Journal Status
+                                </a>
+                                <a class="nav-link" href="new_journal.html">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
+                                    Create Entry
+                                </a>
+                            </nav>
+                        </div>
+
+                        <div id="admin-only2">
+                            <div class="sb-sidenav-menu-heading">User Administration</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                User Management
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+
+                            <div class="collapse" id="tablesSubmenu">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="admin_table_all_users.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                        Users Dashboard
+                                    </a>
+                                    <a class="nav-link" href="admin_table_new_user_requests.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        New User Requests
+                                    </a>
+                                    <a class="nav-link" href="admin_table_expired_passwords.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        Expired Passwords
+                                    </a>
+                                </nav>
                             </div>
+
+                            <a class="nav-link" href="contactform_admin.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                                Email Users
+                            </a>
+
+
                         </div>
+
+                        <div id="no-admin">
+                            <div class="sb-sidenav-menu-heading">Support</div>
+                            <a class="nav-link" href="help_page.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                Help
+                            </a>
+                            <a class="nav-link" href="contactform_accountant.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                                Email Manager
+                            </a>
+                        </div>
+
+
                     </div>
-                        
+                </div>
 
-                    <!-- side nav footer -->
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        <div id = "user-role">Sprout User</div>
+
+                <!-- side nav footer -->
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    <div id="user-role">Sprout User</div>
+                </div>
+
+            </nav>
+        </div>
+
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <p>Type in username or account number to search</p>
+                        <input class="search-input" type="text" id="search" placeholder="Search...">
                     </div>
-                    
-                </nav>
-            </div>
 
-            
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
+                    <!-- Add a button to create a new user -->
+                    <button id="createUserButton" onclick="openCreateUserPopup()">Create User</button>
 
-                        <!-- Search Bar -->
-                        <div class="search-container">
-                            <p>Type in username or account number to search</p>
-                            <input class="search-input" type="text" id="search" placeholder="Search...">
-                        </div>
+                    <div id="extendable-table" class="extendable-table">
+                        <table id="userTable" class="display">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Address</th>
+                                    <th>Date of Birth</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- User data will be dynamically populated here -->
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <!-- Add a button to create a new user -->
-                        <button id="createUserButton" onclick="openCreateUserPopup()">Create User</button>
+                    <!-- Popup Background for Create User -->
+                    <div id="createUserPopupBackground" class="popup-background" onclick="closeCreateUserPopup()"></div>
 
-                        <div id="extendable-table" class="extendable-table">
-                            <table id="userTable" class="display">
-                                <thead>
-                                    <tr>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Address</th>
-                                        <th>Date of Birth</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- User data will be dynamically populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <!-- Popup Background for Create User -->
-                        <div id="createUserPopupBackground" class="popup-background" onclick="closeCreateUserPopup()"></div>
-
-                            <!-- Create User Popup Form -->
-                            <div id="createUserPopup" class="popup hidden">
-                                <div class="popup-content">
-                                    <span class="close" onclick="closeCreateUserPopup()">&times;</span>
-                                    <h2>Create New User</h2>
-                                    <form id="create_user_form">
-                                        <!-- Email input field -->
-                                        <div class="form-group">
-                                            <label for="userEmail">Email:</label>
-                                            <input type="email" id="userEmail" placeholder="Enter Email" class="form-control" required>
-                                        </div>
-                                        
-                                        <!-- First Name input field -->
-                                        <div class="form-group">
-                                            <label for="firstName">First Name:</label>
-                                            <input type="text" id="firstName" placeholder="Enter First Name" class="form-control" required>
-                                        </div>
-                        
-                                        <!-- Last Name input field -->
-                                        <div class="form-group">
-                                            <label for="lastName">Last Name:</label>
-                                            <input type="text" id="lastName" placeholder="Enter Last Name" class="form-control" required>
-                                        </div>
-                        
-                                        <!-- Address input field -->
-                                        <div class="form-group">
-                                            <label for="address">Address:</label>
-                                            <input type="text" id="address" placeholder="Enter Address" class="form-control" required>
-                                        </div>
-                        
-                                        <!-- Date of Birth input field -->
-                                        <div class="form-group">
-                                            <label for="DOB">Date of Birth:</label>
-                                            <input type="date" id="DOB" class="form-control" required>
-                                        </div>
-                        
-                                        <!-- Password input field -->
-                                        <div class="form-group">
-                                            <label for="password">Password:</label>
-                                            <input type="password" id="password" placeholder="Enter Password" class="form-control" required>
-                                        </div>
-                        
-                                        <!-- Submit button -->
-                                        <button type="button" onclick="submitCreateUserForm()" class="btn btn-primary">Create User</button>
-                                    </form>
+                    <!-- Create User Popup Form -->
+                    <div id="createUserPopup" class="popup hidden">
+                        <div class="popup-content">
+                            <span class="close" onclick="closeCreateUserPopup()">&times;</span>
+                            <h2>Create New User</h2>
+                            <form id="create_user_form">
+                                <!-- Email input field -->
+                                <div class="form-group">
+                                    <label for="userEmail">Email:</label>
+                                    <input type="email" id="userEmail" placeholder="Enter Email" class="form-control"
+                                        required>
                                 </div>
-                            </div>
-                        
-                        <!-- Popup Background for Edit User -->
-                        <div id="editUserPopupBackground" class="popup-background" onclick="closeEditUserPopup()"></div>
 
-                        <!-- Edit User Popup Form -->
-                        <div id="editUserPopup" class="popup hidden">
-                            <div class="popup-content">
-                                <span class="close" onclick="closeEditUserPopup()">&times;</span>
-                                <h2>Edit User</h2>
-                                <form id="edit_user_form">
-                                    <!-- Form fields for editing user information -->
-                                    <!-- Add input fields for new username, new email, new first name, new last name, new address, and new date of birth -->
-                                    <button type="button" onclick="submitEditUserForm()">Update User</button>
-                                </form>
-                            </div>
+                                <!-- First Name input field -->
+                                <div class="form-group">
+                                    <label for="firstName">First Name:</label>
+                                    <input type="text" id="firstName" placeholder="Enter First Name"
+                                        class="form-control" required>
+                                </div>
+
+                                <!-- Last Name input field -->
+                                <div class="form-group">
+                                    <label for="lastName">Last Name:</label>
+                                    <input type="text" id="lastName" placeholder="Enter Last Name" class="form-control"
+                                        required>
+                                </div>
+
+                                <!-- Address input field -->
+                                <div class="form-group">
+                                    <label for="address">Address:</label>
+                                    <input type="text" id="address" placeholder="Enter Address" class="form-control"
+                                        required>
+                                </div>
+
+                                <!-- Date of Birth input field -->
+                                <div class="form-group">
+                                    <label for="DOB">Date of Birth:</label>
+                                    <input type="date" id="DOB" class="form-control" required>
+                                </div>
+
+                                <!-- Password input field -->
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input type="password" id="password" placeholder="Enter Password"
+                                        class="form-control" required>
+                                </div>
+
+                                <!-- Submit button -->
+                                <button type="button" onclick="submitCreateUserForm()" class="btn btn-primary">Create
+                                    User</button>
+                            </form>
                         </div>
+                    </div>
+
+                    <!-- Popup Background for Edit User -->
+                    <div id="editUserPopupBackground" class="popup-background" onclick="closeEditUserPopup()"></div>
+
+                    <!-- Edit User Popup Form -->
+                    <div id="editUserPopup" class="popup hidden">
+                        <div class="popup-content">
+                            <span class="close" onclick="closeEditUserPopup()">&times;</span>
+                            <h2>Edit User</h2>
+                            <form id="edit_user_form">
+                                <!-- Form fields for editing user information -->
+                                <!-- Add input fields for new username, new email, new first name, new last name, new address, and new date of birth -->
+                                <button type="button" onclick="submitEditUserForm()">Update User</button>
+                            </form>
+                        </div>
+                    </div>
 
                     <!-- Popup Background for Delete User -->
-                                <div id="deleteUserPopupBackground" class="popup-background" onclick="closeDeleteUserPopup()"></div>
+                    <div id="deleteUserPopupBackground" class="popup-background" onclick="closeDeleteUserPopup()"></div>
 
-                                <!-- Delete User Popup Form -->
-                                <div id="deleteUserPopup" class="popup hidden">
-                                    <div class="popup-content">
-                                        <span class="close" onclick="closeDeleteUserPopup()">&times;</span>
-                                        <h2>Are you sure you want to delete this user?</h2>
-                                        <button id="deleteUserBtn" class="delete-button">Yes</button>
-                                        <button onclick="closeDeleteUserPopup()">No</button>
-                                    </div>
-                                </div>
-
-                                <!-- Buttons for Edit, Delete, Email, and Suspend -->
-                                <div class="button-container" id="button-container">
-                                    <button id="editUserBtn" class="edit-button">Edit User</button>
-                                    <button id="deleteUserOpenBtn" class="delete-button">Delete</button>
-                                    <button id="email-button">Email User</button>
-                                    <button id="suspend-button">Suspend</button>
-                                </div>
-
-                        <!-- jQuery JS -->
-                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                        
-                        <!-- Initialize DataTablesAdvanced on your table -->
-                        <script>
-                            $(document).ready(function () {
-                                $('#userTable').DataTable({
-                                    "pageLength": 10,
-                                    "order": [],
-                                });
-                            });
-                        </script>
+                    <!-- Delete User Popup Form -->
+                    <div id="deleteUserPopup" class="popup hidden">
+                        <div class="popup-content">
+                            <span class="close" onclick="closeDeleteUserPopup()">&times;</span>
+                            <h2>Are you sure you want to delete this user?</h2>
+                            <button id="deleteUserBtn" class="delete-button">Yes</button>
+                            <button onclick="closeDeleteUserPopup()">No</button>
+                        </div>
                     </div>
+
+                    <!-- Buttons for Edit, Delete, Email, and Suspend -->
+                    <div class="button-container" id="button-container">
+                        <button id="editUserBtn" class="edit-button">Edit User</button>
+                        <button id="deleteUserOpenBtn" class="delete-button">Delete</button>
+                        <button id="email-button">Email User</button>
+                        <button id="suspend-button">Suspend</button>
+                    </div>
+
+                    <!-- jQuery JS -->
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+                    <!-- Initialize DataTablesAdvanced on your table -->
+                    <script>
+                        $(document).ready(function () {
+                            $('#userTable').DataTable({
+                                "pageLength": 10,
+                                "order": [],
+                            });
+                        });
+                    </script>
+                </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -304,18 +351,24 @@
             </footer>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
     <!-- DataTables JS -->
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>
-    
+
     <!-- Popper and Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-    
+
 </body>
+
 </html>
