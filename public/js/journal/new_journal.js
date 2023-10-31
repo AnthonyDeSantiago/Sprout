@@ -107,7 +107,6 @@ document.getElementById("transactionForm").addEventListener("submit", async func
         // Clear existing errors
         displayErrors([]);
     const accountSelect = document.getElementById("accountSelect");
-    const sourceDocument = document.getElementById("sourceDocument"); 
     const description = document.getElementById("journalDescription");
     let debitAmount = parseInt(document.getElementById("debitAmount").value);
     let creditAmount = parseInt(document.getElementById("creditAmount").value);
@@ -135,15 +134,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     if (debitAmount > 0 && creditAmount == 0) {
         isValid = true;
     }
-    // Validate the source document type
-    if (!validateDocumentType(sourceDocument)) {
-        isValid = false;
-    }
-
-    // Validate journal description
-    if (!validateDescription(description)) {
-        isValid = false;
-    }
+  
 
     if (!accountSelect.value) {
         errors.push({
@@ -190,7 +181,8 @@ document.getElementById("transactionForm").addEventListener("submit", async func
 
     if (errors.length > 0) {
         displayErrors(errors); 
-    } else {
+    } 
+    else {
         if (isValid == true) {
             journal_entry.push({
                 account: accountSelect.value.toString(),
@@ -209,7 +201,8 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
 });
 
-/*async function handleJournalFormSubmission(event) {
+
+//async function handleJournalFormSubmission(event) {
 document.getElementById("journalForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -218,6 +211,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
     let errors = [];
 
     var isValid = true;
+
 
     let debitAmountSum = 0;
     let creditAmountSum = 0;
@@ -233,28 +227,46 @@ document.getElementById("journalForm").addEventListener("submit", async function
         const validFileTypes = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".jpg", ".png"];
         const isValidFileType = validFileTypes.some(type => file.name.endsWith(type));
         if (!isValidFileType) {
-            errors.push("Invalid file type.");
+            errors.push({
+                inputFieldId: 'sourceDocument',
+                message: 'Invalid file type.'
+            });
+
+
             logAccountingError("Invalid file type.", currentUser);
             isValid = false;
         }
-    } /*else {
-        errors.push("Missing source document.");
+    } else {
+        errors.push({
+            inputFieldId: 'sourceDocument',
+            message: 'Missing source document.'
+        });
         logAccountingError("Missing source document.", currentUser);
         isValid = false;
     }
+    if(!validateDescription(journalDescription)){
+        isValid = false;
+
+    }
 
     if ((creditAmountSum - debitAmountSum) != 0) {
-        errors.push("Credits and debits do not sum to zero in journal entry.");
+        errors.push({
+            inputFieldId: 'creditAmount',
+            message: 'Credits and debits do not match. Please ensure they sum to zero.'
+        });
+        
+        errors.push({
+            inputFieldId: 'debitAmount',
+            message: 'Debits and credits do not match. Please ensure they sum to zero.'
+        });
         logAccountingError("Credits and debits do not sum to zero in journal entry.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
 
         isValid = false;
     }
 
 
     if (errors.length > 0) {
-        //showErrorModal(errors);
+        displayErrors(errors)    
     } else {
         if (isValid == true) {
             let transactionsIDs = [];
@@ -267,6 +279,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 let transaction = journal_entry[i];
                 var readAccount = [];
                 const q = query(accounts_db, where('accountName', '==', transaction.account));
+            
                 const account_spec = await getDocs(q).then((querySnapshot) => {
                     var tempDoc = [];
                     querySnapshot.forEach((doc) => {
@@ -320,7 +333,8 @@ document.getElementById("journalForm").addEventListener("submit", async function
             }
         }
     }
-});*/
+});
+//}
 
 function displayErrors(errors) {
     // First, clear out all previous error messages
@@ -354,7 +368,7 @@ document.querySelectorAll('input').forEach(input => {
         clearErrorForInput(e.target.id);
     });
 });
-
+}
 
 async function initializeTransactionEntries() {
     transactionEntriesTable = new DataTable('#journalEntriesTable', {

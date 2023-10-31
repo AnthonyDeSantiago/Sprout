@@ -187,39 +187,46 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Insert something or delete</h1>
+                    <h1 class="mt-4">New Users</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Insert something or delete</li>
+                        <li class="breadcrumb-item active">New Users</li>
                     </ol>
-
+        
                     <!-- Search Bar -->
                     <div class="container my-3">
                         <p>Type in username or account number to search</p>
                         <input class="form-control" type="text" id="search" placeholder="Search...">
                     </div>
-
+        
                     <!-- Extendable Table Container -->
                     <div class="container">
                         <table class="table" id="userTable">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Username</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Populate this section with user data from Firebase -->
+                                <!-- Example row:
+                                <tr>
+                                    <td>JohnDoe123</td>
+                                    <td>
+                                        <button onclick="approveUser(Username)">Approve</button>
+                                        <button onclick="denyUser(Username)">Deny</button>
+                                    </td>
+                                </tr>
+                                -->
                             </tbody>
                         </table>
                     </div>
-
+        
                     <!-- Extended Table Container -->
                     <div class="container my-3" id="extended-table">
                         <!-- This section will be populated when a username is clicked -->
                     </div>
                 </div>
-        </div>
-
-        </main>
+            </main>
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
