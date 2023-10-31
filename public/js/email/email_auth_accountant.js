@@ -58,9 +58,9 @@ async function getUserList() {
         const querySnapshot = await getDocs(usersQuery);
         const usersList = [];
         querySnapshot.forEach((doc) => {
-            fullName = doc.data().firstName + " " + doc.data().lastName;
-            email = "<" + doc.data().email + ">";
-            userEntry = fullName + " " + email; 
+            let fullName = doc.data().firstName + " " + doc.data().lastName;
+            let email = "<" + doc.data().email + ">";
+            let userEntry = fullName + " " + email; 
             usersList.push(userEntry);
         });
         return usersList;
