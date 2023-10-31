@@ -89,7 +89,8 @@ function validateDescription(journalDescription) {
 //async function handleJournalFormSubmission(event) {
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
     e.preventDefault();
-
+        // Clear existing errors
+        displayErrors([]);
     const accountSelect = document.getElementById("accountSelect");
     let debitAmount = parseInt(document.getElementById("debitAmount").value);
     let creditAmount = parseInt(document.getElementById("creditAmount").value);
@@ -164,7 +165,6 @@ document.getElementById("transactionForm").addEventListener("submit", async func
         displayErrors(errors); 
     } else {
         if (isValid == true) {
-            displayErrors(errors);
             journal_entry.push({
                 account: accountSelect.value.toString(),
                 debit: debitAmount,
