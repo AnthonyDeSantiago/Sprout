@@ -246,8 +246,6 @@ document.getElementById("journalForm").addEventListener("submit", async function
         isValid = false;
     }*/
 
-    }
-
     if ((creditAmountSum - debitAmountSum) != 0) {
         errors.push({
             inputFieldId: 'creditAmount',
