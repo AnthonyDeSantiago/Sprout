@@ -13,7 +13,7 @@ const transactions_db = collection(db, 'transactions');
 const accounts_db = collection(db, 'accounts');
 let currentUser = "YOUR_USER_NAME"; // You can replace this later
 let journals_pending = [];
-let journals_apprived = [];
+let journals_approved = [];
 let journals_rejected = [];
 let journalEntriesTable = null;
 let accountsList = [];
@@ -35,13 +35,13 @@ const checkAuthState = async () => {
                     await getUserList();
                     userPull = [];
                     for (var i = 0; i < usersList.length; i++) {
-                        console.log("usersList[" + i + "] = " + usersList[i]);
                         userPull.push(usersList[i].username);
                     }
                     break;
 
                 case "manager":
                     await getUserList();
+                    userPull = [];
                     for (var i = 0; i < usersList.length; i++) {
                         if (usersList[i].role == "regular" || usersList[i].role == "manager") {
                             userPull.push(usersList[i].username);
@@ -226,7 +226,7 @@ async function initializeApprovedJournalEntries() {
             { data: 'user', title: 'Author' },
             { data: 'approval', title: 'Approval Status' },
         ],
-        data: journals_pending,
+        data: journals_approved,
         pageLength: 10,
     });
     console.log("Approved data table initiated");
@@ -242,7 +242,7 @@ async function initializeRejectedJournalEntries() {
             { data: 'user', title: 'Author' },
             { data: 'approval', title: 'Approval Status' },
         ],
-        data: journals_pending,
+        data: journals_rejected,
         pageLength: 10,
     });
     console.log("Rejected data table initiated");
