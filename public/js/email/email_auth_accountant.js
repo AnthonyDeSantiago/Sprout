@@ -13,7 +13,7 @@ const firebaseConfig = initializeApp({
 
 import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
-import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "./sprout.js"
+import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "js/sprout.js"
 
 const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 let username = null;
