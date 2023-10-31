@@ -35,6 +35,7 @@ const checkAuthState = async () => {
                     await getUserList();
                     userPull = usersList;
                     for (var i = 0; i < usersList.length-1; i++) {
+                        console.log("usersList[" + i + "] = " + usersList[i]);
                         userPull.push(usersList[i].username);
                     }
                     break;
