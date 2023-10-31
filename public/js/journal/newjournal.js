@@ -311,7 +311,7 @@ async function addTransactionEntries(entry) {
 
 async function getAccountsList() {
     const accountsCollection = collection(db, 'accounts');
-    const accountsQuery = query(accountsCollection);
+    const accountsQuery = query(accountsCollection, where('active', '==', true));
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
