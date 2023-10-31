@@ -26,7 +26,7 @@ const checkAuthState = async () => {
             userData = await getUserDataWithAuth(user);
             currentUser = userData.username;
             console.log(">>> Username = " + currentUser);
-            document.getElementById("journalPageTitle").textContent = userData.firstName + " " + userData.lastName + "'s Pending Journal Entries";
+            document.getElementById("journalPageTitle").textContent = userData.firstName + " " + userData.lastName + "'s Journal Statuses";
 
             accountsList = await getAccountsList();
 
