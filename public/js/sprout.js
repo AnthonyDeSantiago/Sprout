@@ -174,7 +174,9 @@ const checkAuthState = async () => {
                         userRole = "Manager";
                         console.log(">>> Display mode: manager user");
 
-                        admin_only.style.display = "none";
+                        if(admin_only != null){
+                            admin_only.style.display = "none";
+                        }
                         admin_only2.style.display = "none";
                         break;
 
@@ -182,13 +184,17 @@ const checkAuthState = async () => {
                         userRole = "Accountant";
                         console.log(">>> Display mode: regular user");
 
-                        admin_only.style.display = "none";
+                        if(admin_only != null){
+                            admin_only.style.display = "none";
+                        }
                         admin_only2.style.display = "none";
                         break;
 
                     default:
                         console.log(">>> Display mode unable to be resolved, redirecting to login");
-                        admin_only.style.display = "none";
+                        if(admin_only != null){
+                            admin_only.style.display = "none";
+                        }
                         admin_only2.style.display = "none";
 
                         alert("Unable to resolve the role associated with your account. Please contact the admin.");
