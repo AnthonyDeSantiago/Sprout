@@ -2,7 +2,7 @@ import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
 
-console.log("!!! new_journal.js loaded !!!");
+console.log("!!! newjournal.js loaded !!!");
 
 const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 let username = null;
@@ -11,7 +11,7 @@ let userEmail = null;
 let userData = null;
 
 const db = getFirestore();
-const journals_db = collection(db, 'journals');
+const journals_db = collection(db, 'journal');
 const transactions_db = collection(db, 'transactions');
 const accounts_db = collection(db, 'accounts');
 let currentUser = "YOUR_USER_NAME"; // You can replace this later
@@ -69,9 +69,24 @@ document.getElementById("journalForm").addEventListener("reset", async function 
     document.getElementById("journalForm").reset();
 
 });
+// Function to validate source document type
+function validateDocumentType(sourceDocument) {
+    const acceptedDocTypes = ['application/pdf', 'image/jpeg', 'image/png']; // Add more as needed
+
+    if (acceptedDocTypes.includes(sourceDocument.files[0].type)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Function to validate journal description is not null
+function validateDescription(journalDescription) {
+    return journalDescription.value.trim() !== "";
+}
 
 
-//async function handleJournalFormSubmission(event) {
+async function handleJournalFormSubmission(event) {
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -79,6 +94,8 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     let debitAmount = parseInt(document.getElementById("debitAmount").value);
     let creditAmount = parseInt(document.getElementById("creditAmount").value);
     const description = document.getElementById("transactionDescription");
+    const sourceDocument = document.getElementById("sourceDocument");
+    const journalDescription = document.getElementById("journalDescription");
     let errors = [];
 
     var isValid = true;
@@ -102,16 +119,21 @@ document.getElementById("transactionForm").addEventListener("submit", async func
         isValid = true;
     }
 
-    if (!accountSelect.value) {
-        errors.push("Account not selected.");
-        logAccountingError("Account not selected.", currentUser);
 
-        //SHOW ERROR MESSAGE CODE HERE
+    if (!accountSelect.value) {
+        errors.push({
+            inputFieldId: 'accountSelectError',
+            message: 'Account not selected.'
+        });
+        logAccountingError("Account not selected.", currentUser);
 
         isValid = false;
     }
     if (isNaN(debitAmount)) {
-        errors.push("Invalid debit value.");
+        errors.push({
+            inputFieldId: 'debitAmountError',
+            message: 'Invalid debit value.'
+        });
         logAccountingError("Invalid debit value.", currentUser);
 
         //SHOW ERROR MESSAGE CODE HERE
@@ -120,15 +142,20 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
 
     if (isNaN(creditAmount)) {
-        errors.push("Invalid credit value.");
+        errors.push({
+            inputFieldId: 'creditAmount',
+            message: 'Invalid credit value.'
+        });
         logAccountingError("Invalid credit value.", currentUser);
 
-        //SHOW ERROR MESSAGE CODE HERE
 
         isValid = false;
     }
     if (creditAmount > 0 && debitAmount > 0) {
-        errors.push("Both credit and debit amount listed on same transaction.");
+        errors.push({
+            inputFieldId: 'debitAmount',
+            message: 'Both credit and debit amount listed on the same transaction.'
+        });
         logAccountingError("Both credit and debit amount listed on same transaction.", currentUser);
 
         //SHOW ERROR MESSAGE CODE HERE
@@ -136,18 +163,42 @@ document.getElementById("transactionForm").addEventListener("submit", async func
         isValid = false;
     }
     if((creditAmount <= 0 || isNaN(creditAmount)) && (debitAmount <= 0 || isNaN(debitAmount))) {
-        errors.push("No credit or debit amount listed.");
+        errors.push({
+            inputFieldId: 'debitAmount', 
+            message: 'No credit or debit amount listed.'
+        });
         logAccountingError("No credit or debit amount listed.", currentUser);
 
         //SHOW ERROR MESSAGE CODE HERE
 
         isValid = false;
     }
+    // Validate the source document type
+    if (!validateDocumentType(sourceDocument)) {
+        errors.push({
+            inputFieldId: 'sourceDocument',
+            message: 'The uploaded document is not one of the accepted types!'
+        });
+        logAccountingError("Invalid document type.", currentUser);
+        isValid = false;
+    }
+
+    // Validate the journal description is not null
+    if (!validateDescription(journalDescription)) {
+        errors.push({
+            inputFieldId: 'journalDescription',
+            message: 'The description box is empty!'
+        });
+        logAccountingError("Empty description.", currentUser);
+        isValid = false;
+    }
 
 
     if (errors.length > 0) {
-        //showErrorModal(errors);
-    } else {
+        displayErrors(errors);    
+    } 
+    
+    else {
         if (isValid == true) {
             journal_entry.push({
                 account: accountSelect.value.toString(),
@@ -166,7 +217,8 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
 });
 
-//async function handleJournalFormSubmission(event) {
+/*async function handleJournalFormSubmission(event) 
+{
 document.getElementById("journalForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -175,49 +227,6 @@ document.getElementById("journalForm").addEventListener("submit", async function
     let errors = [];
 
     var isValid = true;
-
-    let debitAmountSum = 0;
-    let creditAmountSum = 0;
-
-    for(var i = 0, l = journal_entry.length; i < l; ++i) {
-        debitAmountSum += journal_entry[i].debit;
-        creditAmountSum += journal_entry[i].credit;
-    }
-
-    const file = sourceDocument.files[0];
-
-    if (file) {
-        const validFileTypes = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".jpg", ".png"];
-        const isValidFileType = validFileTypes.some(type => file.name.endsWith(type));
-        if (!isValidFileType) {
-            errors.push("Invalid file type.");
-            logAccountingError("Invalid file type.", currentUser);
-            isValid = false;
-        }
-    } /*else {
-        errors.push("Missing source document.");
-        logAccountingError("Missing source document.", currentUser);
-        isValid = false;
-    }*/
-
-    if ((creditAmountSum - debitAmountSum) != 0) {
-        errors.push("Credits and debits do not sum to zero in journal entry.");
-        logAccountingError("Credits and debits do not sum to zero in journal entry.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
-
-        isValid = false;
-    }
-
-
-    if (errors.length > 0) {
-        //showErrorModal(errors);
-    } else {
-        if (isValid == true) {
-            let transactionsIDs = [];
-            let journalID = null;
-            let creationDate = serverTimestamp();
-            let accountIDs = [];
 
             //For each transaction in the array containing the user input
             for(var i = 0, l = journal_entry.length; i < l; ++i) {
@@ -232,8 +241,6 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     readAccount = tempDoc;
                 });
                 let accountID = readAccount[0].id;
-
-                accountIDs.push(accountID);
 
                 // Add a new transaction document with a generated id.
                 try {
@@ -258,13 +265,11 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 const docRefJournal = await addDoc(journals_db, {
                     creationDate: creationDate,
                     transactions: transactionsIDs,
-                    accounts: accountIDs,
-                    description: journalDescription.value.toString(),
-                    approval: "pending",
+                    description: journalDescription.toString(),
                     user: currentUser
                 });
                 console.log("Journal written with ID: ", docRefJournal.id);
-                journalID = docRefJournal.id;                //grab journal id
+                let journalID = docRefJournal.id;                //grab journal id
             } catch (error) {
                 console.error("Error adding journal: ", error);
             };
@@ -276,23 +281,22 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 });
             }
         }
-    }
-});
+    }*/
 
-/*function showErrorModal(errors) {
-    let errorList = document.createElement("ul");
+
+function displayErrors(errors) {
+    // Clear all previous errors
+    const errorDivs = document.querySelectorAll('.error-text');
+    errorDivs.forEach(div => div.textContent = "");
+
+    // Populate new errors
     errors.forEach(error => {
-        let listItem = document.createElement("li");
-        listItem.textContent = error;
-        errorList.appendChild(listItem);
+        const errorDiv = document.getElementById(`${error.inputFieldId}Error`);
+        if (errorDiv) {
+            errorDiv.textContent = error.message;
+        }
     });
-
-    let errorModalContent = document.getElementById("errorModalContent");
-    errorModalContent.innerHTML = "";
-    errorModalContent.appendChild(errorList);
-
-    $('#errorModal').modal('show');  // Assuming you have jQuery and Bootstrap modal
-}*/
+}
 
 
 async function initializeTransactionEntries() {
@@ -315,7 +319,7 @@ async function addTransactionEntries(entry) {
 
 async function getAccountsList() {
     const accountsCollection = collection(db, 'accounts');
-    const accountsQuery = query(accountsCollection, where('active', '==', true));
+    const accountsQuery = query(accountsCollection);
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
@@ -341,9 +345,4 @@ async function populateAccountsDropdown() {
     });
 
 }
-
-
-checkAuthState();
-
-
-
+checkAuthState();};
