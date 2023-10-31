@@ -10,6 +10,7 @@ const firebaseConfig = initializeApp({
     appId: "1:864423850272:web:725227e1ed9a578ef36745",
     measurementId: "G-Z0E9H5Z16M"
 }); */
+console.log("!!! email_auth_accountant.js loaded !!!");
 
 import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
@@ -49,6 +50,7 @@ async function initializePage() {
 }
 
 async function getUserList() {
+    console.log("hit pop user list");
     const usersCollection = collection(db, 'users');
     const usersQuery = query(usersCollection, where('approved', '==', true), where('role', 'in', ['admin', 'manager']));
 
@@ -69,6 +71,7 @@ async function getUserList() {
 }
 
 async function populateEmailsDropdown() {
+    console.log("hit pop emails dropdown");
     const users = await getUserList();
     const userSelect = document.getElementById('userSelect');
     users.forEach(account => {
