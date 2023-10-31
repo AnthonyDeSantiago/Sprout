@@ -70,21 +70,36 @@ document.getElementById("journalForm").addEventListener("reset", async function 
 
 });
 
-// Function to validate source document type
+// Function to validate source document type and display an error if invalid
 function validateDocumentType(sourceDocument) {
     const acceptedDocTypes = ['application/pdf', 'image/jpeg', 'image/png']; // Add more as needed
 
     if (acceptedDocTypes.includes(sourceDocument.files[0].type)) {
         return true;
     } else {
+        displayErrors([{
+            inputFieldId: 'sourceDocument',
+            message: 'Invalid document type. Please upload a PDF, JPEG, or PNG file.'
+        }]);
+        logAccountingError("Invalid document type uploaded.", currentUser);
         return false;
     }
 }
 
-// Function to validate journal description is not null
+// Function to validate journal description is not null and display an error if null
 function validateDescription(journalDescription) {
-    return journalDescription.value.trim() !== "";
+    const isValid = journalDescription.value.trim() !== "";
+    
+    if (!isValid) {
+        displayErrors([{
+            inputFieldId: 'journalDescription',
+            message: 'Description cannot be empty.'
+        }]);
+        logAccountingError("Journal description is empty.", currentUser);
+    }
+    return isValid;
 }
+
 
 async function handleJournalFormSubmission(event) {
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
@@ -92,10 +107,12 @@ document.getElementById("transactionForm").addEventListener("submit", async func
         // Clear existing errors
         displayErrors([]);
     const accountSelect = document.getElementById("accountSelect");
+    const sourceDocument = document.getElementById("sourceDocument"); 
+    const description = document.getElementById("journalDescription");
     let debitAmount = parseInt(document.getElementById("debitAmount").value);
     let creditAmount = parseInt(document.getElementById("creditAmount").value);
-    const description = document.getElementById("journalDescription");
     
+
     let errors = [];
 
     var isValid = true;
@@ -117,6 +134,15 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     //GOOD: debit is a number, credit is zero
     if (debitAmount > 0 && creditAmount == 0) {
         isValid = true;
+    }
+    // Validate the source document type
+    if (!validateDocumentType(sourceDocument)) {
+        isValid = false;
+    }
+
+    // Validate journal description
+    if (!validateDescription(description)) {
+        isValid = false;
     }
 
     if (!accountSelect.value) {
