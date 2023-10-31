@@ -70,6 +70,21 @@ document.getElementById("journalForm").addEventListener("reset", async function 
 
 });
 
+// Function to validate source document type
+function validateDocumentType(sourceDocument) {
+    const acceptedDocTypes = ['application/pdf', 'image/jpeg', 'image/png']; // Add more as needed
+
+    if (acceptedDocTypes.includes(sourceDocument.files[0].type)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Function to validate journal description is not null
+function validateDescription(journalDescription) {
+    return journalDescription.value.trim() !== "";
+}
 
 //async function handleJournalFormSubmission(event) {
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
@@ -103,50 +118,50 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
 
     if (!accountSelect.value) {
-        errors.push("Account not selected.");
+        errors.push({
+            inputFieldId: 'accountSelectError',
+            message: 'Account not selected.'
+        });
         logAccountingError("Account not selected.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
-
         isValid = false;
     }
     if (isNaN(debitAmount)) {
-        errors.push("Invalid debit value.");
+        errors.push({
+            inputFieldId: 'debitAmountError',
+            message: 'Invalid debit value.'
+        });
         logAccountingError("Invalid debit value.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
-
         isValid = false;
     }
 
     if (isNaN(creditAmount)) {
-        errors.push("Invalid credit value.");
+        errors.push({
+            inputFieldId: 'creditAmount',
+            message: 'Invalid credit value.'
+        });
         logAccountingError("Invalid credit value.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
-
         isValid = false;
     }
     if (creditAmount > 0 && debitAmount > 0) {
-        errors.push("Both credit and debit amount listed on same transaction.");
+        errors.push({
+            inputFieldId: 'debitAmount',
+            message: 'Both credit and debit amount listed on the same transaction.'
+        });
         logAccountingError("Both credit and debit amount listed on same transaction.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
-
         isValid = false;
     }
     if((creditAmount <= 0 || isNaN(creditAmount)) && (debitAmount <= 0 || isNaN(debitAmount))) {
-        errors.push("No credit or debit amount listed.");
+        errors.push({
+            inputFieldId: 'debitAmount', 
+            message: 'No credit or debit amount listed.'
+        });
         logAccountingError("No credit or debit amount listed.", currentUser);
-
-        //SHOW ERROR MESSAGE CODE HERE
-
         isValid = false;
     }
 
 
     if (errors.length > 0) {
-        //showErrorModal(errors);
+        displayErrors(errors); 
     } else {
         if (isValid == true) {
             journal_entry.push({
@@ -279,21 +294,19 @@ document.getElementById("journalForm").addEventListener("submit", async function
     }
 });
 
-/*function showErrorModal(errors) {
-    let errorList = document.createElement("ul");
+function displayErrors(errors) {
+    // Clear all previous errors
+    const errorDivs = document.querySelectorAll('.error-text');
+    errorDivs.forEach(div => div.textContent = "");
+    
+    // Populate new errors
     errors.forEach(error => {
-        let listItem = document.createElement("li");
-        listItem.textContent = error;
-        errorList.appendChild(listItem);
+        const errorDiv = document.getElementById(`${error.inputFieldId}Error`);
+        if (errorDiv) {
+            errorDiv.textContent = error.message;
+        }
     });
-
-    let errorModalContent = document.getElementById("errorModalContent");
-    errorModalContent.innerHTML = "";
-    errorModalContent.appendChild(errorList);
-
-    $('#errorModal').modal('show');  // Assuming you have jQuery and Bootstrap modal
-}*/
-
+}
 
 async function initializeTransactionEntries() {
     transactionEntriesTable = new DataTable('#journalEntriesTable', {

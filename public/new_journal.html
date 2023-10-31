@@ -192,22 +192,37 @@
                             <select class="form-control" id="accountSelect">
                                 <!-- This will be populated from the Chart of Accounts -->
                             </select>
+                            <!-- Error message for accountSelect -->
+                            <div id="accountSelectError" class="error-text"></div>
                             </div>
                             <div class="form-group">
                                 <label>Debit Amount:</label>
                                 <input type="number" step ="1" value = "0" min="0" class="form-control" id="debitAmount">
+                            <!-- Error message for debitAmount -->
+                            <div id="debitAmountError" class="error-text"></div>
                             </div>
                             <div class="form-group">
                                 <label>Credit Amount:</label>
                                 <input type="number" step ="1" value = "0" min="0" class="form-control" id="creditAmount">
+                            <!-- Error message for creditAmount -->
+                            <div id="creditAmountError" class="error-text"></div>
                             </div>
                             <div class="form-group">
                                 <label>Description:</label>
                                 <input type="text" class="form-control" id="transactionDescription">
+                                <!-- Error message for transactionDescription -->
+                                <div id="transactionDescriptionError" class="error-text"></div>
+
                             </div>
                             <button type="submit" class="btn btn-primary" id="addTransactionBtn">Add Transaction</button>
                             <button type="reset" class="btn btn-secondary" id="resetBtn">Reset</button>
                     </form>
+                    <style>
+                        .error-text {
+                            color: red;
+                            font-size: 12px;
+                        }
+                    </style>
 
                     <!-- View Journal Entries Section -->
                     <h5 class="mt-5">Preview of Journal Transactions:</h5>
@@ -242,10 +257,12 @@
                             <label>Attach Source Document for Entire Journal Entry:</label>
                             <input type="file" class="form-control" id="sourceDocument"
                                 accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.jpg,.png">
+                            <div id="sourceDocumentError" class="error-text"></div>
                         </div>
                         <div class="form-group">
                             <label>Journal Description:</label>
                             <input type="text" class="form-control" id="journalDescription">
+                            <div id="descriptError" class="error-text"></div>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-success" id="submitJournalBtn">Submit Journal</button>
