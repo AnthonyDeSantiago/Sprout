@@ -89,7 +89,7 @@ function validateDocumentType(sourceDocument) {
 // Function to validate journal description is not null and display an error if null
 function validateDescription(journalDescription) {
     const isValid = journalDescription.value.trim() !== "";
-    
+
     if (!isValid) {
         displayErrors([{
             inputFieldId: 'journalDescription',
@@ -163,7 +163,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
     if (creditAmount > 0 && debitAmount > 0) {
         errors.push({
-            inputFieldId: 'creditAmount',
+            inputFieldId: 'creditAmount'&&'debitAmount',
             message: 'Both credit and debit amount listed on the same transaction.'
         });
         logAccountingError("Both credit and debit amount listed on same transaction.", currentUser);
@@ -201,10 +201,10 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
 });
 
-
-//async function handleJournalFormSubmission(event) {
 document.getElementById("journalForm").addEventListener("submit", async function (e) {
     e.preventDefault();
+    // Clear existing errors
+    displayErrors([]);
 
     const sourceDocument = document.getElementById("sourceDocument");
     const journalDescription = document.getElementById("journalDescription");
@@ -231,21 +231,20 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 inputFieldId: 'sourceDocument',
                 message: 'Invalid file type.'
             });
-
+            logAccountingError("Invalid file type.", currentUser);
+            errors.push("Invalid file type.");
 
             logAccountingError("Invalid file type.", currentUser);
             isValid = false;
         }
-    } else {
+    } /*else {
         errors.push({
             inputFieldId: 'sourceDocument',
             message: 'Missing source document.'
         });
         logAccountingError("Missing source document.", currentUser);
         isValid = false;
-    }
-    if(!validateDescription(journalDescription)){
-        isValid = false;
+    }*/
 
     }
 
@@ -334,7 +333,6 @@ document.getElementById("journalForm").addEventListener("submit", async function
         }
     }
 });
-//}
 
 function displayErrors(errors) {
     // First, clear out all previous error messages
@@ -368,7 +366,6 @@ document.querySelectorAll('input').forEach(input => {
         clearErrorForInput(e.target.id);
     });
 });
-}
 
 async function initializeTransactionEntries() {
     transactionEntriesTable = new DataTable('#journalEntriesTable', {
