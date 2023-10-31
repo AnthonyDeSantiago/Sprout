@@ -89,7 +89,7 @@ async function getUserList() {
         const querySnapshot = await getDocs(usersQuery);
         const usersTempList = [];
         querySnapshot.forEach((doc) => {
-            let user = { username: doc.data().username, role: doc.data().role }
+            let user = { username: doc.data().username, role: doc.data().role };
             usersTempList.push(user);
         });
         console.log(usersTempList);
