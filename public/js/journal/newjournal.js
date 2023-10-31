@@ -11,7 +11,7 @@ let userEmail = null;
 let userData = null;
 
 const db = getFirestore();
-const journals_db = collection(db, 'journal');
+const journals_db = collection(db, 'journals');
 const transactions_db = collection(db, 'transactions');
 const accounts_db = collection(db, 'accounts');
 let currentUser = "YOUR_USER_NAME"; // You can replace this later
@@ -255,7 +255,8 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 const docRefJournal = await addDoc(journals_db, {
                     creationDate: creationDate,
                     transactions: transactionsIDs,
-                    description: journalDescription.toString(),
+                    description: journalDescription.value.toString(),
+                    approval: "pending",
                     user: currentUser
                 });
                 console.log("Journal written with ID: ", docRefJournal.id);
