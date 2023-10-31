@@ -33,8 +33,8 @@ const checkAuthState = async () => {
             switch (userData.role) {
                 case "admin":
                     await getUserList();
-                    userPull = usersList;
-                    for (var i = 0; i < usersList.length-1; i++) {
+                    userPull = [];
+                    for (var i = 0; i < usersList.length; i++) {
                         console.log("usersList[" + i + "] = " + usersList[i]);
                         userPull.push(usersList[i].username);
                     }
@@ -42,7 +42,7 @@ const checkAuthState = async () => {
 
                 case "manager":
                     await getUserList();
-                    for (var i = 0; i < usersList.length-1; i++) {
+                    for (var i = 0; i < usersList.length; i++) {
                         if (usersList[i].role == "regular" || usersList[i].role == "manager") {
                             userPull.push(usersList[i].username);
                         }
@@ -100,6 +100,7 @@ async function getUserList() {
         console.log(usersTempList);
         usersList = [];
         usersList = usersTempList;
+        usersList.length = userCount;
     } catch (error) {
         console.error('Error happened: ', error);
         throw error;
