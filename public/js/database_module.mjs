@@ -389,6 +389,17 @@ export function capitalizeString(inputString) {
 }
 
 
+export async function getDocumentReference(collectionName, documentID) {
+  const collectionRef = collection(db, collectionName); 
+  const documentRef = doc(collectionRef, documentID); 
+  const documentSnapshot = await getDoc(documentRef);
+
+  if (documentSnapshot.exists()) {
+    return documentSnapshot.data();
+  } else {
+    return null;
+  }
+}
 
   
   
