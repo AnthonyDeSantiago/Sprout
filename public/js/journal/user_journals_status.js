@@ -91,8 +91,10 @@ async function getUserList() {
         querySnapshot.forEach((doc) => {
             let user = { username: doc.data().username, role: doc.data().role };
             usersTempList.push(user);
+            console.log(user);
         });
         console.log(usersTempList);
+        usersList = [];
         usersList = usersTempList;
     } catch (error) {
         console.error('Error happened: ', error);
