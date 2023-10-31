@@ -84,12 +84,12 @@ async function getAccountsList() {
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
-        const name = [];
+        const accountsList = [];
         querySnapshot.forEach((doc) => {
-            name = doc.data().firstName + " " + doc.data().lastName;
-            usersList.push(name);
+            fullName = doc.data().firstName + " " + doc.data().lastName;
+            accountsList.push(fullName);
         });
-        return name;
+        return accountsList;
     } catch (error) {
         console.error('Error happened: ', error);
         throw error;
