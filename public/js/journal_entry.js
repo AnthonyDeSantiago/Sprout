@@ -5,6 +5,10 @@ console.log("journal_entry.js has loaded");
 const urlParameters = new URLSearchParams(window.location.search);
 const journal = urlParameters.get("journal");
 const transactions = await getFieldValue('journals', journal, 'transactions');
+const creationDate = await getFieldValue('journals', journal, 'creationDate');
+const journalBreadCrumb = document.getElementById("accountBreadcrumb-element");
+
+journalBreadCrumb.textContent = "Creation Date: " + creationDate.toDate();
 
 
 function loadDataTables() {
@@ -23,7 +27,7 @@ function loadDataTables() {
       const transaction = await getDocumentReference('transactions', transactions[i]);
       tableBody.innerHTML += `
         <tr>
-          <td>${transaction.account}</td>
+          <td>${await getFieldValue('accounts', transaction.account, 'accountName')}</td>
           <td>${transaction.user}</td>
           <td>${transaction.description}</td>
           <td>${transaction.debit}</td>
