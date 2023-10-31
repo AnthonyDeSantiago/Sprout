@@ -35,7 +35,7 @@ const checkAuthState = async () => {
                     await getUserList();
                     userPull = usersList;
                     for (var i = 0; i < usersList.length; i++) {
-                        userPull.append(usersList[i].username);
+                        userPull.push(usersList[i].username);
                     }
                     break;
 
@@ -43,13 +43,13 @@ const checkAuthState = async () => {
                     await getUserList();
                     for (var i = 0; i < usersList.length; i++) {
                         if (usersList[i].role == "regular" || usersList[i].role == "manager") {
-                            userPull.append(usersList[i].username);
+                            userPull.push(usersList[i].username);
                         }
                     }
                     break;
 
                 case "regular":
-                    userPull.append(currentUser);
+                    userPull.push(currentUser);
                     break;
 
                 default:
@@ -90,7 +90,7 @@ async function getUserList() {
         const usersTempList = [];
         querySnapshot.forEach((doc) => {
             let user = { username: doc.data().username, role: doc.data().role };
-            usersTempList.append(user);
+            usersTempList.concat(user);
             console.log(user);
         });
         console.log(usersTempList);
