@@ -89,7 +89,7 @@ async function getAccountsList() {
             name = doc.data().firstName + " " + doc.data().lastName;
             usersList.push(name);
         });
-        return accountsList;
+        return name;
     } catch (error) {
         console.error('Error happened: ', error);
         throw error;
