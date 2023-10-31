@@ -34,14 +34,14 @@ const checkAuthState = async () => {
                 case "admin":
                     await getUserList();
                     userPull = usersList;
-                    for (var i = 0; i < usersList.length; i++) {
+                    for (var i = 0; i < usersList.length-1; i++) {
                         userPull.push(usersList[i].username);
                     }
                     break;
 
                 case "manager":
                     await getUserList();
-                    for (var i = 0; i < usersList.length; i++) {
+                    for (var i = 0; i < usersList.length-1; i++) {
                         if (usersList[i].role == "regular" || usersList[i].role == "manager") {
                             userPull.push(usersList[i].username);
                         }
