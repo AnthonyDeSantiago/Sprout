@@ -2,7 +2,7 @@ import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
 
-console.log("!!! newjournal.js loaded !!!");
+console.log("!!! new_journal.js loaded !!!");
 
 const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 let username = null;
@@ -217,6 +217,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
             let transactionsIDs = [];
             let journalID = null;
             let creationDate = serverTimestamp();
+            let accountIDs = [];
 
             //For each transaction in the array containing the user input
             for(var i = 0, l = journal_entry.length; i < l; ++i) {
@@ -231,6 +232,8 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     readAccount = tempDoc;
                 });
                 let accountID = readAccount[0].id;
+
+                accountIDs.push(accountID);
 
                 // Add a new transaction document with a generated id.
                 try {
@@ -255,6 +258,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 const docRefJournal = await addDoc(journals_db, {
                     creationDate: creationDate,
                     transactions: transactionsIDs,
+                    accounts: accountIDs,
                     description: journalDescription.value.toString(),
                     approval: "pending",
                     user: currentUser
