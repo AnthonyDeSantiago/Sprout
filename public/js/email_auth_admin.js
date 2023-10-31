@@ -44,6 +44,72 @@ button.onclick = () => {
     
 } */
 
+import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
+
+const auth = getAuth(); //Init Firebase Auth + get a reference to the service
+let username = null;
+let userDisplay = null;
+let userEmail = null;
+let userData = null;
+
+const db = getFirestore();
+const users_db = collection(db, 'users');
+let currentUser = "YOUR_USER_NAME"; // You can replace this later
+
+const checkAuthState = async () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            userData = await getUserDataWithAuth(user);
+            currentUser = userData.username;
+
+            await initializePage();
+
+        }
+        else {
+            //code here will impact page at most basic level, so be careful
+            alert("Unable to resolve the role associated with your account. Please contact the admin.");
+            signOut(auth);
+            window.location = 'index.html';
+        }
+    })
+}
+
+
+//user in dropdown
+async function getAccountsList() {
+    const accountsCollection = collection(db, 'users');
+    const accountsQuery = query(accountsCollection, where('active', '==', true));
+
+    try {
+        const querySnapshot = await getDocs(accountsQuery);
+        const accountsList = [];
+        querySnapshot.forEach((doc) => {
+            accountsList.push(doc.data().accountName);
+        });
+        return accountsList;
+    } catch (error) {
+        console.error('Error happened: ', error);
+        throw error;
+    }
+}
+
+async function populateAccountsDropdown() {
+    const accounts = await getAccountsList();
+    const accountSelect = document.getElementById('roleSelect');
+    accounts.forEach(account => {
+        const option = document.createElement('option');
+        option.value = account;
+        option.textContent = account;
+        accountSelect.appendChild(option);
+    });
+
+}
+
+
+
+
 //admin email template
 const formbutton = document.querySelector('.add-btn');
 
@@ -69,10 +135,6 @@ formbutton.onclick = ()=> {
     
 
 }
-
-
-
-
 
 
 
