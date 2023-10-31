@@ -136,7 +136,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
 
     if (isNaN(creditAmount)) {
         errors.push({
-            inputFieldId: 'creditAmount',
+            inputFieldId: 'creditAmountError',
             message: 'Invalid credit value.'
         });
         logAccountingError("Invalid credit value.", currentUser);
@@ -152,7 +152,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
     if((creditAmount <= 0 || isNaN(creditAmount)) && (debitAmount <= 0 || isNaN(debitAmount))) {
         errors.push({
-            inputFieldId: 'debitAmount', 
+            inputFieldId: 'debitAmount'&&'creditAmount', 
             message: 'No credit or debit amount listed.'
         });
         logAccountingError("No credit or debit amount listed.", currentUser);
@@ -181,7 +181,7 @@ document.getElementById("transactionForm").addEventListener("submit", async func
     }
 });
 
-//async function handleJournalFormSubmission(event) {
+/*async function handleJournalFormSubmission(event) {
 document.getElementById("journalForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -213,7 +213,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
         errors.push("Missing source document.");
         logAccountingError("Missing source document.", currentUser);
         isValid = false;
-    }*/
+    }
 
     if ((creditAmountSum - debitAmountSum) != 0) {
         errors.push("Credits and debits do not sum to zero in journal entry.");
@@ -292,21 +292,26 @@ document.getElementById("journalForm").addEventListener("submit", async function
             }
         }
     }
-});
+});*/
 
 function displayErrors(errors) {
-    // Clear all previous errors
-    const errorDivs = document.querySelectorAll('.error-text');
-    errorDivs.forEach(div => div.textContent = "");
-    
-    // Populate new errors
+    // First, clear out all previous error messages
+    const errorElements = document.querySelectorAll('.error-text');
+    errorElements.forEach(el => el.remove());
+
     errors.forEach(error => {
-        const errorDiv = document.getElementById(`${error.inputFieldId}Error`);
-        if (errorDiv) {
-            errorDiv.textContent = error.message;
+        const errorElement = document.createElement('span');
+        errorElement.className = 'error-text';
+        errorElement.textContent = error.message;
+        errorElement.style.color = 'red';
+
+        const inputField = document.getElementById(error.inputFieldId);
+        if(inputField) {
+            inputField.parentElement.insertBefore(errorElement, inputField.nextSibling);
         }
     });
 }
+
 
 async function initializeTransactionEntries() {
     transactionEntriesTable = new DataTable('#journalEntriesTable', {
