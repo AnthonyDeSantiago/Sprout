@@ -46,7 +46,7 @@ button.onclick = () => {
 
 import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
-import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
+import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "./sprout.js"
 
 const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 let username = null;
@@ -84,9 +84,10 @@ async function getAccountsList() {
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
-        const accountsList = [];
+        const name = [];
         querySnapshot.forEach((doc) => {
-            accountsList.push(doc.data().accountName);
+            name = doc.data().firstName + " " + doc.data().lastName;
+            usersList.push(name);
         });
         return accountsList;
     } catch (error) {
