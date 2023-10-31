@@ -30,10 +30,11 @@ const checkAuthState = async () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             userData = await getUserDataWithAuth(user);
-            currentUser = userData.username;
-            console.log("Current user authenticated: " + username);
-            await initializePage();
+            currentUser = await userData.username;
 
+            console.log("Current user authenticated: " + username);
+
+            await initializePage();
         }
         else {
             //code here will impact page at most basic level, so be careful
@@ -59,8 +60,9 @@ async function getUserList() {
         const usersList = [];
         querySnapshot.forEach((doc) => {
             let fullName = doc.data().firstName + " " + doc.data().lastName;
-            let email = "<" + doc.data().email + ">";
-            let userEntry = fullName + " " + email; 
+            let email = "<" + doc.data().userEmail + ">";
+            let role = "[" + doc.data().role + "]";
+            let userEntry = fullName + " " + email + " " + role;
             usersList.push(userEntry);
         });
         return usersList;
@@ -84,36 +86,30 @@ async function populateEmailsDropdown() {
 }
 
 
-
 //Accountant email template
 const formbutton2 = document.querySelector('.acc-btn');
 
-formbutton2.onclick = ()=> {
-        var params = {
-            name: document.getElementById('roleSelect').substr(0, document.getElementById('roleSelect').indexOf('<')-1),
-            //email: document.getElementById('roleSelect').substr(document.getElementById('roleSelect').indexOf('<')+1, document.getElementById('roleSelect').indexOf('>')-1),
-            message: document.getElementById('mess2').value,
-        };
+formbutton2.onclick = () => {
+    var params = {
+        name: document.getElementById('roleSelect').substr(0, document.getElementById('roleSelect').indexOf('<') - 1),
+        //email: document.getElementById('roleSelect').substr(document.getElementById('roleSelect').indexOf('<')+1, document.getElementById('roleSelect').indexOf('>')-1),
+        message: document.getElementById('mess2').value,
+    };
 
-    
-    emailjs.send('service_9bu3nfr','template_7fwsavt',params)
-    .then(
-        res =>{
-            document.getElementById("roleSelect").value = "",
-            /* document.getElementById("email").value = "", */
-            document.getElementById("mess2").value = "",
-            console.log.apply(res)
-            alert("message sent sucessfully");
-        })
-        .catch ((err) => console.log(err));
-    
+    console.log("params.name = " + params.name);
+
+    emailjs.send('service_9bu3nfr', 'template_7fwsavt', params)
+        .then(
+            res => {
+                document.getElementById("roleSelect").value = "",
+                    /* document.getElementById("email").value = "", */
+                    document.getElementById("mess2").value = "",
+                    console.log.apply(res)
+                alert("message sent sucessfully");
+            })
+        .catch((err) => console.log(err));
+
 
 }
 
 checkAuthState();
-
-
-
-
-
-
