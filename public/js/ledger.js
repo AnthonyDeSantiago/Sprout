@@ -40,7 +40,7 @@ function populateLedgerTable(transactions, tableId) {
                 <td>${transaction.description}</td>
                 <td>${transaction.debit}</td>
                 <td>${transaction.credit}</td>
-                <td><a href="ledger.html?journal=${transaction.journal}">${transaction.journal}</a></td>
+                <td><a href="journal_entry.html?journal=${transaction.journal}">${transaction.journal}</a></td>
             </tr>
         `;
     }
