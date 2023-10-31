@@ -31,7 +31,7 @@ const checkAuthState = async () => {
         if (user) {
             userData = await getUserDataWithAuth(user);
             currentUser = userData.username;
-
+            console.log("Current user authenticated: " + username);
             await initializePage();
 
         }

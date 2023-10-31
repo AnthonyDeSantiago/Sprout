@@ -159,7 +159,6 @@ const checkAuthState = async () => {
             if (userData != null) {
                 username = userData.username;
                 userRole = "Sprout User";
-                document.getElementById("user-role").textContent = userRole;
 
                 let admin_only = document.getElementById("admin-only");
                 let admin_only2 = document.getElementById("admin-only2");
@@ -195,6 +194,8 @@ const checkAuthState = async () => {
                         signOut(auth);
                         window.location = 'index.html';
                 }
+
+                document.getElementById("user-role").textContent = userRole;
             }
         }
         else {
