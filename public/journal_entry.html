@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" /> 
+        <title>Ledger</title>
+        
+        <!-- bootstrap css -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> -->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/ourstyle.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/Main_Calendar.css">
+        <script defer src="js/Main_Calendar.js"></script>
+        <script defer src="js/journal_entry.js" type="module"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <script defer src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <link defer href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <!-- used for date range filter -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+        <script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
+        
+    </head>
+    
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+            
+            <!-- Navbar User Dropdown -->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 ms-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="pe-3">Sprout User</span><i class="fas fa-user fa-fw"></i></a>
+                    
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
+            
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
+        </nav>
+        
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <!-- small calendar -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#calendarSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                                <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
+                                Calendar
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="calendarSubmenu">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    
+                                        <div class="calendar">
+                                            <div class="left">
+                                                <p id="date">01</p>
+                                                <p id="day">Sunday</p>
+                                            </div>
+                                            <div class="right">
+                                                <p id="month">January</p>
+                                                <p id="year">2020</p>
+                                            </div>
+                                        </div>
+                                    
+                                    </a>
+                                </nav>
+                            </div>
+
+                            <div class="sb-sidenav-menu-heading">Accounts</div>
+                            <a class="nav-link" href="dashboard.html">
+                                <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
+                                Chart of Accounts
+                            </a>
+                            <a class="nav-link" href="event_log.html">
+                                <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
+                                Event Log
+                            </a>
+                            <a class="nav-link" href="ledger.html">
+                                <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+                                Ledger
+                            </a>
+                        
+                            <div class="sb-sidenav-menu-heading">Journals</div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu1" aria-expanded="false" aria-controls="tablesSubmenu1">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Journalizing
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+
+                                <div class="collapse" id="tablesSubmenu1">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="newjournal.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                            Create Journal Entries 
+                                        </a>
+                                        <a class="nav-link" href="viewjournal.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                           View journal Entries
+                                        </a>
+                                        <a class="nav-link" href="pendingjournals.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            Expired Passwords
+                                        </a>
+                                    </nav>
+                        
+                                </div>
+
+                            <div id="admin-only2">
+                                <div class="sb-sidenav-menu-heading">User Administration</div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    User Management
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+
+                                <div class="collapse" id="tablesSubmenu">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="admin_table_all_users.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                            Users Dashboard
+                                        </a>
+                                        <a class="nav-link" href="admin_table_new_user_requests.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            New User Requests
+                                        </a>
+                                        <a class="nav-link" href="admin_table_expired_passwords.html">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            Expired Passwords
+                                        </a>
+                                    </nav>
+                        
+                                </div>
+                            </div>
+
+                            <!-- Help Link -->
+                            <div class="sb-sidenav-menu-heading">Support</div>
+                            <a class="nav-link" href="help_page.html">
+                                 <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                 Help 
+                            </a>
+                            
+
+                        </div>
+                    </div>
+                        
+
+                    <!-- side nav footer -->
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <div id = "user-role">Sprout User</div>
+                    </div>
+                    
+                </nav>
+            </div>
+        
+
+
+            
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Journal Entry</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active" id="accountBreadcrumb-element">Insert Account No. or Name?</li>
+                        </ol>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="bi bi-journal-bookmark-fill"></i>
+                                Ledger
+                            </div>
+                            <div class="card-body">
+
+                                <!-- date range filter -->
+                                <table class="mt-2 mb-3" border="0" cellspacing="5" cellpadding="5">
+                                    <tbody>
+                                    <tr>
+                                        <td>Starting Date:</td>
+                                        <td><input type="text" id="min" name="min"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ending Date:</td>
+                                        <td><input type="text" id="max" name="max"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <!-- Ledger table -->
+                                <table id="ledger" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Creation Date</th>
+                                            <th>User</th>
+                                            <th>Description</th>
+                                            <th>Debit</th>
+                                            <th>Credit</th>
+                                            <th>Post Reference</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+
+                        </div>
+                        <div>
+                            <span class="fw-bolder float-end">
+                                Total Debit: <span id="debit-total">0</span> | Total Credit: <span id="credit-total">0</span>
+                            </span>
+                        </div>               
+                    </div>
+                    
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Sprout Financial 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        
+        <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/ledger-datatables-simple.js"></script> -->
+        
+        
+        
+        
+    </body>
+</html>
