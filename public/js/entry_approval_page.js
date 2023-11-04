@@ -26,6 +26,7 @@ function loadDataTables() {
   
 async function initializeTable(entries, tableId) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
+    const modalTableBody = document.querySelector(`#${"modal-table"} tbody`);
     for (let i = 0; i < entries.size; i++) {
         const entry = entries.docs[i];
         const row = tableBody.insertRow(i);
@@ -36,8 +37,23 @@ async function initializeTable(entries, tableId) {
             <td>${entry.data().user}</td>
             <td>${entry.data().description}</td>
         `;
-        row.addEventListener('click', () => {
+        row.addEventListener('click', async () => {
             console.log("Row clicked, the entry is: ", entry.id);
+            $('#approval-modal').modal('show');
+            const transactions = entry.data().transactions;
+            console.log("transactions length", transactions.length);
+            console.log("transactions' ID's ", transactions);
+            for (let i = 0; i < transactions.length; i++) {
+                console.log('transaction description', transactions[0])
+                const transaction = await getDocumentReference('transactions', transactions[i]);
+                const row = modalTableBody.insertRow(i);
+                row.innerHTML = `
+                    <td>Testing</td>
+                    <td>${transaction.description}</td>
+                    <td>${transaction.debit}</td>
+                    <td>${transaction.credit}</td>
+                `;
+            }
         });
     }
   
@@ -50,7 +66,25 @@ async function initializeTable(entries, tableId) {
       console.error('Error loading DataTables:', error);
     }
 }
+
+async function initializeModalTable(journal_entry, tableId) {
+    const tableBody = document.querySelector(`#${tableId} tbody`);
+    const journalEntryData = journal_entry.data();
+    const transactions = journalEntryData.transactions;
+
+    for (let i = 0; i < transactions.length; i++) {
+        const transaction = await getDocumentReference('transactions', transactions[i]);
+        const row = tableBody.insertRow(i);
+        row.innerHTML = `
+            <td>${await getDocumentReference('accounts', transaction.account).accountName}</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.debit}</td>
+            <td>${transaction.credit}</td>
+        `;
+    }
+}
   
 initializeTable(pendingJournalEntries, 'journalEntry_table');
+
   
   
