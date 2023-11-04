@@ -1,4 +1,4 @@
-import { getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("entry_approval_page.js has loaded");
 
@@ -10,9 +10,8 @@ console.log("entry_approval_page.js has loaded");
 
 // journalBreadCrumb.textContent = "Creation Date: " + creationDate.toDate();
 
-const pendingJournalEntries = await getDocsWithValue('journals', 'approval', 'pending');
-console.log("pending entries", pendingJournalEntries);
-console.log("test description pull", pendingJournalEntries[0].description);
+const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
+console.log("References: ", pendingJournalEntries.size);
 
 
 function loadDataTables() {
@@ -27,13 +26,14 @@ function loadDataTables() {
   
 async function initializeTable(entries, tableId) {
 const tableBody = document.querySelector(`#${tableId} tbody`);
-for (let i = 0; i < entries.length; i++) {
-    const entry = entries[i];
+for (let i = 0; i < entries.size; i++) {
+    const entry = entries.docs[i];
     tableBody.innerHTML += `
     <tr>
-        <td>${entry.creationDate.toDate()}</td>
-        <td>${entry.user}</td>
-        <td>${entry.description}</td>
+        <td>${entry.data().creationDate.toDate()}</td>
+        <td>${entry.id}</td>
+        <td>${entry.data().user}</td>
+        <td>${entry.data().description}</td>
     </tr>
     `;
 }
