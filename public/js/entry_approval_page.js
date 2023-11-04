@@ -2,14 +2,6 @@ import { getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getF
 
 console.log("entry_approval_page.js has loaded");
 
-// const urlParameters = new URLSearchParams(window.location.search);
-// const journal = urlParameters.get("journal");
-// const transactions = await getFieldValue('journals', journal, 'transactions');
-// const creationDate = await getFieldValue('journals', journal, 'creationDate');
-// const journalBreadCrumb = document.getElementById("accountBreadcrumb-element");
-
-// journalBreadCrumb.textContent = "Creation Date: " + creationDate.toDate();
-
 const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
 console.log("References: ", pendingJournalEntries.size);
 
@@ -85,6 +77,11 @@ async function initializeModalTable(journal_entry, tableId) {
 }
   
 initializeTable(pendingJournalEntries, 'journalEntry_table');
+$('#approval-modal').on('hidden.bs.modal', function () {
+    $('#modal-table tbody').empty();
+});
+
+
 
   
   
