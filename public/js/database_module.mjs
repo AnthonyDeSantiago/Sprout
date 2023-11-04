@@ -401,6 +401,18 @@ export async function getDocumentReference(collectionName, documentID) {
   }
 }
 
+export async function getDocReferencesWithValue(collectionName, fieldName, fieldValue) {
+    const recordsCollection = collection(db, collectionName);
+  
+    try {
+      const q = query(recordsCollection, where(fieldName, '==', fieldValue));
+      const querySnapshot = await getDocs(q);
+      return querySnapshot;
+    } catch (error) {
+      console.error("Error getting documents with value:", error);
+      return null;
+    }
+}
   
   
   
