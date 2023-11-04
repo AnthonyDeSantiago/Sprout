@@ -25,18 +25,21 @@ function loadDataTables() {
 }
   
 async function initializeTable(entries, tableId) {
-const tableBody = document.querySelector(`#${tableId} tbody`);
-for (let i = 0; i < entries.size; i++) {
-    const entry = entries.docs[i];
-    tableBody.innerHTML += `
-    <tr>
-        <td>${entry.data().creationDate.toDate()}</td>
-        <td>${entry.id}</td>
-        <td>${entry.data().user}</td>
-        <td>${entry.data().description}</td>
-    </tr>
-    `;
-}
+    const tableBody = document.querySelector(`#${tableId} tbody`);
+    for (let i = 0; i < entries.size; i++) {
+        const entry = entries.docs[i];
+        const row = tableBody.insertRow(i);
+        console.log("Code reached here");
+        row.innerHTML = `
+            <td>${entry.data().creationDate.toDate()}</td>
+            <td>${entry.id}</td>
+            <td>${entry.data().user}</td>
+            <td>${entry.data().description}</td>
+        `;
+        row.addEventListener('click', () => {
+            console.log("Row clicked, the entry is: ", entry.id);
+        });
+    }
   
     try {
       await loadDataTables();
