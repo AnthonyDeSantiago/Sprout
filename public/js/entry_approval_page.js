@@ -1,14 +1,18 @@
-import { getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("entry_approval_page.js has loaded");
 
-const urlParameters = new URLSearchParams(window.location.search);
-const journal = urlParameters.get("journal");
-const transactions = await getFieldValue('journals', journal, 'transactions');
-const creationDate = await getFieldValue('journals', journal, 'creationDate');
-const journalBreadCrumb = document.getElementById("accountBreadcrumb-element");
+// const urlParameters = new URLSearchParams(window.location.search);
+// const journal = urlParameters.get("journal");
+// const transactions = await getFieldValue('journals', journal, 'transactions');
+// const creationDate = await getFieldValue('journals', journal, 'creationDate');
+// const journalBreadCrumb = document.getElementById("accountBreadcrumb-element");
 
-journalBreadCrumb.textContent = "Creation Date: " + creationDate.toDate();
+// journalBreadCrumb.textContent = "Creation Date: " + creationDate.toDate();
+
+const pendingJournalEntries = await getDocsWithValue('journals', 'approval', 'pending');
+console.log("pending entries", pendingJournalEntries);
+console.log("test description pull", pendingJournalEntries[0].description);
 
 
 function loadDataTables() {
@@ -19,20 +23,17 @@ function loadDataTables() {
       script.onerror = reject;
       document.body.appendChild(script);
     });
-  }
+}
   
-async function initializeTable(transactions, tableId) {
+async function initializeTable(entries, tableId) {
 const tableBody = document.querySelector(`#${tableId} tbody`);
-for (let i = 0; i < transactions.length; i++) {
-    const transaction = await getDocumentReference('transactions', transactions[i]);
+for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
     tableBody.innerHTML += `
     <tr>
-        <td><input type="checkbox"></td>
-        <td>${await getFieldValue('accounts', transaction.account, 'accountName')}</td>
-        <td>${transaction.user}</td>
-        <td>${transaction.description}</td>
-        <td>${transaction.debit}</td>
-        <td>${transaction.credit}</td>
+        <td>${entry.creationDate.toDate()}</td>
+        <td>${entry.user}</td>
+        <td>${entry.description}</td>
     </tr>
     `;
 }
@@ -47,6 +48,6 @@ for (let i = 0; i < transactions.length; i++) {
     }
 }
   
-  initializeTable(transactions, 'journalEntry_table');
+initializeTable(pendingJournalEntries, 'journalEntry_table');
   
   
