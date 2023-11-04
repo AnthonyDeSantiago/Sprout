@@ -185,12 +185,42 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Journal Entry Approval Page</h1>
+                    <h1 class="mt-4">Journal Entry</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Insert something or delete</li>
+                        <li class="breadcrumb-item active" id="accountBreadcrumb-element">Insert Account No. or Name?
+                        </li>
                     </ol>
-                </div>
 
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            Transactions
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Journal Entry Table table -->
+                            <table id="journalEntry_table" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Creation Date</th>
+                                        <th>User</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+                    <!-- <div>
+                            <span class="fw-bolder float-end">
+                                Total Debit: <span id="debit-total">0</span> | Total Credit: <span id="credit-total">0</span>
+                            </span>
+                        </div>                -->
+                </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
