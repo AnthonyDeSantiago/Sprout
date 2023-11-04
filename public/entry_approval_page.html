@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head>
+    <style>
+        #journalEntry_table tbody tr {
+            cursor: pointer;
+        }
+    </style>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -219,6 +224,49 @@
                                 </tbody>
 
                             </table>
+
+
+
+
+                            <div class="modal fade" id="approval-modal" tabindex="-1" role="dialog"
+                                aria-labelledby="editAccountModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addAccountModalLabel">Approve or Reject Entry</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <table id="modal-table" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Account Name</th>
+                                                    <th>Description</th>
+                                                    <th>Debit</th>
+                                                    <th>Credit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+            
+                                            </tbody>
+            
+                                        </table>
+                                        <div class="modal-body">
+                                            <form id="editAccountForm">
+                                                <button type="submit" class="btn btn-primary"
+                                                    id="editSaveButton">Save</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
                         </div>
 
                     </div>
