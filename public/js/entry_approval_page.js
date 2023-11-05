@@ -93,6 +93,7 @@ try {
     $(document).ready(function () {
       $(`#${'journalEntry_table'}`).DataTable();
       $(`#${'rejected_table'}`).DataTable();
+      $(`#${'approved_table'}`).DataTable();
     });
 } catch (error) {
     console.error('Error loading DataTables:', error);
@@ -108,8 +109,8 @@ rejectButton.addEventListener('click', async () => {
     }
 });
 
-approveButton.addEventListener('click', () => {
-    commentField.style.display = 'none';
+approveButton.addEventListener('click', async () => {
+    await changeFieldValue('journals', currentEntry, 'approval', 'approved');
 });
 
   
