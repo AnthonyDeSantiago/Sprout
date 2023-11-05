@@ -8,6 +8,7 @@ const approvedJournalEntries = await getDocReferencesWithValue('journals', 'appr
 
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
+const returnToPendingButton = document.getElementById('returnToPendingButton');
 const commentField = document.getElementById('commentField');
 const commentError = document.getElementById('commentError');
 
@@ -73,6 +74,7 @@ async function rejectedModalCallback(entry) {
 }
 
 async function approvedModalCallback(entry) {
+    $('#rejected-modal').modal('show');
     console.log("called approved modal");
 }
 
@@ -112,6 +114,11 @@ rejectButton.addEventListener('click', async () => {
 
 approveButton.addEventListener('click', async () => {
     await changeFieldValue('journals', currentEntry, 'approval', 'approved');
+    location.reload();
+});
+
+returnToPendingButton.addEventListener('click', async () => {
+    await changeFieldValue('journals', currentEntry, 'approval', 'pending');
     location.reload();
 });
 
