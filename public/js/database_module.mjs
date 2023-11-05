@@ -10,7 +10,7 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { getStorage, ref } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
@@ -414,5 +414,17 @@ export async function getDocReferencesWithValue(collectionName, fieldName, field
     }
 }
   
-  
+export async function changeFieldValue(collectionName, docID, fieldName, fieldValue) {
+    try {
+        const docRef = doc(db, collectionName, docID);
+        const fieldUpdate = {};
+
+        fieldUpdate[fieldName] = fieldValue;
+
+        await updateDoc(docRef, fieldUpdate);
+
+    } catch (error) {
+        console.error(`Error updating document: ${error}`);
+    }
+}
   
