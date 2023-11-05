@@ -3,7 +3,12 @@ import { getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getF
 console.log("entry_approval_page.js has loaded");
 
 const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
-console.log("References: ", pendingJournalEntries.size);
+const rejectedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'rejected');
+const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
+
+console.log("Num of Pending Entries: ", pendingJournalEntries.size);
+console.log("Num of Rejected Entries: ", rejectedJournalEntries.size);
+console.log("approvedJournalEntries: ", approvedJournalEntries.size);
 
 
 function loadDataTables() {
