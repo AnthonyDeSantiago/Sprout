@@ -65,6 +65,7 @@ async function pendingModalCallback(entry) {
 }
 
 async function rejectedModalCallback(entry) {
+    $('#rejected-modal').modal('show');
     console.log("called rejected modal");
 }
 
