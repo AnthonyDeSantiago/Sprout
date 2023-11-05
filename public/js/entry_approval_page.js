@@ -79,9 +79,27 @@ async function initializeModalTable(journal_entry, tableId) {
 initializeTable(pendingJournalEntries, 'journalEntry_table');
 $('#approval-modal').on('hidden.bs.modal', function () {
     $('#modal-table tbody').empty();
+    $('#commentField').val('');
+    $('#commentError').text('');
 });
 
 
+const rejectButton = document.getElementById('rejectButton');
+const approveButton = document.getElementById('approveButton');
+const commentField = document.getElementById('commentField');
+const commentError = document.getElementById('commentError');
+
+rejectButton.addEventListener('click', () => {
+    if (commentField.value.trim() === '') {
+        commentError.textContent = 'Please enter a comment before rejecting.';
+    } else {
+        commentError.textContent = '';
+    }
+});
+
+approveButton.addEventListener('click', () => {
+    commentField.style.display = 'none';
+});
 
   
   
