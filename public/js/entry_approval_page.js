@@ -1,4 +1,4 @@
-import { getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { changeFieldValue, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("entry_approval_page.js has loaded");
 
@@ -10,6 +10,8 @@ const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
 const commentField = document.getElementById('commentField');
 const commentError = document.getElementById('commentError');
+
+let currentEntry = null;
 
 console.log("Num of Pending Entries: ", pendingJournalEntries.size);
 console.log("Num of Rejected Entries: ", rejectedJournalEntries.size);
@@ -39,6 +41,7 @@ async function initializeTable(entries, tableId, callback) {
         `;
         row.addEventListener('click', async () => {
             console.log("Row clicked, the entry is: ", entry.id);
+            currentEntry = entry.id;
             callback(entry);
         });
     }
@@ -95,11 +98,13 @@ try {
     console.error('Error loading DataTables:', error);
 }
 
-rejectButton.addEventListener('click', () => {
+rejectButton.addEventListener('click', async () => {
+    console.log('selectedRow', currentEntry);
     if (commentField.value.trim() === '') {
         commentError.textContent = 'Please enter a comment before rejecting.';
     } else {
         commentError.textContent = '';
+        await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
     }
 });
 
