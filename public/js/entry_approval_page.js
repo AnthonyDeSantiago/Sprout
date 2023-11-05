@@ -106,11 +106,13 @@ rejectButton.addEventListener('click', async () => {
     } else {
         commentError.textContent = '';
         await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
+        location.reload();
     }
 });
 
 approveButton.addEventListener('click', async () => {
     await changeFieldValue('journals', currentEntry, 'approval', 'approved');
+    location.reload();
 });
 
   
