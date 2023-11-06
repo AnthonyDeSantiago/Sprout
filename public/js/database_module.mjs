@@ -1,3 +1,10 @@
+/*
+Please don't change anything here. It's sort of an ad-hoc api I made mostly to streamline
+database backend stuff. Alot of these functions get used and reused in multiple locations so 
+changing the implementation here will break things.
+
+-Anthony
+*/
 console.log("!!! database_module.mjs has loaded !!!")
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";

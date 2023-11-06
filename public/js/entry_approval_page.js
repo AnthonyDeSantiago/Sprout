@@ -53,8 +53,6 @@ async function pendingModalCallback(entry) {
     $('#approval-modal').modal('show');
     const modalTableBody = document.querySelector(`#${"modal-table"} tbody`);
     const transactions = entry.data().transactions;
-    console.log("transactions length", transactions.length);
-    console.log("transactions' ID's ", transactions);
     for (let i = 0; i < transactions.length; i++) {
         console.log('transaction description', transactions[0])
         const transaction = await getDocumentReference('transactions', transactions[i]);
@@ -70,6 +68,20 @@ async function pendingModalCallback(entry) {
 
 async function rejectedModalCallback(entry) {
     $('#rejected-modal').modal('show');
+    const modalTableBody = document.querySelector(`#${"rejected-modal-table"} tbody`);
+    const transactions = entry.data().transactions;
+    console.log("transactions in rej: ", transactions);
+    for (let i = 0; i < transactions.length; i++) {
+        console.log('transaction description', transactions[0])
+        const transaction = await getDocumentReference('transactions', transactions[i]);
+        const row = modalTableBody.insertRow(i);
+        row.innerHTML = `
+            <td>Testing</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.debit}</td>
+            <td>${transaction.credit}</td>
+        `;
+    }
     console.log("called rejected modal");
 }
 
