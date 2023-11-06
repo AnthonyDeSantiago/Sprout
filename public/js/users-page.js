@@ -2,21 +2,21 @@ import { changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDoc
 
 console.log("users-page.js has loaded");
 
-const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
-const rejectedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'rejected');
-const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
+const pendingUsers = await getDocReferencesWithValue('users', 'approved', false);
+// const rejectedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'rejected');
+// const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
 
-const rejectButton = document.getElementById('rejectButton');
-const approveButton = document.getElementById('approveButton');
-const returnToPendingButton = document.getElementById('returnToPendingButton');
-const commentField = document.getElementById('commentField');
-const commentError = document.getElementById('commentError');
+// const rejectButton = document.getElementById('rejectButton');
+// const approveButton = document.getElementById('approveButton');
+// const returnToPendingButton = document.getElementById('returnToPendingButton');
+// const commentField = document.getElementById('commentField');
+// const commentError = document.getElementById('commentError');
 
-let currentEntry = null;
+// let currentEntry = null;
 
-console.log("Num of Pending Entries: ", pendingJournalEntries.size);
-console.log("Num of Rejected Entries: ", rejectedJournalEntries.size);
-console.log("approvedJournalEntries: ", approvedJournalEntries.size);
+console.log("Num of Pending Users: ", pendingUsers.size);
+// console.log("Num of Rejected Entries: ", rejectedJournalEntries.size);
+// console.log("approvedJournalEntries: ", approvedJournalEntries.size);
 
 
 function loadDataTables() {
@@ -29,16 +29,18 @@ function loadDataTables() {
     });
 }
   
-async function initializeTable(entries, tableId, callback) {
+async function initializeTable(users, tableId, callback) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
-    for (let i = 0; i < entries.size; i++) {
-        const entry = entries.docs[i];
+    for (let i = 0; i < users.size; i++) {
+        const user = users.docs[i];
         const row = tableBody.insertRow(i);
         row.innerHTML = `
-            <td>${entry.data().creationDate.toDate()}</td>
-            <td>${entry.id}</td>
-            <td>${entry.data().user}</td>
-            <td>${entry.data().description}</td>
+            <td>${user.data().username}
+            <td>${user.data().firstName}</td>
+            <td>${user.data().lastName}</td>
+            <td>${user.data().userEmail}</td>
+            <td>${user.data().role}</td>
+            <td>${user.data().address}</td>
         `;
         row.addEventListener('click', async () => {
             console.log("Row clicked, the entry is: ", entry.id);
@@ -93,9 +95,9 @@ async function approvedModalCallback(entry) {
 }
 
 
-initializeTable(pendingJournalEntries, 'journalEntry_table', pendingModalCallback);
-initializeTable(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
-initializeTable(approvedJournalEntries, 'approved_table', approvedModalCallback);
+initializeTable(pendingUsers, 'journalEntry_table', pendingModalCallback);
+// initializeTable(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
+// initializeTable(approvedJournalEntries, 'approved_table', approvedModalCallback);
 
 $('#approval-modal').on('hidden.bs.modal', function () {
     $('#modal-table tbody').empty();
