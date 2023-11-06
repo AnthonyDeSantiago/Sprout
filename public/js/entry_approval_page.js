@@ -56,9 +56,11 @@ async function pendingModalCallback(entry) {
     for (let i = 0; i < transactions.length; i++) {
         console.log('transaction description', transactions[0])
         const transaction = await getDocumentReference('transactions', transactions[i]);
+        const accountData = await getDocumentReference('accounts', transaction.account);
         const row = modalTableBody.insertRow(i);
         row.innerHTML = `
-            <td>Testing</td>
+            <td>${accountData.accountNumber}</td>
+            <td>${accountData.accountName}</td>
             <td>${transaction.description}</td>
             <td>${transaction.debit}</td>
             <td>${transaction.credit}</td>
