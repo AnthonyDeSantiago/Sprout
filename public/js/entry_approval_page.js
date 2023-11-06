@@ -1,4 +1,4 @@
-import { changeFieldValue, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("entry_approval_page.js has loaded");
 
@@ -53,8 +53,6 @@ async function pendingModalCallback(entry) {
     $('#approval-modal').modal('show');
     const modalTableBody = document.querySelector(`#${"modal-table"} tbody`);
     const transactions = entry.data().transactions;
-    console.log("transactions length", transactions.length);
-    console.log("transactions' ID's ", transactions);
     for (let i = 0; i < transactions.length; i++) {
         console.log('transaction description', transactions[0])
         const transaction = await getDocumentReference('transactions', transactions[i]);
@@ -70,6 +68,20 @@ async function pendingModalCallback(entry) {
 
 async function rejectedModalCallback(entry) {
     $('#rejected-modal').modal('show');
+    const modalTableBody = document.querySelector(`#${"rejected-modal-table"} tbody`);
+    const transactions = entry.data().transactions;
+    console.log("transactions in rej: ", transactions);
+    for (let i = 0; i < transactions.length; i++) {
+        console.log('transaction description', transactions[0])
+        const transaction = await getDocumentReference('transactions', transactions[i]);
+        const row = modalTableBody.insertRow(i);
+        row.innerHTML = `
+            <td>Testing</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.debit}</td>
+            <td>${transaction.credit}</td>
+        `;
+    }
     console.log("called rejected modal");
 }
 
@@ -103,6 +115,7 @@ try {
 
 rejectButton.addEventListener('click', async () => {
     console.log('selectedRow', currentEntry);
+
     if (commentField.value.trim() === '') {
         commentError.textContent = 'Please enter a comment before rejecting.';
     } else {
@@ -113,6 +126,34 @@ rejectButton.addEventListener('click', async () => {
 });
 
 approveButton.addEventListener('click', async () => {
+    const journalRef = await getDocumentReference("journals", currentEntry);
+    const transactions = journalRef.transactions;
+    console.log("transactions: ", transactions);
+
+    for (let i = 0; i < transactions.length; i++) {
+        const transaction = await getDocumentReference("transactions", transactions[i]);
+        const account = transaction.account;
+        const accountData = await getDocumentReference("accounts", account);
+        const debit = transaction.debit;
+        const credit = transaction.credit;
+        const normalSide = accountData.normalSide;
+        var balance = await convertBalanceToFloat(accountData.balance);
+        console.log("Balance: ", balance);
+        if (normalSide == "Debit") {
+            balance += debit;
+            balance -= credit;
+            balance = await formatNumberToCurrency(balance);
+            console.log("Converted Balance: ", balance);
+            await changeFieldValue("accounts", account, 'balance', balance);
+        } else if (normalSide == "Credit") {
+            balance -= debit;
+            balance += credit;
+            balance = await formatNumberToCurrency(balance);
+            console.log("Converted Balance: ", balance);
+            await changeFieldValue("accounts", account, 'balance', balance);
+        }
+
+    }
     await changeFieldValue('journals', currentEntry, 'approval', 'approved');
     location.reload();
 });
