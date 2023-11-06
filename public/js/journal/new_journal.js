@@ -1,6 +1,7 @@
 import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
+import { getStorage, ref, uploadBytesResumable, uploadBytes, getDownloadURL  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
 console.log("!!! new_journal.js loaded !!!");
 
@@ -10,6 +11,7 @@ let userDisplay = null;
 let userEmail = null;
 let userData = null;
 
+const storage = getStorage();   //Cloud Storage grab
 const db = getFirestore();
 const journals_db = collection(db, 'journals');
 const transactions_db = collection(db, 'transactions');
@@ -99,6 +101,57 @@ function validateDescription(journalDescription) {
         logAccountingError("Journal description is empty.", currentUser);
     }
     return isValid;
+}
+
+// Function to upload the document and return the download URL
+async function uploadDocument(file, journalID) {
+    // Create a storage reference with the journalID and the file name
+    const fileRef = ref(storage, 'journals/' + journalID + '/' + file.name);
+  
+    // Upload the file to Firebase Storage
+    const uploadTask = uploadBytesResumable(fileRef, file);
+  
+    // Return a promise that resolves with the download URL
+    return new Promise((resolve, reject) => {
+        uploadTask.on('state_changed', 
+            (snapshot) => {
+                // Handle upload progress
+            }, 
+            (error) => {
+                // Handle unsuccessful uploads
+                reject(error);
+            }, 
+            () => {
+                // Handle successful uploads on complete
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    resolve(downloadURL);
+                });
+            }
+        );
+    });
+}
+
+// Function to add a download button to the data table row
+function addDocumentDownloadButton(downloadURL, rowIndex) {
+    // Get the data table row
+    let row = transactionEntriesTable.row(rowIndex).node();
+  
+    // Create the download button
+    let btn = document.createElement("button");
+    btn.innerHTML = "Download Document";
+    btn.onclick = function () {
+        window.open(downloadURL, '_blank');
+    };
+  
+    // Append the download button to the fifth cell (assuming document is in the fifth column)
+    row.cells[4].appendChild(btn);
+}
+async function addTransactionEntries(entry) {
+    transactionEntriesTable.rows.add([entry]).draw();
+    // Call function to add a download button if the entry has a document
+    if (entry.sourceDocumentURL) {
+        addDocumentDownloadButton(entry.sourceDocumentURL, transactionEntriesTable.rows().count() - 1);
+    }
 }
 
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
@@ -375,7 +428,10 @@ async function initializeTransactionEntries() {
             { data: 'account', title: 'Account Name' },
             { data: 'debit', title: 'Debit Amount' },
             { data: 'credit', title: 'Credit Amount' },
-            { data: 'description', title: 'Description' }
+            { data: 'description', title: 'Description' },
+            { data: 'document', title: 'Document', render: function(data, type, row, meta) {
+                return data ? `<a href="${data}" target="_blank">View Document</a>` : 'No Document'; // Adjust as needed
+            }}
         ],
         data: journal_entry,
         pageLength: 10,
