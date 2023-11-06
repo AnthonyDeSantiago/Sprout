@@ -4,7 +4,7 @@ console.log("users-page.js has loaded");
 
 const pendingUsers = await getDocReferencesWithValue('users', 'approved', false);
 // const rejectedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'rejected');
-// const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
+const approvedUsers = await getDocReferencesWithValue('users', 'approved', true);
 
 // const rejectButton = document.getElementById('rejectButton');
 // const approveButton = document.getElementById('approveButton');
@@ -12,11 +12,11 @@ const pendingUsers = await getDocReferencesWithValue('users', 'approved', false)
 // const commentField = document.getElementById('commentField');
 // const commentError = document.getElementById('commentError');
 
-// let currentEntry = null;
+let currentEntry = null;
 
 console.log("Num of Pending Users: ", pendingUsers.size);
 // console.log("Num of Rejected Entries: ", rejectedJournalEntries.size);
-// console.log("approvedJournalEntries: ", approvedJournalEntries.size);
+console.log("Num of Approved users: ", approvedUsers.size);
 
 
 function loadDataTables() {
@@ -43,9 +43,9 @@ async function initializeTable(users, tableId, callback) {
             <td>${user.data().address}</td>
         `;
         row.addEventListener('click', async () => {
-            console.log("Row clicked, the entry is: ", entry.id);
-            currentEntry = entry.id;
-            callback(entry);
+            console.log("Row clicked, the entry is: ", user.id);
+            currentEntry = user.id;
+            callback(currentEntry);
         });
     }
 }
@@ -97,7 +97,7 @@ async function approvedModalCallback(entry) {
 
 initializeTable(pendingUsers, 'journalEntry_table', pendingModalCallback);
 // initializeTable(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
-// initializeTable(approvedJournalEntries, 'approved_table', approvedModalCallback);
+initializeTable(approvedUsers, 'approved_table', approvedModalCallback);
 
 $('#approval-modal').on('hidden.bs.modal', function () {
     $('#modal-table tbody').empty();
