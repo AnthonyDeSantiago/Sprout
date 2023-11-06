@@ -60,7 +60,7 @@ export async function populateTableFilter(collectionName, filterCategory, tableI
   
     try {
       const querySnapshot = await getDocs(recordsCollection);
-      const tableBody = document.querySelector(`#${tableId} tbody`); // Use the provided tableId
+      const tableBody = document.querySelector(`#${tableId} tbody`);
       let rowNumber = 1;
   
       querySnapshot.forEach((doc) => {
@@ -427,4 +427,21 @@ export async function changeFieldValue(collectionName, docID, fieldName, fieldVa
         console.error(`Error updating document: ${error}`);
     }
 }
-  
+
+export async function convertBalanceToFloat(balance) {
+    const numericString = balance.replace(/[^0-9.]/g, '');
+    const floatValue = parseFloat(numericString);
+
+    return floatValue;
+}
+
+export async function formatNumberToCurrency(number) {
+    const options = {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    };
+
+    return number.toLocaleString(undefined, options);
+}
