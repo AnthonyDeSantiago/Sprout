@@ -6,8 +6,8 @@ const pendingUsers = await getDocReferencesWithValue('users', 'approved', false)
 // const rejectedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'rejected');
 const approvedUsers = await getDocReferencesWithValue('users', 'approved', true);
 
-// const rejectButton = document.getElementById('rejectButton');
-// const approveButton = document.getElementById('approveButton');
+const rejectButton = document.getElementById('rejectButton');
+const approveButton = document.getElementById('approveButton');
 // const returnToPendingButton = document.getElementById('returnToPendingButton');
 // const commentField = document.getElementById('commentField');
 // const commentError = document.getElementById('commentError');
@@ -41,33 +41,30 @@ async function initializeTable(users, tableId, callback) {
             <td>${user.data().userEmail}</td>
             <td>${user.data().role}</td>
             <td>${user.data().address}</td>
+            <td>${user.data().suspended}</td>
         `;
         row.addEventListener('click', async () => {
             console.log("Row clicked, the entry is: ", user.id);
             currentEntry = user.id;
-            callback(currentEntry);
+            callback(user);
         });
     }
 }
 
 
-async function pendingModalCallback(entry) {
+async function pendingModalCallback(user) {
     $('#approval-modal').modal('show');
     const modalTableBody = document.querySelector(`#${"modal-table"} tbody`);
-    const transactions = entry.data().transactions;
-    for (let i = 0; i < transactions.length; i++) {
-        console.log('transaction description', transactions[0])
-        const transaction = await getDocumentReference('transactions', transactions[i]);
-        const accountData = await getDocumentReference('accounts', transaction.account);
-        const row = modalTableBody.insertRow(i);
-        row.innerHTML = `
-            <td>${accountData.accountNumber}</td>
-            <td>${accountData.accountName}</td>
-            <td>${transaction.description}</td>
-            <td>${transaction.debit}</td>
-            <td>${transaction.credit}</td>
-        `;
-    }
+    const row = modalTableBody.insertRow();
+    row.innerHTML = `
+        <td>${user.data().username}
+        <td>${user.data().firstName}</td>
+        <td>${user.data().lastName}</td>
+        <td>${user.data().userEmail}</td>
+        <td>${user.data().role}</td>
+        <td>${user.data().address}</td>
+        <td>${user.data().suspended}</td>
+    `;
 }
 
 async function rejectedModalCallback(entry) {
@@ -96,7 +93,6 @@ async function approvedModalCallback(entry) {
 
 
 initializeTable(pendingUsers, 'journalEntry_table', pendingModalCallback);
-// initializeTable(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
 initializeTable(approvedUsers, 'approved_table', approvedModalCallback);
 
 $('#approval-modal').on('hidden.bs.modal', function () {
@@ -118,48 +114,51 @@ try {
 }
 
 rejectButton.addEventListener('click', async () => {
-    console.log('selectedRow', currentEntry);
+    console.log("Reject Button Pressed");
+    // await changeFieldValue('users', currentEntry, 'approved', false);
+    // // console.log('selectedRow', currentEntry);
 
-    if (commentField.value.trim() === '') {
-        commentError.textContent = 'Please enter a comment before rejecting.';
-    } else {
-        commentError.textContent = '';
-        await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
-        location.reload();
-    }
+    // if (commentField.value.trim() === '') {
+    //     commentError.textContent = 'Please enter a comment before rejecting.';
+    // } else {
+    //     commentError.textContent = '';
+    //     await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
+    //     location.reload();
+    // }
 });
 
 approveButton.addEventListener('click', async () => {
-    const journalRef = await getDocumentReference("journals", currentEntry);
-    const transactions = journalRef.transactions;
-    console.log("transactions: ", transactions);
+    console.log("Approve Button Pressed");
+    // const journalRef = await getDocumentReference("journals", currentEntry);
+    // const transactions = journalRef.transactions;
+    // console.log("transactions: ", transactions);
 
-    for (let i = 0; i < transactions.length; i++) {
-        const transaction = await getDocumentReference("transactions", transactions[i]);
-        const account = transaction.account;
-        const accountData = await getDocumentReference("accounts", account);
-        const debit = transaction.debit;
-        const credit = transaction.credit;
-        const normalSide = accountData.normalSide;
-        var balance = await convertBalanceToFloat(accountData.balance);
-        console.log("Balance: ", balance);
-        if (normalSide == "Debit") {
-            balance += debit;
-            balance -= credit;
-            balance = await formatNumberToCurrency(balance);
-            console.log("Converted Balance: ", balance);
-            await changeFieldValue("accounts", account, 'balance', balance);
-        } else if (normalSide == "Credit") {
-            balance -= debit;
-            balance += credit;
-            balance = await formatNumberToCurrency(balance);
-            console.log("Converted Balance: ", balance);
-            await changeFieldValue("accounts", account, 'balance', balance);
-        }
+    // for (let i = 0; i < transactions.length; i++) {
+    //     const transaction = await getDocumentReference("transactions", transactions[i]);
+    //     const account = transaction.account;
+    //     const accountData = await getDocumentReference("accounts", account);
+    //     const debit = transaction.debit;
+    //     const credit = transaction.credit;
+    //     const normalSide = accountData.normalSide;
+    //     var balance = await convertBalanceToFloat(accountData.balance);
+    //     console.log("Balance: ", balance);
+    //     if (normalSide == "Debit") {
+    //         balance += debit;
+    //         balance -= credit;
+    //         balance = await formatNumberToCurrency(balance);
+    //         console.log("Converted Balance: ", balance);
+    //         await changeFieldValue("accounts", account, 'balance', balance);
+    //     } else if (normalSide == "Credit") {
+    //         balance -= debit;
+    //         balance += credit;
+    //         balance = await formatNumberToCurrency(balance);
+    //         console.log("Converted Balance: ", balance);
+    //         await changeFieldValue("accounts", account, 'balance', balance);
+    //     }
 
-    }
-    await changeFieldValue('journals', currentEntry, 'approval', 'approved');
-    location.reload();
+    // }
+    // await changeFieldValue('journals', currentEntry, 'approval', 'approved');
+    // location.reload();
 });
 
 returnToPendingButton.addEventListener('click', async () => {
