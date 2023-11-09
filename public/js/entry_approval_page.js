@@ -1,4 +1,4 @@
-import { changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { addField, changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("entry_approval_page.js has loaded");
 
@@ -146,7 +146,9 @@ rejectButton.addEventListener('click', async () => {
         commentError.textContent = 'Please enter a comment before rejecting.';
     } else {
         commentError.textContent = '';
+        console.log("Comment Field Text: ", commentField.value);
         await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
+        await addField('journals', currentEntry, 'comment', commentField.value);
         location.reload();
     }
 });
