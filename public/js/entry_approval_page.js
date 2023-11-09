@@ -76,9 +76,10 @@ async function rejectedModalCallback(entry) {
     for (let i = 0; i < transactions.length; i++) {
         console.log('transaction description', transactions[0])
         const transaction = await getDocumentReference('transactions', transactions[i]);
+        const accountData = await getDocumentReference('accounts', transaction.account);
         const row = modalTableBody.insertRow(i);
         row.innerHTML = `
-            <td>Testing</td>
+            <td>${accountData.accountName}</td>
             <td>${transaction.description}</td>
             <td>${transaction.debit}</td>
             <td>${transaction.credit}</td>
@@ -88,7 +89,22 @@ async function rejectedModalCallback(entry) {
 }
 
 async function approvedModalCallback(entry) {
-    $('#rejected-modal').modal('show');
+    $('#approved-modal').modal('show');
+    const modalTableBody = document.querySelector(`#${"approved-modal-table"} tbody`);
+    const transactions = entry.data().transactions;
+    console.log("transactions in rej: ", transactions);
+    for (let i = 0; i < transactions.length; i++) {
+        console.log('transaction description', transactions[0])
+        const transaction = await getDocumentReference('transactions', transactions[i]);
+        const accountData = await getDocumentReference('accounts', transaction.account);
+        const row = modalTableBody.insertRow(i);
+        row.innerHTML = `
+            <td>${accountData.accountName}</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.debit}</td>
+            <td>${transaction.credit}</td>
+        `;
+    }
     console.log("called approved modal");
 }
 
@@ -103,6 +119,9 @@ $('#approval-modal').on('hidden.bs.modal', function () {
     $('#commentError').text('');
 });
 
+$('#rejected-modal').on('hidden.bs.modal', function () {
+    $('#rejected-modal-table tbody').empty();
+});
 
 try {
     await loadDataTables();
