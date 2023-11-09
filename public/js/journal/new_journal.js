@@ -72,7 +72,7 @@ document.getElementById("journalForm").addEventListener("reset", async function 
     document.getElementById("journalForm").reset();
 
 });
-
+//-------------------------document handling ------------------------
 // Function to validate source document type and display an error if invalid
 function validateDocumentType(sourceDocument) {
     const acceptedDocTypes = ['application/pdf', 'image/jpeg', 'image/png']; // Add more as needed
@@ -146,13 +146,13 @@ function addDocumentDownloadButton(downloadURL, rowIndex) {
     // Append the download button to the fifth cell (assuming document is in the fifth column)
     row.cells[4].appendChild(btn);
 }
-async function addTransactionEntries(entry) {
+/*async function addTransactionEntries1(entry) {
     transactionEntriesTable.rows.add([entry]).draw();
     // Call function to add a download button if the entry has a document
     if (entry.sourceDocumentURL) {
         addDocumentDownloadButton(entry.sourceDocumentURL, transactionEntriesTable.rows().count() - 1);
     }
-}
+}*/
 
 document.getElementById("transactionForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -366,7 +366,8 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     accounts: accountIDs,
                     description: journalDescription.value.toString(),
                     approval: "pending",
-                    user: currentUser
+                    user: currentUser, 
+                    docRef: 
                 });
                 console.log("Journal written with ID: ", docRefJournal.id);
                 journalID = docRefJournal.id;                //grab journal id
@@ -441,7 +442,19 @@ async function initializeTransactionEntries() {
 
 async function addTransactionEntries(entry) {
     transactionEntriesTable.rows.add([entry]).draw();
+    //jalon added
+    if (entry.sourceDocumentURL) {
+        addDocumentDownloadButton(entry.sourceDocumentURL, transactionEntriesTable.rows().count() - 1);
+    }
 }
+
+/*async function addTransactionEntries1(entry) {
+    transactionEntriesTable.rows.add([entry]).draw();
+    // Call function to add a download button if the entry has a document
+    if (entry.sourceDocumentURL) {
+        addDocumentDownloadButton(entry.sourceDocumentURL, transactionEntriesTable.rows().count() - 1);
+    }
+}*/
 
 async function getAccountsList() {
     const accountsCollection = collection(db, 'accounts');

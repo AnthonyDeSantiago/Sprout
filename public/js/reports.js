@@ -1,5 +1,27 @@
+  // Define columns for each table
+  var trialBalanceColumns = [
+    { title: 'Accounts', data: 'account' },
+    { title: 'Debit Balances', data: 'debit' },
+    { title: 'Credit Balances', data: 'credit' }
+  ];
+  var incomeStatementColumns = [
+    { title: 'Revenue Streams', data: 'revenue' },
+    { title: 'Expenses', data: 'expense' },
+    { title: 'Net Income', data: 'netIncome' }
+  ];
+  var balanceSheetColumns = [
+    { title: 'Assets', data: 'asset' },
+    { title: 'Liabilities', data: 'liability' },
+    { title: 'Equity', data: 'equity' }
+  ];
+  var retainedEarningsColumns = [
+    { title: 'Beginning Retained Earnings', data: 'beginning' },
+    { title: 'Net Income', data: 'netIncome' },
+    { title: 'Dividends', data: 'dividend' },
+    { title: 'Ending Retained Earnings', data: 'ending' }
+  ];
   // Add event listener for Generate Reports button
-  document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
+ document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
     event.preventDefault();
     // Get the selected dates
     const startDate = document.getElementById('startDate').value;
@@ -25,10 +47,10 @@
 
     function generateReports(startDate, endDate) {
         // Now, you need to pass the start and end dates to the fetchDataAndRenderTable function
-        fetchDataAndRenderTable('trialBalanceTable', 'trial_balance', trialBalanceColumns, startDate, endDate);
-        fetchDataAndRenderTable('incomeStatementTable', 'income_statement', incomeStatementColumns, startDate, endDate);
-        fetchDataAndRenderTable('balanceSheetTable', 'balance_sheet', balanceSheetColumns, startDate, endDate);
-        fetchDataAndRenderTable('retainedEarningsTable', 'retained_earnings', retainedEarningsColumns, startDate, endDate);
+        fetchDataAndRenderTrialBalance(startDate, endDate);
+        fetchDataAndRenderIncomeStatement(startDate, endDate);
+        fetchDataAndRenderBalanceSheet(startDate, endDate);
+        fetchDataAndRenderRetainedEarnings(startDate, endDate);
     }
 
 
@@ -188,33 +210,138 @@ function fetchDataAndRenderTable(tableId, firebaseRef, columns, startDate, endDa
     });
 }
 
-  // Define columns for each table
-  var trialBalanceColumns = [
-    { title: 'Accounts', data: 'account' },
-    { title: 'Debit Balances', data: 'debit' },
-    { title: 'Credit Balances', data: 'credit' }
-  ];
-  var incomeStatementColumns = [
-    { title: 'Revenue Streams', data: 'revenue' },
-    { title: 'Expenses', data: 'expense' },
-    { title: 'Net Income', data: 'netIncome' }
-  ];
-  var balanceSheetColumns = [
-    { title: 'Assets', data: 'asset' },
-    { title: 'Liabilities', data: 'liability' },
-    { title: 'Equity', data: 'equity' }
-  ];
-  var retainedEarningsColumns = [
-    { title: 'Beginning Retained Earnings', data: 'beginning' },
-    { title: 'Net Income', data: 'netIncome' },
-    { title: 'Dividends', data: 'dividend' },
-    { title: 'Ending Retained Earnings', data: 'ending' }
-  ];
+  
   
   // Call function to render each table
   $(document).ready(function() {
-    fetchDataAndRenderTable('trialBalanceTable', 'trial_balance', trialBalanceColumns);
-    fetchDataAndRenderTable('incomeStatementTable', 'income_statement', incomeStatementColumns);
-    fetchDataAndRenderTable('balanceSheetTable', 'balance_sheet', balanceSheetColumns);
-    fetchDataAndRenderTable('retainedEarningsTable', 'retained_earnings', retainedEarningsColumns);
-  });
+    fetchDataAndRenderTrialBalance(startDate, endDate);
+    fetchDataAndRenderIncomeStatement(startDate, endDate);
+    fetchDataAndRenderBalanceSheet(startDate, endDate);
+    fetchDataAndRenderRetainedEarnings(startDate, endDate);
+});
+
+//---------------
+
+// Function to fetch data and render the Trial Balance table
+function fetchDataAndRenderTrialBalance(startDate, endDate) {
+    var table = $('#trialBalanceTable').DataTable({
+        columns: [
+            { title: 'Accounts', data: 'name' },
+            { title: 'Debit Balances', data: 'debit' },
+            { title: 'Credit Balances', data: 'credit' }
+        ],
+        searching: false,
+        paging: false
+    });
+
+    // Clear any old data in the table
+    table.clear();
+
+    // Fetch accounts from the Firebase collection
+    database.collection('accounts').where('date', '>=', startDate).where('date', '<=', endDate).get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            var account = doc.data();
+            // Add a new row to the DataTable for each account
+            table.row.add({
+                name: account.name,
+                debit: account.debit || 0, // If no debit, default to 0
+                credit: account.credit || 0 // If no credit, default to 0
+            });
+        });
+        // Redraw the DataTable with new data
+        table.draw();
+    })
+    .catch(error => {
+        console.error("Error fetching data: ", error);
+    });
+}
+    // Function to fetch data and render the Trial Balance table
+function fetchDataAndRenderIncomeStatement(startDate, endDate) {
+    var table = $('#incomeStatementTable').DataTable({
+        columns: [
+            { title: 'Revenue Streams', data: 'Revenue' },
+            { title: 'Expenses', data: 'Expenses' },
+            { title: 'Net income', data: 'Netincome' }
+        ],
+        searching: false,
+        paging: false
+    
+});
+ // Clear any old data in the table
+ table.clear();
+
+ // Fetch accounts from the Firebase collection
+ database.collection('accounts').where('date', '>=', startDate).where('date', '<=', endDate).get()
+ .then(querySnapshot => {
+     querySnapshot.forEach(doc => {
+         var account = doc.data();
+         // Add a new row to the DataTable for each account
+         table.row.add({
+            //replace collection name . value pull
+            Revenue: account.name,
+            Expenses: account.debit || 0, // If no debit, default to 0
+            Netincome: account.credit || 0 // If no credit, default to 0
+         });
+     });
+     // Redraw the DataTable with new data
+     table.draw();
+ })
+ .catch(error => {
+     console.error("Error fetching data: ", error);
+ });
+
+
+}
+     // Function to fetch data and render the Trial Balance table
+function fetchDataAndRenderBalanceSheet(startDate, endDate) {
+    var table = $('#balanceSheetTable').DataTable({
+        columns: [
+            { title: 'Assets', data: 'name' },
+            { title: 'Liabilities', data: 'debit' },
+            { title: 'Equity', data: 'credit' }
+        ],
+        searching: false,
+        paging: false
+    });
+}
+
+     // Function to fetch data and render the Trial Balance table
+function fetchDataAndRenderRetainedEarnings(startDate, endDate) {
+    var table = $('#retainedEarningsTable').DataTable({
+        columns: [
+            { title: 'Beginning Retained Earnings', data: 'name' },
+            { title: 'Net Income', data: 'debit' },
+            { title: 'Dividends', data: 'credit' },
+            { title: 'Ending Retained Earnings', data: 'credit' }
+        ],
+        searching: false,
+        paging: false
+    });
+}
+
+    
+// transaction collection pull  
+database.collection('accounts').where('date', '>=', startDate).where('date', '<=', endDate).get()
+.then(querySnapshot => {
+    table.clear(); // Clear the table before adding new data
+    querySnapshot.forEach(doc => {
+        var account = doc.data();
+        // Add a new row to the DataTable for each account
+        table.row.add({
+            name: account.name,
+            debit: account.debit || 0, // If no debit, default to 0
+            credit: account.credit || 0 // If no credit, default to 0
+        });
+    });
+    table.draw(); // Redraw the DataTable with new data
+})
+.catch(error => {
+    console.error("Error fetching data: ", error);
+});
+
+
+
+
+
+
