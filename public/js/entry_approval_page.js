@@ -49,6 +49,25 @@ async function initializeTable(entries, tableId, callback) {
     }
 }
 
+async function initializeTableWithComments(entries, tableId, callback) {
+    const tableBody = document.querySelector(`#${tableId} tbody`);
+    for (let i = 0; i < entries.size; i++) {
+        const entry = entries.docs[i];
+        const row = tableBody.insertRow(i);
+        row.innerHTML = `
+            <td>${entry.data().creationDate.toDate()}</td>
+            <td>${entry.id}</td>
+            <td>${entry.data().user}</td>
+            <td>${entry.data().description}</td>
+            <td>${entry.data().comment}</td>
+        `;
+        row.addEventListener('click', async () => {
+            console.log("Row clicked, the entry is: ", entry.id);
+            currentEntry = entry.id;
+            callback(entry);
+        });
+    }
+}
 
 async function pendingModalCallback(entry) {
     $('#approval-modal').modal('show');
@@ -111,8 +130,8 @@ async function approvedModalCallback(entry) {
 
 
 initializeTable(pendingJournalEntries, 'journalEntry_table', pendingModalCallback);
-initializeTable(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
-initializeTable(approvedJournalEntries, 'approved_table', approvedModalCallback);
+initializeTableWithComments(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
+initializeTableWithComments(approvedJournalEntries, 'approved_table', approvedModalCallback);
 
 $('#approval-modal').on('hidden.bs.modal', function () {
     $('#modal-table tbody').empty();
