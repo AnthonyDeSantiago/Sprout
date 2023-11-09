@@ -182,6 +182,7 @@ approveButton.addEventListener('click', async () => {
         }
 
     }
+    await addField('journals', currentEntry, 'comment', commentField.value);
     await changeFieldValue('journals', currentEntry, 'approval', 'approved');
     location.reload();
 });
