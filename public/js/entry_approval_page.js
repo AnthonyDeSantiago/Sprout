@@ -1,4 +1,4 @@
-import { changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { addField, changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("entry_approval_page.js has loaded");
 
@@ -9,6 +9,7 @@ const approvedJournalEntries = await getDocReferencesWithValue('journals', 'appr
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
 const returnToPendingButton = document.getElementById('returnToPendingButton');
+const returnToPendingButton2 = document.getElementById("returnToPendingButton2");
 const commentField = document.getElementById('commentField');
 const commentError = document.getElementById('commentError');
 
@@ -123,6 +124,10 @@ $('#rejected-modal').on('hidden.bs.modal', function () {
     $('#rejected-modal-table tbody').empty();
 });
 
+$('#approved-modal').on('hidden.bs.modal', function () {
+    $('#approved-modal-table tbody').empty();
+});
+
 try {
     await loadDataTables();
     $(document).ready(function () {
@@ -141,7 +146,9 @@ rejectButton.addEventListener('click', async () => {
         commentError.textContent = 'Please enter a comment before rejecting.';
     } else {
         commentError.textContent = '';
+        console.log("Comment Field Text: ", commentField.value);
         await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
+        await addField('journals', currentEntry, 'comment', commentField.value);
         location.reload();
     }
 });
@@ -180,6 +187,38 @@ approveButton.addEventListener('click', async () => {
 });
 
 returnToPendingButton.addEventListener('click', async () => {
+    await changeFieldValue('journals', currentEntry, 'approval', 'pending');
+    location.reload();
+});
+
+returnToPendingButton2.addEventListener('click', async () => {
+    const journalRef = await getDocumentReference("journals", currentEntry);
+    const transactions = journalRef.transactions;
+    console.log("transactions: ", transactions);
+
+    for (let i = 0; i < transactions.length; i++) {
+        const transaction = await getDocumentReference("transactions", transactions[i]);
+        const account = transaction.account;
+        const accountData = await getDocumentReference("accounts", account);
+        const debit = transaction.debit;
+        const credit = transaction.credit;
+        const normalSide = accountData.normalSide;
+        var balance = await convertBalanceToFloat(accountData.balance);
+        console.log("Balance: ", balance);
+        if (normalSide == "Credit") {
+            balance += debit;
+            balance -= credit;
+            balance = await formatNumberToCurrency(balance);
+            console.log("Converted Balance: ", balance);
+            await changeFieldValue("accounts", account, 'balance', balance);
+        } else if (normalSide == "Debit") {
+            balance -= debit;
+            balance += credit;
+            balance = await formatNumberToCurrency(balance);
+            console.log("Converted Balance: ", balance);
+            await changeFieldValue("accounts", account, 'balance', balance);
+        }
+    }
     await changeFieldValue('journals', currentEntry, 'approval', 'pending');
     location.reload();
 });

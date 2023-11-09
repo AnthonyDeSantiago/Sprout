@@ -452,3 +452,17 @@ export async function formatNumberToCurrency(number) {
 
     return number.toLocaleString(undefined, options);
 }
+
+
+export async function addField(collectionName, docID, fieldName, fieldValue) {
+    try {
+        const docRef = doc(db, collectionName, docID);
+        const newFieldData = { [fieldName]: fieldValue };
+
+        await updateDoc(docRef, newFieldData); 
+
+        console.log('Document updated successfully with new field.');
+    } catch (error) {
+        console.error(`Error updating document: ${error}`);
+    }
+}
