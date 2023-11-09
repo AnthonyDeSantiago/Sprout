@@ -1,4 +1,4 @@
-import { capitalizeString, getAccountID, getDocsWithValue, getFieldValue } from "./database_module.mjs";
+import { capitalizeString, getAccountID, getDocsWithValue, getFieldValue, getDocReferencesWithValue, getDocumentReference } from "./database_module.mjs";
 
 console.log("ledger.js has loaded!!!");
 
@@ -10,6 +10,9 @@ const journalEntries = await getDocsWithValue('journals', 'account', accountID);
 const transactions = await getDocsWithValue('transactions', 'account', accountID);
 const normalSide = capitalizeString(await getFieldValue('accounts', accountID, 'normalSide'));
 const accountBreadCrumb = document.getElementById("accountBreadcrumb-element");
+const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
+const approvedTransactions = getTransactions(approvedJournalEntries);
+console.log("approved transactions:", approvedTransactions);
 
 
 
@@ -22,17 +25,25 @@ console.log("debit: ", transactions[0].debit);
 console.log("transactions length", transactions.length);
 console.log("Normal side", normalSide);
 
-populateLedgerTable(transactions, 'ledger');
+populateLedgerTable(approvedTransactions, 'ledger');
 printTotal();
 accountBreadCrumb.textContent = accountName;
 
 
+function loadDataTables() {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
+}
 
-
-function populateLedgerTable(transactions, tableId) {
+async function populateLedgerTable(transactions, tableId) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
     for (let i = 0; i < transactions.length; i++) {
-      const transaction = transactions[i];
+      const transaction = await getDocumentReference('transactions', transactions[i]);
       tableBody.innerHTML += `
             <tr>
                 <td>${transaction.creationDate.toDate()}</td>
@@ -44,13 +55,16 @@ function populateLedgerTable(transactions, tableId) {
             </tr>
         `;
     }
+    try {
+        await loadDataTables();
+        $(document).ready(function () {
+          $(`#${'ledger'}`).DataTable();
+        });
+    } catch (error) {
+        console.error('Error loading DataTables:', error);
+    }
 }
 
-
-$(document).ready(function() {
-    console.log("Is this working now?");
-    $('#ledger').DataTable();
-});
 
 
 function printTotal() {
@@ -67,16 +81,21 @@ function printTotal() {
     }
     debitElement.textContent = debitTotal;
     creditElement.textContent = creditTotal;
-    if (normalSide == 'DEBIT') {
-        // const total = debitTotal - creditTotal;
-        // totalElement.textContent = "Total: " + total;
-        
-    } else {
-        // const total = creditTotal - debitTotal;
-        // totalElement.textContent = "Total: " + total;
-
-    }
 }
 
 
-  
+function getTransactions(journalEntries) {
+    const approvedTransactions = [];
+    const t = journalEntries.docs[0].data().transactions;
+    for (let i = 0; i < journalEntries.docs.length; i++) {
+        const currentJournalTransactions = journalEntries.docs[i].data().transactions;
+        if (Array.isArray(currentJournalTransactions)) {
+            for (const t of currentJournalTransactions) {
+                approvedTransactions.push(t);
+            }
+        }
+    }
+
+    return approvedTransactions;
+}
+
