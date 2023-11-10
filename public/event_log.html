@@ -2,26 +2,45 @@
 <html lang="en">
 
 <head>
+    <style>
+        #journalEntry_table tbody tr {
+            cursor: pointer;
+        }
+        #rejected_table tbody tr {
+            cursor: pointer;
+        }
+        #approved_table tbody tr {
+            cursor: pointer;
+        }
+        .modal-content {
+            width: 100%; 
+            max-width: none; 
+        }        
+    </style>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Event Log</title>
+    <title>Journal Entry Approval</title>
+    <link rel="icon" href="assets/ICON.png" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/ourstyle.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/Main_Calendar.css">
-    <script defer src="js/Main_Calendar.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script defer src="js/Main_Calendar.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script defer src="js/event-log.js" type="module"></script>
     <script defer src="js/sprout.js" type="module"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-
+    <!-- <script defer src="js/entry_approval_page.js" type="module"></script> -->
+    <script defer src="js/event-log.js" type="module"></script>
+    <script defer src="https://code.jquery.com/jquery-3.7.1.js"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link defer href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 
 <body class="sb-nav-fixed">
@@ -46,15 +65,11 @@
             </li>
         </ul>
 
-        <!-- Navbar Brand-->
-        <!-- <a class="navbar-brand ps-3" href="index.html">Sprout Financial</a> -->
         <img src="assets/LOGO.png" class="bg-logo mx-auto" alt="">
 
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-large order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
-
-
 
     </nav>
 
@@ -125,6 +140,10 @@
                                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
                                     Create Entry
                                 </a>
+                                <a class="nav-link" href="entry_approval_page.html">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
+                                    Approve Entries
+                                </a>
                             </nav>
                         </div>
 
@@ -194,169 +213,99 @@
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Event Log</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active"></li>
+                        <li class="breadcrumb-item active" id="accountBreadcrumb-element">Insert Account No. or Name?
+                        </li>
                     </ol>
 
                     <div class="card mb-4">
                         <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
+                            <i class="bi bi-journal-bookmark-fill"></i>
                             Events
                         </div>
                         <div class="card-body">
 
+                            <!-- Journal Entry Table table -->
+                            <table id="journalEntry_table" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Creation Date</th>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            <!-- Event Log Modal -->
-                            <div class="modal fade" id="eventLogModal" tabindex="-1" role="dialog"
-                                aria-labelledby="eventLogModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+                                </tbody>
+
+                            </table>
+
+
+
+                            <!-- The modal for transactions -->
+                            <div class="modal fade" id="approval-modal" tabindex="-1" role="dialog" aria-labelledby="editAccountModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="addAccountModalLabel">Add New Account</h5>
+                                            <h5 class="modal-title" id="addAccountModalLabel">Before and After Image</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <form id="eventLogForm">
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="username" class="form-label">Username</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="username" type="text"
-                                                            placeholder="Username" />
-                                                    </div>
+                                        <table id="modal-table" class="table table-bordered table-hover" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Account Category</th>
+                                                    <th>Account Description</th>
+                                                    <th>Account Name</th>
+                                                    <th>Account Number</th>
+                                                    <th>Active</th>
+                                                    <th>Balance</th>
+                                                    <th>Comment</th>
+                                                    <th>Initial Balance</th>
+                                                    <th>Normal Side</th>
+                                                    <th>Order</th>
+                                                    <th>Creation Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+            
+                                            </tbody>
+            
+                                        </table>
+                                        <div class="modal-body modal-lg">
+                                            <form id="approvalForm">
+                                                <div class="form-group">
+                                                    <label for="rejectReason">Comment</label>
+                                                    <textarea class="form-control" id="commentField" rows="3" name="commentField"></textarea>
                                                 </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="username" class="form-label">Event ID</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="eventID" type="text"
-                                                            placeholder="Event ID" />
-                                                    </div>
+                                                <div class="form-group">
+                                                    <div class="error-message" id="commentError" style="color: red;"></div>
                                                 </div>
-
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="username" class="form-label">Event Type</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="eventType" type="text"
-                                                            placeholder="Event Type" />
-                                                    </div>
+                                                <div class="mt-3">
+                                                    <button type="button" class="btn btn-success" id="approveButton">Approve</button>
+                                                    <button type="button" class="btn btn-danger" id="rejectButton">Reject</button>
                                                 </div>
-
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="username" class="form-label">Timestamp</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="timestamp" type="text"
-                                                            placeholder="Timestamp" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="username" class="form-label">Before Image</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="beforeImage" type="text"
-                                                            placeholder="Before Image" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="username" class="form-label">After Image</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="afterImage" type="text"
-                                                            placeholder="After Image" />
-                                                    </div>
-                                                </div>
-
-
-                                                <button type="submit" class="btn btn-primary"
-                                                    id="addSaveButton">Save</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-                            <table id="eventLog_entries" class="display" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Username</th>
-                                        <th>Event ID</th>
-                                        <th>Event Type</th>
-                                        <th>Timestamp</th>
-                                        <th>Before Image</th>
-                                        <th>After Image</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox"></td>
-                                        <td>Admin</td>
-                                        <td>000000000</td>
-                                        <td>Edit</td>
-                                        <td>October 16, 2023 at 2:30:37PM UTC-4</td>
-                                        <td>Image</td>
-                                        <td>Image</td>
-
-                                    </tr>
-                                </tbody>
-
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th>Username</th>
-                                        <th>Event ID</th>
-                                        <th>Event Type</th>
-                                        <th>Timestamp</th>
-                                        <th>Before Image</th>
-                                        <th>After Image</th>
-
-                                    </tr>
-                                    <!-- Refresh Button -->
-                                    <div>
-                                        <span class="tt float-end" data-bs-placement="top"
-                                            data-bs-custom-class="ttColors" title="Refresh Event Log">
-                                            <button class="btn btn-primary mx-2" data-bs-toggle="modal"
-                                                data-bs-target="#eventLogModal">
-                                                Refresh
-                                            </button>
-                                        </span>
-                                    </div>
-
-                                </tfoot>
-                            </table>
-
-
                         </div>
                     </div>
 
 
+
+
+                   
                 </div>
-
-
-
-
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Sprout Financial 2023</div>
                         <div>
+                            <a href="about.html">About Us</a>
+                            &middot;
                             <a href="#">Privacy Policy</a>
                             &middot;
                             <a href="#">Terms &amp; Conditions</a>
@@ -365,8 +314,6 @@
                 </div>
             </footer>
         </div>
-
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -378,8 +325,7 @@
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
-    <!-- <script src="js/datatables-simple-demo.js"></script>-->
-
+    <script src="js/datatables-simple-demo.js"></script>
 </body>
 
 </html>

@@ -17,7 +17,7 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, Timestamp, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { getStorage, ref } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
@@ -464,5 +464,45 @@ export async function addField(collectionName, docID, fieldName, fieldValue) {
         console.log('Document updated successfully with new field.');
     } catch (error) {
         console.error(`Error updating document: ${error}`);
+    }
+}
+
+
+export async function getAllDocsFromCollection(collectionName) {
+    try {
+        const recordsCollection = collection(db, collectionName);
+        const querySnapshot = await getDocs(recordsCollection);
+        const documents = [];
+
+        querySnapshot.forEach((doc) => {
+            documents.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+        return documents;
+    } catch (error) {
+        console.error("Error getting documents", error);
+        return [];
+    }
+}
+
+
+export async function deleteAllDocumentsInCollection(collectionName) {
+    try {
+        const recordsCollection = collection(db, collectionName);
+        const querySnapshot = await getDocs(recordsCollection);
+
+        const deletePromises = [];
+        querySnapshot.forEach((doc) => {
+            const docRef = doc.ref;
+            deletePromises.push(deleteDoc(docRef));
+        });
+
+        await Promise.all(deletePromises);
+
+        console.log(`All documents in the "${collectionName}" collection have been deleted.`);
+    } catch (error) {
+        console.error("Error deleting documents", error);
     }
 }
