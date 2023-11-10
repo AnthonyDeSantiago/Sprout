@@ -1,3 +1,4 @@
+/* for journal entry */
 const button = document.querySelector('.journal-btn');
 
 button.onclick = () => {
@@ -17,7 +18,7 @@ button.onclick = () => {
     
 }
 
-
+/* for adj journal entry */
 const button2 = document.querySelector('.adjust-btn');
 
 button2.onclick = () => {
