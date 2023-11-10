@@ -1,163 +1,251 @@
-console.log("event-log.js has loaded!!!");
+import { addField, changeFieldValue, convertBalanceToFloat, deleteAllDocumentsInCollection, formatNumberToCurrency, getAllDocsFromCollection, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
-import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData} from "./event-log_module.js";
+console.log("event-log.js has loaded");
 
-const eventLog = await getCollection('eventLog');
+const events = await getAllDocsFromCollection('eventLog');
 
-let eventID = null;
-
-printDocumentIds('eventLog');
-
-populateTable('eventLog', 'eventLog_entries');
+const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
+const rejectedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'rejected');
+const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const eventLogForm = document.getElementById("eventLogForm");
+let currentEntry = null;
 
+console.log("events length: ", events[0].id);
 
-    eventLogForm.addEventListener("submit", async function (e) {
-        e.preventDefault(); 
-        
-        if (e.submitter === addSaveButton) {
-            const username = document.getElementById("username").value;
-            const eventID = document.getElementById("eventID").value;
-            const eventType = document.getElementById("eventType").value;
-            const timestamp = document.getElementById("timestamp").value;
-            const beforeImage = document.getElementById("beforeImage").value;
-            const afterImage = document.getElementById("afterImage").value;
-            
-            newEvent = {
-                beforeImage: beforeImage,
-                eventType: eventType,
-                username: username,
-                eventID: eventID,
-                afterImage: afterImage,
-                timestamp: timestamp,
-            }
-
-            await addDocument('eventLog', newEvent);
-    
-            eventLogForm.reset();
-            location.reload();
-        }
-
-
-        
+function loadDataTables() {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
     });
+}
+  
+async function initializeTable(events, tableId, callback) {
+    const tableBody = document.querySelector(`#${tableId} tbody`);
+    for (let i = 0; i < events.length; i++) {
+        const event = events[i];
+        console.log("Code Reached here:", event.data);
+        const row = tableBody.insertRow(i);
+        row.innerHTML = `
+            <td>${event.data.timestamp.toDate()}</td>
+            <td>${event.id}</td>
+            <td>${event.data.userId}</td>
+            <td>${event.data.eventType}</td>
+        `;
+        row.addEventListener('click', async () => {
+            currentEntry = event.id;
+            callback(event);
+        });
+    }
+}
 
-    
+async function initializeTableWithComments(entries, tableId, callback) {
+    const tableBody = document.querySelector(`#${tableId} tbody`);
+    for (let i = 0; i < entries.size; i++) {
+        const entry = entries.docs[i];
+        const row = tableBody.insertRow(i);
+        row.innerHTML = `
+            <td>${entry.data().creationDate.toDate()}</td>
+            <td>${entry.id}</td>
+            <td>${entry.data().user}</td>
+            <td>${entry.data().description}</td>
+            <td>${entry.data().comment}</td>
+        `;
+        row.addEventListener('click', async () => {
+            currentEntry = entry.id;
+            callback(entry);
+        });
+    }
+}
 
-    console.log("made it to the end");
+async function pendingModalCallback(event) {
+    $('#approval-modal').modal('show');
+    const modalTableBody = document.querySelector(`#${"modal-table"} tbody`);
+    const beforeImage = event.data.beforeImage;
+    const afterImage = event.data.afterImage;
 
-});
+    var row = modalTableBody.insertRow(0);
+    row.innerHTML = `
+            <td>${beforeImage.accountCategory}</td>
+            <td>${beforeImage.accountDescription}</td>
+            <td>${beforeImage.accountName}</td>
+            <td>${beforeImage.accountNumber}</td>
+            <td>${beforeImage.accountSubcategory}</td>
+            <td>${beforeImage.active}</td>
+            <td>${beforeImage.balance}</td>
+            <td>${beforeImage.comment}</td>
+            <td>${beforeImage.normalSide}</td>
+            <td>${beforeImage.order}</td>
+            <td>${beforeImage.timestampAdded}</td>
+        `;
 
-const editButton = document.querySelector('.btn[data-bs-target="#eventLogModal"]');
+    row = modalTableBody.insertRow(1);
+    row.innerHTML = `
+            <td>${afterImage.accountCategory}</td>
+            <td>${afterImage.accountDescription}</td>
+            <td>${afterImage.accountName}</td>
+            <td>${afterImage.accountNumber}</td>
+            <td>${afterImage.accountSubcategory}</td>
+            <td>${afterImage.active}</td>
+            <td>${afterImage.balance}</td>
+            <td>${afterImage.comment}</td>
+            <td>${afterImage.normalSide}</td>
+            <td>${afterImage.order}</td>
+            <td>${afterImage.timestampAdded}</td>
+        `;
+}
 
-const defaultValues = {
-    username: "Username",
-    eventID: "12345",
-    eventType: "Default Description",
-    timestamp: "Time and Date",
-    beforeImage: "Image Before Edit",
-    afterImage: "Image After Edit",
-};
+async function rejectedModalCallback(entry) {
+    $('#rejected-modal').modal('show');
+    const modalTableBody = document.querySelector(`#${"rejected-modal-table"} tbody`);
+    const transactions = entry.data().transactions;
+    for (let i = 0; i < transactions.length; i++) {
+        const transaction = await getDocumentReference('transactions', transactions[i]);
+        const accountData = await getDocumentReference('accounts', transaction.account);
+        const row = modalTableBody.insertRow(i);
+        row.innerHTML = `
+            <td>${accountData.accountName}</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.debit}</td>
+            <td>${transaction.credit}</td>
+        `;
+    }
+}
 
-// Function to populate the form with default values
-function populateFormWithDefaultValues() {
-    document.getElementById("username").value = defaultValues.username;
-    document.getElementById("eventID").value = defaultValues.eventID;
-    document.getElementById("eventType").value = defaultValues.eventType;
-    document.getElementById("timestamp").value = defaultValues.timestamp;
-    document.getElementById("beforeImage").value = defaultValues.beforeImage;
-    document.getElementById("afterImage").value = defaultValues.afterImage;
+async function approvedModalCallback(entry) {
+    $('#approved-modal').modal('show');
+    const modalTableBody = document.querySelector(`#${"approved-modal-table"} tbody`);
+    const transactions = entry.data().transactions;
+    for (let i = 0; i < transactions.length; i++) {
+        const transaction = await getDocumentReference('transactions', transactions[i]);
+        const accountData = await getDocumentReference('accounts', transaction.account);
+        const row = modalTableBody.insertRow(i);
+        row.innerHTML = `
+            <td>${accountData.accountName}</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.debit}</td>
+            <td>${transaction.credit}</td>
+        `;
+    }
 }
 
 
+initializeTable(events, 'journalEntry_table', pendingModalCallback);
+// initializeTableWithComments(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
+// initializeTableWithComments(approvedJournalEntries, 'approved_table', approvedModalCallback);
 
-editButton.addEventListener('click', async function() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const editAccountModal = new bootstrap.Modal(document.getElementById("editAccountModal"));
-            
-
-
-    populateFormWithDefaultValues();
-
-    editAccountModal.show();
-
-    for (const checkbox of checkboxes) {
-        if (checkbox.checked) {
-            const row = checkbox.closest('tr');
-            const rowData = Array.from(row.cells).map(cell => cell.textContent);
-            
-            console.log('Checked Row Data:', rowData);
-            console.log("Account Number: ", rowData[1]);
-            const accountNum = rowData[1];
-
-            data = await getAccountData(rowData[1]);
-            console.log("Data: ", data);
-
-            break;
-        }
-    }
+$('#approval-modal').on('hidden.bs.modal', function () {
+    $('#modal-table tbody').empty();
+    $('#commentField').val('');
+    $('#commentError').text('');
 });
 
-
-/* REQ FOR EVENT LOG */
-window.addEventListener('DOMContentLoaded', event => {
-    // Simple-DataTables
-    // https://github.com/fiduswriter/Simple-DataTables/wiki
-
-    const datatablesSimple = document.getElementById('eventLog_entries');
-    if (datatablesSimple) {
-        new simpleDatatables.DataTable(datatablesSimple);
-    }
+$('#rejected-modal').on('hidden.bs.modal', function () {
+    $('#rejected-modal-table tbody').empty();
 });
 
-new DataTable('#eventLog_entries', {
-    footerCallback: function (row, data, start, end, display) {
-        let api = this.api();
-
-        // Remove the formatting to get integer data for summation
-        let intVal = function (i) {
-            return typeof i === 'string'
-                ? i.replace(/[\$,]/g, '') * 1
-                : typeof i === 'number'
-                ? i
-                : 0;
-        };
-
-        // Total over all pages
-        total = api
-            .column(4)
-            .data()
-            .reduce((a, b) => intVal(a) + intVal(b), 0);
-
-        // Total over this page
-        pageTotal = api
-            .column(4, { page: 'current' })
-            .data()
-            .reduce((a, b) => intVal(a) + intVal(b), 0);
-
-        // Update footer
-        api.column(4).footer().innerHTML =
-            '$' + pageTotal + ' ( $' + total + ' total)';
-
-        
-            // Total over all pages
-        total = api
-            .column(3)
-            .data()
-            .reduce((a, b) => intVal(a) + intVal(b), 0);
-
-        // Total over this page
-        pageTotal = api
-            .column(3, { page: 'current' })
-            .data()
-            .reduce((a, b) => intVal(a) + intVal(b), 0);
-
-        // Update footer
-        api.column(3).footer().innerHTML =
-            '$' + pageTotal + ' ( $' + total + ' total)';
-
-    }
+$('#approved-modal').on('hidden.bs.modal', function () {
+    $('#approved-modal-table tbody').empty();
 });
+
+try {
+    await loadDataTables();
+    $(document).ready(function () {
+      $(`#${'journalEntry_table'}`).DataTable();
+      $(`#${'rejected_table'}`).DataTable();
+      $(`#${'approved_table'}`).DataTable();
+    });
+} catch (error) {
+    console.error('Error loading DataTables:', error);
+}
+
+// rejectButton.addEventListener('click', async () => {
+//     console.log('selectedRow', currentEntry);
+
+//     if (commentField.value.trim() === '') {
+//         commentError.textContent = 'Please enter a comment before rejecting.';
+//     } else {
+//         commentError.textContent = '';
+//         console.log("Comment Field Text: ", commentField.value);
+//         await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
+//         await addField('journals', currentEntry, 'comment', commentField.value);
+//         location.reload();
+//     }
+// });
+
+// approveButton.addEventListener('click', async () => {
+//     const journalRef = await getDocumentReference("journals", currentEntry);
+//     const transactions = journalRef.transactions;
+//     console.log("transactions: ", transactions);
+
+//     for (let i = 0; i < transactions.length; i++) {
+//         const transaction = await getDocumentReference("transactions", transactions[i]);
+//         const account = transaction.account;
+//         const accountData = await getDocumentReference("accounts", account);
+//         const debit = transaction.debit;
+//         const credit = transaction.credit;
+//         const normalSide = accountData.normalSide;
+//         var balance = await convertBalanceToFloat(accountData.balance);
+//         console.log("Balance: ", balance);
+//         if (normalSide == "Debit") {
+//             balance += debit;
+//             balance -= credit;
+//             balance = await formatNumberToCurrency(balance);
+//             console.log("Converted Balance: ", balance);
+//             await changeFieldValue("accounts", account, 'balance', balance);
+//         } else if (normalSide == "Credit") {
+//             balance -= debit;
+//             balance += credit;
+//             balance = await formatNumberToCurrency(balance);
+//             console.log("Converted Balance: ", balance);
+//             await changeFieldValue("accounts", account, 'balance', balance);
+//         }
+
+//     }
+//     await addField('journals', currentEntry, 'comment', commentField.value);
+//     await changeFieldValue('journals', currentEntry, 'approval', 'approved');
+//     location.reload();
+// });
+
+// returnToPendingButton.addEventListener('click', async () => {
+//     await changeFieldValue('journals', currentEntry, 'approval', 'pending');
+//     location.reload();
+// });
+
+// returnToPendingButton2.addEventListener('click', async () => {
+//     const journalRef = await getDocumentReference("journals", currentEntry);
+//     const transactions = journalRef.transactions;
+//     console.log("transactions: ", transactions);
+
+//     for (let i = 0; i < transactions.length; i++) {
+//         const transaction = await getDocumentReference("transactions", transactions[i]);
+//         const account = transaction.account;
+//         const accountData = await getDocumentReference("accounts", account);
+//         const debit = transaction.debit;
+//         const credit = transaction.credit;
+//         const normalSide = accountData.normalSide;
+//         var balance = await convertBalanceToFloat(accountData.balance);
+//         console.log("Balance: ", balance);
+//         if (normalSide == "Credit") {
+//             balance += debit;
+//             balance -= credit;
+//             balance = await formatNumberToCurrency(balance);
+//             console.log("Converted Balance: ", balance);
+//             await changeFieldValue("accounts", account, 'balance', balance);
+//         } else if (normalSide == "Debit") {
+//             balance -= debit;
+//             balance += credit;
+//             balance = await formatNumberToCurrency(balance);
+//             console.log("Converted Balance: ", balance);
+//             await changeFieldValue("accounts", account, 'balance', balance);
+//         }
+//     }
+//     await changeFieldValue('journals', currentEntry, 'approval', 'pending');
+//     location.reload();
+// });
+
+  
+  
