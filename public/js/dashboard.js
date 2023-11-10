@@ -19,6 +19,7 @@ let accountNumber = null;
 let userDisplay = null;
 let userEmail = null;
 let userData = null;
+let currentAccount = null;
 
 printDocumentIds('accounts');
 
@@ -178,7 +179,7 @@ async function loadDocuments() {
         var moneyPattern = /^\$[\d,]+(\.\d*)?$/;
         var isValid = true;
 
-        if (nameCount > 0) {
+        if (nameCount > 0 && currentAccount != document.getElementById("editAccountName").value) {
             console.log("Account Name Already Exists!");
             document.getElementById("editAccountName").style.color = "red";
             document.getElementById("accountName-error2").style.color = "red";
@@ -239,6 +240,7 @@ editButton.addEventListener('click', async function() {
             accountNumber = rowData[1];
 
             const data = await getAccountData(accountNum);
+            currentAccount = data.accountName;
             document.getElementById("editAccountName").value = data.accountName;
             document.getElementById("editAccountDescription").value = data.accountDescription;
             document.getElementById("editNormalSide").value = data.normalSide;
