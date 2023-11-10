@@ -10,7 +10,40 @@ const firebaseConfig = initializeApp({
     appId: "1:864423850272:web:725227e1ed9a578ef36745",
     measurementId: "G-Z0E9H5Z16M"
 }); */
-console.log("!!! email_auth_accountant.js loaded !!!");
+
+////////////////////////////////////////////////////////////////////////////////////////
+// code for emailjs and mailjet if you need it
+/* const serviceID = "service_9bu3nfr";
+const templateID = "template_fskrd9f"; */
+
+//sending verfication
+//flow: user make account -> email request is sent to admin to usertable with user -> admin accept or deny
+
+//for new user (dont know if it work due to firebase error)
+/* const button = document.querySelector('.new_user_submit_form'); */
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+//test from contact form !!! CURRENTLY OUTOFCOMMISSION. HAD TO REMOVE TEMPLATE TO MAKE SPACE FOR AN EXTRA CONTACT FORM
+
+/* const button = document.querySelector('.email-btn');
+
+button.onclick = () => {
+        //change it to based on the new user value from user create
+        var templateParams = {
+            //name: document.getElementById('first_name').value,
+            //email: document.getElementById('user_email').value,
+        };
+    
+        emailjs.send('service_9bu3nfr', 'template_fskrd9f', templateParams)
+        .then(function(response) {
+        console.log('SUCCESS!', response.status, response.text);
+        }, function(error) {
+        console.log('FAILED...', error);
+        });
+    
+} */
+console.log("!!! email_auth_admin.js loaded !!!");
 
 import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
@@ -53,7 +86,7 @@ async function initializePage() {
 async function getUserList() {
     console.log("hit pop user list");
     const usersCollection = collection(db, 'users');
-    const usersQuery = query(usersCollection, where('approved', '==', true), where('role', 'in', ['admin', 'manager']));
+    const usersQuery = query(usersCollection, where('approved', '==', true), where('role', 'in', ['regular', 'manager']));
 
     try {
         const querySnapshot = await getDocs(usersQuery);
@@ -86,24 +119,28 @@ async function populateEmailsDropdown() {
 }
 
 
-//Accountant email template
-const formbutton2 = document.querySelector('.acc-btn');
+//Admin email template
+const formbutton = document.querySelector('.form-btn');
 
-formbutton2.onclick = () => {
+formbutton.onclick = () => {
+
     var params = {
-        name: document.getElementById('userSelect').value.substr(0, document.getElementById('userSelect').value.indexOf('<') - 1),
+        /* name: document.getElementById('userSelect').value.substr(0, document.getElementById('userSelect').value.indexOf('<') - 1), */
         //email: document.getElementById('userSelect').value.substr(document.getElementById('userSelect').value.indexOf('<')+1, document.getElementById('userSelect').indexOf('>')-1),
-        message: document.getElementById('mess2').value,
+        name: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('mess').value,
     };
 
     console.log("params.name = " + params.name);
 
+    //Make new template for contact form
     emailjs.send('service_9bu3nfr', 'template_0qdo9gb', params)
         .then(
             res => {
-                document.getElementById("userSelect").value = "",
-                    /* document.getElementById("email").value = "", */
-                    document.getElementById("mess2").value = "",
+                    document.getElementById("fullName").value = "",
+                    document.getElementById("email").value = "",
+                    document.getElementById("mess").value = "",
                     console.log.apply(res)
                 alert("message sent sucessfully");
             })
@@ -113,3 +150,4 @@ formbutton2.onclick = () => {
 }
 
 checkAuthState();
+
