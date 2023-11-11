@@ -304,41 +304,118 @@ function fetchDataAndRenderBalanceSheet(startDate, endDate) {
         searching: false,
         paging: false
     });
+//asset name, asset amount ,asset total 
+
+//Liabilities name ,Liabilities amount ,Liabilities total 
+
+//Equity name ,Equity amount ,Equity total 
+
+
 }
 
      // Function to fetch data and render the Trial Balance table
 function fetchDataAndRenderRetainedEarnings(startDate, endDate) {
     var table = $('#retainedEarningsTable').DataTable({
         columns: [
-            { title: 'Beginning Retained Earnings', data: 'name' },
-            { title: 'Net Income', data: 'debit' },
-            { title: 'Dividends', data: 'credit' },
-            { title: 'Ending Retained Earnings', data: 'credit' }
+            { title: 'Beginning Retained Earnings', data: 'BRetainedEarnings' },
+            { title: 'Net Income', data: 'NetI' },
+            { title: 'Dividends', data: 'Dividends' },
+            { title: 'Ending Retained Earnings', data: 'ERetainedEarnings' }
         ],
         searching: false,
         paging: false
     });
-}
+   // Retaining earnings needs pulls from all 3 collections
 
-    
-// transaction collection pull  
+
+// Clear any old data in the table
+table.clear();
+
+// Fetch accounts from the Firebase collection
 database.collection('accounts').where('date', '>=', startDate).where('date', '<=', endDate).get()
 .then(querySnapshot => {
-    table.clear(); // Clear the table before adding new data
     querySnapshot.forEach(doc => {
         var account = doc.data();
         // Add a new row to the DataTable for each account
         table.row.add({
-            name: account.name,
-            debit: account.debit || 0, // If no debit, default to 0
-            credit: account.credit || 0 // If no credit, default to 0
+           //replace collection name . value pull
+            //Beginning retaining earnings from accounts name type 'retained earnings'  return the balance amount
+            BRetainedEarnings:
+
+            
+
+          /* Revenue: account.name,
+           Expenses: account.debit || 0, // If no debit, default to 0
+           Netincome: account.credit || 0 // If no credit, default to 0*/
         });
+
     });
-    table.draw(); // Redraw the DataTable with new data
+    =
+
+    // Redraw the DataTable with new data
+    table.draw();
 })
+
+
+//Net income - all incomes +all expenses from transactions 
+NetI:
+//Dividends- from transactions 
+Dividends:
+//End retaining- beginning retaining + net income)- dividends 
+ERetainedEarnings: 
+
 .catch(error => {
     console.error("Error fetching data: ", error);
 });
+/*for fetchDataAndRenderRetainedEarnings firebase // Placeholder for the calculations
+    let beginningRetainedEarnings = 0;
+    let netIncome = 0;
+    let dividends = 0;
+
+    // Fetch beginning retained earnings from 'accounts' collection
+    database.collection('accounts').where('name', '==', 'Retained Earnings')
+    .get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            beginningRetainedEarnings = doc.data().balance; // Assuming there's a balance field
+        });
+
+        // Now fetch revenues and expenses from 'transactions' collection
+        return database.collection('transactions').where('date', '>=', startDate).where('date', '<=', endDate).get();
+    })
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            let transaction = doc.data();
+            if (transaction.type === 'Revenue') {
+                netIncome += transaction.amount;
+            } else if (transaction.type === 'Expense') {
+                netIncome -= transaction.amount;
+            } else if (transaction.type === 'Dividend') {
+                dividends += transaction.amount;
+            }
+        });
+
+        // Assuming we have all the data now, calculate ending retained earnings
+        let endingRetainedEarnings = beginningRetainedEarnings + netIncome - dividends;
+
+        // Add the calculated values to the DataTable
+        table.clear();
+        table.row.add({
+            BRetainedEarnings: beginningRetainedEarnings,
+            Revenue: netIncome,  // This is total revenue minus expenses
+            Dividends: dividends,
+            ERetainedEarnings: endingRetainedEarnings
+        });
+        table.draw();
+    })
+    .catch(error => {
+        console.error("Error fetching data: ", error);
+    });
+}*/
+
+}
+
+    
 
 
 

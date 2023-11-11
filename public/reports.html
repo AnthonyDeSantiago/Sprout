@@ -275,14 +275,42 @@
                         <table class="table" id="incomeStatementTable">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>Revenue Streams</th>
-                                    <th>Expenses</th>
-                                    <th>Net Income</th>
+                                    <th colspan="2">Revenue Streams</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Data will be inserted here -->
+                            <tbody id="revenueSection">
+                                <!-- Revenue stream rows will be inserted here -->
+                                <!-- Example: <tr><td>Revenue Stream Name</td><td>Amount</td></tr> -->
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total Revenue</th>
+                                    <td id="totalRevenue"></td>
+                                </tr>
+                            </tfoot>
+
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th colspan="2">Expenses</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenseSection">
+                                <!-- Expense rows will be inserted here -->
+                                <!-- Example: <tr><td>Expense Name</td><td>Amount</td></tr> -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total Expenses</th>
+                                    <td id="totalExpenses"></td>
+                                </tr>
+                            </tfoot>
+
+                            <tfoot>
+                                <tr>
+                                    <th>Net Income</th>
+                                    <td id="netIncome"></td>
+                                </tr>
+                            </tfoot>
                         </table>
         
                         <!-- Balance Sheet Table -->
