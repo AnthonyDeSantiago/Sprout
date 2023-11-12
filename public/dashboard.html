@@ -20,6 +20,7 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script defer src="js/dashboard.js" type="module"></script>
     <script defer src="js/sprout.js" type="module"></script>
+    <script defer src="js/email/email_auth_admin.js" type="module"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
@@ -125,6 +126,10 @@
                                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
                                     Create Entry
                                 </a>
+                                <a class="nav-link" href="entry_approval_page.html">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
+                                    Approve Entries
+                                </a>
                             </nav>
                         </div>
 
@@ -162,13 +167,13 @@
 
                         </div>
 
-                        <div id="no-admin">
+                        <div>
                             <div class="sb-sidenav-menu-heading">Support</div>
                             <a class="nav-link" href="help_page.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
                                 Help
                             </a>
-                            <a class="nav-link" href="contactform_accountant.html">
+                            <a class="nav-link" href="contactform_accountant.html" id="no-admin">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
                                 Email Manager
                             </a>
@@ -192,10 +197,48 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Chart of Accounts</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active"></li>
-                    </ol>
+                    <h1 class="mt-4">Chart of Accounts
+                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Contact
+                        </button>
+                    </h1>
+                    
+                    <div class="mt-4 mb-4">
+                        <!-- Email Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Send Email</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>            
+
+                                        <!-- dropdown for name -->
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select w-100" id="userSelect" aria-label="User">
+                                            </select>
+                                        </div>
+         
+                                        <div class="form-floating mb-3">
+                                            <textarea class="form-control" id="mess" required></textarea>
+                                            <label for="mess" class="form-label">Message</label>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                
+                                <button class="add-btn btn btn-primary float-end">Send</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    
+                    
 
                     <div class="card mb-4">
                         <div class="card-header">
@@ -425,7 +468,7 @@
                                                     </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary"
-                                                    id="editSaveButton">Save</button>
+                                                    id="editSaveButton">Save Changes</button>
                                             </form>
                                         </div>
                                     </div>
@@ -604,4 +647,10 @@
     <script src="js/ledger-datatables-simple.js"></script>
 </body>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function () {
+        emailjs.init("Fwd-qXGKUkQJGDPsj");
+    })();
+</script>
 </html>

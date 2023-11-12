@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Financial Reports</title>
+    <link rel="stylesheet" href="path_to_your_stylesheet.css">
+    <!-- Include any other required scripts or libraries here -->
+</head>
+<body>
+   
+    
+    <script src="path_to_your_javascript_file.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -185,11 +200,69 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Insert something or delete</h1>
+                    <h1 class="mt-4">Financial Reports</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Insert something or delete</li>
+                        <li class="breadcrumb-item active">Reports</li>
                     </ol>
+                            
+                            <!-- Date Range Selection -->
+                            <section>
+                                <h2>Select Date Range</h2>
+                                <form id="dateRangeForm">
+                                    <label for="startDate">Start Date:</label>
+                                    <input type="date" id="startDate" name="startDate">
+                                    
+                                    <label for="endDate">End Date:</label>
+                                    <input type="date" id="endDate" name="endDate">
+                                    
+                                    <button type="submit">Generate Reports</button>
+                                </form>
+                            </section>
+                            
+                            <!-- Report Links -->
+                            <section>
+                                <h2>Reports</h2>
+                                <ul>
+                                    <li><a href="#" id="trialBalance">Trial Balance</a></li>
+                                    <li><a href="#" id="incomeStatement">Income Statement</a></li>
+                                    <li><a href="#" id="balanceSheet">Balance Sheet</a></li>
+                                    <li><a href="#" id="retainedEarnings">Retained Earnings Statement</a></li>
+                                </ul>
+                            </section>
+                            
+                            <!-- Report Display -->
+                            <section>
+                                <h2>Report Display</h2>
+                                <div id="reportDisplay">
+                                    <!-- The generated report will be displayed here -->
+                                </div>
+                            </section>
+                            
+                            <!-- Report Actions -->
+                            <section>
+                                <h2>Actions</h2>
+                                <button id="saveReport">Save</button>
+                                <button id="emailReport">Email</button>
+                                <button id="printReport">Print</button>
+                            </section>
+                        
+                    
+                
+                
+                
+                
+                
                 </div>
+
+
+
+
+
+
+
+
+
+
 
             </main>
             <footer class="py-4 bg-light mt-auto">

@@ -18,11 +18,12 @@
     <link rel="stylesheet" href="css/Main_Calendar.css">
     <script defer src="js/Main_Calendar.js"></script>
     <script defer src="js/ledger.js" type="module"></script>
+    <script defer src="js/sprout.js" type="module"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script defer src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
     <link defer href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
     <!-- used for date range filter -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
@@ -129,6 +130,10 @@
                                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
                                     Create Entry
                                 </a>
+                                <a class="nav-link" href="entry_approval_page.html">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
+                                    Approve Entries
+                                </a>
                             </nav>
                         </div>
 
@@ -166,13 +171,13 @@
 
                         </div>
 
-                        <div id="no-admin">
+                        <div>
                             <div class="sb-sidenav-menu-heading">Support</div>
                             <a class="nav-link" href="help_page.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
                                 Help
                             </a>
-                            <a class="nav-link" href="contactform_accountant.html">
+                            <a class="nav-link" href="contactform_accountant.html" id="no-admin">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
                                 Email Manager
                             </a>
@@ -213,7 +218,7 @@
 
                             <!-- date range filter -->
                             <!-- <table class="mt-2 mb-3" border="0" cellspacing="5" cellpadding="5">
-                                    <tbody>
+                                <tbody>
                                     <tr>
                                         <td>Starting Date:</td>
                                         <td><input type="text" id="min" name="min"></td>
@@ -222,8 +227,8 @@
                                         <td>Ending Date:</td>
                                         <td><input type="text" id="max" name="max"></td>
                                     </tr>
-                                    </tbody>
-                                </table> -->
+                                </tbody>
+                            </table> -->
 
                             <!-- Ledger table -->
                             <table id="ledger" class="display" style="width:100%">
@@ -269,14 +274,11 @@
         </div>
     </div>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="js/ledger-datatables-simple.js"></script> -->
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <!-- <script src="js/ledger-datatables-simple.js"></script> -->
 
 </body>
 

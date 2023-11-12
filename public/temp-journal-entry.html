@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="js/email/email_journal_entry.js" type="module"></script>
+</head>
+<body>
+    <!-- this is for journal entry, need to connect this to journal entry submit button -->
+    journal entry
+    <div>
+        <label for="name">name</label>
+        <input type="text" name="name" id="name">
+    </div>
+    <button class="journal-btn btn btn-primary float-end">Send Email</button>
+    <br>
+    adjusting journal entry
+    <div>
+        <label for="name">name</label>
+        <input type="text" name="name" id="name2">
+    </div>
+    <button class="adjust-btn btn btn-primary float-end">Send Email</button>
+</body>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function () {
+        emailjs.init("Fwd-qXGKUkQJGDPsj");
+    })();
+</script>
+</html>

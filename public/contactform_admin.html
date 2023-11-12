@@ -19,7 +19,7 @@
     <script defer src="js/Main_Calendar.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script defer src="js/sprout.js" type="module"></script>
-    <script defer src="js/email_auth_admin.js" type="module"></script>
+    <script defer src="js/email/email_auth_admin.js" type="module"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -156,13 +156,13 @@
 
                         </div>
 
-                        <div id="no-admin">
+                        <div>
                             <div class="sb-sidenav-menu-heading">Support</div>
                             <a class="nav-link" href="help_page.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
                                 Help
                             </a>
-                            <a class="nav-link" href="contactform_accountant.html">
+                            <a class="nav-link" href="contactform_accountant.html" id="no-admin">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
                                 Email Manager
                             </a>
@@ -208,12 +208,12 @@
                                         <!-- <div class="form-floating mb-3">
                                                 <input class="form-control" id="fullName" type="text" placeholder="Your Full Name" required>   
                                                 <label for="fullName" class="form-label">Name</label>
-                                            </div> -->
+                                        </div> -->
 
 
                                         <!-- dropdown for name -->
                                         <div class="form-floating mb-3">
-                                            <select class="form-select w-100" id="roleSelect" aria-label="User">
+                                            <select class="form-select w-100" id="userSelect" aria-label="User">
 
                                             </select>
                                         </div>

@@ -1,3 +1,10 @@
+/*
+Please don't change anything here. It's sort of an ad-hoc api I made mostly to streamline
+database backend stuff. Alot of these functions get used and reused in multiple locations so 
+changing the implementation here will break things.
+
+-Anthony
+*/
 console.log("!!! database_module.mjs has loaded !!!")
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
@@ -10,7 +17,7 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { collection, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, Timestamp, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 import { getStorage, ref } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
@@ -60,7 +67,7 @@ export async function populateTableFilter(collectionName, filterCategory, tableI
   
     try {
       const querySnapshot = await getDocs(recordsCollection);
-      const tableBody = document.querySelector(`#${tableId} tbody`); // Use the provided tableId
+      const tableBody = document.querySelector(`#${tableId} tbody`);
       let rowNumber = 1;
   
       querySnapshot.forEach((doc) => {
@@ -401,6 +408,101 @@ export async function getDocumentReference(collectionName, documentID) {
   }
 }
 
+export async function getDocReferencesWithValue(collectionName, fieldName, fieldValue) {
+    const recordsCollection = collection(db, collectionName);
   
+    try {
+      const q = query(recordsCollection, where(fieldName, '==', fieldValue));
+      const querySnapshot = await getDocs(q);
+      return querySnapshot;
+    } catch (error) {
+      console.error("Error getting documents with value:", error);
+      return null;
+    }
+}
   
-  
+export async function changeFieldValue(collectionName, docID, fieldName, fieldValue) {
+    try {
+        const docRef = doc(db, collectionName, docID);
+        const fieldUpdate = {};
+
+        fieldUpdate[fieldName] = fieldValue;
+
+        await updateDoc(docRef, fieldUpdate);
+
+    } catch (error) {
+        console.error(`Error updating document: ${error}`);
+    }
+}
+
+export async function convertBalanceToFloat(balance) {
+    const numericString = balance.replace(/[^0-9.]/g, '');
+    const floatValue = parseFloat(numericString);
+
+    return floatValue;
+}
+
+export async function formatNumberToCurrency(number) {
+    const options = {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    };
+
+    return number.toLocaleString(undefined, options);
+}
+
+
+export async function addField(collectionName, docID, fieldName, fieldValue) {
+    try {
+        const docRef = doc(db, collectionName, docID);
+        const newFieldData = { [fieldName]: fieldValue };
+
+        await updateDoc(docRef, newFieldData); 
+
+        console.log('Document updated successfully with new field.');
+    } catch (error) {
+        console.error(`Error updating document: ${error}`);
+    }
+}
+
+
+export async function getAllDocsFromCollection(collectionName) {
+    try {
+        const recordsCollection = collection(db, collectionName);
+        const querySnapshot = await getDocs(recordsCollection);
+        const documents = [];
+
+        querySnapshot.forEach((doc) => {
+            documents.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+        return documents;
+    } catch (error) {
+        console.error("Error getting documents", error);
+        return [];
+    }
+}
+
+
+export async function deleteAllDocumentsInCollection(collectionName) {
+    try {
+        const recordsCollection = collection(db, collectionName);
+        const querySnapshot = await getDocs(recordsCollection);
+
+        const deletePromises = [];
+        querySnapshot.forEach((doc) => {
+            const docRef = doc.ref;
+            deletePromises.push(deleteDoc(docRef));
+        });
+
+        await Promise.all(deletePromises);
+
+        console.log(`All documents in the "${collectionName}" collection have been deleted.`);
+    } catch (error) {
+        console.error("Error deleting documents", error);
+    }
+}

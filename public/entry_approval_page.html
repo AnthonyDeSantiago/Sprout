@@ -12,10 +12,6 @@
         #approved_table tbody tr {
             cursor: pointer;
         }
-        .modal-content {
-            width: 100%; 
-            max-width: none; 
-        }        
     </style>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -34,8 +30,7 @@
     <script defer src="js/Main_Calendar.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script defer src="js/sprout.js" type="module"></script>
-    <!-- <script defer src="js/entry_approval_page.js" type="module"></script> -->
-    <script defer src="js/event-log.js" type="module"></script>
+    <script defer src="js/entry_approval_page.js" type="module"></script>
     <script defer src="https://code.jquery.com/jquery-3.7.1.js"
     integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -211,7 +206,7 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Event Log</h1>
+                    <h1 class="mt-4">Journal Entry Approval</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active" id="accountBreadcrumb-element">Insert Account No. or Name?
                         </li>
@@ -220,7 +215,7 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="bi bi-journal-bookmark-fill"></i>
-                            Events
+                            Pending Journal Entries
                         </div>
                         <div class="card-body">
 
@@ -243,28 +238,23 @@
 
 
                             <!-- The modal for transactions -->
-                            <div class="modal fade" id="approval-modal" tabindex="-1" role="dialog" aria-labelledby="editAccountModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="approval-modal" tabindex="-1" role="dialog"
+                                aria-labelledby="editAccountModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="addAccountModalLabel">Before and After Image</h5>
+                                            <h5 class="modal-title" id="addAccountModalLabel">Approve or Reject Entry</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <table id="modal-table" class="table table-bordered table-hover" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Account Category</th>
-                                                    <th>Account Description</th>
-                                                    <th>Account Name</th>
                                                     <th>Account Number</th>
-                                                    <th>Active</th>
-                                                    <th>Balance</th>
-                                                    <th>Comment</th>
-                                                    <th>Initial Balance</th>
-                                                    <th>Normal Side</th>
-                                                    <th>Order</th>
-                                                    <th>Creation Date</th>
+                                                    <th>Account Name</th>
+                                                    <th>Transaction Description</th>
+                                                    <th>Debit</th>
+                                                    <th>Credit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -272,7 +262,7 @@
                                             </tbody>
             
                                         </table>
-                                        <div class="modal-body modal-lg">
+                                        <div class="modal-body">
                                             <form id="approvalForm">
                                                 <div class="form-group">
                                                     <label for="rejectReason">Comment</label>
@@ -296,7 +286,138 @@
 
 
 
-                   
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            Rejected Journal Entries
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Rejected Entry Table table -->
+                            <table id="rejected_table" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Creation Date</th>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Description</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+
+                            </table>
+
+                            <!-- The modal for rejected transactions -->
+                            <div class="modal fade" id="rejected-modal" tabindex="-1" role="dialog"
+                                aria-labelledby="editAccountModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addAccountModalLabel">Return to Pending</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <table id="rejected-modal-table" class="table table-bordered table-hover" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Account Name</th>
+                                                    <th>Description</th>
+                                                    <th>Debit</th>
+                                                    <th>Credit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+            
+                                            </tbody>
+            
+                                        </table>
+                                        <div class="modal-body">
+                                            <form id="approvalForm">
+                                                <div class="mt-3">
+                                                    <button type="button" class="btn btn-success" id="returnToPendingButton">Return to Pending</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            Approved Journal Entries
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Approved Journal Entry Table -->
+                            <table id="approved_table" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Creation Date</th>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Description</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+
+                            </table>
+
+                            <!-- The modal for approved transactions -->
+                            <div class="modal fade" id="approved-modal" tabindex="-1" role="dialog"
+                                aria-labelledby="editAccountModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addAccountModalLabel">Return to Pending</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <table id="approved-modal-table" class="table table-bordered table-hover" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Account Name</th>
+                                                    <th>Description</th>
+                                                    <th>Debit</th>
+                                                    <th>Credit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+            
+                                            </tbody>
+            
+                                        </table>
+                                        <div class="modal-body">
+                                            <form id="approvalForm">
+                                                <div class="mt-3">
+                                                    <button type="button" class="btn btn-success" id="returnToPendingButton2">Return to Pending</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- <div>
+                            <span class="fw-bolder float-end">
+                                Total Debit: <span id="debit-total">0</span> | Total Credit: <span id="credit-total">0</span>
+                            </span>
+                        </div>                -->
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">

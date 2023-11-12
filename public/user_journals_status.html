@@ -164,13 +164,13 @@
 
                         </div>
 
-                        <div id="no-admin">
+                        <div>
                             <div class="sb-sidenav-menu-heading">Support</div>
                             <a class="nav-link" href="help_page.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
                                 Help
                             </a>
-                            <a class="nav-link" href="contactform_accountant.html">
+                            <a class="nav-link" href="contactform_accountant.html" id="no-admin">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
                                 Email Manager
                             </a>
@@ -200,6 +200,35 @@
                     <h4 id="pendingTitle">Pending Entries:</h4>
                     <p></p>
                     <table class="table table-bordered" id="pendingJournalEntriesTable" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Creation Date</th>
+                                <th>Description</th>
+                                <th>No. Transactions</th>
+                                <th>Associated Accounts</th>
+                                <th>Author</th>
+                                <th>Approval Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- This will be populated with Journal Entries -->
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                    <p></p>
+                    <h4 id="approvedTitle">Approved Entries:</h4>
+                    <p></p>
+                    <table class="table table-bordered" id="approvedJournalEntriesTable" width="100%">
                         <thead>
                             <tr>
                                 <th>Creation Date</th>
