@@ -1,9 +1,9 @@
-import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFirestore, collection, doc, query, where, orderBy, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
 import { getStorage, ref, uploadBytesResumable, uploadBytes, getDownloadURL  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"
 
-console.log("!!! new_journal.js loaded !!!");
+console.log("!!! new_journal_adjusting.js loaded !!!");
 
 const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 let username = null;
@@ -43,7 +43,9 @@ const checkAuthState = async () => {
 async function initializePage() {
     await initializeTransactionEntries();
     await populateAccountsDropdown();
-    await clearErrorForInput();
+    console.log("populated account dropdown");
+    clearErrorForInput();
+
 }
 
 function logAccountingError(error, user) {
@@ -367,7 +369,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     description: journalDescription.value.toString(),
                     approval: "pending",
                     user: currentUser,
-                    entryType: "regular"
+                    entryType: "adjusting"
                 });
                 console.log("Journal written with ID: ", docRefJournal.id);
                 journalID = docRefJournal.id;                //grab journal id
@@ -437,13 +439,9 @@ async function initializeTransactionEntries() {
     console.log("Data table initiated");
 }
 
-//async function addTransactionEntries(entry) {
-//    transactionEntriesTable.rows.add([entry]).draw();
-//}
-
 async function getAccountsList() {
     const accountsCollection = collection(db, 'accounts');
-    const accountsQuery = query(accountsCollection, where('active', '==', true));
+    const accountsQuery = query(accountsCollection, where('active', '==', true), orderBy('accountNumber'));
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
