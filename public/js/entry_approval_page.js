@@ -35,6 +35,7 @@ async function initializeTable(entries, tableId, callback) {
     for (let i = 0; i < entries.size; i++) {
         const entry = entries.docs[i];
         const row = tableBody.insertRow(i);
+        if(entry.data().type == "adjusting"){   row.style.backgroundColor = "#DFFFFF";  };
         row.innerHTML = `
             <td>${entry.data().creationDate.toDate()}</td>
             <td>${entry.id}</td>
@@ -54,6 +55,7 @@ async function initializeTableWithComments(entries, tableId, callback) {
     for (let i = 0; i < entries.size; i++) {
         const entry = entries.docs[i];
         const row = tableBody.insertRow(i);
+        if(entry.data().type == "adjusting"){   row.style.backgroundColor = "#DFFFFF";  };
         row.innerHTML = `
             <td>${entry.data().creationDate.toDate()}</td>
             <td>${entry.id}</td>

@@ -367,7 +367,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     description: journalDescription.value.toString(),
                     approval: "pending",
                     user: currentUser,
-                    entryType: "regular",
+                    type: "regular",
                     docRef: null //TBD -- INSERT LINK TO DOC
                 });
                 console.log("Journal written with ID: ", docRefJournal.id);

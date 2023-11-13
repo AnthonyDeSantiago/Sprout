@@ -369,7 +369,7 @@ document.getElementById("journalForm").addEventListener("submit", async function
                     description: journalDescription.value.toString(),
                     approval: "pending",
                     user: currentUser,
-                    entryType: "adjusting"
+                    type: "adjusting"
                 });
                 console.log("Journal written with ID: ", docRefJournal.id);
                 journalID = docRefJournal.id;                //grab journal id
