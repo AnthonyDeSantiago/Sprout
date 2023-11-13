@@ -195,8 +195,6 @@
 
             </nav>
         </div>
-
-
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
@@ -204,66 +202,167 @@
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Reports</li>
                     </ol>
-                            
-                            <!-- Date Range Selection -->
-                            <section>
-                                <h2>Select Date Range</h2>
-                                <form id="dateRangeForm">
-                                    <label for="startDate">Start Date:</label>
-                                    <input type="date" id="startDate" name="startDate">
-                                    
-                                    <label for="endDate">End Date:</label>
-                                    <input type="date" id="endDate" name="endDate">
-                                    
-                                    <button type="submit">Generate Reports</button>
-                                </form>
-                            </section>
-                            
-                            <!-- Report Links -->
-                            <section>
-                                <h2>Reports</h2>
-                                <ul>
-                                    <li><a href="#" id="trialBalance">Trial Balance</a></li>
-                                    <li><a href="#" id="incomeStatement">Income Statement</a></li>
-                                    <li><a href="#" id="balanceSheet">Balance Sheet</a></li>
-                                    <li><a href="#" id="retainedEarnings">Retained Earnings Statement</a></li>
-                                </ul>
-                            </section>
-                            
-                            <!-- Report Display -->
-                            <section>
-                                <h2>Report Display</h2>
-                                <div id="reportDisplay">
-                                    <!-- The generated report will be displayed here -->
-                                </div>
-                            </section>
-                            
-                            <!-- Report Actions -->
-                            <section>
-                                <h2>Actions</h2>
-                                <button id="saveReport">Save</button>
-                                <button id="emailReport">Email</button>
-                                <button id="printReport">Print</button>
-                            </section>
-                        
-                    
-                
-                
-                
-                
-                
+        
+                    <!-- Date Range Selection -->
+                    <section>
+                        <h2>Select Date Range</h2>
+                        <form id="dateRangeForm">
+                            <div class="form-group">
+                                <label for="startDate">Start Date:</label>
+                                <input type="date" id="startDate" name="startDate" class="form-control">
+                            </div>
+        
+                            <div class="form-group">
+                                <label for="endDate">End Date:</label>
+                                <input type="date" id="endDate" name="endDate" class="form-control">
+                            </div>
+        
+                            <button type="submit" class="btn btn-primary">Generate Reports</button>
+                        </form>
+                    </section>
+        
+                    <!-- Report Links 
+                    <section>
+                        <h2>Reports</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="#" id="trialBalance">Trial Balance</a></li>
+                            <li><a href="#" id="incomeStatement">Income Statement</a></li>
+                            <li><a href="#" id="balanceSheet">Balance Sheet</a></li>
+                            <li><a href="#" id="retainedEarnings">Retained Earnings Statement</a></li>
+                        </ul>
+                    </section> -->
+
+                     <!-- Report Selection Dropdown -->
+        <section>
+            <h2>Choose Report</h2>
+            <select id="reportSelector" class="custom-select mb-3">
+                <option value="trialBalance">Trial Balance</option>
+                <option value="incomeStatement">Income Statement</option>
+                <option value="balanceSheet">Balance Sheet</option>
+                <option value="retainedEarnings">Retained Earnings Statement</option>
+                <option value="all">All Reports</option>
+            </select>
+        </section>
+
+        <!-- Report Actions -->
+        <section>
+            <h2>Perform Action</h2>
+            <div class="btn-group" role="group" aria-label="Report Actions">
+                <button id="saveReport" class="btn btn-success">Save</button>
+                <button id="emailReport" class="btn btn-info">Email</button>
+                <button id="printReport" class="btn btn-warning">Print</button>
+            </div>
+        </section>
+        
+                    <div class="container mt-3">
+                        <!-- Trial Balance Table -->
+                        <h3>Trial Balance</h3>
+                        <table class="table" id="trialBalanceTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Accounts</th>
+                                    <th>Debit Balances</th>
+                                    <th>Credit Balances</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be inserted here -->
+                            </tbody>
+                        </table>
+        
+                        <!-- Income Statement Table -->
+                        <h3>Income Statement</h3>
+                        <table class="table" id="incomeStatementTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th colspan="2">Revenue Streams</th>
+                                </tr>
+                            </thead>
+                            <tbody id="revenueSection">
+                                <!-- Revenue stream rows will be inserted here -->
+                                <!-- Example: <tr><td>Revenue Stream Name</td><td>Amount</td></tr> -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total Revenue</th>
+                                    <td id="totalRevenue"></td>
+                                </tr>
+                            </tfoot>
+
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th colspan="2">Expenses</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenseSection">
+                                <!-- Expense rows will be inserted here -->
+                                <!-- Example: <tr><td>Expense Name</td><td>Amount</td></tr> -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total Expenses</th>
+                                    <td id="totalExpenses"></td>
+                                </tr>
+                            </tfoot>
+
+                            <tfoot>
+                                <tr>
+                                    <th>Net Income</th>
+                                    <td id="netIncome"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+        
+                        <!-- Balance Sheet Table -->
+                        <h3>Balance Sheet</h3>
+                        <table class="table" id="balanceSheetTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Assets</th>
+                                    <th>Liabilities</th>
+                                    <th>Equity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Firebase Data -->
+                            </tbody>
+                        </table>
+        
+                        <!-- Retained Earnings Statement Table -->
+                        <h3>Retained Earnings Statement</h3>
+                        <table class="table" id="retainedEarningsTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Beginning Retained Earnings</th>
+                                    <th>Net Income</th>
+                                    <th>Dividends</th>
+                                    <th>Ending Retained Earnings</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Firebase Data -->
+                            </tbody>
+                        </table>
+                    </div>
+        
+                    <!-- Report Display -->
+                    <section>
+                        <h2>Report Display</h2>
+                        <div id="reportDisplay" class="report-display-area">
+                            <!-- The generated report will be displayed here -->
+                        </div>
+                    </section>
+        
+                    <!-- Report Actions -->
+                    <section>
+                        <h2>Actions</h2>
+                        <div class="report-actions">
+                            <button id="saveReport" class="btn btn-success">Save</button>
+                            <button id="emailReport" class="btn btn-info">Email</button>
+                            <button id="printReport" class="btn btn-warning">Print</button>
+                        </div>
+                    </section>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
