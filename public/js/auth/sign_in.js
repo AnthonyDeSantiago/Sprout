@@ -118,7 +118,7 @@ const userSignIn = async (e) => {
       const uid = user.uid;
       //Test to see if user is actually logged in, re-pulling user from database
       if (uid == userDB.id) {
-        alert("You have signed in successfully!");
+        console.log("You have signed in successfully!");
         console.log("User.id = " + userDB.id);
         console.log("UID = " + uid);
       } else {
