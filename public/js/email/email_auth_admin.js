@@ -118,6 +118,37 @@ async function populateEmailsDropdown() {
 
 }
 
+/* getting role */
+async function getRoleList() {
+    console.log("hit pop user list");
+    const usersCollection = collection(db, 'users');
+
+    try {
+        const querySnapshot = await getDocs(usersQuery);
+        const roleList = [];
+        querySnapshot.forEach((doc) => {
+            let role = "[" + doc.data().role + "]";
+            let userEntry = role;
+            roleList.push(userEntry);
+        });
+        return roleList;
+    } catch (error) {
+        console.error('Error happened: ', error);
+        throw error;
+    }
+}
+
+async function roleStuff() {
+    console.log("hit role");
+    const roles = await getRoleList();
+    const roleSelect = document.getElementById('role');
+    roles.forEach(account => {
+        const option = document.createElement('option');
+        option.value = account;
+        option.textContent = account;
+        roleSelect.appendChild(option);
+    });
+}
 
 //Admin email template
 const formbutton = document.querySelector('.add-btn');
