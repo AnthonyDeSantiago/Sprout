@@ -20,6 +20,10 @@ let currentUser = "YOUR_USER_NAME"; // You can replace this later
 let journal_entry = [];
 let transactionEntriesTable = null;
 
+//for email
+let fullNameOfUser = "";
+
+
 const checkAuthState = async () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -37,6 +41,10 @@ const checkAuthState = async () => {
             signOut(auth);
             window.location = 'index.html';
         }
+
+        //grabbing name for email
+        fullNameOfUser = userData.firstName + " " + userData.lastName;
+        console.log(fullNameOfUser);
     })
 }
 
@@ -383,25 +391,6 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 });
             }
 
-/* for journal entry */
-const button = document.querySelector('.journal-btn');
-
-button.onclick = () => {
-        
-        var templateParams = {
-            name: document.getElementById('currentUser').value,
-        };
-    
-        emailjs.send('service_9bu3nfr', 'template_fqcnfto', templateParams)
-        .then(
-            res => {
-                document.getElementById("currentUser").value = "",
-                console.log.apply(res)
-            alert("message sent sucessfully");
-        })
-        .catch((err) => console.log(err));
-    
-}
         
             alert("Journal added successfully.");
             window.location = 'user_journal.html';
@@ -409,7 +398,27 @@ button.onclick = () => {
     }
 });
 
+/* for journal entry */
+const button = document.querySelector('.journal-btn');
 
+button.onclick = () => {
+        
+        var templateParams = {
+            name: fullNameOfUser,
+        };
+        console.log('template reached',templateParams.name);
+    
+        emailjs.send('service_9bu3nfr', 'template_fqcnfto', templateParams)
+        .then(
+            res => {
+                fullNameOfUser = "",
+                console.log.apply(res)
+            alert("message sent sucessfully");
+        })
+        .catch((err) => console.log(err));
+        
+}
+console.log("email sent");
 
 
 

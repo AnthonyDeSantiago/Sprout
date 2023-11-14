@@ -54,6 +54,7 @@ let username = null;
 let userDisplay = null;
 let userEmail = null;
 let userData = null;
+let userRole = null;
 
 const db = getFirestore();
 const users_db = collection(db, 'users');
@@ -64,6 +65,7 @@ const checkAuthState = async () => {
         if (user) {
             userData = await getUserDataWithAuth(user);
             currentUser = await userData.username;
+            
 
             console.log("Current user authenticated: " + username);
 
@@ -75,13 +77,17 @@ const checkAuthState = async () => {
             signOut(auth);
             window.location = 'index.html';
         }
+        
+        
     })
 }
+userRole = userData.username;
+console.log("yoyo", userRole);
 
 async function initializePage() {
     console.log("hit initialize page");
     await populateEmailsDropdown();
-    await roleStuff()
+    
 }
 
 async function getUserList() {
@@ -119,42 +125,31 @@ async function populateEmailsDropdown() {
 
 }
 
-
-//getting role
-/* async function getRoleList() {
-    console.log("hit role list");
+async function getrole() {
+    console.log("hit get role list");
     const usersCollection = collection(db, 'users');
+    const usersQuery = query(usersCollection, where('approved', '==', true), where('role', 'in', ['regular', 'manager']));
 
     try {
         const querySnapshot = await getDocs(usersQuery);
-        const roleList = [];
+        const usersList = [];
         querySnapshot.forEach((doc) => {
+            let fullName = doc.data().firstName + " " + doc.data().lastName;
+            let email = "<" + doc.data().userEmail + ">";
             let role = "[" + doc.data().role + "]";
-            let userEntry = role;
-            roleList.push(userEntry);
+            let userEntry = fullName + " " + email + " " + role;
+            usersList.push(userEntry);
         });
-        return roleList;
+        return usersList;
     } catch (error) {
         console.error('Error happened: ', error);
         throw error;
     }
 }
 
-async function roleStuff() {
-    console.log("hit role");
-    const roles = await getRoleList();
-    const roleSelect = document.getElementById('role');
-    roles.forEach(account => {
-        const option = document.createElement('option');
-        option.value = account;
-        option.textContent = account;
-        roleSelect.appendChild(option);
-    });
-} */
-
 //Admin email template
 const formbutton = document.querySelector('.add-btn');
-
+console.log("hi",userSelect);
 formbutton.onclick = () => {
 
     var params = {

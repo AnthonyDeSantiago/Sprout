@@ -20,6 +20,9 @@ let currentUser = "YOUR_USER_NAME"; // You can replace this later
 let journal_entry = [];
 let transactionEntriesTable = null;
 
+//for email
+let fullNameOfUser = "";
+
 const checkAuthState = async () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -37,6 +40,10 @@ const checkAuthState = async () => {
             signOut(auth);
             window.location = 'index.html';
         }
+
+        //grabbing name for email
+        fullNameOfUser = userData.firstName + " " + userData.lastName;
+        console.log(fullNameOfUser);
     })
 }
 
@@ -384,30 +391,34 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 });
             }
 
-            /* for adj journal entry */
-            const button2 = document.querySelector('.adjust-btn');
-
-            button2.onclick = () => {
-                    
-                    var templateParams = {
-                        name: document.getElementById('currentUser').value,
-                    };
-                
-                    emailjs.send('service_9bu3nfr', 'template_e9qtgt3', templateParams)
-                    .then(
-                        res => {
-                            document.getElementById("currentUser").value = "",
-                            console.log.apply(res)
-                        alert("message sent sucessfully");
-                    })
-                    .catch((err) => console.log(err));
-}
+            
 
             alert("Journal added successfully.");
             window.location = 'user_journal.html';
         }
     }
 });
+
+/* for adj journal entry */
+const button = document.querySelector('.adjust-btn');
+
+button.onclick = () => {
+        
+        var templateParams = {
+            name: fullNameOfUser,
+        };
+        console.log('template reached',templateParams.name);
+
+        emailjs.send('service_9bu3nfr', 'template_e9qtgt3', templateParams)
+        .then(
+            res => {
+                fullNameOfUser = "",
+                console.log.apply(res)
+            alert("message sent sucessfully");
+        })
+        .catch((err) => console.log(err));
+}
+console.log("email sent");
 
 function displayErrors(errors) {
     // First, clear out all previous error messages
