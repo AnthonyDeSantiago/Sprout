@@ -105,22 +105,22 @@
 
                         <div class="sb-sidenav-menu-heading">Accounts</div>
                         <a class="nav-link" href="dashboard.html">
-                            <div class="sb-nav-link-icon"><i class="bi bi-people-fill"></i></div>
+                            <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
                             Chart of Accounts
                         </a>
                         <a class="nav-link" href="event_log.html">
                             <div class="sb-nav-link-icon"><i class="bi bi-calendar-event"></i></div>
                             Event Log
                         </a>
-                        <a class="nav-link" href="ledger.html">
-                            <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
-                            Account Ledger
+                        <a class="nav-link" href="reports.html" id="no-regular" style="display: none;">
+                            <div class="sb-nav-link-icon"><i class="bi bi-bar-chart-fill"></i></div>
+                            Financial Reports
                         </a>
 
                         <div class="sb-sidenav-menu-heading">Journals</div>
                         <a class="nav-link" href="user_journals.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Journal Dashboard
+                            User Journals
                         </a>
 
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -134,34 +134,37 @@
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="user_journals_status.html">
                                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                    Journal Status
+                                    View All Journals
+                                </a>
+                                <a class="nav-link" href="entry_approval_page.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Journal Approval
                                 </a>
                                 <a class="nav-link" href="new_journal.html">
                                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
-                                    Create Entry
+                                    Journal Entry
                                 </a>
-                                <a class="nav-link" href="entry_approval_page.html">
+                                <a class="nav-link" href="new_journal_adjusting.html">
                                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
-                                    Approve Entries
+                                    Adjusting Journal Entry
                                 </a>
                             </nav>
                         </div>
 
                         <div id="admin-only2">
                             <div class="sb-sidenav-menu-heading">User Administration</div>
+                            <a class="nav-link" href="admin_table_all_users.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Users Dashboard
+                            </a>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                 data-bs-target="#tablesSubmenu" aria-expanded="false" aria-controls="tablesSubmenu">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 User Management
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-
                             <div class="collapse" id="tablesSubmenu">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="admin_table_all_users.html">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                        Users Dashboard
-                                    </a>
                                     <a class="nav-link" href="admin_table_new_user_requests.html">
                                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                         New User Requests
