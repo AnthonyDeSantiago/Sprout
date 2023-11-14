@@ -21,6 +21,7 @@ let username = null;
 let userDisplay = null;
 let userEmail = null;
 let userData = null;
+let userRole = null;
 
 const db = getFirestore();
 const users_db = collection(db, 'users');
@@ -42,6 +43,8 @@ const checkAuthState = async () => {
             signOut(auth);
             window.location = 'index.html';
         }
+        userRole = userData.username;
+        /* console.log("yoyo", userRole); */
     })
 }
 
@@ -92,7 +95,7 @@ const formbutton2 = document.querySelector('.acc-btn');
 formbutton2.onclick = () => {
     var params = {
         name: document.getElementById('userSelect').value.substr(0, document.getElementById('userSelect').value.indexOf('<') - 1),
-        //email: document.getElementById('userSelect').value.substr(document.getElementById('userSelect').value.indexOf('<')+1, document.getElementById('userSelect').indexOf('>')-1),
+        role: userRole,
         message: document.getElementById('mess2').value,
     };
 
@@ -101,8 +104,8 @@ formbutton2.onclick = () => {
     emailjs.send('service_9bu3nfr', 'template_0qdo9gb', params)
         .then(
             res => {
-                document.getElementById("userSelect").value = "",
-                    /* document.getElementById("email").value = "", */
+                    document.getElementById("userSelect").value = "",
+                    userRole = "",
                     document.getElementById("mess2").value = "",
                     console.log.apply(res)
                 alert("message sent sucessfully");

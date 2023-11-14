@@ -44,7 +44,7 @@ const checkAuthState = async () => {
 
         //grabbing name for email
         fullNameOfUser = userData.firstName + " " + userData.lastName;
-        console.log(fullNameOfUser);
+        /* console.log(fullNameOfUser); */
     })
 }
 

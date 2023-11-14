@@ -77,12 +77,12 @@ const checkAuthState = async () => {
             signOut(auth);
             window.location = 'index.html';
         }
-        
+        userRole = userData.username;
+        /* console.log("yoyo", userRole); */
         
     })
 }
-userRole = userData.username;
-console.log("yoyo", userRole);
+
 
 async function initializePage() {
     console.log("hit initialize page");
@@ -154,7 +154,7 @@ formbutton.onclick = () => {
 
     var params = {
         name: document.getElementById('userSelect').value.substr(0, document.getElementById('userSelect').value.indexOf('<') - 1),
-        role: document.getElementById('role'),
+        role: userRole,
         message: document.getElementById('mess').value,
     };
 
@@ -165,7 +165,7 @@ formbutton.onclick = () => {
         .then(
             res => {
                     document.getElementById("userSelect").value = "",
-                    document.getElementById("role").value = "",
+                    userRole = "",
                     document.getElementById("mess").value = "",
                     console.log.apply(res)
                 alert("message sent sucessfully");
