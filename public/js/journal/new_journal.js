@@ -389,22 +389,20 @@ const button = document.querySelector('.journal-btn');
 button.onclick = () => {
         
         var templateParams = {
-            /* name: document.getElementById('currentUser').value, */
+            name: document.getElementById('currentUser').value,
         };
     
         emailjs.send('service_9bu3nfr', 'template_fqcnfto', templateParams)
         .then(
             res => {
-                /* document.getElementById("currentUser").value = "", */
+                document.getElementById("currentUser").value = "",
                 console.log.apply(res)
             alert("message sent sucessfully");
         })
         .catch((err) => console.log(err));
     
 }
-            
-
-
+        
             alert("Journal added successfully.");
             window.location = 'user_journal.html';
         }

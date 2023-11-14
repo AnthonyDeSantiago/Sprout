@@ -24,13 +24,33 @@ const button2 = document.querySelector('.adjust-btn');
 button2.onclick = () => {
         
         var templateParams = {
-            name: document.getElementById('name2').value,
+            name: document.getElementById('currentUser').value,
         };
     
         emailjs.send('service_9bu3nfr', 'template_e9qtgt3', templateParams)
         .then(
             res => {
-                document.getElementById("name2").value = "",
+                document.getElementById("currentUser").value = "",
+                console.log.apply(res)
+            alert("message sent sucessfully");
+        })
+        .catch((err) => console.log(err));
+    
+}
+
+/* for journal entry */
+const button = document.querySelector('.adjust-btn');
+
+button.onclick = () => {
+        
+        var templateParams = {
+            name: document.getElementById('currentUser').value,
+        };
+    
+        emailjs.send('service_9bu3nfr', 'template_fqcnfto', templateParams)
+        .then(
+            res => {
+                document.getElementById("currentUser").value = "",
                 console.log.apply(res)
             alert("message sent sucessfully");
         })

@@ -384,6 +384,25 @@ document.getElementById("journalForm").addEventListener("submit", async function
                 });
             }
 
+            /* for adj journal entry */
+            const button2 = document.querySelector('.adjust-btn');
+
+            button2.onclick = () => {
+                    
+                    var templateParams = {
+                        name: document.getElementById('currentUser').value,
+                    };
+                
+                    emailjs.send('service_9bu3nfr', 'template_e9qtgt3', templateParams)
+                    .then(
+                        res => {
+                            document.getElementById("currentUser").value = "",
+                            console.log.apply(res)
+                        alert("message sent sucessfully");
+                    })
+                    .catch((err) => console.log(err));
+}
+
             alert("Journal added successfully.");
             window.location = 'user_journal.html';
         }

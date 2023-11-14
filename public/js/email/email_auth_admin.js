@@ -126,7 +126,7 @@ formbutton.onclick = () => {
 
     var params = {
         name: document.getElementById('userSelect').value.substr(0, document.getElementById('userSelect').value.indexOf('<') - 1),
-        //email: document.getElementById('userSelect').value.substr(document.getElementById('userSelect').value.indexOf('<')+1, document.getElementById('userSelect').indexOf('>')-1),
+        role: document.getElementById('role'),
         message: document.getElementById('mess').value,
     };
 
@@ -136,8 +136,8 @@ formbutton.onclick = () => {
     emailjs.send('service_9bu3nfr', 'template_0qdo9gb', params)
         .then(
             res => {
-                document.getElementById("userSelect").value = "",
-                    /* document.getElementById("email").value = "", */
+                    document.getElementById("userSelect").value = "",
+                    document.getElementById("role").value = "",
                     document.getElementById("mess").value = "",
                     console.log.apply(res)
                 alert("message sent sucessfully");
