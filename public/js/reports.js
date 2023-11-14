@@ -14,6 +14,10 @@ const accounts_db = collection(db, 'accounts');
 let currentUser = "YOUR_USER_NAME"; // You can replace this later
 let account_db_snap = [];
 
+//TBD -- set = to BOT and NOW
+let startDateReports = null;
+let endDateReports = null;
+
 // Add event listener for Load Reports button
 document.getElementById('dateRangeForm').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -33,17 +37,18 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
         alert('You cannot select a future date.');
         return;
     }
-
+    startDateReports = startDate;
+    endDateReports = endDate; 
     // Generate reports based on the selected date range
     generateReports(startDate, endDate);
 });
 
 
-function generateReports(startDate, endDate) {
+async function generateReports(startDate, endDate) {
     // Now, you need to pass the start and end dates to the fetchDataAndRenderTable function
-    fetchDataAndRenderTrialBalance(startDate, endDate);
-    fetchDataAndRenderIncomeStatement(startDate, endDate);
-    fetchDataAndRenderBalanceSheet(startDate, endDate);
+    await fetchDataAndRenderTrialBalance(startDate, endDate);
+    await fetchDataAndRenderIncomeStatement(startDate, endDate);
+    await fetchDataAndRenderBalanceSheet(startDate, endDate);
     //fetchDataAndRenderRetainedEarnings(startDate, endDate);
 }
 
@@ -63,7 +68,7 @@ const checkAuthState = async () => {
             // Add event listener for Generate Reports button
             document.getElementById('dateRangeForm').addEventListener('submit', function (event) {
                 event.preventDefault();
-                generateReports();
+                generateReports(startDateReports,endDateReports);
 
             });
 
@@ -225,7 +230,7 @@ function getReportData(selectedReport) {
 
 
 // Function to fetch data and render the Trial Balance table
-function fetchDataAndRenderTrialBalance(startDate, endDate) {
+async function fetchDataAndRenderTrialBalance(startDate, endDate) {
     let tableBodyTrial = document.querySelector(`#trialBalanceTable tbody`);
     let tableBodyTotal = document.querySelector(`#trialTotalTable tbody`);
     let debitSum = parseFloat('0.0');
@@ -293,7 +298,7 @@ function fetchDataAndRenderTrialBalance(startDate, endDate) {
 }
 
 // Function to fetch data and render the Income Statement table
-function fetchDataAndRenderIncomeStatement(startDate, endDate) {
+async function fetchDataAndRenderIncomeStatement(startDate, endDate) {
     let tableBodyRev = document.querySelector(`#isRevenue tbody`);
     let tableBodyExp = document.querySelector(`#isExpenses tbody`);
     let tableBodyNet = document.querySelector(`#isNet tbody`);
@@ -377,7 +382,7 @@ function fetchDataAndRenderIncomeStatement(startDate, endDate) {
 }
 
 // Function to fetch data and render the Balance Sheet table
-function fetchDataAndRenderBalanceSheet(startDate, endDate) {
+async function fetchDataAndRenderBalanceSheet(startDate, endDate) {
     let tableBodyAssets = document.querySelector(`#bsAssets tbody`);
     let tableBodyLiab = document.querySelector(`#bsLiabilities tbody`);
     let tableBodyEquit = document.querySelector(`#bsEquity tbody`);
