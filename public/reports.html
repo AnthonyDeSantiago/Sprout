@@ -188,166 +188,255 @@
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Reports</li>
                     </ol>
-        
-                    <!-- Date Range Selection -->
-                    <section>
-                        <h2>Select Date Range</h2>
-                        <form id="dateRangeForm">
-                            <div class="form-group">
-                                <label for="startDate">Start Date:</label>
-                                <input type="date" id="startDate" name="startDate" class="form-control">
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="bi bi-file-earmark"></i>
+                            Select Report to Generate
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Select Date Range</h5>
+                                            <p class="card-text">
+                                            <form id="dateRangeForm">
+                                                <div class="form-group">
+                                                    <label for="startDate">Start Date:</label>
+                                                    <input type="date" id="startDate" name="startDate"
+                                                        class="form-control">
+                                                </div>
+                                                <p></p>
+                                                <div class="form-group">
+                                                    <label for="endDate">End Date:</label>
+                                                    <input type="date" id="endDate" name="endDate" class="form-control">
+                                                </div>
+
+                                                <br>
+                                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                    <button type="submit" class="btn btn-secondary">Load
+                                                        Reports</button>
+                                                </div>
+                                            </form>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <h5 class="card-title">Generate Report</h5>
+                                            <p class="card-text"></p>
+                                            <form class="row row-cols-auto g-3 align-items-center" id="typeSelector">
+                                                <div class="col-md-10">
+                                                    <section>
+                                                        <!-- Report Selection Dropdown -->
+                                                        <label for="reportSelector">Select Report Type:</label>
+                                                        <select id="reportSelector" class="form-select"
+                                                            placeholder="Select report type.">
+                                                            <option value="none"></option>
+                                                            <option value="trialBalance">Trial Balance</option>
+                                                            <option value="incomeStatement">Income Statement</option>
+                                                            <option value="balanceSheet">Balance Sheet</option>
+                                                            <option value="retainedEarnings">Retained Earnings Statement
+                                                            </option>
+                                                            <option value="all">All Reports</option>
+                                                        </select>
+                                                    </section>
+                                                </div>
+                                            </form>
+                                            <br>
+
+                                            <p class="card-text">
+                                            <form class="row row-cols-auto g-3 align-items-center" id="actionSelector">
+                                                <div class="col-md-10">
+                                                    <!-- Report Actions -->
+
+                                                    <section>
+                                                        <div class="report-actions">
+                                                            <button id="saveReport"
+                                                                class="btn btn-success">Download</button>
+                                                            <button id="printReport"
+                                                                class="btn btn-warning">Print</button>
+                                                            <button id="emailReport" class="btn btn-info">Email</button>
+                                                            <br><label for="emailinput" class="form-label"></label>
+                                                            <input type="email" class="form-control" id="emailinput"
+                                                                placeholder="Enter e-mail address to receive reports via email.">
+                                                    </section>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-        
-                            <div class="form-group">
-                                <label for="endDate">End Date:</label>
-                                <input type="date" id="endDate" name="endDate" class="form-control">
-                            </div>
-        
-                            <button type="submit" class="btn btn-primary">Generate Reports</button>
-                        </form>
-                    </section>
-        
-                    <!-- Report Links 
-                    <section>
-                        <h2>Reports</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="#" id="trialBalance">Trial Balance</a></li>
-                            <li><a href="#" id="incomeStatement">Income Statement</a></li>
-                            <li><a href="#" id="balanceSheet">Balance Sheet</a></li>
-                            <li><a href="#" id="retainedEarnings">Retained Earnings Statement</a></li>
-                        </ul>
-                    </section> -->
+                        </div>
 
-                     <!-- Report Selection Dropdown -->
-        <section>
-            <h2>Choose Report</h2>
-            <select id="reportSelector" class="custom-select mb-3">
-                <option value="trialBalance">Trial Balance</option>
-                <option value="incomeStatement">Income Statement</option>
-                <option value="balanceSheet">Balance Sheet</option>
-                <option value="retainedEarnings">Retained Earnings Statement</option>
-                <option value="all">All Reports</option>
-            </select>
-        </section>
-
-        <!-- Report Actions -->
-        <section>
-            <h2>Perform Action</h2>
-            <div class="btn-group" role="group" aria-label="Report Actions">
-                <button id="saveReport" class="btn btn-success">Save</button>
-                <button id="emailReport" class="btn btn-info">Email</button>
-                <button id="printReport" class="btn btn-warning">Print</button>
-            </div>
-        </section>
-        
-                    <div class="container mt-3">
-                        <!-- Trial Balance Table -->
-                        <h3>Trial Balance</h3>
-                        <table class="table" id="trialBalanceTable">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Accounts</th>
-                                    <th>Debit Balances</th>
-                                    <th>Credit Balances</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Data will be inserted here -->
-                            </tbody>
-                        </table>
-        
-                        <!-- Income Statement Table -->
-                        <h3>Income Statement</h3>
-                        <table class="table" id="incomeStatementTable">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th colspan="2">Revenue Streams</th>
-                                </tr>
-                            </thead>
-                            <tbody id="revenueSection">
-                                <!-- Revenue stream rows will be inserted here -->
-                                <!-- Example: <tr><td>Revenue Stream Name</td><td>Amount</td></tr> -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Total Revenue</th>
-                                    <td id="totalRevenue"></td>
-                                </tr>
-                            </tfoot>
-
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th colspan="2">Expenses</th>
-                                </tr>
-                            </thead>
-                            <tbody id="expenseSection">
-                                <!-- Expense rows will be inserted here -->
-                                <!-- Example: <tr><td>Expense Name</td><td>Amount</td></tr> -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Total Expenses</th>
-                                    <td id="totalExpenses"></td>
-                                </tr>
-                            </tfoot>
-
-                            <tfoot>
-                                <tr>
-                                    <th>Net Income</th>
-                                    <td id="netIncome"></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-        
-                        <!-- Balance Sheet Table -->
-                        <h3>Balance Sheet</h3>
-                        <table class="table" id="balanceSheetTable">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Assets</th>
-                                    <th>Liabilities</th>
-                                    <th>Equity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Firebase Data -->
-                            </tbody>
-                        </table>
-        
-                        <!-- Retained Earnings Statement Table -->
-                        <h3>Retained Earnings Statement</h3>
-                        <table class="table" id="retainedEarningsTable">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Beginning Retained Earnings</th>
-                                    <th>Net Income</th>
-                                    <th>Dividends</th>
-                                    <th>Ending Retained Earnings</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Firebase Data -->
-                            </tbody>
-                        </table>
                     </div>
-        
-                    <!-- Report Display -->
-                    <section>
-                        <h2>Report Display</h2>
-                        <div id="reportDisplay" class="report-display-area">
-                            <!-- The generated report will be displayed here -->
+
+
+
+
+                    <div class="card mb-4" id="balanceSheet" style="display:none;">
+                        <div class="card-body">
+                            <h4><b>BALANCE SHEET</b></h4>
+                            <label>[USD $]</label>
+                            <p></p>
+                            <!-- Balance Sheet Table -->
+                            <table class="table table-sm table-bordered table-striped" id="bsAssets">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" width="50%">ASSETS</th>
+                                        <th scope="col" id="dateRange">DATE RANGE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <br>
+                            <table class="table table-bordered table-striped" id="bsLiabilities"
+                                style="margin-bottom: 0px; border-bottom-width: 12px;">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" width="50%">LIABILITIES</th>
+                                        <th scope="col" id="dateRange2">DATE RANGE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <table class="table table-sm table-bordered table-striped" id="bsEquity" style="margin-top: 0px;">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" width="50%">STAKEHOLDER'S EQUITY</th>
+                                        <th scope="col" id="dateRange3">DATE RANGE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+
+                                </tbody>
+                            </table>
                         </div>
-                    </section>
-        
-                    <!-- Report Actions -->
-                    <section>
-                        <h2>Actions</h2>
-                        <div class="report-actions">
-                            <button id="saveReport" class="btn btn-success">Save</button>
-                            <button id="emailReport" class="btn btn-info">Email</button>
-                            <button id="printReport" class="btn btn-warning">Print</button>
+                        <div class="card-footer text-muted text-center">
+                            <span id="dateTime1"></span>
                         </div>
-                    </section>
+                    </div>
+
+                    <div class="card mb-4" id="trialBalance" style="display:none;">
+                        <div class="card-body">
+                            <h4><b>TRIAL BALANCE</b></h4>
+                            <label>[USD $]</label>
+                            <p></p>
+                            <!-- Trial Balance Table -->
+                            <table class="table table-sm table-bordered table-striped " id="trialBalanceTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th width="40%">ACCOUNTS</th>
+                                        <th width="30%">DEBITS</th>
+                                        <th width="30%">CREDITS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be inserted here -->
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered table-striped" id="trialTotalTable">
+                                <thead class="table-dark">
+
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            <span id="dateTime2"></span>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4" id="incomeStatement" style="display:none;">
+                        <div class="card-body">
+                            <!-- Income Statement Table -->
+                            <h4><b>INCOME STATEMENT</b></h4>
+                            <label>[USD $]</label>
+                            <p></p>
+                            <table class="table table-sm table-bordered table-striped" id="isRevenue">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" width="50%">REVENUE</th>
+                                        <th scope="col" id="dateRange4">DATE RANGE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <table class="table table-sm table-bordered table-striped" id="isExpenses">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" width="50%">EXPENSES</th>
+                                        <th scope="col" id="dateRange5">DATE RANGE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <table class="table table-sm table-bordered table-striped" id="isNet">
+                                <thead class="table-dark">
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            <span id="dateTime3"></span>
+                        </div>
+                    </div>
+
+
+                    <!-- Retained Earnings Statement Table 
+                    <h3>Retained Earnings Statement</h3>
+                    <table class="table" id="retainedEarningsTable">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Beginning Retained Earnings</th>
+                                <th>Net Income</th>
+                                <th>Dividends</th>
+                                <th>Ending Retained Earnings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>-->
+
+                    <!-- Report Display 
+                <section>
+                    <h2>Report Display</h2>
+                    <div id="reportDisplay" class="report-display-area">
+                        <-- The generated report will be displayed here ->
+                    </div>
+                </section>-->
+
+                    <!-- Report Actions 
+                <section>
+                    <h2>Actions</h2>
+                    <div class="report-actions">
+                        <button id="saveReport2" class="btn btn-success">Save</button>
+                        <button id="emailReport2" class="btn btn-info">Email</button>
+                        <button id="printReport2" class="btn btn-warning">Print</button>
+                    </div>
+                </section>-->
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">

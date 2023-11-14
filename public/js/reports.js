@@ -1,27 +1,25 @@
-  // Define columns for each table
-  var trialBalanceColumns = [
-    { title: 'Accounts', data: 'account' },
-    { title: 'Debit Balances', data: 'debit' },
-    { title: 'Credit Balances', data: 'credit' }
-  ];
-  var incomeStatementColumns = [
-    { title: 'Revenue Streams', data: 'revenue' },
-    { title: 'Expenses', data: 'expense' },
-    { title: 'Net Income', data: 'netIncome' }
-  ];
-  var balanceSheetColumns = [
-    { title: 'Assets', data: 'asset' },
-    { title: 'Liabilities', data: 'liability' },
-    { title: 'Equity', data: 'equity' }
-  ];
-  var retainedEarningsColumns = [
-    { title: 'Beginning Retained Earnings', data: 'beginning' },
-    { title: 'Net Income', data: 'netIncome' },
-    { title: 'Dividends', data: 'dividend' },
-    { title: 'Ending Retained Earnings', data: 'ending' }
-  ];
-  // Add event listener for Generate Reports button
- document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
+import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
+
+console.log("!!! reports.js loaded !!!");
+
+const auth = getAuth(); //Init Firebase Auth + get a reference to the service
+let userData = null;
+
+const db = getFirestore();
+const journals_db = collection(db, 'journals');
+const transactions_db = collection(db, 'transactions');
+const accounts_db = collection(db, 'accounts');
+let currentUser = "YOUR_USER_NAME"; // You can replace this later
+let account_db_snap = [];
+
+//TBD -- set = to BOT and NOW
+let startDateReports = null;
+let endDateReports = null;
+
+// Add event listener for Load Reports button
+document.getElementById('dateRangeForm').addEventListener('submit', function (event) {
     event.preventDefault();
     // Get the selected dates
     const startDate = document.getElementById('startDate').value;
@@ -39,64 +37,86 @@
         alert('You cannot select a future date.');
         return;
     }
-
+    startDateReports = startDate;
+    endDateReports = endDate; 
     // Generate reports based on the selected date range
     generateReports(startDate, endDate);
 });
 
 
-    function generateReports(startDate, endDate) {
-        // Now, you need to pass the start and end dates to the fetchDataAndRenderTable function
-        fetchDataAndRenderTrialBalance(startDate, endDate);
-        fetchDataAndRenderIncomeStatement(startDate, endDate);
-        fetchDataAndRenderBalanceSheet(startDate, endDate);
-        fetchDataAndRenderRetainedEarnings(startDate, endDate);
-    }
+async function generateReports(startDate, endDate) {
+    // Now, you need to pass the start and end dates to the fetchDataAndRenderTable function
+    await fetchDataAndRenderTrialBalance(startDate, endDate);
+    await fetchDataAndRenderIncomeStatement(startDate, endDate);
+    await fetchDataAndRenderBalanceSheet(startDate, endDate);
+    //fetchDataAndRenderRetainedEarnings(startDate, endDate);
+}
 
 
-document.addEventListener('DOMContentLoaded', function() {
+const checkAuthState = async () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
 
-    // Fetch and render tables when the page is ready
-    fetchDataAndRenderTables();
+            account_db_snap = await getAccountsList();
+            account_db_snap.sort();
+            // Fetch and render tables when the page is ready
+            // Fetch and render tables when the page is ready
+            //fetchDataAndRenderTables();
+            // Fetch and render tables when the page is ready
+            //fetchDataAndRenderTables();
 
-    // Add event listener for Generate Reports button
-    document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        generateReports();
-    });
+            // Add event listener for Generate Reports button
+            document.getElementById('dateRangeForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                generateReports(startDateReports,endDateReports);
 
-    // Add event listeners for action buttons
-    document.getElementById('saveReport').addEventListener('click', function() {
-        performReportAction('save');
-    });
+            });
 
-    document.getElementById('emailReport').addEventListener('click', function() {
-        performReportAction('email');
-    });
+            document.getElementById('reportSelector').addEventListener('change', function () {
+                const selectedReport = document.getElementById('reportSelector').value;
+                getReportData(selectedReport);
+                console.log("Report type selected!")
+            });
 
-    document.getElementById('printReport').addEventListener('click', function() {
-        performReportAction('print');
-    });
-    
-});
+            // Add event listeners for action buttons
+            document.getElementById('saveReport').addEventListener('click', function () {
+                performReportAction('save');
+            });
 
+            document.getElementById('emailReport').addEventListener('click', function () {
+                performReportAction('email');
+            });
+
+            document.getElementById('printReport').addEventListener('click', function () {
+                performReportAction('print');
+            });
+
+        }
+        else {
+            //code here will impact page at most basic level, so be careful
+            alert("Unable to resolve the role associated with your account. Please contact the admin.");
+            signOut(auth);
+            window.location = 'index.html';
+        }
+    })
+}
 
 
 
 
 function performReportAction(actionType) {
     const selectedReport = document.getElementById('reportSelector').value;
-    const reportData = getReportData(selectedReport);
+    getReportData(selectedReport);
 
-    switch(actionType) {
+    switch (actionType) {
         case 'save':
-            saveReport(reportData);
+            saveReport(selectedReport);
             break;
         case 'email':
-            emailReport(reportData);
+            emailReport(selectedReport);
             break;
         case 'print':
-            printReport(reportData);
+            printReport(selectedReport);
             break;
         default:
             console.error('Invalid action type');
@@ -104,12 +124,12 @@ function performReportAction(actionType) {
 }
 
 // Function to handle the Save Report operation
-function saveReport() {
+function saveReport(selectedReport) {
     // Logic to save the report on the server or client-side
     // This might involve converting the report to a downloadable format like PDF
     // Example using a generic API call (this will differ based on your actual implementation)
     const reportData = getReportData();
-    
+
     fetch('/api/save-report', {
         method: 'POST',
         headers: {
@@ -117,25 +137,25 @@ function saveReport() {
         },
         body: JSON.stringify(reportData),
     })
-    .then(response => response.blob())
-    .then(blob => {
-        // Create a link element, use it to download the file and remove it
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        // the filename you want
-        a.download = 'report.pdf';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        alert('Your file has downloaded!'); // or your custom code
-    })
-    .catch(() => alert('Could not save the report.'));
+        .then(response => response.blob())
+        .then(blob => {
+            // Create a link element, use it to download the file and remove it
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // the filename you want
+            a.download = 'report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            alert('Your file has downloaded!'); // or your custom code
+        })
+        .catch(() => alert('Could not save the report.'));
 }
 
 // Function to handle the Email Report operation
-function emailReport() {
+function emailReport(selectedReport) {
     // This would typically involve sending data to the server
     // which would then email the report to a specified address
     // Here is a generic example of what that request might look like
@@ -149,276 +169,334 @@ function emailReport() {
         },
         body: JSON.stringify({ reportData, email }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Email sent successfully!');
-        } else {
-            alert('Failed to send email.');
-        }
-    })
-    .catch(() => alert('Could not send the report via email.'));
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Email sent successfully!');
+            } else {
+                alert('Failed to send email.');
+            }
+        })
+        .catch(() => alert('Could not send the report via email.'));
 }
 
 // Function to handle the Print Report operation
-function printReport() {
+function printReport(selectedReport) {
     // Simple client-side print functionality
     // This could be more complex depending on what exactly needs to be printed
     window.print();
 }
 
-// Placeholder function to get report data
+// Function to select which report shows based on drop down selection
 function getReportData(selectedReport) {
     // Depending on the report selected, fetch the appropriate data
-    if (selectedReport === 'all') {
-        return {
-            trialBalance: $('#trialBalanceTable').DataTable().data().toArray(),
-            incomeStatement: $('#incomeStatementTable').DataTable().data().toArray(),
-            balanceSheet: $('#balanceSheetTable').DataTable().data().toArray(),
-            retainedEarnings: $('#retainedEarningsTable').DataTable().data().toArray(),
-        };
-    } else {
-        return $(`#${selectedReport}Table`).DataTable().data().toArray();
+    switch (selectedReport) {
+        case 'all':
+            document.getElementById("balanceSheet").style.display = "";
+            document.getElementById("trialBalance").style.display = "";
+            document.getElementById("incomeStatement").style.display = "";
+            //TBD RETAINED EARNINGS
+            break;
+        case 'trialBalance':
+            document.getElementById("balanceSheet").style.display = "none";
+            document.getElementById("trialBalance").style.display = "";
+            document.getElementById("incomeStatement").style.display = "none";
+            //TBD RETAINED EARNINGS
+            break;
+        case 'incomeStatement':
+            document.getElementById("balanceSheet").style.display = "none";
+            document.getElementById("trialBalance").style.display = "none";
+            document.getElementById("incomeStatement").style.display = "";
+            //TBD RETAINED EARNINGS
+            break;
+        case 'balanceSheet':
+            document.getElementById("balanceSheet").style.display = "";
+            document.getElementById("trialBalance").style.display = "none";
+            document.getElementById("incomeStatement").style.display = "none";
+            //TBD RETAINED EARNINGS
+            break;
+        case 'none':
+            document.getElementById("balanceSheet").style.display = "none";
+            document.getElementById("trialBalance").style.display = "none";
+            document.getElementById("incomeStatement").style.display = "none";
+            //TBD RETAINED EARNINGS
+            break;
+        //TBD RETAINED EARNINGS    
+        default:
+            console.error('Invalid action type');
     }
 }
 
-function fetchDataAndRenderTable(tableId, firebaseRef, columns, startDate, endDate) {
-    var table = $('#' + tableId).DataTable({
-        columns: columns,
-        searching: false,
-        paging: false
-    });
 
-    // Assuming 'date' is the field in your Firebase data that you want to filter by
-    var query = database.ref(firebaseRef).orderByChild('date');
-    if(startDate) {
-        query = query.startAt(startDate);
-    }
-    if(endDate) {
-        query = query.endAt(endDate);
-    }
-
-    // Fetch data from Firebase with the new query
-    query.on('value', function(snapshot) {
-        table.clear();
-        snapshot.forEach(function(childSnapshot) {
-            var childData = childSnapshot.val();
-            var rowData = columns.map(column => childData[column.data] || '');
-            table.row.add(rowData);
-        });
-        table.draw();
-    });
-}
-
-  
-  
-  // Call function to render each table
-  $(document).ready(function() {
-    fetchDataAndRenderTrialBalance(startDate, endDate);
-    fetchDataAndRenderIncomeStatement(startDate, endDate);
-    fetchDataAndRenderBalanceSheet(startDate, endDate);
-    fetchDataAndRenderRetainedEarnings(startDate, endDate);
-});
-
-//---------------
 
 // Function to fetch data and render the Trial Balance table
-function fetchDataAndRenderTrialBalance(startDate, endDate) {
-    var table = $('#trialBalanceTable').DataTable({
-        columns: [
-            { title: 'Accounts', data: 'name' },
-            { title: 'Debit Balances', data: 'debit' },
-            { title: 'Credit Balances', data: 'credit' }
-        ],
-        searching: false,
-        paging: false
+async function fetchDataAndRenderTrialBalance(startDate, endDate) {
+    let tableBodyTrial = document.querySelector(`#trialBalanceTable tbody`);
+    let tableBodyTotal = document.querySelector(`#trialTotalTable tbody`);
+    let debitSum = parseFloat('0.0');
+    let creditSum = parseFloat('0.0');
+    tableBodyTrial.innerHTML = ``;
+    tableBodyTotal.innerHTML = ``;
+
+    let USDollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
     });
 
-    // Clear any old data in the table
-    table.clear();
+    //TBD DATE SELECTION
+    console.log("accounts_db_snap length: " + account_db_snap.length);
+    console.log(account_db_snap);
 
-    // Fetch accounts from the Firebase collection
-    database.collection('accounts').where('date', '>=', startDate).where('date', '<=', endDate).get()
-    .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-            var account = doc.data();
-            // Add a new row to the DataTable for each account
-            table.row.add({
-                name: account.name,
-                debit: account.debit || 0, // If no debit, default to 0
-                credit: account.credit || 0 // If no credit, default to 0
-            });
-        });
-        // Redraw the DataTable with new data
-        table.draw();
-    })
-    .catch(error => {
-        console.error("Error fetching data: ", error);
-    });
-}
-    // Function to fetch data and render the Trial Balance table
-function fetchDataAndRenderIncomeStatement(startDate, endDate) {
-    var table = $('#incomeStatementTable').DataTable({
-        columns: [
-            { title: 'Revenue Streams', data: 'Revenue' },
-            { title: 'Expenses', data: 'Expenses' },
-            { title: 'Net income', data: 'Netincome' }
-        ],
-        searching: false,
-        paging: false
-    
-});
- // Clear any old data in the table
- table.clear();
+    try {
+        let i = 0;
+        for (i = 0; i < account_db_snap.length; i++) {
+            const account = account_db_snap[i];
 
- // Fetch accounts from the Firebase collection
- database.collection('accounts').where('date', '>=', startDate).where('date', '<=', endDate).get()
- .then(querySnapshot => {
-     querySnapshot.forEach(doc => {
-         var account = doc.data();
-         // Add a new row to the DataTable for each account
-         table.row.add({
-            //replace collection name . value pull
-            Revenue: account.name,
-            Expenses: account.debit || 0, // If no debit, default to 0
-            Netincome: account.credit || 0 // If no credit, default to 0
-         });
-     });
-     // Redraw the DataTable with new data
-     table.draw();
- })
- .catch(error => {
-     console.error("Error fetching data: ", error);
- });
+            if (account.normalSide == "Debit") {
+                const row = tableBodyTrial.insertRow();
+                debitSum = debitSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
 
+                row.innerHTML = `
+                    <td>${account.accountName.toString()}</td>
+                    <td>${USDollar.format(account.balance.replace(/,/g, '').replace("$", ''))}</td>
+                    <td></td>
+                `;
 
-}
-     // Function to fetch data and render the Trial Balance table
-function fetchDataAndRenderBalanceSheet(startDate, endDate) {
-    var table = $('#balanceSheetTable').DataTable({
-        columns: [
-            { title: 'Assets', data: 'name' },
-            { title: 'Liabilities', data: 'debit' },
-            { title: 'Equity', data: 'credit' }
-        ],
-        searching: false,
-        paging: false
-    });
-//asset name, asset amount ,asset total 
-
-//Liabilities name ,Liabilities amount ,Liabilities total 
-
-//Equity name ,Equity amount ,Equity total 
-
-
-}
-
-     // Function to fetch data and render the Trial Balance table
-function fetchDataAndRenderRetainedEarnings(startDate, endDate) {
-    var table = $('#retainedEarningsTable').DataTable({
-        columns: [
-            { title: 'Beginning Retained Earnings', data: 'BRetainedEarnings' },
-            { title: 'Net Income', data: 'NetI' },
-            { title: 'Dividends', data: 'Dividends' },
-            { title: 'Ending Retained Earnings', data: 'ERetainedEarnings' }
-        ],
-        searching: false,
-        paging: false
-    });
-   // Retaining earnings needs pulls from all 3 collections
-
-
-// Clear any old data in the table
-table.clear();
-
-// Fetch accounts from the Firebase collection
-database.collection('accounts').where('date', '>=', startDate).where('date', '<=', endDate).get()
-.then(querySnapshot => {
-    querySnapshot.forEach(doc => {
-        var account = doc.data();
-        // Add a new row to the DataTable for each account
-        table.row.add({
-           //replace collection name . value pull
-            //Beginning retaining earnings from accounts name type 'retained earnings'  return the balance amount
-            BRetainedEarnings:
-
-            
-
-          /* Revenue: account.name,
-           Expenses: account.debit || 0, // If no debit, default to 0
-           Netincome: account.credit || 0 // If no credit, default to 0*/
-        });
-
-    });
-    =
-
-    // Redraw the DataTable with new data
-    table.draw();
-})
-
-
-//Net income - all incomes +all expenses from transactions 
-NetI:
-//Dividends- from transactions 
-Dividends:
-//End retaining- beginning retaining + net income)- dividends 
-ERetainedEarnings: 
-
-.catch(error => {
-    console.error("Error fetching data: ", error);
-});
-/*for fetchDataAndRenderRetainedEarnings firebase // Placeholder for the calculations
-    let beginningRetainedEarnings = 0;
-    let netIncome = 0;
-    let dividends = 0;
-
-    // Fetch beginning retained earnings from 'accounts' collection
-    database.collection('accounts').where('name', '==', 'Retained Earnings')
-    .get()
-    .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-            beginningRetainedEarnings = doc.data().balance; // Assuming there's a balance field
-        });
-
-        // Now fetch revenues and expenses from 'transactions' collection
-        return database.collection('transactions').where('date', '>=', startDate).where('date', '<=', endDate).get();
-    })
-    .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-            let transaction = doc.data();
-            if (transaction.type === 'Revenue') {
-                netIncome += transaction.amount;
-            } else if (transaction.type === 'Expense') {
-                netIncome -= transaction.amount;
-            } else if (transaction.type === 'Dividend') {
-                dividends += transaction.amount;
+                //row.addEventListener('click', async () => {
+                //console.log("Row clicked, the entry is: ", account.id);
+                //currentEntry = account.id;
+                //callback(account);
+                //});
             }
-        });
+            else if (account.normalSide == "Credit") {
+                const row = tableBodyTrial.insertRow();
+                creditSum = creditSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
 
-        // Assuming we have all the data now, calculate ending retained earnings
-        let endingRetainedEarnings = beginningRetainedEarnings + netIncome - dividends;
+                row.innerHTML = `
+                    <td>${account.accountName.toString()}</td>
+                    <td></td>
+                    <td>${USDollar.format(account.balance.replace(/,/g, '').replace("$", ''))}</td>
+                `;
 
-        // Add the calculated values to the DataTable
-        table.clear();
-        table.row.add({
-            BRetainedEarnings: beginningRetainedEarnings,
-            Revenue: netIncome,  // This is total revenue minus expenses
-            Dividends: dividends,
-            ERetainedEarnings: endingRetainedEarnings
-        });
-        table.draw();
-    })
-    .catch(error => {
+            }
+
+        }
+
+        const row = tableBodyTrial.insertRow();
+
+        row.innerHTML = `
+            <th class="table-info" width="40%">TOTAL: </th>
+            <th class="table-info" width="30%">${USDollar.format(debitSum)}</th>
+            <th class="table-info" width="30%">${USDollar.format(creditSum)}</th>
+        `;
+
+        document.getElementById("dateTime2").textContent = new Date().toString();
+
+    } catch (error) {
         console.error("Error fetching data: ", error);
+    }
+}
+
+// Function to fetch data and render the Income Statement table
+async function fetchDataAndRenderIncomeStatement(startDate, endDate) {
+    let tableBodyRev = document.querySelector(`#isRevenue tbody`);
+    let tableBodyExp = document.querySelector(`#isExpenses tbody`);
+    let tableBodyNet = document.querySelector(`#isNet tbody`);
+    let revenueSum = parseFloat('0.0');
+    let expenseSum = parseFloat('0.0');
+    tableBodyRev.innerHTML = ``;
+    tableBodyExp.innerHTML = ``;
+    tableBodyNet.innerHTML = ``;
+
+    let USDollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
     });
-}*/
+
+    //TBD DATE SELECTION
+    console.log("accounts_db_snap length: " + account_db_snap.length);
+    console.log(account_db_snap);
+
+    try {
+        //document.getElementById('dateRange4').textContent = startDate.toString() + " - " + endDate.toString();
+        //document.getElementById('dateRange5').textContent = startDate.toString() + " - " + endDate.toString();
+        let i = 0;
+        for (i = 0; i < account_db_snap.length; i++) {
+            const account = account_db_snap[i];
+            if (account.statement == "Income Statement") {
+                if (account.accountCategory == "Revenue") {
+                    const row = tableBodyRev.insertRow();
+                    revenueSum = revenueSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
+
+                    row.innerHTML = `
+                    <td>${account.accountName.toString()}</td>
+                    <td>${USDollar.format(account.balance.replace(/,/g, '').replace("$", ''))}</td>
+                `;
+
+                    //row.addEventListener('click', async () => {
+                    //console.log("Row clicked, the entry is: ", account.id);
+                    //currentEntry = account.id;
+                    //callback(account);
+                    //});
+                }
+                else if (account.accountCategory == "Expenses") {
+                    const row = tableBodyExp.insertRow();
+                    expenseSum = expenseSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
+
+                    row.innerHTML = `
+                    <td>${account.accountName.toString()}</td>
+                    <td>${USDollar.format(account.balance.replace(/,/g, '').replace("$", ''))}</td>
+                `;
+
+                }
+
+            }
+
+
+        }
+
+        const rowRev = tableBodyRev.insertRow();
+        rowRev.innerHTML = `
+            <th class="table-info" scope="row">TOTAL REVENUE</th>
+            <td class="table-info" id="revenueSum">${USDollar.format(revenueSum)}</td>
+        `;
+
+        const rowExp = tableBodyExp.insertRow();
+        rowExp.innerHTML = `
+            <th class="table-info" scope="row">TOTAL EXPENSES</th>
+            <td class="table-info" id="expenseSum">${USDollar.format(expenseSum)}</td>
+        `;
+
+        const rowNet = tableBodyNet.insertRow();
+        rowNet.innerHTML = `
+            <th class="table-info" scope="col" width="50%">NET INCOME</th>
+            <th class="table-info" scope="col" id="netIncome">${USDollar.format(revenueSum - expenseSum)}</td >
+        `;
+
+        document.getElementById("dateTime3").textContent = new Date().toString();
+
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+    }
 
 }
 
-    
+// Function to fetch data and render the Balance Sheet table
+async function fetchDataAndRenderBalanceSheet(startDate, endDate) {
+    let tableBodyAssets = document.querySelector(`#bsAssets tbody`);
+    let tableBodyLiab = document.querySelector(`#bsLiabilities tbody`);
+    let tableBodyEquit = document.querySelector(`#bsEquity tbody`);
+
+    let assetSum = parseFloat('0.0');
+    let liabSum = parseFloat('0.0');
+    let equitSum = parseFloat('0.0');
+    tableBodyAssets.innerHTML = ``;
+    tableBodyEquit.innerHTML = ``;
+    tableBodyLiab.innerHTML = ``;
 
 
+    let USDollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+
+    //TBD DATE SELECTION
+    console.log("accounts_db_snap length: " + account_db_snap.length);
+    console.log(account_db_snap);
+
+    try {
+        //document.getElementById('dateRange4').textContent = startDate.toString() + " - " + endDate.toString();
+        //document.getElementById('dateRange5').textContent = startDate.toString() + " - " + endDate.toString();
+        let i = 0;
+        for (i = 0; i < account_db_snap.length; i++) {
+            const account = account_db_snap[i];
+            if (account.statement == "Balance Sheet") {
+                if (account.accountCategory == "Assets") {
+                    const row = tableBodyAssets.insertRow();
+                    assetSum = assetSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
+
+                    row.innerHTML = `
+                        <td>${account.accountName.toString()}</td>
+                        <td>${USDollar.format(account.balance.replace(/,/g, '').replace("$", ''))}</td>
+                    `;
+
+                }
+                else if (account.accountCategory == "Liabilities") {
+                    const row = tableBodyLiab.insertRow();
+                    liabSum = liabSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
+
+                    row.innerHTML = `
+                        <td>${account.accountName.toString()}</td>
+                        <td>${USDollar.format(account.balance.replace(/,/g, '').replace("$", ''))}</td>
+                    `;
+
+                }
+                else if (account.accountCategory == "Equity") {
+                    const row = tableBodyEquit.insertRow();
+                    liabSum = equitSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
+
+                    row.innerHTML = `
+                        <td>${account.accountName.toString()}</td>
+                        <td>${USDollar.format(account.balance.replace(/,/g, '').replace("$", ''))}</td>
+                    `;
+
+                }
+
+            }
 
 
+        }
 
+        const rowAst = tableBodyAssets.insertRow();
+        rowAst.innerHTML = `
+                <th class="table-info" scope="row">TOTAL ASSETS</th>
+                <td class="table-info" id="assetsSum">${USDollar.format(assetSum)}</td>
+            `;
+
+        const rowLiab = tableBodyLiab.insertRow();
+        rowLiab.innerHTML = `
+                <th class="table-info" scope="row">Total Liabilities</th>
+                <td class="table-info" id="liabilitiesSum">${USDollar.format(liabSum)}</td>
+            `;
+
+        const rowEquit = tableBodyEquit.insertRow();
+        rowEquit.innerHTML = `
+                <th class="table-info" scope="row">Total Stakeholder's Equity</th>
+                <td class="table-info" id="equitySum">${USDollar.format(equitSum)}</td>
+            `;
+
+        const rowLiabEquit = tableBodyEquit.insertRow();
+        rowLiabEquit.innerHTML = `
+            <th class="table-info" scope="col" width="50%">TOTAL LIABILITIES & EQUITY</th>
+            <th class="table-info" scope="col" id="liabilityEquitySum">${USDollar.format(liabSum + equitSum)}</td >
+        `;
+
+        document.getElementById("dateTime1").textContent = new Date().toString();
+
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+    }
+
+
+}
+
+async function getAccountsList() {
+    const accountsCollection = collection(db, 'accounts');
+    const accountsQuery = query(accountsCollection, where("active","==", true));
+
+    try {
+        const querySnapshot = await getDocs(accountsQuery);
+        const accountsList = [];
+        querySnapshot.forEach((doc) => {
+            accountsList.push({ id: doc.id, ...doc.data() });
+        });
+        return accountsList;
+    } catch (error) {
+        console.error('Error happened: ', error);
+        throw error;
+    }
+}
+
+
+checkAuthState();
 

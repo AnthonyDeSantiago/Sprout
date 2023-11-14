@@ -170,9 +170,9 @@ const checkAuthState = async () => {
             console.log(">>> Username = " + currentUser);
             document.getElementById("journalPageTitle").textContent = userData.firstName + " " + userData.lastName + "'s Journal Entries";
 
-            initializeTable(pendingJournalEntries, 'journalEntry_table', pendingModalCallback);
-            initializeTableWithComments(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
-            initializeTableWithComments(approvedJournalEntries, 'approved_table', approvedModalCallback);
+            await initializeTable(pendingJournalEntries, 'journalEntry_table', pendingModalCallback);
+            await initializeTableWithComments(rejectedJournalEntries, 'rejected_table', rejectedModalCallback);
+            await initializeTableWithComments(approvedJournalEntries, 'approved_table', approvedModalCallback);
 
             try {
                 await loadDataTables();
