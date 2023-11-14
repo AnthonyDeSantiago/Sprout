@@ -389,7 +389,7 @@ const button = document.querySelector('.journal-btn');
 button.onclick = () => {
         
         var templateParams = {
-            name: document.getElementById('currentUser').value.substr(0, document.getElementById('currentUser').value.indexOf('<') - 1),
+            name: document.getElementById('currentUser').value,
         };
     
         emailjs.send('service_9bu3nfr', 'template_fqcnfto', templateParams)
