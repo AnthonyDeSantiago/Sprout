@@ -120,8 +120,8 @@ async function populateEmailsDropdown() {
 }
 
 
-/* getting role */
-async function getRoleList() {
+//getting role
+/* async function getRoleList() {
     console.log("hit role list");
     const usersCollection = collection(db, 'users');
 
@@ -150,7 +150,7 @@ async function roleStuff() {
         option.textContent = account;
         roleSelect.appendChild(option);
     });
-}
+} */
 
 //Admin email template
 const formbutton = document.querySelector('.add-btn');
