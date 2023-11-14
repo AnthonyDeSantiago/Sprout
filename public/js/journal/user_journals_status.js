@@ -302,8 +302,8 @@ const checkAuthState = async () => {
                     document.getElementById("approvalForm1").style.display = "";
                     document.getElementById("approvalForm2").style.display = "";
                     document.getElementById("approvalForm3").style.display = "";
-                    admin_only.style.display = "none";
-                    admin_only2.style.display = "none";
+                    document.getElementById("admin_only1").style.display = "none";
+                    document.getElementById("admin_only2").style.display = "none";
                     break;
 
 
