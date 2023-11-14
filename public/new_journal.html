@@ -27,6 +27,8 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script defer src="js/sprout.js" type="module"></script>
     <script src="js/journal/new_journal.js" type="module"></script>
+    
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -226,9 +228,12 @@
                             <div id="transactionDescriptionError" class="error-text"></div>
 
                         </div>
-                        <button type="submit" class="btn btn-primary" id="addTransactionBtn">Add Transaction</button>
+                        <button type="submit" class="journal-btn btn btn-primary" id="addTransactionBtn">Add Transaction</button>
                         <button type="reset" class="btn btn-secondary" id="resetBtn">Reset</button>
                     </form>
+
+            
+
                     <style>
                         .error-text {
                             color: red;
@@ -311,5 +316,12 @@
         crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
 </body>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function () {
+        emailjs.init("Fwd-qXGKUkQJGDPsj");
+    })();
+</script>
 
 </html>

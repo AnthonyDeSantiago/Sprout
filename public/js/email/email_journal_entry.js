@@ -4,13 +4,13 @@ const button = document.querySelector('.journal-btn');
 button.onclick = () => {
         
         var templateParams = {
-            name: document.getElementById('name').value,
+            /* name: document.getElementById('name').value, */
         };
     
         emailjs.send('service_9bu3nfr', 'template_fqcnfto', templateParams)
         .then(
             res => {
-                document.getElementById("name").value = "",
+                /* document.getElementById("name").value = "", */
                 console.log.apply(res)
             alert("message sent sucessfully");
         })
