@@ -81,6 +81,7 @@ const checkAuthState = async () => {
 async function initializePage() {
     console.log("hit initialize page");
     await populateEmailsDropdown();
+    await roleStuff()
 }
 
 async function getUserList() {
@@ -118,9 +119,10 @@ async function populateEmailsDropdown() {
 
 }
 
+
 /* getting role */
 async function getRoleList() {
-    console.log("hit pop user list");
+    console.log("hit role list");
     const usersCollection = collection(db, 'users');
 
     try {
