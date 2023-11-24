@@ -1,10 +1,17 @@
 /**********************************************************************************************/
-
-.logo_form{
+.logo_form {
+    width: 60%; /* container */
+    max-width: 300px; /* Max size */
+    min-width: 150px; /* Min size */
+    height: auto; /*  aspect ratio */
     padding-top: 10%;
-    width:60%;
-    height: auto;
     align-items: center;
+}
+
+@media (max-width: 768px) {
+    .logo_form {
+        width: 80%; /* Larger percentage for smaller screens */
+    }
 }
 
 .form-control {

@@ -1,6 +1,15 @@
+
 /* LOGO in Top Nav */
-.bg-logo{
-    width: 8%;
+.bg-logo {
+    width: 8%; /* This is relative but might still be too large or small on certain screens */
+    max-width: 150px; /* Maximum size */
+    min-width: 50px; /* Minimum size */
+}
+
+@media (max-width: 768px) {
+    .bg-logo {
+        width: 15%; /* Larger percentage for smaller screens */
+    }
 }
 
 /* Logo in Login Screen */
