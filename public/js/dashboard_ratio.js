@@ -17,6 +17,9 @@ const rejectedJournalsElement = document.getElementById("rejected_journals_value
 const approvedUsersElement = document.getElementById("approved_users_value");
 const suspendedUsersElement = document.getElementById("suspended_users_value");
 const rejectUsersElement = document.getElementById("rejected_users_value");
+const activeAccountsElement = document.getElementById("active_accounts_element");
+const inactiveAccountsElement = document.getElementById("inactive_accounts_element");
+
 
 
 console.log("1212121212121] users", users);
@@ -40,6 +43,9 @@ let totalJournalsRejected = 0;
 let totalUsersApproved = 0;
 let totalUsersRejected = 0;
 let totalUsersSuspended = 0;
+
+let totalActiveAccounts = 0;
+let totalInactiveAccounts = 0;
 
 
 for (let i = 0; i < users.length; i++) {
@@ -81,6 +87,13 @@ console.log("ashdkfja;lkdjf;akflajsd;fa;dlkfa", totalJournalsRejected);
 for(let i = 0; i < accounts.length; i++) {
     const subcategory = accounts[i].data.accountSubcategory.toUpperCase();
     const category = accounts[i].data.accountCategory.toUpperCase();
+    const isActive = accounts[i].data.active;
+
+    if(isActive) {
+        totalActiveAccounts += 1;
+    } else {
+        totalInactiveAccounts += 1;
+    }
 
     if (category == "LIABILITIES") {
         totalLiabilities += await convertBalanceToFloat(accounts[i].data.balance);
@@ -136,6 +149,9 @@ rejectedJournalsElement.textContent = totalJournalsRejected;
 approvedUsersElement.textContent = totalUsersApproved;
 suspendedUsersElement.textContent = totalUsersSuspended;
 rejectUsersElement.textContent = totalUsersRejected;
+
+activeAccountsElement.textContent = totalActiveAccounts;
+inactiveAccountsElement.textContent = totalInactiveAccounts;
 
 console.log("1212121212121] current ratio", currentRatio);
 
