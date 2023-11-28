@@ -142,7 +142,7 @@ async function initializeTable(entries, tableId, scope) {
     if(scope == "account_approvals" && entries.length < 5){
         tableSizing = entries.length;
     }
-    console.log(">>>>> tableSizing " + tableSizing);
+    console.log(">>>>> " + scope + " : tableSizing " + tableSizing);
     for (let i = 0; i < tableSizing; i++) {
         if (scope == "all_users_pending") {
             const entry = entries.docs[i];
