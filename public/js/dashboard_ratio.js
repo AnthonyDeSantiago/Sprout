@@ -8,15 +8,19 @@ console.log("dashboard_ratio.js has loaded!!");
 
 const accounts = await getAllDocsFromCollection("accounts");
 const journals = await getAllDocsFromCollection("journals");
+const users = await getAllDocsFromCollection("users");
 const currentRatioElement = document.getElementById("current_ratio_value");
 const debtRatioElement = document.getElementById("debt_ratio_value");
 const approvedJournalsElement = document.getElementById("approved_journals_value");
 const pendingJournalsElement = document.getElementById("pending_journals_value");
 const rejectedJournalsElement = document.getElementById("rejected_journals_value");
+const approvedUsersElement = document.getElementById("approved_users_value");
+const suspendedUsersElement = document.getElementById("suspended_users_value");
+const rejectUsersElement = document.getElementById("rejected_users_value");
 
 
-console.log("1212121212121] journals", journals);
-console.log("1212121212121] journals size", journals.length);
+console.log("1212121212121] users", users);
+console.log("1212121212121] users size", users.length);
 
 let currentLiabilityAccounts = [];
 let currentAssetAccounts = [];
@@ -32,6 +36,27 @@ let debtRatio = 0;
 let totalJournalsApproved = 0;
 let totalJournalsPending = 0;
 let totalJournalsRejected = 0;
+
+let totalUsersApproved = 0;
+let totalUsersRejected = 0;
+let totalUsersSuspended = 0;
+
+
+for (let i = 0; i < users.length; i++) {
+    const approved = users[i].data.approved;
+    const suspened = users[i].data.suspended;
+
+    if (approved) {
+        totalUsersApproved += 1;
+    } else {
+        totalUsersRejected += 1;
+    }
+
+    if (suspened) {
+        totalUsersSuspended += 1;
+    }
+
+}
 
 
 for (let i = 0; i < journals.length; i++) {
@@ -103,9 +128,14 @@ if (totalAssets == 0) {
 
 currentRatioElement.textContent = currentRatio;
 debtRatioElement.textContent = debtRatio;
+
 approvedJournalsElement.textContent = totalJournalsApproved;
 pendingJournalsElement.textContent = totalJournalsPending;
 rejectedJournalsElement.textContent = totalJournalsRejected;
+
+approvedUsersElement.textContent = totalUsersApproved;
+suspendedUsersElement.textContent = totalUsersSuspended;
+rejectUsersElement.textContent = totalUsersRejected;
 
 console.log("1212121212121] current ratio", currentRatio);
 
