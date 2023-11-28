@@ -136,11 +136,27 @@ function loadDataTables() {
 async function initializeTable(entries, tableId, scope) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
     let tableSizing = 5;
+    let users = [];
     if (scope != "account_approvals" && entries.size < 5) {
         tableSizing = entries.size;
     }
-    if(scope == "account_approvals" && entries.length < 5){
-        tableSizing = entries.length;
+    if (scope == "account_approvals" && entries.length < 5) {
+        for (let i = 0; i < entries.length; i++) {
+            const user = entries[i];
+            if (user.data.approved.toString() == "false") {
+                users.push(user);
+            }
+        }
+        tableSizing = users.length;
+    }
+    else if (scope == "accout_approvals" && entries.length >= 5) {
+        tableSizing = 5;
+        for (let i = 0; i < entries.length; i++) {
+            const user = entries[i];
+            if (user.data.approved.toString() == "false") {
+                users.push(user);
+            }
+        }
     }
     console.log(">>>>> " + scope + " : tableSizing " + tableSizing);
     for (let i = 0; i < tableSizing; i++) {
@@ -179,20 +195,18 @@ async function initializeTable(entries, tableId, scope) {
         else if (scope == "account_approvals") {
             console.log("user entries >>> ", entries);
             const user = entries[i];
-            if (user.data.approved.toString() == "false") {
-                console.log("user printing to table >>> " + user);
-                const row = tableBody.insertRow();
-                row.innerHTML = `
+            console.log("user printing to table >>> " + user);
+            const row = tableBody.insertRow();
+            row.innerHTML = `
                 <td>${user.data.username}</td>
                 <td>${user.data.firstName}</td>
                 <td>${user.data.lastName}</td>
                 <td>${user.data.userEmail}</td>
             `;
-                row.addEventListener('click', async () => {
-                    console.log("Row clicked, the entry is: ", entry.id);
-                    window.location = "admin_table_all_users.html"
-                });
-            };
+            row.addEventListener('click', async () => {
+                console.log("Row clicked, the entry is: ", entry.id);
+                window.location = "admin_table_all_users.html"
+            });
         }
     }
 }
