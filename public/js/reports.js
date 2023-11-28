@@ -433,7 +433,7 @@ async function fetchDataAndRenderBalanceSheet(startDate, endDate) {
                 }
                 else if (account.accountCategory == "Equity") {
                     const row = tableBodyEquit.insertRow();
-                    liabSum = equitSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
+                    equitSum = equitSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
 
                     row.innerHTML = `
                         <td>${account.accountName.toString()}</td>

@@ -22,6 +22,7 @@
     <script defer src="js/sprout.js" type="module"></script>
     <!-- <script defer src="js/email/email_auth_admin.js" type="module"></script> -->
     <script defer src="js/dashboard_ratio.js" type="module"></script>
+    <script defer src="js/dashboard_secondary.js" type="module"></script>
     <script defer src="js/entry_approval_page.js" type="module"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -373,7 +374,7 @@
                             </div>
                             
                             <div class="card-body">
-                                <h1>30.12%</h1>
+                                <h1 id="DER">--%</h1>
                             </div>
                         </div>
                     </div>
@@ -382,11 +383,11 @@
                         <div class="card mb-4" >
                             <div class="card-header fw-bold">
                                 
-                                Inventory Turnover
+                                Cash Ratio
                             </div>
                             
                             <div class="card-body">
-                                <h1>10%</h1>
+                                <h1 id="cashRatio">--%</h1>
                             </div>
                         </div>
                     </div>
@@ -395,11 +396,11 @@
                         <div class="card mb-4" >
                             <div class="card-header fw-bold">
                                 
-                                Gross Profit Margin
+                                Return on Assets
                             </div>
                             
                             <div class="card-body">
-                                <h1>90%</h1>
+                                <h1 id="ROA">--%</h1>
                             </div>
                         </div>
                     </div>
