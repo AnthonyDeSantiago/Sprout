@@ -27,6 +27,36 @@ const checkAuthState = async () => {
             document.getElementById('ROA').textContent = ROA;
             document.getElementById('DER').textContent = DER;
 
+            if(parseFloat(ROA) > 20.0){
+                document.getElementById('ROACard').className="card text-white bg-success mb-4";
+            }
+            else if(parseFloat(ROA) >= 5.0){
+                document.getElementById('ROACard').className="card text-white bg-secondary mb-4";
+            }
+            else {
+                document.getElementById('ROACard').className="card text-white bg-danger mb-4";
+            }
+
+            if(parseFloat(CR) > 2.0){
+                document.getElementById('CRCard').className="card text-white bg-success mb-4";
+            }
+            else if(parseFloat(CR) >= 1.0){
+                document.getElementById('CRCard').className="card text-white bg-secondary mb-4";
+            }
+            else {
+                document.getElementById('CRCard').className="card text-white bg-danger mb-4";
+            }
+
+            if(parseFloat(DER) < 1.0){
+                document.getElementById('DERCard').className="card text-white bg-success mb-4";
+            }
+            else if(parseFloat(DER) <= 2.0){
+                document.getElementById('DERCard').className="card text-white bg-secondary mb-4";
+            }
+            else {
+                document.getElementById('DERCard').className="card text-white bg-danger mb-4";
+            }
+
 
         }
         else {
@@ -41,7 +71,7 @@ const checkAuthState = async () => {
 
 async function getAccountsList() {
     const accountsCollection = collection(db, 'accounts');
-    const accountsQuery = query(accountsCollection, where("active","==", true));
+    const accountsQuery = query(accountsCollection, where("active", "==", true));
 
     try {
         const querySnapshot = await getDocs(accountsQuery);
@@ -56,7 +86,7 @@ async function getAccountsList() {
     }
 }
 
-async function getROA(){
+async function getROA() {
 
     let ROA = ""
     let netIncome = 0.0
@@ -78,7 +108,7 @@ async function getROA(){
                     expenseSum = expenseSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
                 }
             }
-    
+
             if (account.statement == "Balance Sheet") {
                 if (account.accountCategory == "Assets") {
                     assetSum = assetSum + parseFloat(account.balance.replace(/,/g, '').replace("$", ''));
@@ -87,7 +117,7 @@ async function getROA(){
         }
 
         netIncome = revenueSum - expenseSum;
-        ROA = ((netIncome/assetSum) * 100).toFixed(2) + "%";
+        ROA = ((netIncome / assetSum) * 100).toFixed(2) + "%";
 
         console.log("ROA = " + ROA);
 
@@ -100,7 +130,7 @@ async function getROA(){
     return "error"
 }
 
-async function getCashRatio(){
+async function getCashRatio() {
 
     let cashRatio = ""
     let cashSum = 0.0
@@ -119,7 +149,7 @@ async function getCashRatio(){
             }
         }
 
-        cashRatio = ((cashSum/currentLiabilitiesSum) * 100).toFixed(2) + "%";
+        cashRatio = ((cashSum / currentLiabilitiesSum)).toFixed(2);
 
         console.log("cashRatio = " + cashRatio);
 
@@ -129,11 +159,11 @@ async function getCashRatio(){
         console.error("Error fetching data: ", error);
     }
 
-    return "error"    
+    return "error"
 }
 
 /*Debt to Equity Ration */
-async function getDER(){
+async function getDER() {
 
     let DER = ""
     let liabSum = 0.0
@@ -151,7 +181,7 @@ async function getDER(){
             }
         }
 
-        DER = ((liabSum/equitSum) * 100).toFixed(2) + "%";
+        DER = (liabSum / equitSum).toFixed(2);
 
         console.log("Debt-to-Equity Ratio = " + DER);
 
@@ -161,7 +191,8 @@ async function getDER(){
         console.error("Error fetching data: ", error);
     }
 
-    return "error"    
+    return "error"
 }
 
 checkAuthState();
+
