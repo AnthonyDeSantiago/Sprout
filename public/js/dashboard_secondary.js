@@ -78,6 +78,7 @@ const checkAuthState = async () => {
                     $(document).ready(function () {
                         $(`#${'pending_table'}`).DataTable();
                         $(`#${'allUserPending_table'}`).DataTable();
+                        $(`#${'users_table'}`).DataTable();
                     });
                 } catch (error) {
                     console.error('Error loading DataTables:', error);
