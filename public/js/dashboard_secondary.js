@@ -70,8 +70,8 @@ const checkAuthState = async () => {
 
                 await initializeTable(await pendingJournalEntries, 'pending_table', "current_user");
                 await initializeTable(await pendingJournalEntries, 'allUserPending_table', "all_users_pending");
-                await initializeTable(await pendingUserAccounts, 'users_table', "account_approvals");
-
+                await initializeTable(await userAccounts, 'users_table', "account_approvals");
+                console.log("")
 
                 try {
                     await loadDataTables();
@@ -121,7 +121,7 @@ const checkAuthState = async () => {
 }
 
 const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
-const pendingUserAccounts = await getDocReferencesWithValue('users', 'approved', 'false');
+const userAccounts = await getAllDocsFromCollection("users");
 
 function loadDataTables() {
     return new Promise((resolve, reject) => {
@@ -173,19 +173,22 @@ async function initializeTable(entries, tableId, scope) {
             };
         }
         else if (scope == "account_approvals") {
-            console.log(entries);
+            console.log("user entries >>> " + entries);
             const user = entries.docs[i];
-            const row = tableBody.insertRow(i);
-            row.innerHTML = `
+            if (user.data().approved.toString() == "false") {
+                console.log("user printing to table >>> " + user);
+                const row = tableBody.insertRow(i);
+                row.innerHTML = `
                 <td>${user.data().username}</td>
                 <td>${user.data().firstName}</td>
                 <td>${user.data().lastName}</td>
                 <td>${user.data().userEmail}</td>
             `;
-            row.addEventListener('click', async () => {
-                console.log("Row clicked, the entry is: ", entry.id);
-                window.location = "admin_table_all_users.html"
-            });
+                row.addEventListener('click', async () => {
+                    console.log("Row clicked, the entry is: ", entry.id);
+                    window.location = "admin_table_all_users.html"
+                });
+            };
         }
     }
 }
