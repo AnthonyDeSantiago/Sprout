@@ -177,7 +177,7 @@ async function initializeTable(entries, tableId, scope) {
             const user = entries[i];
             if (user.data.approved.toString() == "false") {
                 console.log("user printing to table >>> " + user);
-                const row = tableBody.insertRow(i);
+                const row = tableBody.insertRow();
                 row.innerHTML = `
                 <td>${user.data.username}</td>
                 <td>${user.data.firstName}</td>
