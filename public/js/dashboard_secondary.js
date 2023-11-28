@@ -1,73 +1,170 @@
 import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
+import { addField, changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "/js/database_module.mjs";
 
-console.log("!!! dashboard-secondary.js loaded !!!");
+
+console.log("!!! dashboard_secondary.js loaded !!!");
 
 const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 let userData = null;
 
 const db = getFirestore();
+const journals_db = collection(db, 'journals');
+const transactions_db = collection(db, 'transactions');
+const accounts_db = collection(db, 'accounts');
+let journals_pending = [];
+let journalEntriesTable = null;
+let accountsList = [];
+let usersList = [];
+let userPull = [];
 let account_db_snap = [];
 
-let currentUser = "YOUR_USER_NAME"; // You can replace this later
+let currentUser = "YOUR_USER_NAME"; //Replaced by code
 
 const checkAuthState = async () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
 
-            account_db_snap = await getAccountsList();
-            account_db_snap.sort();
+            userData = await getUserDataWithAuth(user);
+            currentUser = userData.username;
+            console.log(">>> Username = " + currentUser);
 
-            let CR = await getCashRatio();
-            let ROA = await getROA();
-            let DER = await getDER();
+            if (userData != null) {
+                username = userData.username;
+                userRole = "Sprout User";
 
-            document.getElementById('cashRatio').textContent = CR;
-            document.getElementById('ROA').textContent = ROA;
-            document.getElementById('DER').textContent = DER;
+                let admin_man_only = document.getElementById("admin-man-only");
+                let admin_view_only = document.getElementById("admin-view-only");
 
-            if(parseFloat(ROA) > 20.0){
-                document.getElementById('ROACard').className="card text-white bg-success mb-4";
-            }
-            else if(parseFloat(ROA) >= 5.0){
-                document.getElementById('ROACard').className="card text-white bg-secondary mb-4";
+                switch (userData.role) {
+                    case "admin":
+                        userRole = "Administrator";
+                        console.log(">>> Display mode: administrator");
+                        if (admin_man_only != null) { admin_man_only.style.display = ""; }
+                        if (admin_view_only != null) { admin_view_only.style.display = ""; }
+                        break;
+
+                    case "manager":
+                        userRole = "Manager";
+                        console.log(">>> Display mode: manager user");
+
+                        if (admin_man_only != null) { admin_man_only.style.display = ""; }
+                        if (admin_view_only != null) { admin_view_only.style.display = "none"; }
+                        break;
+
+                    case "regular":
+                        userRole = "Accountant";
+                        console.log(">>> Display mode: regular user");
+
+                        if (admin_man_only != null) { admin_man_only.style.display = "none"; }
+                        if (admin_view_only != null) { admin_view_only.style.display = "none"; }
+                        break;
+
+                    default:
+                        console.log(">>> Display mode unable to be resolved.");
+                        if (admin_man_only != null) { admin_man_only.style.display = "none"; }
+                        if (admin_view_only != null) { admin_view_only.style.display = "none"; }
+                }
+
+                await initializeTable(await pendingJournalEntries, 'pending_table', currentUser);
+                await initializeTable(await pendingJournalEntries, 'allUserPending_table', "all");
+
+                try {
+                    await loadDataTables();
+                    $(document).ready(function () {
+                        $(`#${'pending_table'}`).DataTable();
+                        $(`#${'allUserPending_table'}`).DataTable();
+                    });
+                } catch (error) {
+                    console.error('Error loading DataTables:', error);
+                }
+
+
+                account_db_snap = await getAccountsList();
+                account_db_snap.sort();
+
+                let CR = await getCashRatio();
+                let ROA = await getROA();
+                let DER = await getDER();
+
+                document.getElementById('cashRatio').textContent = CR;
+                document.getElementById('ROA').textContent = ROA;
+                document.getElementById('DER').textContent = DER;
+
+                if (parseFloat(ROA) > 20.0) { document.getElementById('ROACard').className = "card text-white bg-success mb-4"; }
+                else if (parseFloat(ROA) >= 5.0) { document.getElementById('ROACard').className = "card text-white bg-secondary mb-4"; }
+                else { document.getElementById('ROACard').className = "card text-white bg-danger mb-4"; }
+
+                if (parseFloat(CR) > 2.0) { document.getElementById('CRCard').className = "card text-white bg-success mb-4"; }
+                else if (parseFloat(CR) >= 1.0) { document.getElementById('CRCard').className = "card text-white bg-secondary mb-4"; }
+                else { document.getElementById('CRCard').className = "card text-white bg-danger mb-4"; }
+
+                if (parseFloat(DER) < 1.0) { document.getElementById('DERCard').className = "card text-white bg-success mb-4"; }
+                else if (parseFloat(DER) <= 2.0) { document.getElementById('DERCard').className = "card text-white bg-secondary mb-4"; }
+                else { document.getElementById('DERCard').className = "card text-white bg-danger mb-4"; }
+
+
             }
             else {
-                document.getElementById('ROACard').className="card text-white bg-danger mb-4";
+                //code here will impact page at most basic level, so be careful
+                alert("Unable to resolve the role associated with your account. Please contact the admin.");
+                signOut(auth);
+                window.location = 'index.html';
             }
-
-            if(parseFloat(CR) > 2.0){
-                document.getElementById('CRCard').className="card text-white bg-success mb-4";
-            }
-            else if(parseFloat(CR) >= 1.0){
-                document.getElementById('CRCard').className="card text-white bg-secondary mb-4";
-            }
-            else {
-                document.getElementById('CRCard').className="card text-white bg-danger mb-4";
-            }
-
-            if(parseFloat(DER) < 1.0){
-                document.getElementById('DERCard').className="card text-white bg-success mb-4";
-            }
-            else if(parseFloat(DER) <= 2.0){
-                document.getElementById('DERCard').className="card text-white bg-secondary mb-4";
-            }
-            else {
-                document.getElementById('DERCard').className="card text-white bg-danger mb-4";
-            }
-
-
-        }
-        else {
-            //code here will impact page at most basic level, so be careful
-            alert("Unable to resolve the role associated with your account. Please contact the admin.");
-            signOut(auth);
-            window.location = 'index.html';
         }
     })
 }
 
+const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
+
+function loadDataTables() {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+    });
+}
+
+async function initializeTable(entries, tableId, userScope) {
+    const tableBody = document.querySelector(`#${tableId} tbody`);
+    for (let i = 0; i < entries.size; i++) {
+        if (userScope == "all") {
+            const entry = entries.docs[i];
+            const row = tableBody.insertRow(i);
+            if (entry.data().type == "adjusting") { row.style.backgroundColor = "#DFFFFF"; };
+            row.innerHTML = `
+            <td>${entry.data().creationDate.toDate()}</td>
+            <td>${entry.id}</td>
+            <td>${entry.data().user}</td>
+            <td>${entry.data().description}</td>
+        `;
+            row.addEventListener('click', async () => {
+                console.log("Row clicked, the entry is: ", entry.id);
+                window.location = "user_journals_status.html"
+            });
+        }
+        else {
+            const entry = entries.docs[i];
+            if (entry.data().user.toString() == currentUser) {
+                const row = tableBody.insertRow(i);
+                if (entry.data().type == "adjusting") { row.style.backgroundColor = "#DFFFFF"; };
+                row.innerHTML = `
+                <td>${entry.data().creationDate.toDate()}</td>
+                <td>${entry.id}</td>
+                <td>${entry.data().user}</td>
+                <td>${entry.data().description}</td>
+            `;
+                row.addEventListener('click', async () => {
+                    console.log("Row clicked, the entry is: ", entry.id);
+                    window.location = "user_journals.html"
+                });
+            };
+        }
+    }
+}
 
 async function getAccountsList() {
     const accountsCollection = collection(db, 'accounts');

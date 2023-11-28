@@ -102,7 +102,7 @@
                         </div>
 
                         <div class="sb-sidenav-menu-heading">Accounts</div>
-                        
+
                         <a class="nav-link" href="dashboard.html">
                             <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
                             Chart of Accounts
@@ -183,7 +183,7 @@
 
                         </div>
 
-                        
+
                         <div>
                             <div class="sb-sidenav-menu-heading">Support</div>
                             <a class="nav-link" href="help_page.html">
@@ -216,261 +216,263 @@
                 <div class="container-fluid px-4">
                     <h1 class="mt-4 mb-5">Dashboard</h1>
 
-                <div class="container text-center">
-                    <div class="row align-items-start">
+                    <div class="container text-center">
+                        <div class="row align-items-start">
 
-                    <div class="col">
-                        <div class="card mb-4">
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header fw-bold">
+                                        <i class="fas fa-book-open"></i>
+                                        Journals
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- Journal Dashboard -->
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h1 id="approved_journals_value">500</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="pending_journals_value">200</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="rejected_journals_value">600</h1>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h6 class="bg-success fw-bolder rounded-5">Approved</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-warning fw-bolder rounded-5">Pending</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-danger fw-bolder rounded-5">Rejected</h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header fw-bold">
+                                        <i class="bi bi-person"></i>
+                                        Users
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- Users Dashboard -->
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h1 id="approved_users_value">100</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="suspended_users_value">200</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="rejected_users_value">600</h1>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h6 class="bg-success fw-bolder rounded-5">Active</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-warning fw-bolder rounded-5">Suspended</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-danger fw-bolder rounded-5">Rejected</h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header fw-bold">
+                                        <i class="bi bi-journal-bookmark-fill"></i>
+                                        Accounts
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- COA Dashboard -->
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h1 id="active_accounts_element">1000</h1>
+                                            </div>
+
+                                            <div class="col">
+                                                <h1 id="inactive_accounts_element">600</h1>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h6 class="bg-success fw-bolder rounded-5">Active</h6>
+                                            </div>
+
+                                            <div class="col">
+                                                <h6 class="bg-danger fw-bolder rounded-5">Inactive</h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Ratio -->
+                    <div class="container text-center">
+                        <div class="row align-items-start">
+
+                            <div class="col">
+                                <div class="card mb-4" id="CuRCard">
+                                    <div class="card-header fw-bold">
+
+                                        Current Ratio
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="current_ratio_value">50%</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="DRCard">
+                                    <div class="card-header fw-bold">
+
+                                        Debt Ratio
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="debt_ratio_value">50.50%</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="DERCard">
+                                    <div class="card-header fw-bold">
+
+                                        Debt-to-Equity Ratio
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="DER">--%</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="CRCard">
+                                    <div class="card-header fw-bold">
+
+                                        Cash Ratio
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="cashRatio">--%</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="ROACard">
+                                    <div class="card-header fw-bold">
+
+                                        Return on Assets
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="ROA">--%</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                    <div class="container text-center">
+                        <div class="card mb-4" id="admin-man-only" display="none">
                             <div class="card-header fw-bold">
                                 <i class="fas fa-book-open"></i>
-                                Journals
-                            </div>
-                            
-                            <div class="card-body">
-                            
-                            <!-- Journal Dashboard -->
-                            <div class="row align-items-start">
-                                <div class="col">
-                                    <h1 id="approved_journals_value">500</h1>
-                                </div>
-                                <div class="col">
-                                    <h1 id="pending_journals_value">200</h1>
-                                </div>
-                                <div class="col">
-                                    <h1 id="rejected_journals_value">600</h1>
-                                </div>
-                            </div>
-                                    
-                            <div class="row align-items-start">
-                            <div class="col">
-                                <h6 class="bg-success fw-bolder rounded-5">Approved</h6>
-                            </div>
-                            <div class="col">
-                                <h6 class="bg-warning fw-bolder rounded-5">Pending</h6>
-                            </div>
-                            <div class="col">
-                                <h6 class="bg-danger fw-bolder rounded-5">Rejected</h6>
-                            </div>
+                                Recent Journals Submitted for Approval
                             </div>
 
+                            <div>
+                                <table id="allUserPending_table" class="display" style="width:90%">
+                                    <thead>
+                                        <tr>
+                                            <th>Creation Date</th>
+                                            <th>ID</th>
+                                            <th>User</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+
+                                </table>
                             </div>
-                            
+
                         </div>
                     </div>
 
-                    <div class="col">
-                        <div class="card mb-4">
-                            <div class="card-header fw-bold">
-                                <i class="bi bi-person"></i>
-                                Users
-                            </div>
 
-                            <div class="card-body">
-                                
-                                <!-- Users Dashboard -->
-                                <div class="row align-items-start">
-                                    <div class="col">
-                                        <h1 id="approved_users_value">100</h1>
-                                    </div>
-                                    <div class="col">
-                                        <h1 id="suspended_users_value">200</h1>
-                                    </div>
-                                    <div class="col">
-                                        <h1 id="rejected_users_value">600</h1>
-                                    </div>
-                                </div>
-                                        
-                                <div class="row align-items-start">
-                                <div class="col">
-                                    <h6 class="bg-success fw-bolder rounded-5">Active</h6>
-                                </div>
-                                <div class="col">
-                                    <h6 class="bg-warning fw-bolder rounded-5">Suspended</h6>
-                                </div>
-                                <div class="col">
-                                    <h6 class="bg-danger fw-bolder rounded-5">Rejected</h6>
-                                </div>
-                                </div>
-
-                            </div>
-                            
-                        </div>
-                    </div>
-
-                    <div class="col">
+                    <div class="container text-center">
                         <div class="card mb-4">
                             <div class="card-header fw-bold">
                                 <i class="bi bi-journal-bookmark-fill"></i>
-                                Accounts
+                                Your Pending Journal Submissions
                             </div>
+
 
                             <div class="card-body">
-                                
-                                <!-- COA Dashboard -->
-                                <div class="row align-items-start">
-                                    <div class="col">
-                                        <h1 id="active_accounts_element">1000</h1>
-                                    </div>
-                                    
-                                    <div class="col">
-                                        <h1 id="inactive_accounts_element">600</h1>
-                                    </div>
-                                </div>
-                                        
-                                <div class="row align-items-start">
-                                <div class="col">
-                                    <h6 class="bg-success fw-bolder rounded-5">Active</h6>
-                                </div>
+                                <!-- Journal Entry Table table -->
+                                <table id="pending_table" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Creation Date</th>
+                                            <th>ID</th>
+                                            <th>User</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                <div class="col">
-                                    <h6 class="bg-danger fw-bolder rounded-5">Inactive</h6>
-                                </div>
-                                </div>
+                                    </tbody>
 
+                                </table>
                             </div>
 
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Ratio -->
-                <div class="container text-center">
-                <div class="row align-items-start">
-                
-                    <div class="col">
-                        <div class="card mb-4" id="CuRCard">
-                            <div class="card-header fw-bold" >
-                                
-                                Current Ratio
-                            </div>
-                            
-                            <div class="card-body">
-                                <h1 id="current_ratio_value">50%</h1>
-                            </div>
                         </div>
                     </div>
 
-                    <div class="col">
-                        <div class="card mb-4" id="DRCard">
-                            <div class="card-header fw-bold">
-                                
-                                Debt Ratio
-                            </div>
-                            
-                            <div class="card-body">
-                                <h1 id="debt_ratio_value">50.50%</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card mb-4"  id="DERCard">
-                            <div class="card-header fw-bold">
-                                
-                                Debt-to-Equity Ratio
-                            </div>
-                            
-                            <div class="card-body">
-                                <h1 id="DER">--%</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card mb-4"  id="CRCard">
-                            <div class="card-header fw-bold">
-                                
-                                Cash Ratio
-                            </div>
-                            
-                            <div class="card-body">
-                                <h1 id="cashRatio">--%</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card mb-4" id="ROACard">
-                            <div class="card-header fw-bold">
-                                
-                                Return on Assets
-                            </div>
-                            
-                            <div class="card-body">
-                                <h1 id="ROA">--%</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
-
-
-
-                </div>
-
-
-
-                <div class="container text-center">
-                <div class="card mb-4">
-                    <div class="card-header fw-bold">
-                        <i class="fas fa-book-open"></i>
-                        Recent Journal Submission (FOR ADMIN/MANAGER)
-                    </div>
-
-                    <div>
-                        <table id="journalEntry_table" class="display" style="width:90%">
-                            <thead>
-                                <tr>
-                                    <th>Creation Date</th>
-                                    <th>ID</th>
-                                    <th>User</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-    
-                            </tbody>
-    
-                        </table>
-                    </div>
-
-                </div>  
-                </div>
-
-
-                <div class="container text-center">
-                    <div class="card mb-4">
-                        <div class="card-header fw-bold">
-                            <i class="fas fa-book-open"></i>
-                            Recent Journal Submission (FOR ACCOUNTANT(USER))
-                        </div>
-    
-                        <div>
-                            <table id="journalEntry_table" class="display" style="width:90%">
-                                <thead>
-                                    <tr>
-                                        <th>Creation Date</th>
-                                        <th>ID</th>
-                                        <th>User</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-        
-                                </tbody>
-        
-                            </table>
-                        </div>
-    
-                    </div>  
-                    </div>
-                
-                
-                
 
 
             </main>
@@ -512,4 +514,5 @@
         emailjs.init("Fwd-qXGKUkQJGDPsj");
     })();
 </script>
+
 </html>
