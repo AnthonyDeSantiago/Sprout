@@ -82,7 +82,6 @@ for (let i = 0; i < journals.length; i++) {
 
 }
 
-console.log("ashdkfja;lkdjf;akflajsd;fa;dlkfa", totalJournalsRejected);
 
 for(let i = 0; i < accounts.length; i++) {
     const subcategory = accounts[i].data.accountSubcategory.toUpperCase();
@@ -127,10 +126,32 @@ debtRatio = totalLiabilities / totalAssets;
 console.log("1212121212121] liabilities", currentLiabilities);
 console.log("1212121212121] assets", currentAssets);
 
+
+if(parseFloat(currentRatio) > 2.0){
+    document.getElementById('CuRCard').className="card text-white bg-success mb-4";
+}
+else if(parseFloat(currentRatio) >= 1.0){
+    document.getElementById('CuRCard').className="card text-white bg-secondary mb-4";
+}
+else {
+    document.getElementById('CuRCard').className="card text-white bg-danger mb-4";
+}
+
+
+if(parseFloat(debtRatio) < 30.0){
+    document.getElementById('DRCard').className="card text-white bg-success mb-4";
+}
+else if(parseFloat(debtRatio) <= 40.0){
+    document.getElementById('DRCard').className="card text-white bg-secondary mb-4";
+}
+else {
+    document.getElementById('DRCard').className="card text-white bg-danger mb-4";
+}
+
 if (currentLiabilities == 0) {
     currentRatio = "Undefined";
 } else {
-    currentRatio = formatToPercent(currentRatio);
+    currentRatio = formatToNumber(currentRatio);
 }
 
 if (totalAssets == 0) {
@@ -170,4 +191,15 @@ function formatToPercent(number) {
     };
 
     return percentage.toLocaleString(undefined, options);
+}
+
+function formatToNumber(number) {
+    const formattedNumber = number;
+
+    const options = {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+    };
+
+    return formattedNumber.toLocaleString(undefined, options);
 }
