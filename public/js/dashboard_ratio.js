@@ -7,12 +7,16 @@ import { convertBalanceToFloat, formatNumberToCurrency, getAllDocsFromCollection
 console.log("dashboard_ratio.js has loaded!!");
 
 const accounts = await getAllDocsFromCollection("accounts");
+const journals = await getAllDocsFromCollection("journals");
 const currentRatioElement = document.getElementById("current_ratio_value");
 const debtRatioElement = document.getElementById("debt_ratio_value");
+const approvedJournalsElement = document.getElementById("approved_journals_value");
+const pendingJournalsElement = document.getElementById("pending_journals_value");
+const rejectedJournalsElement = document.getElementById("rejected_journals_value");
 
 
-console.log("1212121212121] accounts", accounts);
-console.log("1212121212121] accounts size", accounts.length);
+console.log("1212121212121] journals", journals);
+console.log("1212121212121] journals size", journals.length);
 
 let currentLiabilityAccounts = [];
 let currentAssetAccounts = [];
@@ -24,6 +28,30 @@ let totalAssets = 0;
 let totalAssetAccounts = [];
 let totalLiabilities = 0;
 let debtRatio = 0;
+
+let totalJournalsApproved = 0;
+let totalJournalsPending = 0;
+let totalJournalsRejected = 0;
+
+
+for (let i = 0; i < journals.length; i++) {
+    const approval = journals[i].data.approval.toUpperCase();
+
+    if (approval == "APPROVED") {
+        totalJournalsApproved += 1;
+    }
+
+    if (approval == "PENDING") {
+        totalJournalsPending += 1;
+    }
+
+    if (approval == "REJECTED") {
+        totalJournalsRejected += 1;
+    }
+
+}
+
+console.log("ashdkfja;lkdjf;akflajsd;fa;dlkfa", totalJournalsRejected);
 
 for(let i = 0; i < accounts.length; i++) {
     const subcategory = accounts[i].data.accountSubcategory.toUpperCase();
@@ -45,7 +73,6 @@ for(let i = 0; i < accounts.length; i++) {
 
     if (subcategory == "CURRENT ASSETS") {
         currentAssetAccounts.push(accounts[i]);
-        console.log("!!!!!1212121212121] value", accounts[i].data.balance)
         currentAssets += await convertBalanceToFloat(accounts[i].data.balance);
     }
 
@@ -76,6 +103,10 @@ if (totalAssets == 0) {
 
 currentRatioElement.textContent = currentRatio;
 debtRatioElement.textContent = debtRatio;
+approvedJournalsElement.textContent = totalJournalsApproved;
+pendingJournalsElement.textContent = totalJournalsPending;
+rejectedJournalsElement.textContent = totalJournalsRejected;
+
 console.log("1212121212121] current ratio", currentRatio);
 
 
