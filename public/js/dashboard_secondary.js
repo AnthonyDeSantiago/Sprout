@@ -173,6 +173,7 @@ async function initializeTable(entries, tableId, scope) {
             };
         }
         else if (scope == "account_approvals") {
+            console.log(entries);
             const user = entries.docs[i];
             const row = tableBody.insertRow(i);
             row.innerHTML = `
