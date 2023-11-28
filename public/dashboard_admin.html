@@ -243,13 +243,13 @@
 
                                         <div class="row align-items-start">
                                             <div class="col">
-                                                <h6 class="bg-success fw-bolder rounded-5">Approved</h6>
+                                                <h6 class="bg-success fw-bolder text-white rounded-5">Approved</h6>
                                             </div>
                                             <div class="col">
-                                                <h6 class="bg-warning fw-bolder rounded-5">Pending</h6>
+                                                <h6 class="bg-warning fw-bolder text-white rounded-5">Pending</h6>
                                             </div>
                                             <div class="col">
-                                                <h6 class="bg-danger fw-bolder rounded-5">Rejected</h6>
+                                                <h6 class="bg-danger fw-bolder text-white rounded-5">Rejected</h6>
                                             </div>
                                         </div>
 
@@ -282,13 +282,13 @@
 
                                         <div class="row align-items-start">
                                             <div class="col">
-                                                <h6 class="bg-success fw-bolder rounded-5">Active</h6>
+                                                <h6 class="bg-success fw-bolder text-white rounded-5">Active</h6>
                                             </div>
                                             <div class="col">
-                                                <h6 class="bg-warning fw-bolder rounded-5">Suspended</h6>
+                                                <h6 class="bg-warning fw-bolder text-white rounded-5">Suspended</h6>
                                             </div>
                                             <div class="col">
-                                                <h6 class="bg-danger fw-bolder rounded-5">Rejected</h6>
+                                                <h6 class="bg-danger fw-bolder text-white rounded-5">Rejected</h6>
                                             </div>
                                         </div>
 
@@ -319,11 +319,11 @@
 
                                         <div class="row align-items-start">
                                             <div class="col">
-                                                <h6 class="bg-success fw-bolder rounded-5">Active</h6>
+                                                <h6 class="bg-success fw-bolder text-white rounded-5">Active</h6>
                                             </div>
 
                                             <div class="col">
-                                                <h6 class="bg-danger fw-bolder rounded-5">Inactive</h6>
+                                                <h6 class="bg-danger fw-bolder text-white rounded-5">Inactive</h6>
                                             </div>
                                         </div>
 
@@ -414,15 +414,15 @@
 
 
 
-                    <div class="container text-center">
-                        <div class="card mb-4" id="admin-man-only" display="none">
+                    <div class="container text-center" id="admin-man-only" display="none">
+                        <div class="card mb-4">
                             <div class="card-header fw-bold">
                                 <i class="fas fa-book-open"></i>
                                 Recent Journals Submitted for Approval
                             </div>
 
-                            <div>
-                                <table id="allUserPending_table" class="display" style="width:90%">
+                            <div class="card-body">
+                                <table id="allUserPending_table" class="display" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Creation Date</th>
@@ -459,6 +459,35 @@
                                             <th>ID</th>
                                             <th>User</th>
                                             <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="container text-center" id="admin-view-only" display="none">
+                        <div class="card mb-4">
+                            <div class="card-header fw-bold">
+                                <i class="bi bi-person-fill-up"></i>
+                                Pending User Requests
+                            </div>
+
+
+                            <div class="card-body">
+                                <!-- Journal Entry Table table -->
+                                <table id="users_table" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
                                         </tr>
                                     </thead>
                                     <tbody>

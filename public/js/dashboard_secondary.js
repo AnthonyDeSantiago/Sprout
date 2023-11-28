@@ -68,8 +68,10 @@ const checkAuthState = async () => {
                         if (admin_view_only != null) { admin_view_only.style.display = "none"; }
                 }
 
-                await initializeTable(await pendingJournalEntries, 'pending_table', currentUser);
-                await initializeTable(await pendingJournalEntries, 'allUserPending_table', "all");
+                await initializeTable(await pendingJournalEntries, 'pending_table', "current_user");
+                await initializeTable(await pendingJournalEntries, 'allUserPending_table', "all_users_pending");
+                await initializeTable(await pendingUserAccounts, 'users_table', "account_approvals");
+
 
                 try {
                     await loadDataTables();
@@ -118,6 +120,7 @@ const checkAuthState = async () => {
 }
 
 const pendingJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'pending');
+const pendingUserAccounts = await getDocReferencesWithValue('users', 'approved', 'false');
 
 function loadDataTables() {
     return new Promise((resolve, reject) => {
@@ -129,10 +132,14 @@ function loadDataTables() {
     });
 }
 
-async function initializeTable(entries, tableId, userScope) {
+async function initializeTable(entries, tableId, scope) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
-    for (let i = 0; i < entries.size; i++) {
-        if (userScope == "all") {
+    let tableSizing = 5;
+    if (entries.size < 5){
+        tableSizing = entries.size;
+    }
+    for (let i = 0; i < tableSizing; i++) {
+        if (scope == "all_users_pending") {
             const entry = entries.docs[i];
             const row = tableBody.insertRow(i);
             if (entry.data().type == "adjusting") { row.style.backgroundColor = "#DFFFFF"; };
@@ -147,7 +154,7 @@ async function initializeTable(entries, tableId, userScope) {
                 window.location = "user_journals_status.html"
             });
         }
-        else {
+        else if (scope == "current_user") {
             const entry = entries.docs[i];
             if (entry.data().user.toString() == currentUser) {
                 const row = tableBody.insertRow(i);
@@ -161,6 +168,22 @@ async function initializeTable(entries, tableId, userScope) {
                 row.addEventListener('click', async () => {
                     console.log("Row clicked, the entry is: ", entry.id);
                     window.location = "user_journals.html"
+                });
+            };
+        }
+        else if (scope == "account_approvals") {
+            const user = entries.docs[i];
+            if (user.data().suspended != false) {
+                const row = tableBody.insertRow(i);
+                row.innerHTML = `
+                <td>${user.data().username}</td>
+                <td>${user.data().firstName}</td>
+                <td>${user.data().lastName}</td>
+                <td>${user.data().userEmail}</td>
+            `;
+                row.addEventListener('click', async () => {
+                    console.log("Row clicked, the entry is: ", entry.id);
+                    window.location = "admin_table_all_users.html"
                 });
             };
         }
