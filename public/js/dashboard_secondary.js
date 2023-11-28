@@ -174,7 +174,7 @@ async function initializeTable(entries, tableId, scope) {
         }
         else if (scope == "account_approvals") {
             console.log("user entries >>> " + entries);
-            const user = entries.docs[i];
+            const user = entries[i];
             if (user.data().approved.toString() == "false") {
                 console.log("user printing to table >>> " + user);
                 const row = tableBody.insertRow(i);
