@@ -136,8 +136,12 @@ function loadDataTables() {
 async function initializeTable(entries, tableId, scope) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
     let tableSizing = 5;
-    if (entries.size < 5) {
+    if (scope != "account_approvals" && entries.size < 5) {
         tableSizing = entries.size;
+    }
+    if(scope == "account_approvals" && entries.length < 5){
+        tableSizing = entries.length;
+        
     }
     for (let i = 0; i < tableSizing; i++) {
         if (scope == "all_users_pending") {
