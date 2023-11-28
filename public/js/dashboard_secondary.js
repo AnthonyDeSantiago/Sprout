@@ -136,7 +136,7 @@ function loadDataTables() {
 async function initializeTable(entries, tableId, scope) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
     let tableSizing = 5;
-    if (entries.size < 5){
+    if (entries.size < 5) {
         tableSizing = entries.size;
     }
     for (let i = 0; i < tableSizing; i++) {
@@ -145,11 +145,11 @@ async function initializeTable(entries, tableId, scope) {
             const row = tableBody.insertRow(i);
             if (entry.data().type == "adjusting") { row.style.backgroundColor = "#DFFFFF"; };
             row.innerHTML = `
-            <td>${entry.data().creationDate.toDate()}</td>
-            <td>${entry.id}</td>
-            <td>${entry.data().user}</td>
-            <td>${entry.data().description}</td>
-        `;
+                <td>${entry.data().creationDate.toDate()}</td>
+                <td>${entry.id}</td>
+                <td>${entry.data().user}</td>
+                <td>${entry.data().description}</td>
+            `;
             row.addEventListener('click', async () => {
                 console.log("Row clicked, the entry is: ", entry.id);
                 window.location = "user_journals_status.html"
@@ -174,19 +174,17 @@ async function initializeTable(entries, tableId, scope) {
         }
         else if (scope == "account_approvals") {
             const user = entries.docs[i];
-            if (user.data().suspended != false) {
-                const row = tableBody.insertRow(i);
-                row.innerHTML = `
+            const row = tableBody.insertRow(i);
+            row.innerHTML = `
                 <td>${user.data().username}</td>
                 <td>${user.data().firstName}</td>
                 <td>${user.data().lastName}</td>
                 <td>${user.data().userEmail}</td>
             `;
-                row.addEventListener('click', async () => {
-                    console.log("Row clicked, the entry is: ", entry.id);
-                    window.location = "admin_table_all_users.html"
-                });
-            };
+            row.addEventListener('click', async () => {
+                console.log("Row clicked, the entry is: ", entry.id);
+                window.location = "admin_table_all_users.html"
+            });
         }
     }
 }
