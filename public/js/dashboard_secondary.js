@@ -8,6 +8,7 @@ console.log("!!! dashboard_secondary.js loaded !!!");
 
 const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 let userData = null;
+let userRole = null;
 
 const db = getFirestore();
 const journals_db = collection(db, 'journals');
@@ -30,8 +31,8 @@ const checkAuthState = async () => {
             currentUser = userData.username;
             console.log(">>> Username = " + currentUser);
 
+
             if (userData != null) {
-                username = userData.username;
                 userRole = "Sprout User";
 
                 let admin_man_only = document.getElementById("admin-man-only");
