@@ -204,7 +204,7 @@ async function initializeTable(entries, tableId, scope) {
                 <td>${user.data.userEmail}</td>
             `;
             row.addEventListener('click', async () => {
-                console.log("Row clicked, the entry is: ", entry.id);
+                console.log("Row clicked, the entry is: ", user.id);
                 window.location = "admin_table_all_users.html"
             });
         }
