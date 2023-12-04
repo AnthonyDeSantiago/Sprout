@@ -8,9 +8,7 @@ const approvedUsers = await getDocReferencesWithValue('users', 'approved', true)
 
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
-// const returnToPendingButton = document.getElementById('returnToPendingButton');
-// const commentField = document.getElementById('commentField');
-// const commentError = document.getElementById('commentError');
+
 
 let currentEntry = null;
 
@@ -93,6 +91,12 @@ $('#approval-modal').on('hidden.bs.modal', function () {
     $('#commentError').text('');
 });
 
+$('#approved-modal').on('hidden.bs.modal', function () {
+    $('#approved-modal-table tbody').empty();
+    $('#commentField').val('');
+    $('#commentError').text('');
+});
+
 
 try {
     await loadDataTables();
@@ -153,10 +157,6 @@ approveButton.addEventListener('click', async () => {
     // location.reload();
 });
 
-returnToPendingButton.addEventListener('click', async () => {
-    await changeFieldValue('journals', currentEntry, 'approval', 'pending');
-    location.reload();
-});
 
   
   
