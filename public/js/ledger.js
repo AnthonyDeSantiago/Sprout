@@ -6,8 +6,6 @@ const urlParameters = new URLSearchParams(window.location.search);
 const accountNumber = urlParameters.get("accountNumber");
 const accountName = urlParameters.get("accountName");
 const accountID = await getAccountID(accountNumber);
-const journalEntries = await getDocsWithValue('journals', 'account', accountID);
-const transactions = await getDocsWithValue('transactions', 'account', accountID);
 const normalSide = capitalizeString(await getFieldValue('accounts', accountID, 'normalSide'));
 const accountBreadCrumb = document.getElementById("accountBreadcrumb-element");
 const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
@@ -19,10 +17,9 @@ console.log("approved transactions:", approvedTransactions);
 console.log("accountNumber:", accountNumber);
 console.log("accountName:", accountName);
 console.log("account ID:", accountID);
-console.log("journal entries:", journalEntries);
-console.log("transactions:", transactions);
-console.log("debit: ", transactions[0].debit);
-console.log("transactions length", transactions.length);
+console.log("approved transactions:", approvedTransactions);
+console.log("debit: ", await getDocumentReference('transactions', approvedTransactions[0]).debit);
+console.log("transactions length", approvedTransactions.length);
 console.log("Normal side", normalSide);
 
 populateLedgerTable(approvedTransactions, 'ledger');
@@ -67,17 +64,19 @@ async function populateLedgerTable(transactions, tableId) {
 
 
 
-function printTotal() {
+async function printTotal() {
     const totalElement = document.getElementById("account-total");
     const debitElement = document.getElementById("debit-total");
     const creditElement = document.getElementById("credit-total");
+    
 
     let debitTotal = 0;
     let creditTotal = 0;
 
-    for (let i = 0; i < transactions.length; i++) {
-        debitTotal += transactions[i].debit;
-        creditTotal += transactions[i].credit;
+    for (let i = 0; i < approvedTransactions.length; i++) {
+        const transaction = await getDocumentReference('transactions', approvedTransactions[i]);
+        debitTotal += transaction.debit;
+        creditTotal += transaction.credit;
     }
     debitElement.textContent = debitTotal;
     creditElement.textContent = creditTotal;
