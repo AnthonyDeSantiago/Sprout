@@ -170,5 +170,17 @@ returnToPendingButton.addEventListener('click', async () => {
     await changeFieldValue('users', currentUser, 'approved', false);
     location.reload();
 })
+
+suspendButon.addEventListener('click', async () => {
+    const userData = await getDocumentReference('users', currentUser);
+    
+    if (userData.suspended) {
+        await changeFieldValue('users', currentUser, 'suspended', false);
+    } else {
+        await changeFieldValue('users', currentUser, 'suspended', true);
+    }
+    
+    location.reload();
+});
   
   
