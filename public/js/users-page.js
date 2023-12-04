@@ -1,4 +1,4 @@
-import { changeFieldValue, convertBalanceToFloat, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { changeFieldValue, convertBalanceToFloat, deleteDocument, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("users-page.js has loaded");
 
@@ -119,16 +119,8 @@ try {
 
 rejectButton.addEventListener('click', async () => {
     console.log("Reject Button Pressed");
-    // await changeFieldValue('users', currentEntry, 'approved', false);
-    // // console.log('selectedRow', currentEntry);
-
-    // if (commentField.value.trim() === '') {
-    //     commentError.textContent = 'Please enter a comment before rejecting.';
-    // } else {
-    //     commentError.textContent = '';
-    //     await changeFieldValue('journals', currentEntry, 'approval', 'rejected');
-    //     location.reload();
-    // }
+    await deleteDocument('users', currentUser);
+    location.reload();
 });
 
 approveButton.addEventListener('click', async () => {
