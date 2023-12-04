@@ -1,127 +1,47 @@
+import { getFirestore, collection, doc, query, where, getDocs, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
+import { fetchUserFromEmail, getUserDataWithAuth, getUsernameWithAuth } from "/js/sprout.js"
 console.log("!!! admin_table_expiredpassword.js loaded !!!");
 
-//import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
-//import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"
 
-
-//const auth = getAuth();
+const auth = getAuth(); //Init Firebase Auth + get a reference to the service
 
 const db = getFirestore();
 const users = collection(db, 'users');
 
 async function loadUsers() {
-        // Replace this with your Firebase data retrieval logic
-        // Loop through your users and create rows for each in the table
-        var usersArray = [];
-        var oneYearAgo = new Date();
-        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-        const q = query(users, where('passwordCreatedAt', '<', oneYearAgo)); //HERE IS WHERE WE COULD SET LIMITS IF WE WANTED TO PAGE THROUGH
-        const userDocs = await getDocs(q).then((querySnapshot) => {
-            var tempDoc = [];
-            querySnapshot.forEach((doc) => {
-                tempDoc.push({ id: doc.id, username: doc.get("username") })
-            });
-            usersArray = tempDoc;
-        });
-        //const users = [{ username: "User1" }, { username: "User2" }, /* ... */];
+    var oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    const q = query(usersRef, where('passwordCreatedAt', '<', oneYearAgo));
+    const querySnapshot = await getDocs(q);
+    const usersArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        const tbody = extendableTable.querySelector("tbody");
-        tbody.innerHTML = ""; // Clear existing rows
+    const tbody = document.querySelector("#usersTable tbody");
+    tbody.innerHTML = ""; // Clear existing rows
 
-        usersArray.forEach((user) => {
-            if(user.role != "deleted"){
-                const row = document.createElement("tr");
-                const usernameCell = document.createElement("td");
-    
-                // Add a click event to the username cell
-                usernameCell.innerText = user.username;
-                usernameCell.addEventListener("click", () => {
-                    showExtendedTable(user.username);
-                });
-    
-                row.appendChild(usernameCell);
-                tbody.appendChild(row);
-            }
-        });
-    }
-    // Load user data when the page loads
-    loadUsers();
-//--------------------------------------------------admin
+    usersArray.forEach((user) => {
+        if (user.role !== "deleted") {
+            const row = document.createElement("tr");
+            const firstNameCell = document.createElement("td");
+            const lastNameCell = document.createElement("td");
+            const datePasswordExpiredCell = document.createElement("td");
+            const emailCell = document.createElement("td");
+
+            firstNameCell.innerText = user.firstName || 'N/A';
+            lastNameCell.innerText = user.lastName || 'N/A';
+            datePasswordExpiredCell.innerText = user.passwordCreatedAt ? new Date(user.passwordCreatedAt.seconds * 1000).toLocaleDateString() : 'N/A';
+            emailCell.innerText = user.email || 'N/A';
+
+            row.appendChild(firstNameCell);
+            row.appendChild(lastNameCell);
+            row.appendChild(datePasswordExpiredCell);
+            row.appendChild(emailCell);
+
+            tbody.appendChild(row);
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
-    const extendableTable = document.querySelector(".extendable-table");
-    const extendedTable = document.querySelector(".extended-table");
-
-    // Example: Function to populate the extendable table with user data
-    
-
-    // Example: Function to populate the extended table when a username is clicked
-    async function showExtendedTable(username) {
-        // Replace this with your Firebase data retrieval logic
-        // You may want to fetch data for the specific user by their username
-        // and populate the extended table with the unknown columns
-        var readUser = [];
-        username = username.toString();
-        const q = query(users, where('username', '==', username));
-        const getUsers = await getDocs(q).then((querySnapshot) => {
-            var tempDoc = [];
-            querySnapshot.forEach((doc) => {
-                tempDoc.push({ id: doc.id, ...doc.data() });
-            });
-            readUser = tempDoc;
-        });
-    
-        // Get the user data object
-        const userData = readUser[0];
-        console.log(userData);
-    
-        const extendedTableHtml = `
-            <table>
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                        <th>Approved</th>
-                        <th>Role</th>
-                        <th>Suspended</th>
-                        <th>E-mail</th>
-                        <th>Address</th>
-                        <th>DOB</th>
-                        <th>Password Last Created</th>
-                        <th>User Created</th>
-                        <th>User ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>${userData.firstName}</td>
-                        <td>${userData.lastName}</td>
-                        <td>${userData.username}</td>
-                        <td>${userData.approved}</td>
-                        <td>${userData.role}</td>
-                        <td>${userData.suspended}</td>
-                        <td>${userData.userEmail}</td>
-                        <td>${userData.address}</td>
-                        <td>${userData.DOB}</td>
-                        <td>${userData.passwordCreatedAt}</td>
-                        <td>${userData.userCreatedAt}</td>
-                        <td>${userData.id}</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <!-- Buttons for Edit, Delete, Email, and Suspend -->
-            <div class="button-container">
-                <button class="email-button" onclick="emailUser('${userData.userEmail}')">Email User to Change Password</button>
-            </div>
-        `;
-    
-        extendedTable.innerHTML = extendedTableHtml;
-        document.getElementById("extended-table").style.display = "contents";
-    }
-    
-    
+    await loadUsers();
 });
