@@ -95,6 +95,7 @@ $('#approval-modal').on('hidden.bs.modal', function () {
     $('#commentField').val('');
     $('#commentError').text('');
     approveButton.setAttribute('disabled', 'true');
+    dropDownButton.textContent = "Select a Role";
 });
 
 $('#approved-modal').on('hidden.bs.modal', function () {
@@ -173,6 +174,7 @@ dropDownButton.addEventListener('click', async () => {
 dropDownMenu.addEventListener('click', function (event) {
     if (event.target.classList.contains('dropdown-item')) {
         selectedRole = event.target.textContent;
+        dropDownButton.textContent = selectedRole;
         console.log('Selected Role: ', selectedRole);
     }
 
