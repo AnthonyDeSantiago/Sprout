@@ -18,11 +18,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script defer src="js/Main_Calendar.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script defer src="js/dashboard.js" type="module"></script>
+    <!-- <script defer src="js/dashboard.js" type="module"></script> -->
     <script defer src="js/sprout.js" type="module"></script>
-    <script defer src="js/email/email_auth_admin.js" type="module"></script>
+    <!-- <script defer src="js/email/email_auth_admin.js" type="module"></script> -->
+    <script defer src="js/dashboard_ratio.js" type="module"></script>
+    <script defer src="js/dashboard_secondary.js" type="module"></script>
+    <script defer src="js/entry_approval_page.js" type="module"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link defer href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 
 <body class="sb-nav-fixed">
@@ -90,15 +95,15 @@
                         </div>
 
                         <div>
-                            <a class="nav-link" href="dashboard_admin.html">
+                            <a class="nav-link" href="dashboard.html">
                                 <div class="sb-nav-link-icon"><i class="bi bi-border-all"></i></div>
                                 Dashboard
                             </a>
                         </div>
-                        
+
                         <div class="sb-sidenav-menu-heading">Accounts</div>
-                        
-                        <a class="nav-link" href="dashboard.html">
+
+                        <a class="nav-link" href="chart_of_accounts.html">
                             <div class="sb-nav-link-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
                             Chart of Accounts
                         </a>
@@ -178,6 +183,7 @@
 
                         </div>
 
+
                         <div>
                             <div class="sb-sidenav-menu-heading">Support</div>
                             <a class="nav-link" href="help_page.html">
@@ -208,422 +214,288 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Chart of Accounts
-                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            Contact
-                        </button>
-                    </h1>
-                    
-                    <div class="mt-4 mb-4">
-                        <!-- Email Modal -->
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered ">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Send Email</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>            
+                    <h1 class="mt-4 mb-5">Dashboard</h1>
 
-                                        <!-- dropdown for name -->
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select w-100" id="userSelect" aria-label="User">
-                                            </select>
-                                        </div>
-         
-                                        <div class="form-floating mb-3">
-                                            <textarea class="form-control" id="mess" required></textarea>
-                                            <label for="mess" class="form-label">Message</label>
-                                        </div>
-                                    </form>
-                                    
-                                </div>
-                                <div class="modal-footer">
-                                
-                                <button class="add-btn btn btn-primary float-end">Send</button>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                        
-                    
-                    
+                    <div class="container text-center">
+                        <div class="row align-items-start">
 
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="bi bi-clipboard-data me-1"></i>
-                            Active Accounts
-                        </div>
-                        <div class="card-body">
-
-                            <!-- Add Account Modal -->
-                            <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog"
-                                aria-labelledby="addAccountModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="addAccountModalLabel">Add New Account</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="accountForm">
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Account Name</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountName" type="text"
-                                                            placeholder="Account Name" />
-                                                    </div>
-                                                    <small id="accountName-error1" color="red"></small>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Account
-                                                            Number</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountNumber" type="text"
-                                                            placeholder="Account Number" />
-                                                    </div>
-                                                    <small id="accountNumber-error1" color="red"></small>
-                                                </div>
-
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Description</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountDescription" type="text"
-                                                            placeholder="Description" />
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Normal Side</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="normalSide" type="text"
-                                                            placeholder="Normal Side" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Account
-                                                            Category</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountCategory" type="text"
-                                                            placeholder="Account Category" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Acount
-                                                            Subcategory</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountSubcategory" type="text"
-                                                            placeholder="Account Subcategory" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Initial
-                                                            Balance</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountInitialBalance"
-                                                            type="text" placeholder="Initial Balance" />
-                                                    </div>
-                                                    <small id="money-error1" color="red"></small>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Acount Order</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountOrder" type="text"
-                                                            placeholder="Account Order" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Comment</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="accountComment" type="text"
-                                                            placeholder="Comment" />
-                                                    </div>
-                                                </div>
-
-
-                                                <button type="submit" class="btn btn-primary"
-                                                    id="addSaveButton">Save</button>
-                                            </form>
-                                        </div>
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header fw-bold">
+                                        <i class="fas fa-book-open"></i>
+                                        Journals
                                     </div>
-                                </div>
-                            </div>
 
-                            <!-- Edit Account Modal-->
-                            <div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog"
-                                aria-labelledby="editAccountModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="addAccountModalLabel">Edit Account</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                    <div class="card-body">
+
+                                        <!-- Journal Dashboard -->
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h1 id="approved_journals_value">--</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="pending_journals_value">--</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="rejected_journals_value">--</h1>
+                                            </div>
                                         </div>
-                                        <div class="modal-body">
-                                            <form id="editAccountForm">
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Account Name</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editAccountName" type="text"
-                                                            placeholder="Account Name" />
-                                                    </div>
-                                                    <small id="accountName-error2" color="red"></small>
-                                                </div>
 
-
-
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Description</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editAccountDescription"
-                                                            type="text" placeholder="Description" />
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Normal Side</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editNormalSide" type="text"
-                                                            placeholder="Normal Side" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Account
-                                                            Category</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editAccountCategory" type="text"
-                                                            placeholder="Account Category" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Acount
-                                                            Subcategory</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editAccountSubcategory"
-                                                            type="text" placeholder="Account Subcategory" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Initial
-                                                            Balance</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editAccountInitialBalance"
-                                                            type="text" placeholder="Initial Balance" />
-                                                    </div>
-                                                    <small id="money-error2" color="red"></small>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Acount Order</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editAccountOrder" type="text"
-                                                            placeholder="Account Order" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div class="col-md-3">
-                                                        <label for="accountName" class="form-label">Comment</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" id="editAccountComment" type="text"
-                                                            placeholder="Comment" />
-                                                    </div>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary"
-                                                    id="editSaveButton">Save Changes</button>
-                                            </form>
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h6 class="bg-success fw-bolder text-white rounded-5">Approved</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-warning fw-bolder text-white rounded-5">Pending</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-danger fw-bolder text-white rounded-5">Rejected</h6>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <table id="asset_accounts">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Account No.</th>
-                                        <th>Account Name</th>
-                                        <th>Normal Side</th>
-                                        <th>Category</th>
-                                        <th>Balance</th>
-                                        <th>Account Order</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th>Account No.</th>
-                                        <th>Account Name</th>
-                                        <th>Normal Side</th>
-                                        <th>Category</th>
-                                        <th>Balance</th>
-                                        <th>Account Order</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <div id="admin-only">
-                                        <!-- Add Account Button -->
-                                        <span class="tt float-end" data-bs-placement="top"
-                                            data-bs-custom-class="ttColors" title="Deactivate Account">
-                                            <button class="btn btn-primary mx-2" data-bs-toggle="modal"
-                                                data-bs-target="#deactivateAccountModal">
-                                                Deactivate
-                                            </button>
-                                        </span>
-                                        <span class="tt float-end" data-bs-placement="top"
-                                            data-bs-custom-class="ttColors" title="Edit Account">
-                                            <button class="btn btn-primary mx-2 " data-bs-toggle="modal"
-                                                data-bs-target="#editAccountModal">
-                                                Edit
-                                            </button>
-                                        </span>
-                                        <span class="tt float-end" data-bs-placement="top"
-                                            data-bs-custom-class="ttColors" title="Add New Account">
-                                            <button class="btn btn-primary mx-2" data-bs-toggle="modal"
-                                                data-bs-target="#addAccountModal">
-                                                Add
-                                            </button>
-                                        </span>
 
                                     </div>
-                                </tfoot>
-                                <tbody>
-                                    <!-- makes row clickable -->
-                                    <tr data-href="http://www.google.com/">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header fw-bold">
+                                        <i class="bi bi-person"></i>
+                                        Users
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- Users Dashboard -->
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h1 id="approved_users_value">--</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="suspended_users_value">--</h1>
+                                            </div>
+                                            <div class="col">
+                                                <h1 id="rejected_users_value">--</h1>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h6 class="bg-success fw-bolder text-white rounded-5">Active</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-warning fw-bolder text-white rounded-5">Suspended</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 class="bg-danger fw-bolder text-white rounded-5">Rejected</h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header fw-bold">
+                                        <i class="bi bi-journal-bookmark-fill"></i>
+                                        Accounts
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- COA Dashboard -->
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h1 id="active_accounts_element">--</h1>
+                                            </div>
+
+                                            <div class="col">
+                                                <h1 id="inactive_accounts_element">--</h1>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-start">
+                                            <div class="col">
+                                                <h6 class="bg-success fw-bolder text-white rounded-5">Active</h6>
+                                            </div>
+
+                                            <div class="col">
+                                                <h6 class="bg-danger fw-bolder text-white rounded-5">Inactive</h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
 
+                    <!-- Ratio -->
+                    <div class="container text-center">
+                        <div class="row align-items-start">
 
-
-
-                    <!-- Deactivated accounts -->
-
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="bi bi-clipboard-data me-1"></i>
-                            Deactivated Accounts
-                        </div>
-                        <div class="card-body">
-
-
-                            <table id="deactivated_accounts">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Account No.</th>
-                                        <th>Account Name</th>
-                                        <th>Normal Side</th>
-                                        <th>Category</th>
-                                        <th>Balance</th>
-                                        <th>Account Order</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th>Account No.</th>
-                                        <th>Account Name</th>
-                                        <th>Normal Side</th>
-                                        <th>Category</th>
-                                        <th>Balance</th>
-                                        <th>Account Order</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <div id="admin-only">
-                                        <!-- Add Account Button -->
-                                        <span class="tt float-end" data-bs-placement="top"
-                                            data-bs-custom-class="ttColors" title="Deactivate Account">
-                                            <button class="btn btn-primary mx-2" id="activate-button">
-                                                Activate
-                                            </button>
-                                        </span>
-
+                            <div class="col">
+                                <div class="card mb-4" id="CuRCard">
+                                    <div class="card-header fw-bold">
+                                        Current Ratio
                                     </div>
-                                </tfoot>
-                                <tbody>
-                                    <!-- makes row clickable -->
-                                    <tr data-href="http://www.google.com/">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                                    <div class="card-body">
+                                        <h1 id="current_ratio_value">--</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="DRCard">
+                                    <div class="card-header fw-bold">
+                                        Debt Ratio
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="debt_ratio_value">--%</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="DERCard">
+                                    <div class="card-header fw-bold">
+                                        Debt-to-Equity Ratio
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="DER">--</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="CRCard">
+                                    <div class="card-header fw-bold">
+                                        Cash Ratio
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="cashRatio">--</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card mb-4" id="ROACard">
+                                    <div class="card-header fw-bold">
+                                        Return on Assets
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h1 id="ROA">--%</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                    <div class="container text-center" id="admin-man-only" display="none">
+                        <div class="card mb-4">
+                            <div class="card-header fw-bold">
+                                <i class="fas fa-book-open"></i>
+                                Recent Journals Submitted for Approval
+                            </div>
+
+                            <div class="card-body">
+                                <table id="allUserPending_table" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Creation Date</th>
+                                            <th>ID</th>
+                                            <th>User</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
                         </div>
                     </div>
 
+
+                    <div class="container text-center">
+                        <div class="card mb-4">
+                            <div class="card-header fw-bold">
+                                <i class="bi bi-journal-bookmark-fill"></i>
+                                Your Pending Journal Submissions
+                            </div>
+
+
+                            <div class="card-body">
+                                <!-- Journal Entry Table table -->
+                                <table id="pending_table" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Creation Date</th>
+                                            <th>ID</th>
+                                            <th>User</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="container text-center" id="admin-view-only" display="none">
+                        <div class="card mb-4">
+                            <div class="card-header fw-bold">
+                                <i class="bi bi-person-fill-up"></i>
+                                Pending User Requests
+                            </div>
+
+
+                            <div class="card-body">
+                                <!-- Journal Entry Table table -->
+                                <table id="users_table" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
 
                 </div>
-
 
             </main>
             <footer class="py-4 bg-light mt-auto">
@@ -664,4 +536,5 @@
         emailjs.init("Fwd-qXGKUkQJGDPsj");
     })();
 </script>
+
 </html>
