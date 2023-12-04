@@ -9,6 +9,7 @@ const approvedUsers = await getDocReferencesWithValue('users', 'approved', true)
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
 const returnToPendingButton = document.getElementById('return-to-pending');
+const suspendButon = document.getElementById('suspend-button');
 const dropDownButton = document.getElementById('dropdownMenuButton');
 const dropDownMenu = document.getElementById('role-dropdown');
 
@@ -75,6 +76,12 @@ async function approvedModalCallback(user) {
     $('#approved-modal').modal('show');
     const modalTableBody = document.querySelector(`#${"approved-modal-table"} tbody`);
     const row = modalTableBody.insertRow();
+    const userStatus = user.data().suspended;
+    if (userStatus) {
+        suspendButon.textContent = "Unsuspend";
+    } else {
+        suspendButon.textContent = "Suspend";
+    }
     row.innerHTML = `
         <td>${user.data().username}
         <td>${user.data().firstName}</td>
