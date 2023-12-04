@@ -67,27 +67,19 @@ async function pendingModalCallback(user) {
     `;
 }
 
-async function rejectedModalCallback(entry) {
-    $('#rejected-modal').modal('show');
-    const modalTableBody = document.querySelector(`#${"rejected-modal-table"} tbody`);
-    const transactions = entry.data().transactions;
-    console.log("transactions in rej: ", transactions);
-    for (let i = 0; i < transactions.length; i++) {
-        console.log('transaction description', transactions[0])
-        const transaction = await getDocumentReference('transactions', transactions[i]);
-        const row = modalTableBody.insertRow(i);
-        row.innerHTML = `
-            <td>Testing</td>
-            <td>${transaction.description}</td>
-            <td>${transaction.debit}</td>
-            <td>${transaction.credit}</td>
-        `;
-    }
-    console.log("called rejected modal");
-}
-
-async function approvedModalCallback(entry) {
-    $('#rejected-modal').modal('show');
+async function approvedModalCallback(user) {
+    $('#approved-modal').modal('show');
+    const modalTableBody = document.querySelector(`#${"approved-modal-table"} tbody`);
+    const row = modalTableBody.insertRow();
+    row.innerHTML = `
+        <td>${user.data().username}
+        <td>${user.data().firstName}</td>
+        <td>${user.data().lastName}</td>
+        <td>${user.data().userEmail}</td>
+        <td>${user.data().role}</td>
+        <td>${user.data().address}</td>
+        <td>${user.data().suspended}</td>
+    `;
     console.log("called approved modal");
 }
 
