@@ -8,9 +8,12 @@ const approvedUsers = await getDocReferencesWithValue('users', 'approved', true)
 
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
+const dropDownButton = document.getElementById('dropdownMenuButton');
+const dropDownMenu = document.getElementById('role-dropdown');
 
 
-let currentEntry = null;
+let currentUser = null;
+let selectedRole = null;
 
 console.log("Num of Pending Users: ", pendingUsers.size);
 // console.log("Num of Rejected Entries: ", rejectedJournalEntries.size);
@@ -42,8 +45,8 @@ async function initializeTable(users, tableId, callback) {
             <td>${user.data().suspended}</td>
         `;
         row.addEventListener('click', async () => {
-            console.log("Row clicked, the entry is: ", user.id);
-            currentEntry = user.id;
+            console.log("Row clicked, the user is: ", user.id);
+            currentUser = user.id;
             callback(user);
         });
     }
@@ -125,6 +128,8 @@ rejectButton.addEventListener('click', async () => {
 
 approveButton.addEventListener('click', async () => {
     console.log("Approve Button Pressed");
+    const userData = await getDocumentReference('users', currentUser);
+    console.log("userData", userData);
     // const journalRef = await getDocumentReference("journals", currentEntry);
     // const transactions = journalRef.transactions;
     // console.log("transactions: ", transactions);
@@ -157,6 +162,24 @@ approveButton.addEventListener('click', async () => {
     // location.reload();
 });
 
+dropDownButton.addEventListener('click', async () => {
+    console.log('Dropdown pressed');
+    dropDownMenu.classList.toggle('show');
+});
 
+dropDownMenu.addEventListener('click', function (event) {
+    if (event.target.classList.contains('dropdown-item')) {
+        selectedRole = event.target.textContent;
+        console.log('Selected Role: ', selectedRole);
+    }
+})
+
+window.addEventListener('click', function (event) {
+    if (!event.target.matches('.btn-primary')) {
+        if (dropDownMenu.classList.contains('show')) {
+            dropDownMenu.classList.remove('show');
+        }
+    }
+});
   
   
