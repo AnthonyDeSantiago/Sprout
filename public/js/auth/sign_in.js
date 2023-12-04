@@ -222,13 +222,13 @@ const checkAuthState = async () => {
     
         if (userData.role == "admin") {
           console.log("User is an admin.");
-          window.location.href = 'dashboard_admin.html';
+          window.location.href = 'dashboard.html';
         } else if (userData.role == "manager") {
           console.log("User is a manager.");
-          window.location.href = 'dashboard_admin.html';
+          window.location.href = 'dashboard.html';
         } else if (userData.role == "regular") {
           console.log("User is a regular user/accountant.");
-          window.location.href = 'dashboard_admin.html';
+          window.location.href = 'dashboard.html';
         } else {
           alert("Unable to resolve the role associated with your account. Please contact the admin.");
         }
