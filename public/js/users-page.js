@@ -11,6 +11,8 @@ const approveButton = document.getElementById('approveButton');
 const dropDownButton = document.getElementById('dropdownMenuButton');
 const dropDownMenu = document.getElementById('role-dropdown');
 
+approveButton.setAttribute('disabled', 'true');
+
 
 let currentUser = null;
 let selectedRole = null;
@@ -92,6 +94,7 @@ $('#approval-modal').on('hidden.bs.modal', function () {
     $('#modal-table tbody').empty();
     $('#commentField').val('');
     $('#commentError').text('');
+    approveButton.setAttribute('disabled', 'true');
 });
 
 $('#approved-modal').on('hidden.bs.modal', function () {
@@ -171,6 +174,10 @@ dropDownMenu.addEventListener('click', function (event) {
     if (event.target.classList.contains('dropdown-item')) {
         selectedRole = event.target.textContent;
         console.log('Selected Role: ', selectedRole);
+    }
+
+    if (selectedRole != null) {
+        approveButton.removeAttribute('disabled');
     }
 })
 
