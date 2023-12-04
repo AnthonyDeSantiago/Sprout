@@ -506,3 +506,13 @@ export async function deleteAllDocumentsInCollection(collectionName) {
         console.error("Error deleting documents", error);
     }
 }
+
+export async function deleteDocument(collectionName, docID) {
+    try {
+        const recordsCollection = collection(db, collectionName);
+        const documentRef = doc(recordsCollection, docID);
+        await deleteDoc(documentRef);
+    } catch (error) {
+        console.error("Error deleting document", error);
+    }
+}
