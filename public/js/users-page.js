@@ -8,6 +8,7 @@ const approvedUsers = await getDocReferencesWithValue('users', 'approved', true)
 
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
+const returnToPendingButton = document.getElementById('return-to-pending');
 const dropDownButton = document.getElementById('dropdownMenuButton');
 const dropDownMenu = document.getElementById('role-dropdown');
 
@@ -133,37 +134,10 @@ rejectButton.addEventListener('click', async () => {
 approveButton.addEventListener('click', async () => {
     console.log("Approve Button Pressed");
     const userData = await getDocumentReference('users', currentUser);
-    console.log("userData", userData);
-    // const journalRef = await getDocumentReference("journals", currentEntry);
-    // const transactions = journalRef.transactions;
-    // console.log("transactions: ", transactions);
-
-    // for (let i = 0; i < transactions.length; i++) {
-    //     const transaction = await getDocumentReference("transactions", transactions[i]);
-    //     const account = transaction.account;
-    //     const accountData = await getDocumentReference("accounts", account);
-    //     const debit = transaction.debit;
-    //     const credit = transaction.credit;
-    //     const normalSide = accountData.normalSide;
-    //     var balance = await convertBalanceToFloat(accountData.balance);
-    //     console.log("Balance: ", balance);
-    //     if (normalSide == "Debit") {
-    //         balance += debit;
-    //         balance -= credit;
-    //         balance = await formatNumberToCurrency(balance);
-    //         console.log("Converted Balance: ", balance);
-    //         await changeFieldValue("accounts", account, 'balance', balance);
-    //     } else if (normalSide == "Credit") {
-    //         balance -= debit;
-    //         balance += credit;
-    //         balance = await formatNumberToCurrency(balance);
-    //         console.log("Converted Balance: ", balance);
-    //         await changeFieldValue("accounts", account, 'balance', balance);
-    //     }
-
-    // }
-    // await changeFieldValue('journals', currentEntry, 'approval', 'approved');
-    // location.reload();
+    console.log("userData", userData.role);
+    await changeFieldValue('users', currentUser, 'role', selectedRole.toLowerCase());
+    await changeFieldValue('users', currentUser, 'approved', true);
+    location.reload();
 });
 
 dropDownButton.addEventListener('click', async () => {
@@ -190,5 +164,12 @@ window.addEventListener('click', function (event) {
         }
     }
 });
+
+returnToPendingButton.addEventListener('click', async () => {
+    console.log('Return to Pending is Pressed');
+    await changeFieldValue('users', currentUser, 'role', 'blank');
+    await changeFieldValue('users', currentUser, 'approved', false);
+    location.reload();
+})
   
   
