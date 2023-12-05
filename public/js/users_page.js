@@ -9,6 +9,7 @@ const approvedUsers = await getDocReferencesWithValue('users', 'approved', true)
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
 const returnToPendingButton = document.getElementById('return-to-pending');
+const addUserButton = document.getElementById("addUserBtn");
 const suspendButon = document.getElementById('suspend-button');
 const dropDownButton = document.getElementById('dropdownMenuButton');
 const dropDownMenu = document.getElementById('role-dropdown');
@@ -181,6 +182,11 @@ suspendButon.addEventListener('click', async () => {
     }
     
     location.reload();
+});
+
+addUserButton.addEventListener('click', function() {
+    console.log("Add user button was pressed");
+    $('#addUserModal').modal('show');
 });
   
   
