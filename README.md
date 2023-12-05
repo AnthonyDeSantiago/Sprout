@@ -1,40 +1,48 @@
-# Sprout
+<h1 align="center">Sprout Financials</h1>
+<p>
+  <a href="https://github.com/AnthonyDeSantiago/Sprout#README.md" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+</p>
 
-mockup 
-https://www.figma.com/proto/x1Ued1bC0VZjWvB7kaxMap/Untitled?type=design&node-id=17-44&t=DusLmnrUarAbql2K-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A2
+> Sprout is our users’ trusted partner in unlocking the full earnings potential of their small business. Our comprehensive suite of secure, reliable, and user-friendly accounting tools is designed to empower business owners to take control of their finances. With Sprout, users gain in-depth control over their accounts and access insightful financial analysis of their business. This  website offers seamless management of accounts, transaction journalizing, and balance sheet maintenance. Sprout helps users harness the transformative power of financial insight to make decisions that will drive their business towards long-term, sustainable growth.
 
-Code: 
+Sprout was coded as part of a semester-long project in SWE4713 Software Application Domain at Kennesaw State University. The purpose of this project was to develop an application in a domain no project member is familiar with, based on documents provided by a domain expert. 
 
----admin----
-admin_home.html
-This is the main admin dashboard page.
-Displays the Sprout Financials logo and the user's profile information.
-Contains navigation links for Home, User Database, Expired Password Report, and New User Requests.
-Includes a logout link.
+Sprout has a HTML/CSS/JS front-end, using Bootstrap and Vanilla JS, and a Google Firebase back-end. Cloud Firestore is used for our database, and our storage is located in Firebase Storage. User authentication consists of custom username/password tokens hooked into the Firestore email/password auth provider. 
 
-admin_table_all_users.html
-Displays a search bar to search for users by username or account number.
-Shows a table of usernames, and when clicked, it displays detailed user information in an extended table.
-Provides buttons to edit, delete, email, and suspend users.
+### 🏠 [Homepage](https://github.com/AnthonyDeSantiago/Sprout)
 
-admin_table_expired_passwords.html
-Similar to admin_table_all_users.html, but specifically displays users with expired passwords.
-Provides an "Email User to Change Password" button.
+### ✨ [Demo](https://sprout-financials.web.app)
 
-admin_table_new_user_requests.html
-Similar to admin_table_all_users.html, but specifically displays new user requests that are not yet approved.
-Provides buttons to approve, deny, and set user roles.
+## Authors
 
-JavaScript Files (admin_table_allusers.js, admin_table_expiredpassword.js, admin_table_newusers.js):
-These files handle the logic for populating tables and displaying user details.
-Utilize Firebase Firestore to fetch and manipulate user data.
-Implement functions for suspending, deleting, editing, approving, denying users, setting roles, and emailing users.
+👤 **Camille Reaves (Project Lead)**
 
-extendable_tables.css
-This file seems to contain styles related to tables and popups. Here's a breakdown of the key components:
+* Github: [@camillereaves](https://github.com/camillereaves)
+* LinkedIn: [@camille-reaves](https://linkedin.com/in/camille-reaves)
 
-Body: Sets the background color and image for the entire page.
-Search Container: Styles for a search input field.
-Extendable Table: Styles for a table that can be extended to show additional information.
-Extended Table: Styles for the extended information table.
-User Popups: Styles for popups related to editing and deleting users.
+
+👤 **Anthony De Santiago**
+
+* Github: [@anthonydesantiago](https://github.com/anthonydesantiago)
+
+
+👤 **Geonhyeong Kim**
+
+* Github: [@Davifus](https://github.com/Davifus)
+* LinkedIn: [@geonhyeong-kim](https://linkedin.com/in/geonhyeong-kim)
+
+
+👤 **Jalon Bailey**
+
+* Github: [@jalon360](https://github.com/jalon360)
+* LinkedIn: [@jalon-bailey](https://linkedin.com/in/jalon-bailey)
+
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
