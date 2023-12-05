@@ -228,14 +228,14 @@ returnToPendingButton2.addEventListener('click', async () => {
         var balance = await convertBalanceToFloat(accountData.balance);
         console.log("Balance: ", balance);
         if (normalSide == "Credit") {
-            balance -= debit;
-            balance += credit;
+            balance += debit;
+            balance -= credit;
             balance = await formatNumberToCurrency(balance);
             console.log("Converted Balance: ", balance);
             await changeFieldValue("accounts", account, 'balance', balance);
         } else if (normalSide == "Debit") {
-            balance += debit;
-            balance -= credit;
+            balance -= debit;
+            balance += credit;
             balance = await formatNumberToCurrency(balance);
             console.log("Converted Balance: ", balance);
             await changeFieldValue("accounts", account, 'balance', balance);

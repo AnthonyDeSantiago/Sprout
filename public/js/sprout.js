@@ -113,7 +113,11 @@ export async function getUsernameWithAuth(user) {
 
 // User sign out listner and application
 const userSignOut = async () => {
-    await signOut(auth);
+    await signOut(auth).then(() => {
+        window.location = "login.html"
+      }).catch((error) => {
+        // An error happened.
+      });
 }
 
 if (document.getElementById("signOutButton") != null) {
