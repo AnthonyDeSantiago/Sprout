@@ -3,7 +3,7 @@ console.log("chart_of_accounts.js [formerly dashboard.js] has loaded!!!");
 
 
 import { getCollection, printDocumentIds, populateTable, addDocument, getTimestamp, getAccountData, editAccountData, getAccountsList, validateNewAccountData, countAccountsByAccountNumber, countAccountsByAccountName, populateDeactivatedTable, logAccountingError} from "./database_module.mjs";
-import { initializeEventLogging } from "./eventLog.mjs";
+import { initializeEventLogging } from "./event_log.mjs";
 import {fetchUserFromEmail} from "./sprout.js"
 import {
     getAuth,
