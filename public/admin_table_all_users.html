@@ -443,7 +443,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addAccountModalLabel">Approve or Reject Entry</h5>
+                    <h5 class="modal-title" id="addAccountModalLabel">Create New User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -451,12 +451,47 @@
                 <div class="modal-body">
                     <form id="approvalForm">
                         <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Address:</label>
+                            <input type="email" class="form-control" id="address" name="email" required>
+                        </div>
+                    
+                        <div class="form-group">
                             <div class="error-message" id="commentError" style="color: red;"></div>
                         </div>
+
                         <div class="mt-3">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select a Role
+                                </button>
+                                <div class="dropdown-menu" id="role-dropdown" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Admin</a>
+                                    <a class="dropdown-item" href="#">Manager</a>
+                                    <a class="dropdown-item" href="#">Regular</a>
+                                </div>
+                            </div>
                             <button type="button" class="btn btn-primary mx-2" id="return-to-pending">Create New User</button>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
