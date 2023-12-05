@@ -202,28 +202,37 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Users with Expired Passwords</h1>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            User Data
-                        </div>
-                        <div class="card-body">
-                            <table id="usersTable" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Date Password Expired</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Firebase data will be inserted here -->
-                                </tbody>
-                            </table>
-                        </div>
+                    <h1 class="mt-4">Insert something or delete</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">Insert something or delete</li>
+                    </ol>
+
+                    <!-- Search Bar -->
+                    <div class="container my-3">
+                        <p>Type in username or account number to search</p>
+                        <input class="form-control" type="text" id="search" placeholder="Search...">
+                    </div>
+
+                    <!-- Extendable Table Container -->
+                    <div class="container">
+                        <table class="table" id="userTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Username</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populate this section with user data from Firebase -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Extended Table Container -->
+                    <div class="container my-3" id="extended-table">
+                        <!-- This section will be populated when a username is clicked -->
                     </div>
                 </div>
+        </div>
 
         </main>
         <footer class="py-4 bg-light mt-auto">
