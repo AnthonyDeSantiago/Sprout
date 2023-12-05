@@ -9,7 +9,8 @@ const accountID = await getAccountID(accountNumber);
 const normalSide = capitalizeString(await getFieldValue('accounts', accountID, 'normalSide'));
 const accountBreadCrumb = document.getElementById("accountBreadcrumb-element");
 const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
-const approvedTransactions = getTransactions(approvedJournalEntries);
+const specJs = getJournalsSpecificToCurrentAccount(approvedJournalEntries);
+const approvedTransactions = getTransactions(specJs);
 console.log("approved transactions:", approvedTransactions);
 
 
@@ -17,10 +18,10 @@ console.log("approved transactions:", approvedTransactions);
 console.log("accountNumber:", accountNumber);
 console.log("accountName:", accountName);
 console.log("account ID:", accountID);
-console.log("approved transactions:", approvedTransactions);
 console.log("debit: ", await getDocumentReference('transactions', approvedTransactions[0]).debit);
 console.log("transactions length", approvedTransactions.length);
 console.log("Normal side", normalSide);
+
 
 populateLedgerTable(approvedTransactions, 'ledger');
 printTotal();
@@ -82,12 +83,29 @@ async function printTotal() {
     creditElement.textContent = creditTotal;
 }
 
+function getJournalsSpecificToCurrentAccount(journals) {
+    const specificJournals = [];
+    for (let i = 0; i < journals.docs.length; i++) {
+        const parentAccounts = journals.docs[i].data().accounts;
+        for (let j = 0; j < parentAccounts.length; j++) {
+            console.log("Account ID: " + accountID + " Parent Account: " + parentAccounts[j]);
+            if (parentAccounts[j] == accountID) {
+                console.log("They are a match!");
+                specificJournals.push(journals.docs[i]);
+                break;
+            }
+        }
+    }
+    console.log("111111111111111111111111", specificJournals);
+    return specificJournals;
+}
+
 
 function getTransactions(journalEntries) {
     const approvedTransactions = [];
-    const t = journalEntries.docs[0].data().transactions;
-    for (let i = 0; i < journalEntries.docs.length; i++) {
-        const currentJournalTransactions = journalEntries.docs[i].data().transactions;
+    console.log("Testing: ", journalEntries[0].data());
+    for (let i = 0; i < journalEntries.length; i++) {
+        const currentJournalTransactions = journalEntries[i].data().transactions;
         if (Array.isArray(currentJournalTransactions)) {
             for (const t of currentJournalTransactions) {
                 approvedTransactions.push(t);
