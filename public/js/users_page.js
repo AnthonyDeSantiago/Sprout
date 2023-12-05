@@ -10,11 +10,15 @@ const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
 const returnToPendingButton = document.getElementById('return-to-pending');
 const addUserButton = document.getElementById("addUserBtn");
+const createUserButton = document.getElementById("createUserBtn");
+const createUserDropDownButton = document.getElementById("createUserDropdownButton");
+const createUserDropDown = document.getElementById('create-role-dropdown');
 const suspendButon = document.getElementById('suspend-button');
 const dropDownButton = document.getElementById('dropdownMenuButton');
 const dropDownMenu = document.getElementById('role-dropdown');
 
 approveButton.setAttribute('disabled', 'true');
+createUserButton.setAttribute('disabled', 'true');
 
 
 let currentUser = null;
@@ -113,6 +117,14 @@ $('#approved-modal').on('hidden.bs.modal', function () {
     $('#commentError').text('');
 });
 
+$('#addUserModal').on('hidden.bs.modal', function () {
+    $('#approved-modal-table tbody').empty();
+    $('#commentField').val('');
+    $('#commentError').text('');
+    createUserButton.setAttribute('disabled', 'true');
+    createUserDropDown.textContent = "Select a Role";
+});
+
 
 try {
     await loadDataTables();
@@ -145,6 +157,10 @@ dropDownButton.addEventListener('click', async () => {
     dropDownMenu.classList.toggle('show');
 });
 
+createUserDropDownButton.addEventListener('click', async () => {
+    createUserDropDown.classList.toggle('show');
+});
+
 dropDownMenu.addEventListener('click', function (event) {
     if (event.target.classList.contains('dropdown-item')) {
         selectedRole = event.target.textContent;
@@ -161,6 +177,9 @@ window.addEventListener('click', function (event) {
     if (!event.target.matches('.btn-primary')) {
         if (dropDownMenu.classList.contains('show')) {
             dropDownMenu.classList.remove('show');
+        }
+        if (createUserDropDown.classList.contains('show')) {
+            createUserDropDown.classList.remove('show');
         }
     }
 });
