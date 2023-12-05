@@ -1,4 +1,4 @@
-import { changeFieldValue, convertBalanceToFloat, deleteDocument, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { addNewUser, changeFieldValue, convertBalanceToFloat, deleteDocument, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("users_page.js has loaded");
 
@@ -16,6 +16,13 @@ const createUserDropDown = document.getElementById('create-role-dropdown');
 const suspendButon = document.getElementById('suspend-button');
 const dropDownButton = document.getElementById('dropdownMenuButton');
 const dropDownMenu = document.getElementById('role-dropdown');
+
+const userName = document.getElementById('username');
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const email = document.getElementById('email');
+const address = document.getElementById('address');
+const dob = document.getElementById('dob');
 
 approveButton.setAttribute('disabled', 'true');
 createUserButton.setAttribute('disabled', 'true');
@@ -122,7 +129,7 @@ $('#addUserModal').on('hidden.bs.modal', function () {
     $('#commentField').val('');
     $('#commentError').text('');
     createUserButton.setAttribute('disabled', 'true');
-    createUserDropDown.textContent = "Select a Role";
+    createUserDropDownButton.textContent = "Select a Role";
 });
 
 
@@ -161,6 +168,18 @@ createUserDropDownButton.addEventListener('click', async () => {
     createUserDropDown.classList.toggle('show');
 });
 
+createUserDropDown.addEventListener('click', function (event) {
+    if (event.target.classList.contains('dropdown-item')) {
+        selectedRole = event.target.textContent;
+        createUserDropDownButton.textContent = selectedRole;
+        console.log('Selected Role: ', selectedRole);
+    }
+
+    if (selectedRole != null) {
+        createUserButton.removeAttribute('disabled');
+    }
+});
+
 dropDownMenu.addEventListener('click', function (event) {
     if (event.target.classList.contains('dropdown-item')) {
         selectedRole = event.target.textContent;
@@ -171,7 +190,7 @@ dropDownMenu.addEventListener('click', function (event) {
     if (selectedRole != null) {
         approveButton.removeAttribute('disabled');
     }
-})
+});
 
 window.addEventListener('click', function (event) {
     if (!event.target.matches('.btn-primary')) {
@@ -208,4 +227,32 @@ addUserButton.addEventListener('click', function() {
     $('#addUserModal').modal('show');
 });
   
-  
+createUserButton.addEventListener('click', async () => {
+    const userNameValue = userName.value;
+    const firstNameValue = firstName.value;
+    const lastNameValue = lastName.value;
+    const emailValue = email.value;
+    const addressValue = address.value;
+    const dobValue = dob.value;
+
+    const data = {
+        username: userNameValue,
+        firstName: firstNameValue,
+        lastName: lastNameValue,
+        email: emailValue,
+        address: addressValue,
+        role: selectedRole,
+        answer1: "default",
+        answer2: "default",
+        approved: true,
+        avatar: "assets/panda.png",
+        password: "Sprout1234!",
+        suspended: false
+    };
+    console.log("UserData: ", data);
+
+    await addNewUser(data);
+    setTimeout(function () {
+        location.reload();
+    }, 500);
+});
