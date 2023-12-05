@@ -15,7 +15,8 @@ let userDB = null;    // array copy of user
 let userRef = null;   // doc ref for user in users
 let userData = null;  // actual doc in DB users
 
-function showError(input, message) {
+/* form-control */
+/* function showError(input, message) {
   const formControl = input.parentElement;
   formControl.className = "form-control error";
   const small = formControl.querySelector('small');
@@ -25,7 +26,21 @@ function showError(input, message) {
 function hideError(input) {
   const formControl = input.parentElement;
   formControl.className = "form-control";
+} */
+
+/* form-float */
+function showError(input, message) {
+  const formFloat = input.parentElement;
+  formFloat.className = "form-floating error";
+  const small = formFloat.querySelector('small');
+  small.innerText = message
 }
+
+function hideError(input) {
+  const formFloat = input.parentElement;
+  formFloat.className = "form-floating";
+}
+
 
 async function fetchUser(username) {
   try {

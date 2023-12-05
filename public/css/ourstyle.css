@@ -69,3 +69,16 @@ tr[data-href] {
     margin-bottom: -4%;
     outline: 0;
 }
+
+.form-floating.error input {
+    border-color: var(--error-color);
+}
+
+.form-floating small {
+    visibility: hidden;
+}
+
+.form-floating.error small {
+    color: var(--error-color);
+    visibility: visible;
+}

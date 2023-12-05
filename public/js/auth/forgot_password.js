@@ -13,13 +13,24 @@ const users = collection(db, 'users');
 
 //let user = [];
 
-function showError(input, message) {
+/* function showError(input, message) {
     const formControl = input.parentElement;
     formControl.className = "form-control error";
     const small = formControl.querySelector('small');
     small.innerText = message
+} */
+
+function showError(input, message) {
+    const formFloat = input.parentElement;
+    formFloat.className = "form-floating error";
+    const small = formFloat.querySelector('small');
+    small.innerText = message
 }
 
+function hideError(input) {
+    const formFloat = input.parentElement;
+    formFloat.className = "form-floating";
+}
 
 /*Passwords must be:
 --> a minimum of 8 characters,
@@ -102,10 +113,10 @@ document.getElementById("answer1").addEventListener("click", async function (e) 
     return true;
 });
 
-function hideError(input) {
+/* function hideError(input) {
     const formControl = input.parentElement;
     formControl.className = "form-control";
-}
+} */
 
 document.addEventListener('keydown', function(event) {
     console.log("Code reached the event listener?")
