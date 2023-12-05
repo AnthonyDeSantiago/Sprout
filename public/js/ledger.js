@@ -66,8 +66,8 @@ async function printTotal() {
     let debitTotal = 0;
     let creditTotal = 0;
 
-    for (let i = 0; i < approvedTransactions.length; i++) {
-        const transaction = await getDocumentReference('transactions', approvedTransactions[i]);
+    for (let i = 0; i < transactionsSpecificToCurrentAccount.docs.length; i++) {
+        const transaction = transactionsSpecificToCurrentAccount.docs[i].data();
         debitTotal += transaction.debit;
         creditTotal += transaction.credit;
     }
