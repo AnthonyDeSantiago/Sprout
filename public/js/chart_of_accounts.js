@@ -1,4 +1,4 @@
-console.log("dashboard.js has loaded!!!");
+console.log("chart_of_accounts.js [formerly dashboard.js] has loaded!!!");
 
 
 

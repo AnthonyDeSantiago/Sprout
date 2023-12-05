@@ -1,4 +1,4 @@
-import { getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { getDocumentReference, getFieldValue } from "../database_module.mjs";
 
 console.log("journal_entry.js has loaded");
 

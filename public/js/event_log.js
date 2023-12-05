@@ -1,6 +1,6 @@
 import { addField, changeFieldValue, convertBalanceToFloat, deleteAllDocumentsInCollection, formatNumberToCurrency, getAllDocsFromCollection, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
-console.log("event-log.js has loaded");
+console.log("event_log.js has loaded");
 
 const events = await getAllDocsFromCollection('eventLog');
 
