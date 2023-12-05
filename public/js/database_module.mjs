@@ -436,7 +436,7 @@ export async function changeFieldValue(collectionName, docID, fieldName, fieldVa
 }
 
 export async function convertBalanceToFloat(balance) {
-    const numericString = balance.replace(/[^0-9.]/g, '');
+    const numericString = balance.replace(/[^0-9.\-]/g, '');
     const floatValue = parseFloat(numericString);
 
     return floatValue;
@@ -448,6 +448,7 @@ export async function formatNumberToCurrency(number) {
         currency: 'USD',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
+        signDisplay: 'negative',
     };
 
     return number.toLocaleString(undefined, options);
