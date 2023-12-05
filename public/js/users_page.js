@@ -1,6 +1,6 @@
 import { changeFieldValue, convertBalanceToFloat, deleteDocument, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
-console.log("users-page.js has loaded");
+console.log("users_page.js has loaded");
 
 const pendingUsers = await getDocReferencesWithValue('users', 'approved', false);
 // const rejectedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'rejected');

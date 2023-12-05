@@ -2,7 +2,7 @@
 // debt ratio = (total debt) / (total assets)
 // debt to equity ratio = (total debt) / (total assets)
 
-import { convertBalanceToFloat, formatNumberToCurrency, getAllDocsFromCollection } from "./database_module.mjs";
+import { convertBalanceToFloat, formatNumberToCurrency, getAllDocsFromCollection } from "../database_module.mjs";
 
 console.log("dashboard_ratio.js has loaded!!");
 
