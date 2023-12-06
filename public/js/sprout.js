@@ -168,6 +168,7 @@ const checkAuthState = async () => {
                 let admin_only1 = document.getElementById("admin-only1");
                 let admin_only2 = document.getElementById("admin-only2");
                 let no_regular = document.getElementById("no-regular");
+                let no_regular2 = document.getElementById("no-reg");
                 let no_admin = document.getElementById("no-admin");
 
                 switch (userData.role) {
@@ -176,6 +177,7 @@ const checkAuthState = async () => {
                         console.log(">>> Display mode: administrator");
                         if(no_admin != null){       no_admin.style.display = "none";    }
                         if(no_regular != null){     no_regular.style.display = "";    }
+                        if(no_regular2 != null){     no_regular2.style.display = "";    }
                         if(admin_only != null){     admin_only.style.display = "";  }
                         if(admin_only1 != null){    admin_only1.style.display = "";    }
                         if(admin_only2 != null){    admin_only2.style.display = "";    }
@@ -187,6 +189,7 @@ const checkAuthState = async () => {
 
                         if(no_admin != null){       no_admin.style.display = "";    }
                         if(no_regular != null){     no_regular.style.display = "";    }
+                        if(no_regular2 != null){     no_regular2.style.display = "";    }
                         if(admin_only != null){     admin_only.style.display = "none";  }
                         if(admin_only1 != null){    admin_only1.style.display = "none";    }
                         if(admin_only2 != null){    admin_only2.style.display = "none";    }
@@ -198,6 +201,7 @@ const checkAuthState = async () => {
 
                         if(no_admin != null){       no_admin.style.display = "";    }
                         if(no_regular != null){     no_regular.style.display = "none";    }
+                        if(no_regular2 != null){    no_regular2.style.display = "none";    }
                         if(admin_only != null){     admin_only.style.display = "none";  }
                         if(admin_only1 != null){    admin_only1.style.display = "none";    }
                         if(admin_only2 != null){    admin_only2.style.display = "none";    }
@@ -207,6 +211,7 @@ const checkAuthState = async () => {
                         console.log(">>> Display mode unable to be resolved, redirecting to login");
                         if(no_admin != null){       no_admin.style.display = "none";    }
                         if(no_regular != null){     no_regular.style.display = "none";    }
+                        if(no_regular2 != null){     no_regular2.style.display = "none";    }
                         if(admin_only != null){     admin_only.style.display = "none";  }
                         if(admin_only1 != null){    admin_only1.style.display = "none";    }
                         if(admin_only2 != null){    admin_only2.style.display = "none";    }
