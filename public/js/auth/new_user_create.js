@@ -152,7 +152,7 @@ function validateEmail(email) {
 }
 
 
-/* function showError(input, message) {
+function showError(input, message) {
     const formControl = input.parentElement;
     formControl.className = "form-control error";
     const small = formControl.querySelector('small');
@@ -162,9 +162,10 @@ function validateEmail(email) {
 function hideError(input) {
     const formControl = input.parentElement;
     formControl.className = "form-control";
-} */
+}
 
-function showError(input, message) {
+/* form-float for bootstrap swap */
+/* function showError(input, message) {
     const formFloat = input.parentElement;
     formFloat.className = "form-floating error";
     const small = formFloat.querySelector('small');
@@ -174,7 +175,7 @@ function showError(input, message) {
 function hideError(input) {
     const formFloat = input.parentElement;
     formFloat.className = "form-floating";
-}
+} */
 
 
 /******************* EVENT LISTENERS FOR SUBMIT + ERRORS ************************/
