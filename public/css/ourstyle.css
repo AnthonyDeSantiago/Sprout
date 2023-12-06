@@ -21,11 +21,64 @@
     width: 10%;
 }
 
-.form-select{
+/* .form-select{
     width: 320px;
-}
+} */
 
 /* pointer for clickable COA */
 tr[data-href] {
     cursor: pointer;
+}
+
+
+.form-control.error input {
+    border-color: var(--error-color);
+}
+
+.form-control small {
+    visibility: hidden;
+}
+
+.form-control.error small {
+    color: var(--error-color);
+    visibility: visible;
+}
+
+.inputUsername{
+    background-color: white;
+    display: inline-block;
+    align-items: center;
+    font-size: 130%;
+    border-radius: 1%;
+    height: 10%;
+    width: 100%;
+    padding: 3% 5% 3% 5%;  /* top% right% bot% Left% */
+    margin-bottom: -4%;
+    outline: 0;
+}
+
+.inputPassword{
+    background-color: white;
+    display: inline-block;
+    align-items: center;
+    font-size: 130%;
+    border-radius: 1%;
+    height: 10%;
+    width: 100%;
+    padding: 3% 5% 3% 5%;  /* top% right% bot% Left% */
+    margin-bottom: -4%;
+    outline: 0;
+}
+
+.form-floating.error input {
+    border-color: var(--error-color);
+}
+
+.form-floating small {
+    visibility: hidden;
+}
+
+.form-floating.error small {
+    color: var(--error-color);
+    visibility: visible;
 }

@@ -517,3 +517,16 @@ export async function deleteDocument(collectionName, docID) {
         console.error("Error deleting document", error);
     }
 }
+
+
+export async function addNewUser(data) {
+    const usersCollection = collection(db, 'users');
+    addDoc(usersCollection, data)
+    .then((docRef) => {
+        console.log('Document written with ID: ', docRef.id);
+        return docRef.id;
+    })
+    .catch((error) => {
+        console.error('Error adding document: ', error);
+    });
+}

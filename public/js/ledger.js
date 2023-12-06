@@ -11,19 +11,11 @@ const accountBreadCrumb = document.getElementById("accountBreadcrumb-element");
 const approvedJournalEntries = await getDocReferencesWithValue('journals', 'approval', 'approved');
 const specJs = getJournalsSpecificToCurrentAccount(approvedJournalEntries);
 const approvedTransactions = getTransactions(specJs);
-console.log("approved transactions:", approvedTransactions);
 
+const transactionsSpecificToCurrentAccount = await getDocReferencesWithValue('transactions', 'account', accountID);
+console.log("!!!!!!!!!!!!", transactionsSpecificToCurrentAccount);
 
-
-console.log("accountNumber:", accountNumber);
-console.log("accountName:", accountName);
-console.log("account ID:", accountID);
-console.log("debit: ", await getDocumentReference('transactions', approvedTransactions[0]).debit);
-console.log("transactions length", approvedTransactions.length);
-console.log("Normal side", normalSide);
-
-
-populateLedgerTable(approvedTransactions, 'ledger');
+populateLedgerTable(transactionsSpecificToCurrentAccount, 'ledger');
 printTotal();
 accountBreadCrumb.textContent = accountName;
 
@@ -40,8 +32,8 @@ function loadDataTables() {
 
 async function populateLedgerTable(transactions, tableId) {
     const tableBody = document.querySelector(`#${tableId} tbody`);
-    for (let i = 0; i < transactions.length; i++) {
-      const transaction = await getDocumentReference('transactions', transactions[i]);
+    for (let i = 0; i < transactions.docs.length; i++) {
+      const transaction = transactions.docs[i].data();
       tableBody.innerHTML += `
             <tr>
                 <td>${transaction.creationDate.toDate()}</td>
@@ -74,8 +66,8 @@ async function printTotal() {
     let debitTotal = 0;
     let creditTotal = 0;
 
-    for (let i = 0; i < approvedTransactions.length; i++) {
-        const transaction = await getDocumentReference('transactions', approvedTransactions[i]);
+    for (let i = 0; i < transactionsSpecificToCurrentAccount.docs.length; i++) {
+        const transaction = transactionsSpecificToCurrentAccount.docs[i].data();
         debitTotal += transaction.debit;
         creditTotal += transaction.credit;
     }
@@ -88,22 +80,18 @@ function getJournalsSpecificToCurrentAccount(journals) {
     for (let i = 0; i < journals.docs.length; i++) {
         const parentAccounts = journals.docs[i].data().accounts;
         for (let j = 0; j < parentAccounts.length; j++) {
-            console.log("Account ID: " + accountID + " Parent Account: " + parentAccounts[j]);
             if (parentAccounts[j] == accountID) {
-                console.log("They are a match!");
                 specificJournals.push(journals.docs[i]);
                 break;
             }
         }
     }
-    console.log("111111111111111111111111", specificJournals);
     return specificJournals;
 }
 
 
 function getTransactions(journalEntries) {
     const approvedTransactions = [];
-    console.log("Testing: ", journalEntries[0].data());
     for (let i = 0; i < journalEntries.length; i++) {
         const currentJournalTransactions = journalEntries[i].data().transactions;
         if (Array.isArray(currentJournalTransactions)) {

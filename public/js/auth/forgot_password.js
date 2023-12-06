@@ -20,6 +20,18 @@ function showError(input, message) {
     small.innerText = message
 }
 
+/* form-float for bootstrap swap */
+/* function showError(input, message) {
+    const formFloat = input.parentElement;
+    formFloat.className = "form-floating error";
+    const small = formFloat.querySelector('small');
+    small.innerText = message
+}
+
+function hideError(input) {
+    const formFloat = input.parentElement;
+    formFloat.className = "form-floating";
+} */
 
 /*Passwords must be:
 --> a minimum of 8 characters,

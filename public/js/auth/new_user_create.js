@@ -164,6 +164,19 @@ function hideError(input) {
     formControl.className = "form-control";
 }
 
+/* form-float for bootstrap swap */
+/* function showError(input, message) {
+    const formFloat = input.parentElement;
+    formFloat.className = "form-floating error";
+    const small = formFloat.querySelector('small');
+    small.innerText = message
+}
+
+function hideError(input) {
+    const formFloat = input.parentElement;
+    formFloat.className = "form-floating";
+} */
+
 
 /******************* EVENT LISTENERS FOR SUBMIT + ERRORS ************************/
 /*document.addEventListener('keydown', function (event) {

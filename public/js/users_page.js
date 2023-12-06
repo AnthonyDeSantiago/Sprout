@@ -1,4 +1,4 @@
-import { changeFieldValue, convertBalanceToFloat, deleteDocument, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
+import { addNewUser, changeFieldValue, convertBalanceToFloat, deleteDocument, formatNumberToCurrency, getDocReferencesWithValue, getDocsWithValue, getDocumentReference, getFieldValue } from "./database_module.mjs";
 
 console.log("users_page.js has loaded");
 
@@ -9,11 +9,23 @@ const approvedUsers = await getDocReferencesWithValue('users', 'approved', true)
 const rejectButton = document.getElementById('rejectButton');
 const approveButton = document.getElementById('approveButton');
 const returnToPendingButton = document.getElementById('return-to-pending');
+const addUserButton = document.getElementById("addUserBtn");
+const createUserButton = document.getElementById("createUserBtn");
+const createUserDropDownButton = document.getElementById("createUserDropdownButton");
+const createUserDropDown = document.getElementById('create-role-dropdown');
 const suspendButon = document.getElementById('suspend-button');
 const dropDownButton = document.getElementById('dropdownMenuButton');
 const dropDownMenu = document.getElementById('role-dropdown');
 
+const userName = document.getElementById('username');
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const email = document.getElementById('email');
+const address = document.getElementById('address');
+const dob = document.getElementById('dob');
+
 approveButton.setAttribute('disabled', 'true');
+createUserButton.setAttribute('disabled', 'true');
 
 
 let currentUser = null;
@@ -112,6 +124,14 @@ $('#approved-modal').on('hidden.bs.modal', function () {
     $('#commentError').text('');
 });
 
+$('#addUserModal').on('hidden.bs.modal', function () {
+    $('#approved-modal-table tbody').empty();
+    $('#commentField').val('');
+    $('#commentError').text('');
+    createUserButton.setAttribute('disabled', 'true');
+    createUserDropDownButton.textContent = "Select a Role";
+});
+
 
 try {
     await loadDataTables();
@@ -144,6 +164,22 @@ dropDownButton.addEventListener('click', async () => {
     dropDownMenu.classList.toggle('show');
 });
 
+createUserDropDownButton.addEventListener('click', async () => {
+    createUserDropDown.classList.toggle('show');
+});
+
+createUserDropDown.addEventListener('click', function (event) {
+    if (event.target.classList.contains('dropdown-item')) {
+        selectedRole = event.target.textContent;
+        createUserDropDownButton.textContent = selectedRole;
+        console.log('Selected Role: ', selectedRole);
+    }
+
+    if (selectedRole != null) {
+        createUserButton.removeAttribute('disabled');
+    }
+});
+
 dropDownMenu.addEventListener('click', function (event) {
     if (event.target.classList.contains('dropdown-item')) {
         selectedRole = event.target.textContent;
@@ -154,12 +190,15 @@ dropDownMenu.addEventListener('click', function (event) {
     if (selectedRole != null) {
         approveButton.removeAttribute('disabled');
     }
-})
+});
 
 window.addEventListener('click', function (event) {
     if (!event.target.matches('.btn-primary')) {
         if (dropDownMenu.classList.contains('show')) {
             dropDownMenu.classList.remove('show');
+        }
+        if (createUserDropDown.classList.contains('show')) {
+            createUserDropDown.classList.remove('show');
         }
     }
 });
@@ -182,5 +221,38 @@ suspendButon.addEventListener('click', async () => {
     
     location.reload();
 });
+
+addUserButton.addEventListener('click', function() {
+    console.log("Add user button was pressed");
+    $('#addUserModal').modal('show');
+});
   
-  
+createUserButton.addEventListener('click', async () => {
+    const userNameValue = userName.value;
+    const firstNameValue = firstName.value;
+    const lastNameValue = lastName.value;
+    const emailValue = email.value;
+    const addressValue = address.value;
+    const dobValue = dob.value;
+
+    const data = {
+        username: userNameValue,
+        firstName: firstNameValue,
+        lastName: lastNameValue,
+        email: emailValue,
+        address: addressValue,
+        role: selectedRole,
+        answer1: "default",
+        answer2: "default",
+        approved: true,
+        avatar: "assets/panda.png",
+        password: "Sprout1234!",
+        suspended: false
+    };
+    console.log("UserData: ", data);
+
+    await addNewUser(data);
+    setTimeout(function () {
+        location.reload();
+    }, 500);
+});
